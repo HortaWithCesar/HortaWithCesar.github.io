@@ -131,6 +131,32 @@ footer img {
   border-radius: 14px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
+/* Faixa verde minimal ao longo de toda a página (lado direito) */
+body::after{
+  content:"";
+  position: fixed;          /* cobre o ecrã inteiro enquanto deslizas */
+  top:0;
+  right:-10vw;              /* empurra um pouco para fora para ficar subtil */
+  width:42vw;               /* largura da “aura” */
+  height:120vh;             /* um pouco maior que o ecrã para evitar cortes */
+  pointer-events:none;
+  z-index:0;
+  background:
+    radial-gradient(80% 60% at 35% 25%,
+      rgba(16,185,129,0.22) 0%,
+      rgba(34,197,94,0.16) 45%,
+      rgba(101,163,13,0.10) 80%,
+      transparent 100%),
+    radial-gradient(70% 50% at 60% 70%,
+      rgba(34,197,94,0.14) 0%,
+      rgba(16,185,129,0.10) 55%,
+      transparent 100%);
+  filter: blur(8px);
+}
+
+/* Garante que o conteúdo fica por cima do fundo */
+header, .wrap, footer { position: relative; z-index: 1; }
+
   </style>
 </head>
 <body>
