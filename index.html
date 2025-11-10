@@ -301,6 +301,26 @@ header.scrolled{
   border-radius:16px; overflow:hidden; display:grid; grid-template-rows: 180px auto;
   transition: box-shadow .2s ease;
 }
+    /* Estilo especial para o primeiro card destacado */
+.trail-card-featured {
+  grid-template-columns: 1fr; /* foto e texto empilhados, não lado a lado */
+  text-align: center;
+}
+
+/* Centraliza as ações apenas neste card */
+.trail-card-featured .trail-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+/* Opcional: ligeiramente mais largo e com sombra suave */
+.trail-card-featured {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
+  padding: 28px;
+}
+
 .trail-card:hover{ box-shadow: 0 14px 28px rgba(2,6,23,.08) }
 
 .trail-media{
@@ -390,7 +410,7 @@ header.scrolled{
     </div>
 
      <!-- CITY WALK HORTA -->
-      <article class="trail-card reveal">
+        <article class="trail-card trail-card-featured reveal">
         <div class="trail-media">FOTO • City Walk</div>
         <div class="trail-body">
           <h3 class="trail-title">City Walk • Horta a pé</h3>
