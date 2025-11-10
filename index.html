@@ -17,6 +17,19 @@ header img {
 footer img {
   animation: fadeIn 1.8s ease forwards;
 }
+    /* Altura e alinhamento do menu */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;            /* altura total da barra */
+}
+
+/* Espaçamento interno do header */
+header .wrap {
+  padding: 8px 18px;       /* pequeno respiro vertical */
+}
+
 /* ===== HEADER FIXO ===== */
 header{
   position: fixed;
@@ -51,7 +64,7 @@ header.scrolled{
     html{scroll-behavior:smooth}
     body {
   margin: 0;
-  padding-top: 110px; /* sobe de 70 → 110px, para compensar a altura real */
+  padding-top: 80px; /* sobe de 70 → 110px, para compensar a altura real */
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
   color: var(--fg);
   background: var(--bg);
@@ -323,7 +336,7 @@ header, .wrap, footer { position: relative; z-index: 1; }
     <div class="wrap">
       <nav>
         <div style="display:flex;align-items:center;gap:12px">
-          <img src="logotipo1.png" alt="Horta with César logo" style="height:70px;margin-top:4px" />
+          <img src="logotipo1.png" alt="Horta with César logo" style="height:48px;margin-top:0" />
           <span class="small">Faial • Açores</span>
         </div>
         <div style="display:flex;align-items:center;gap:14px">
@@ -475,16 +488,7 @@ header, .wrap, footer { position: relative; z-index: 1; }
   },{ threshold:.2 });
   els.forEach(el=>obs.observe(el));
 </script>
-<script>
-  window.addEventListener('scroll', () => {
-    const = document.querySelector('header');
-    if(window.scrollY > 20){
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
-  });
-</script>
+
 <script>
   window.addEventListener('scroll', () => {
     const header = document.querySelector('header');
