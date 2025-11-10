@@ -130,7 +130,38 @@ footer img {
   display: block;
   border-radius: 14px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+
+
+/* Garante que o conteúdo fica por cima do fundo */
+header, .wrap, footer { position: relative; z-index: 1; }
+/* Secção Sobre mim com camada de acento ao fundo */
+#about{ position:relative; }
+#about > *{ position:relative; z-index:2; }          /* conteúdo acima do fundo */
+#about .accent{
+  position:absolute; inset:0;
+  z-index:1; pointer-events:none;
 }
+
+/* controla a posição/tamanho do grafismo */
+#about .accent svg{
+  position:absolute; right:6%; top:6%;
+  width:min(520px,45vw); height:auto;
+  opacity:.18;                                        /* intensidade do desenho */
+  filter: drop-shadow(0 10px 24px rgba(0,0,0,.06));
+}
+
+/* mancha verde suave por baixo do SVG (para dar “glow”) */
+#about .accent::before{
+  content:""; position:absolute; right:0; top:0; bottom:-10%;
+  width:50%; border-bottom-left-radius:60% 80%;
+  background: radial-gradient(70% 60% at 65% 35%,
+    rgba(34,197,94,.18) 0%,
+    rgba(16,185,129,.12) 40%,
+    rgba(16,185,129,.06) 70%,
+    transparent 100%);
+}
+
+
   </style>
 </head>
 <body>
