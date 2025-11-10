@@ -6,7 +6,8 @@
   <title>Horta with César — Walking Tours no Faial</title>
   <meta name="description" content="Walking tours e trilhos no Faial com guia local. City tour Horta, Entre Montes, Caldeira e mais. Reserve já!" />
   <link rel="icon" type="image/png" href="logotipo1.png" />
-  <style>@keyframes fadeIn {
+  <style>
+    @keyframes fadeIn {
   from {opacity: 0; transform: translateY(-10px);}
   to {opacity: 1; transform: translateY(0);}
 }
@@ -16,17 +17,7 @@ header img {
 footer img {
   animation: fadeIn 1.8s ease forwards;
 }
-
-
-    :root{
-      --bg:#ffffff; --fg:#0f172a; --muted:#475569; --brand:#0ea5e9; --brand2:#10b981;
-      --card:#f8fafc; --line:#e2e8f0;
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{margin:0;padding-top: 70px;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Sans",sans-serif;color:var(--fg);background:var(--bg);}
-    /* HEADER FIXO */
-    .wrap{ max-width:1100px; margin:0 auto; padding:0 18px; }
+/* ===== HEADER FIXO ===== */
 header{
   position: fixed;
   top: 0;
@@ -39,9 +30,31 @@ header{
   transition: box-shadow .3s ease;
 }
 
-/* sombra quando há scroll */
+/* Sombra quando há scroll */
 header.scrolled{
   box-shadow: 0 4px 10px rgba(0,0,0,.08);
+}
+
+/* Grelha base para centralizar conteúdo */
+.wrap{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 18px;
+}
+
+
+    :root{
+      --bg:#ffffff; --fg:#0f172a; --muted:#475569; --brand:#0ea5e9; --brand2:#10b981;
+      --card:#f8fafc; --line:#e2e8f0;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body {
+  margin: 0;
+  padding-top: 110px; /* sobe de 70 → 110px, para compensar a altura real */
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  color: var(--fg);
+  background: var(--bg);
 }
 
     nav{display:flex;align-items:center;justify-content:space-between;height:64px}
@@ -464,12 +477,19 @@ header, .wrap, footer { position: relative; z-index: 1; }
 </script>
 <script>
   window.addEventListener('scroll', () => {
-    const header = document.querySelector('header');
+    const = document.querySelector('header');
     if(window.scrollY > 20){
       header.classList.add('scrolled');
     } else {
       header.classList.remove('scrolled');
     }
+  });
+</script>
+<script>
+  window.addEventListener('scroll', () => {
+    const header = document.querySelector('header');
+    if (window.scrollY > 20) header.classList.add('scrolled');
+    else header.classList.remove('scrolled');
   });
 </script>
 
