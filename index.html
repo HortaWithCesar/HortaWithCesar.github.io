@@ -183,6 +183,24 @@ header, .wrap, footer { position: relative; z-index: 1; }
   opacity: .12;
   filter: drop-shadow(0 8px 18px rgba(0,0,0,.05));
 }
+/* posicionamento das camadas na secção */
+#about{ position:relative; }
+#about > *{ position:relative; z-index:2; }     /* conteúdo por cima do fundo */
+
+/* a camada do grafismo fica por baixo e não é clicável */
+#about .accent{
+  position:absolute; inset:0; z-index:1; pointer-events:none;
+}
+
+/* posição/escala do SVG (ajusta aqui para “assentar” na foto) */
+#about .accent svg{
+  position:absolute;
+  right:4%;           /* aproxima/afasta da direita */
+  top:8%;             /* desce/sobe o desenho */
+  width:min(460px,38vw);
+  opacity:.12;        /* 0.10 mais suave | 0.16 mais visível */
+  filter:drop-shadow(0 8px 18px rgba(0,0,0,.05));
+}
 
 
   </style>
