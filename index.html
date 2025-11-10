@@ -70,7 +70,6 @@ header.scrolled{
   background: var(--bg);
 }
 
-    nav{display:flex;align-items:center;justify-content:space-between;height:64px}
     nav a{color:var(--fg);text-decoration:none;margin-left:18px;font-weight:600}
     nav a:hover{color:var(--brand)}
     .lang-toggle{display:inline-flex;gap:6px;background:var(--card);border:1px solid var(--line);padding:6px;border-radius:999px}
@@ -168,7 +167,7 @@ header.scrolled{
 
 
 /* Garante que o conteúdo fica por cima do fundo */
-header, .wrap, footer { position: relative; z-index: 1; }
+.wrap, footer { position: relative; z-index: 1; }
 /* Secção Sobre mim com camada de acento ao fundo */
 #about{ position:relative; }
 #about > *{ position:relative; z-index:2; }          /* conteúdo acima do fundo */
