@@ -26,8 +26,6 @@ footer img {
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-}
-
     :root{
       --bg:#ffffff; --fg:#0f172a; --muted:#475569; --brand:#0ea5e9; --brand2:#10b981;
       --card:#f8fafc; --line:#e2e8f0;
@@ -130,7 +128,7 @@ footer img {
   display: block;
   border-radius: 14px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-
+}
 
 /* Garante que o conteúdo fica por cima do fundo */
 header, .wrap, footer { position: relative; z-index: 1; }
@@ -160,6 +158,31 @@ header, .wrap, footer { position: relative; z-index: 1; }
     rgba(16,185,129,.06) 70%,
     transparent 100%);
 }
+#about {
+  position: relative;
+}
+
+#about > * {
+  position: relative;
+  z-index: 2;
+}
+
+#about .accent {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* posição e tamanho da folha */
+#about .accent svg {
+  position: absolute;
+  right: 4%;
+  top: 8%;
+  width: min(460px, 38vw);
+  opacity: .12;
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,.05));
+}
 
 
   </style>
@@ -187,26 +210,24 @@ header, .wrap, footer { position: relative; z-index: 1; }
   </header>
 
   <section class="wrap about" id="about">
+       <div class="accent" aria-hidden="true">
+    <!-- folha abstrata minimal (SVG) -->
+    <svg viewBox="0 0 600 600" fill="none">
+      <defs>
+        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#10b981"/>
+          <stop offset="1" stop-color="#22c55e"/>
+        </linearGradient>
+      </defs>
+      <path d="M520 210c-40-95-160-150-250-120S105 210 90 300c-15 90 40 150 120 175 95 30 190-10 260-95 25-30 65-85 50-170Z"
+            fill="url(#g)" opacity=".15"/>
+      <path d="M110 320c120-25 245-25 370 0" stroke="#059669" stroke-opacity=".25" stroke-width="2" />
+      <path d="M140 360c110-22 220-22 330 0" stroke="#10b981" stroke-opacity=".18" stroke-width="2" />
+      <path d="M170 400c95-18 190-18 285 0" stroke="#16a34a" stroke-opacity=".15" stroke-width="2" />
+    </svg>
+  </div>
 <div>
 <h2>Sobre mim</h2>
-  <div class="accent" aria-hidden="true">
-  <!-- folha abstrata minimal (SVG) -->
-  <svg viewBox="0 0 600 600" fill="none">
-    <defs>
-      <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#10b981"/>
-        <stop offset="1" stop-color="#22c55e"/>
-      </linearGradient>
-    </defs>
-    <path d="M520 210c-40-95-160-150-250-120S105 210 90 300c-15 90 40 150 120 175 95 30 190-10 260-95 25-30 65-85 50-170Z"
-          fill="url(#g)" opacity=".15"/>
-    <path d="M110 320c120-25 245-25 370 0" stroke="#059669" stroke-opacity=".25" stroke-width="2" />
-    <path d="M140 360c110-22 220-22 330 0" stroke="#10b981" stroke-opacity=".18" stroke-width="2" />
-    <path d="M170 400c95-18 190-18 285 0" stroke="#16a34a" stroke-opacity=".15" stroke-width="2" />
-  </svg>
-</div>
-<p>Sou o César, guia local no Faial e criador do projeto <strong>Horta with César</strong>. Desde cedo aprendi a valorizar as pequenas coisas — o som do vento na Caldeira, o cheiro da terra molhada e o sorriso de quem vive com o mar à porta.</p>
-<div class="photo-wrap">
   <img src="foto-perfil.jpg" alt="Foto de César, guia local no Faial">
 </div>
 <p>Comecei na área da restauração, onde descobri o prazer de trabalhar com produtos locais e de partilhar sabores genuínos. Hoje, levo esse mesmo espírito para os trilhos e para cada história que conto.</p>
@@ -216,6 +237,7 @@ header, .wrap, footer { position: relative; z-index: 1; }
 <div>
 </div>
 </section>
+
 
   <!-- (conteúdo igual ao protótipo anterior) -->
 
