@@ -678,7 +678,31 @@ body.modal-open{ overflow:hidden; }
   .contact-grid{ grid-template-columns:1fr; }
   .contact-list .chip{ justify-self:start; margin-top:6px }
 }
+/* Cores de marca dos ícones */
+.ico{ width:42px; height:42px; border-radius:12px; display:grid; place-items:center;
+      background:linear-gradient(135deg, rgba(14,165,233,.10), rgba(16,185,129,.10));
+      border:1px solid rgba(2,6,23,.06); }
+.ico svg{ width:18px; height:18px; display:block; color:#0ea5e9; }
 
+/* específicas */
+.ico--wa{ background:#25D36622; }      .ico--wa svg{ color:#25D366; }
+.ico--ig{ background:#c1358422; }      .ico--ig svg{ color:#c13584; }
+.ico--gmail{ background:#ea433522; }   .ico--gmail svg{ color:#ea4335; }  /* vermelho Gmail */
+.ico--tel{ background:#0ea5e922; }     .ico--tel svg{ color:#0ea5e9; }
+.ico--map{ background:#10b98122; }     .ico--map svg{ color:#10b981; }
+.ico--clock{ background:#64748b22; }   .ico--clock svg{ color:#64748b; }
+
+/* Legendas por baixo das fotos (sem overlay) */
+.photo-caption-below{
+  margin:10px 8px 0;
+  font-weight:600;
+  color:#0f172a;
+  background:linear-gradient(135deg, rgba(14,165,233,.10), rgba(16,185,129,.10));
+  border:1px solid rgba(2,6,23,.08);
+  border-radius:10px;
+  padding:8px 12px;
+  display:inline-block;
+}
 
 
   </style>
@@ -1299,61 +1323,82 @@ body.modal-open{ overflow:hidden; }
     <!-- Lado A: informação -->
     <div class="contact-card">
       <ul class="contact-list">
-        <li>
-          <!-- WhatsApp -->
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5A8.5 8.5 0 1 1 11.5 3 8.5 8.5 0 0 1 20 11.5zM8.2 19.5l-3.7 1 1-3.6a8.2 8.2 0 1 1 2.7 2.6z" fill="currentColor"/></svg>
-          <span>WhatsApp</span>
-          <a class="chip" target="_blank" rel="noopener"
-             href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20saber%20mais%20sobre%20os%20trilhos.">+351 968 750 436</a>
-        </li>
+  <!-- Telefone -->
+  <li>
+    <i class="ico ico--tel">
+      <!-- ícone telefone -->
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1.5 1.5 0 0 1 1.5-.37 12 12 0 0 0 3.8.62 1.5 1.5 0 0 1 1.5 1.5V20a1.5 1.5 0 0 1-1.5 1.5A17.5 17.5 0 0 1 3 7.5 1.5 1.5 0 0 1 4.5 6H7a1.5 1.5 0 0 1 1.5 1.5c0 1.3.21 2.6.62 3.8a1.5 1.5 0 0 1-.37 1.5z" fill="currentColor"/></svg>
+    </i>
+    <div class="label">
+      <span>Telefone</span>
+      <strong><a class="chip" href="tel:+351968750436">+351 968 750 436</a></strong>
+    </div>
+  </li>
 
-        <li>
-          <!-- Telefone -->
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1.5 1.5 0 0 1 1.5-.37 12 12 0 0 0 3.8.62 1.5 1.5 0 0 1 1.5 1.5V20a1.5 1.5 0 0 1-1.5 1.5A17.5 17.5 0 0 1 3 7.5 1.5 1.5 0 0 1 4.5 6H7a1.5 1.5 0 0 1 1.5 1.5c0 1.3.21 2.6.62 3.8a1.5 1.5 0 0 1-.37 1.5z" fill="currentColor"/></svg>
-          <span>Telefone</span>
-          <a class="chip" href="tel:+351968750436">+351 968 750 436</a>
-        </li>
+  <!-- E-mail (Gmail oficial) -->
+  <li>
+    <i class="ico ico--gmail" aria-hidden="true">
+      <!-- Gmail “M” oficial simplificado -->
+      <svg viewBox="0 0 24 24">
+        <path d="M2 7.5v9A2.5 2.5 0 0 0 4.5 19h15a2.5 2.5 0 0 0 2.5-2.5v-9l-10 7-10-7z" fill="currentColor"/>
+        <path d="M2 7l10 7 10-7-5-3.5L12 10 7 3.5 2 7z" fill="currentColor" opacity=".2"/>
+      </svg>
+    </i>
+    <div class="label">
+      <span>E-mail</span>
+      <strong><a class="chip" href="mailto:hortawithcesar@gmail.com">hortawithcesar@gmail.com</a></strong>
+    </div>
+  </li>
 
-        <li>
-          <!-- E-mail -->
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z"/><path d="M22 7l-10 7L2 7" fill="#fff"/></svg>
-          <span>E-mail</span>
-          <a class="chip" href="mailto:hortawithcesar@gmail.com">hortawithcesar@gmail.com</a>
-        </li>
-        <li>
-  <i class="ico">
-    <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg>
-  </i>
-  <div class="label">
-    <span>Instagram</span>
-    <strong>@hortawithcesar</strong>
-  </div>
-  <a class="chip" target="_blank" rel="noopener"
-     href="https://www.instagram.com/hortawithcesar">Abrir</a>
-</li>
+  <!-- WhatsApp (vais trocar pelo teu logótipo/ícone) -->
+  <li>
+    <i class="ico ico--wa" aria-hidden="true">
+      <!-- placeholder WA: podes manter até trocares pelos teus -->
+      <svg viewBox="0 0 24 24"><path d="M20 11.5A8.5 8.5 0 1 1 11.5 3 8.5 8.5 0 0 1 20 11.5zM8.2 19.5l-3.7 1 1-3.6a8.2 8.2 0 1 1 2.7 2.6z" fill="currentColor"/></svg>
+    </i>
+    <div class="label">
+      <span>WhatsApp</span>
+      <strong><a class="chip" target="_blank" rel="noopener"
+        href="https://wa.me/351968750436?text=Olá%20César!%20Gostava%20de%20marcar%20um%20trilho.">+351 968 750 436</a></strong>
+    </div>
+  </li>
 
+  <!-- Instagram -->
+  <li>
+    <i class="ico ico--ig" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4" ry="4" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="17.3" cy="6.7" r="1.4" fill="currentColor"/></svg>
+    </i>
+    <div class="label">
+      <span>Instagram</span>
+      <strong>@hortawithcesar</strong>
+    </div>
+    <a class="chip" target="_blank" rel="noopener" href="https://www.instagram.com/hortawithcesar">Abrir</a>
+  </li>
 
-        <li>
-  <!-- Local -->
-  <i class="ico">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-7.06 7-12a7 7 0 1 0-14 0c0 4.94 7 12 7 12zM12 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" fill="currentColor"/></svg>
-  </i>
-  <div class="label">
-    <span>Base</span>
-    <strong>Horta · Ilha do Faial, Açores</strong>
-  </div>
-  <a class="chip" target="_blank" rel="noopener"
-     href="https://maps.google.com/?q=Horta,+Faial,+Açores">Ver no mapa</a>
-</li>
+  <!-- Base -->
+  <li>
+    <i class="ico ico--map" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 22s7-7.06 7-12a7 7 0 1 0-14 0c0 4.94 7 12 7 12z" fill="currentColor"/><circle cx="12" cy="10" r="2" fill="#fff"/></svg>
+    </i>
+    <div class="label">
+      <span>Base</span>
+      <strong>Horta · Ilha do Faial, Açores</strong>
+    </div>
+    <a class="chip" target="_blank" rel="noopener" href="https://maps.google.com/?q=Horta,+Faial,+Açores">Ver no mapa</a>
+  </li>
 
+  <!-- Horário -->
+  <li>
+    <i class="ico ico--clock" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 7v5l4 2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+    </i>
+    <div class="label">
+      <span>Horário</span>
+      <strong>Seg-Dom · 09h-19h (por marcação)</strong>
+    </div>
+  </li>
+</ul>
 
-        <li>
-          <!-- Horários -->
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm1-10h5M12 6v6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
-          <span>Horário</span>
-          <span class="muted">Seg-Dom · 09h-19h (por marcação)</span>
-        </li>
-      </ul>
 
       <div class="contact-actions">
         <a class="btn btn-whatsapp" target="_blank" rel="noopener"
@@ -1368,13 +1413,14 @@ body.modal-open{ overflow:hidden; }
 
     <!-- Lado B: foto -->
     <figure class="contact-photo">
-      <img src="foto-contacto.jpg" alt="César, guia local nos Açores, sorridente junto ao mar">
-      <figcaption class="photo-caption">Horta with César • Faial</figcaption>
+  <img src="foto-contacto.jpg" onerror="this.onerror=null;this.src='foto-contacto.jpg';" alt="César, guia local na Horta">
+  <figcaption class="photo-caption-below">Horta with César</figcaption>
+</figure>
     <figure class="contact-photo contact-photo--secondary">
-      <img src="Foto.Pico"
-       onerror="this.onerror=null;this.src='Foto.Pico.jpg';"
-       alt="Vista do Pico e canal do Faial">
-  <figcaption class="photo-caption">O paraíso tem nome....</figcaption>
+  <img src="Foto.Pico" onerror="this.onerror=null;this.src='Foto.Pico.jpg';" alt="Pico visto do Faial ao pôr do sol">
+  <figcaption class="photo-caption-below">O paraíso tem nome....</figcaption>
+</figure>
+
 </figure>
 
 
