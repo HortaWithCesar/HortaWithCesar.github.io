@@ -930,6 +930,29 @@ body.modal-open{ overflow:hidden; }
   color: #003a57;
   font-size: 1.05rem;
 }
+/* Aumentar ícones dentro das caixas de contacto */
+.contact-info img,
+.contact-info svg {
+  width: 28px !important;      /* antes devia estar 18–22px */
+  height: 28px !important;
+  object-fit: contain;         /* mantém proporção */
+}
+
+/* Garante que as caixas se ajustam */
+.contact-info-icon {
+  width: 64px !important;
+  height: 64px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: #eef6ff;         /* tom suave azul */
+}
+
+/* Espaçamento e equilíbrio visual */
+.contact-info {
+  gap: 14px;
+}
 
 
   </style>
