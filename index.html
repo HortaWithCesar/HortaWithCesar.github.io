@@ -707,34 +707,69 @@ body.modal-open{ overflow:hidden; }
 .contact-grid > .contact-photo{ grid-column: 2; }
 .contact-grid > .contact-photo + .contact-photo{ margin-top:8px; } /* espaçamento entre as duas */
 
-    /* ===== NOVOS BOTÕES WHATSAPP ===== */
+   /* ===== WHATSAPP OFICIAL ===== */
 .wa-icon{
-  width:56px; height:56px;
+  width:56px;
+  height:56px;
   border-radius:50%;
   display:inline-grid;
   place-items:center;
-  background:#25D366;
-  color:#fff;
-  text-decoration:none;
+  background:transparent;
+  overflow:hidden;
   box-shadow:0 8px 20px rgba(37,211,102,.35);
-  border:1px solid rgba(2,6,23,.06);
+  border:none;
   transition: transform .2s ease, filter .2s ease;
 }
-.wa-icon:hover{ filter:brightness(1.05); transform:translateY(-1px); }
-.wa-svg{ width:26px; height:26px; display:block }
+.wa-icon:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.05);
+}
 
-/* stack para o modal: ícone + legenda */
+/* usa a imagem do logo */
+.wa-icon img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+/* versão vertical (modal: ícone + texto) */
 .wa-stack{
-  display:flex; flex-direction:column; align-items:center; gap:6px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
   text-decoration:none;
 }
-.wa-stack small{ color:#0f172a; font-weight:600; opacity:.8 }
-
-/* acessibilidade */
-.sr-only{
-  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
-  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+.wa-stack small{
+  color:#0f172a;
+  font-weight:600;
+  opacity:.85;
 }
+/* ===== Brand icons (PNG) ===== */
+.ico.brand {                      /* caixinha do lado esquerdo na lista */
+  width:42px; height:42px; border-radius:12px;
+  display:grid; place-items:center;
+  background:#fff; border:1px solid var(--line);
+}
+.ico.brand img{                   /* logótipo pequeno dentro da caixinha */
+  width:20px; height:20px; object-fit:contain; display:block;
+}
+
+/* Botão redondo com logo (WhatsApp e afins) */
+.brand-round{
+  width:56px; height:56px; border-radius:50%;
+  display:inline-grid; place-items:center;
+  background:#fff; border:1px solid rgba(2,6,23,.06);
+  box-shadow:0 8px 20px rgba(2,6,23,.08);
+  overflow:hidden; transition:transform .2s ease, filter .2s ease;
+}
+.brand-round:hover{ transform:translateY(-1px); filter:brightness(1.03); }
+.brand-round img{ width:100%; height:100%; object-fit:contain; }
+
+/* Versão vertical do modal (ícone + texto) */
+.brand-stack{ display:flex; flex-direction:column; align-items:center; gap:6px; text-decoration:none; }
+.brand-stack small{ color:#0f172a; font-weight:600; opacity:.85; }
+
 
 
   </style>
@@ -864,9 +899,7 @@ body.modal-open{ overflow:hidden; }
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
   <a class="btn-whatsapp wa-icon" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Entre%20Montes.">
-    <svg class="wa-svg" viewBox="0 0 24 24" aria-hidden="true">
-    <path fill="currentColor" d="M20 11.5A8.5 8.5 0 1 1 11.5 3 8.5 8.5 0 0 1 20 11.5zM8.2 19.5l-3.7 1 1-3.6a8.2 8.2 0 1 1 2.7 2.6z"/>
-  </svg>
+    <<img src="whatsapp-logo.png" alt="WhatsApp">
 </a>
 
   <button type="button" class="btn btn-conditions">Ver condições</button>
@@ -906,9 +939,7 @@ body.modal-open{ overflow:hidden; }
   
   <a class="btn-whatsapp wa-icon" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Miradouro%20do%20Neptuno.">
-     <svg class="wa-svg" viewBox="0 0 24 24" aria-hidden="true">
-    <path fill="currentColor" d="M20 11.5A8.5 8.5 0 1 1 11.5 3 8.5 8.5 0 0 1 20 11.5zM8.2 19.5l-3.7 1 1-3.6a8.2 8.2 0 1 1 2.7 2.6z"/>
-  </svg>
+     <img src="whatsapp-logo.png" alt="WhatsApp">
 </a>
 
   <button type="button" class="btn btn-conditions">Ver condições</button>
@@ -943,9 +974,7 @@ body.modal-open{ overflow:hidden; }
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
   <a class="btn-whatsapp wa-icon" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Caldeira%20Perímetro.">
-     <svg class="wa-svg" viewBox="0 0 24 24" aria-hidden="true">
-    <path fill="currentColor" d="M20 11.5A8.5 8.5 0 1 1 11.5 3 8.5 8.5 0 0 1 20 11.5zM8.2 19.5l-3.7 1 1-3.6a8.2 8.2 0 1 1 2.7 2.6z"/>
-  </svg>
+     <img src="whatsapp-logo.png" alt="WhatsApp">
 </a>
 
   <button type="button" class="btn btn-conditions">Ver condições</button>
@@ -979,9 +1008,7 @@ body.modal-open{ overflow:hidden; }
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
   <a class="btn-whatsapp wa-icon" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Caldeira%20Descida.">
-     <svg class="wa-svg" viewBox="0 0 24 24" aria-hidden="true">
-    <path fill="currentColor" d="M20 11.5A8.5 8.5 0 1 1 11.5 3 8.5 8.5 0 0 1 20 11.5zM8.2 19.5l-3.7 1 1-3.6a8.2 8.2 0 1 1 2.7 2.6z"/>
-  </svg>
+     <img src="whatsapp-logo.png" alt="WhatsApp">
 </a>
 
   <button type="button" class="btn btn-conditions">Ver condições</button>
@@ -1017,9 +1044,7 @@ body.modal-open{ overflow:hidden; }
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
   <a class="btn-whatsapp wa-icon" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Rocha%20da%20Fajã.">
-     <svg class="wa-svg" viewBox="0 0 24 24" aria-hidden="true">
-    <path fill="currentColor" d="M20 11.5A8.5 8.5 0 1 1 11.5 3 8.5 8.5 0 0 1 20 11.5zM8.2 19.5l-3.7 1 1-3.6a8.2 8.2 0 1 1 2.7 2.6z"/>
-  </svg>
+     <img src="whatsapp-logo.png" alt="WhatsApp">
 </a>
 
   <button type="button" class="btn btn-conditions">Ver condições</button>
@@ -1055,9 +1080,7 @@ body.modal-open{ overflow:hidden; }
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
   <a class="btn-whatsapp wa-icon" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Farol%20da%20Ribirinha.">
-     <svg class="wa-svg" viewBox="0 0 24 24" aria-hidden="true">
-    <path fill="currentColor" d="M20 11.5A8.5 8.5 0 1 1 11.5 3 8.5 8.5 0 0 1 20 11.5zM8.2 19.5l-3.7 1 1-3.6a8.2 8.2 0 1 1 2.7 2.6z"/>
-  </svg>
+     <img src="whatsapp-logo.png" alt="WhatsApp">
 </a>
 
   <button type="button" class="btn btn-conditions">Ver condições</button>
@@ -1092,9 +1115,7 @@ body.modal-open{ overflow:hidden; }
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
   <a class="btn-whatsapp wa-icon" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Levadas.">
-     <svg class="wa-svg" viewBox="0 0 24 24" aria-hidden="true">
-    <path fill="currentColor" d="M20 11.5A8.5 8.5 0 1 1 11.5 3 8.5 8.5 0 0 1 20 11.5zM8.2 19.5l-3.7 1 1-3.6a8.2 8.2 0 1 1 2.7 2.6z"/>
-  </svg>
+     <img src="whatsapp-logo.png" alt="WhatsApp">
 </a>
 
   <button type="button" class="btn btn-conditions">Ver condições</button>
@@ -1130,9 +1151,7 @@ body.modal-open{ overflow:hidden; }
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
  <a class="btn-whatsapp wa-icon" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Ca+elo%20Capelinhos.">
-     <svg class="wa-svg" viewBox="0 0 24 24" aria-hidden="true">
-    <path fill="currentColor" d="M20 11.5A8.5 8.5 0 1 1 11.5 3 8.5 8.5 0 0 1 20 11.5zM8.2 19.5l-3.7 1 1-3.6a8.2 8.2 0 1 1 2.7 2.6z"/>
-  </svg>
+     <img src="whatsapp-logo.png" alt="WhatsApp">
 </a>
 
   <button type="button" class="btn btn-conditions">Ver condições</button>
@@ -1167,9 +1186,7 @@ body.modal-open{ overflow:hidden; }
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
   <a class="btn-whatsapp wa-icon" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Miradouro%20da%20Braça.">
-       <svg class="wa-svg" viewBox="0 0 24 24" aria-hidden="true">
-    <path fill="currentColor" d="M20 11.5A8.5 8.5 0 1 1 11.5 3 8.5 8.5 0 0 1 20 11.5zM8.2 19.5l-3.7 1 1-3.6a8.2 8.2 0 1 1 2.7 2.6z"/>
-  </svg>
+       <img src="whatsapp-logo.png" alt="WhatsApp">
 </a>
 
   <button type="button" class="btn btn-conditions">Ver condições</button>
@@ -1387,13 +1404,7 @@ body.modal-open{ overflow:hidden; }
 
   <!-- E-mail (Gmail oficial) -->
   <li>
-    <i class="ico ico--gmail" aria-hidden="true">
-      <!-- Gmail “M” oficial simplificado -->
-      <svg viewBox="0 0 24 24">
-        <path d="M2 7.5v9A2.5 2.5 0 0 0 4.5 19h15a2.5 2.5 0 0 0 2.5-2.5v-9l-10 7-10-7z" fill="currentColor"/>
-        <path d="M2 7l10 7 10-7-5-3.5L12 10 7 3.5 2 7z" fill="currentColor" opacity=".2"/>
-      </svg>
-    </i>
+    <i class="ico brand"><img src="Gmail-Logo.png" alt="Gmail"></i>
     <div class="label">
       <span>E-mail</span>
       <strong><a class="chip" href="mailto:hortawithcesar@gmail.com">hortawithcesar@gmail.com</a></strong>
@@ -1402,10 +1413,7 @@ body.modal-open{ overflow:hidden; }
 
   <!-- WhatsApp (vais trocar pelo teu logótipo/ícone) -->
   <li>
-    <i class="ico ico--wa" aria-hidden="true">
-      <!-- placeholder WA: podes manter até trocares pelos teus -->
-      <svg viewBox="0 0 24 24"><path d="M20 11.5A8.5 8.5 0 1 1 11.5 3 8.5 8.5 0 0 1 20 11.5zM8.2 19.5l-3.7 1 1-3.6a8.2 8.2 0 1 1 2.7 2.6z" fill="currentColor"/></svg>
-    </i>
+    <i class="ico brand"><img src="whatsapp-logo.png" alt="WhatsApp"></i>
     <div class="label">
       <span>WhatsApp</span>
       <strong><a class="chip" target="_blank" rel="noopener"
@@ -1415,9 +1423,7 @@ body.modal-open{ overflow:hidden; }
 
   <!-- Instagram -->
   <li>
-    <i class="ico ico--ig" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4" ry="4" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="17.3" cy="6.7" r="1.4" fill="currentColor"/></svg>
-    </i>
+    <i class="ico brand"><img src="instagram-logo.png" alt="Instagram"></i>
     <div class="label">
       <span>Instagram</span>
       <strong>@hortawithcesar</strong>
@@ -1453,10 +1459,9 @@ body.modal-open{ overflow:hidden; }
       <div class="contact-actions">
         <a class="wa-icon" target="_blank" rel="noopener"
    href="https://wa.me/351968750436?text=Olá%20César!%20Gostava%20de%20marcar%20um%20trilho.">
-  <svg class="wa-svg" viewBox="0 0 24 24" aria-hidden="true">
-    <path fill="currentColor" d="M20 11.5A8.5 8.5 0 1 1 11.5 3 8.5 8.5 0 0 1 20 11.5zM8.2 19.5l-3.7 1 1-3.6a8.2 8.2 0 1 1 2.7 2.6z"/>
-  </svg>
+  <img src="whatsapp-logo.png" alt="WhatsApp">
 </a>
+
 
         <a class="btn btn-outline" href="#booking">Reservar no site</a>
       </div>
@@ -1541,12 +1546,11 @@ body.modal-open{ overflow:hidden; }
     <div class="actions">
       <a id="cond-whatsapp" class="wa-stack" target="_blank" rel="noopener">
   <span class="wa-icon">
-    <svg class="wa-svg" viewBox="0 0 24 24" aria-hidden="true">
-      <path fill="currentColor" d="M20 11.5A8.5 8.5 0 1 1 11.5 3 8.5 8.5 0 0 1 20 11.5zM8.2 19.5l-3.7 1 1-3.6a8.2 8.2 0 1 1 2.7 2.6z"/>
-    </svg>
+    <img src="whatsapp-logo.png" alt="WhatsApp">
   </span>
   <small>Fale comigo!</small>
 </a>
+
 
       <button class="btn btn-ghost" id="cond-close-2">Fechar</button>
     </div>
