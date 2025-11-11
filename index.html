@@ -308,12 +308,41 @@ header.scrolled{
 }
 
 /* Centraliza as ações apenas neste card */
-.trail-card-featured .trail-actions {
+/* ===== CENTRALIZAÇÃO PERFEITA DOS BOTÕES ===== */
+.trail-actions {
   display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin-top: 20px;
+  justify-content: center;   /* centra na horizontal */
+  align-items: center;       /* alinha verticalmente */
+  gap: 18px;                 /* espaçamento entre botões */
+  flex-wrap: nowrap;         /* mantém numa linha */
+  margin-top: 18px;
 }
+
+/* força todos os botões a ter a mesma altura e alinhamento */
+.trail-actions a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+}
+
+/* corrige o WhatsApp (ícone redondo) para alinhar no meio */
+.trail-actions .btn-whatsapp,
+.trail-actions .brand-round {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+/* pequeno efeito premium opcional */
+.trail-actions a:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
 
 /* Opcional: ligeiramente mais largo e com sombra suave */
 .trail-card-featured {
