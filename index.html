@@ -307,17 +307,6 @@ header.scrolled{
   text-align: center;
 }
 
-/* Centraliza as ações apenas neste card */
-/* ===== CENTRALIZAÇÃO PERFEITA DOS BOTÕES ===== */
-.trail-actions {
-  display: flex;
-  justify-content: center;   /* centra na horizontal */
-  align-items: center;       /* alinha verticalmente */
-  gap: 18px;                 /* espaçamento entre botões */
-  flex-wrap: nowrap;         /* mantém numa linha */
-  margin-top: 18px;
-}
-
 /* força todos os botões a ter a mesma altura e alinhamento */
 .trail-actions a {
   display: flex;
@@ -367,7 +356,6 @@ header.scrolled{
   display:inline-block; background:#fff; border:1px solid var(--line);
   border-radius:999px; padding:6px 10px; font-size:14px
 }
-.trail-actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:6px }
 .btn{ appearance:none; border:0; border-radius:999px; padding:10px 14px; font-weight:700; cursor:pointer }
 .btn-primary{ background:var(--brand); color:#fff }
 .btn-outline{ background:#fff; border:2px solid var(--brand); color:var(--brand) }
@@ -408,24 +396,6 @@ header.scrolled{
   background-color: #007bff;
   color: #fff;
   transform: translateY(-2px);
-}
-.trail-actions {
-  display: flex;
-  justify-content: center;
-  gap: 14px;
-  margin-top: 20px;
-  flex-wrap: wrap;
-}
-
-/* Tamanho fixo para todos os botões */
-.trail-actions a {
-  min-width: 160px;
-  text-align: center;
-  font-weight: 700;
-  border-radius: 999px;
-  padding: 14px 0;
-  font-size: 16px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 /* Efeito hover geral */
@@ -811,19 +781,6 @@ body.modal-open{ overflow:hidden; }
   height:100%;
   object-fit:contain;
   display:block;
-}
-
-/* botão dentro das .trail-actions */
-.trail-actions .btn-whatsapp {
-  width:46px;
-  height:46px;
-  margin:0 auto;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:transparent;
-  box-shadow:none;
-  border:none;
 }
 
 /* modal: ícone + texto */
