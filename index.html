@@ -351,6 +351,21 @@ header.scrolled{
 @media (max-width: 980px){
   .trail-card{ grid-column: span 12; }
 }
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  font: inherit;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #888 50%), 
+                    linear-gradient(135deg, #888 50%, transparent 50%);
+  background-position: calc(100% - 20px) calc(1em + 4px),
+                       calc(100% - 15px) calc(1em + 4px);
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+}
 
 
   </style>
