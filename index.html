@@ -869,15 +869,21 @@ header.scrolled{
       </div>
 
       <div class="grid-2" style="gap:10px">
-        <div>
-          <label for="date_from">Data prevista (início)</label>
-          <input id="date_from" name="Data (início)" type="date" required>
-        </div>
-        <div>
-          <label for="date_to">Data prevista (fim)</label>
-          <input id="date_to" name="Data (fim)" type="date">
-        </div>
-      </div>
+  <div>
+    <label for="date_from">Data prevista</label>
+    <input id="date_from" name="Data prevista" type="date" required>
+  </div>
+
+  <div>
+    <label for="period">Período do dia</label>
+    <select id="period" name="Período do dia" required>
+      <option value="">Selecionar...</option>
+      <option value="Manhã">🌅 Manhã</option>
+      <option value="Tarde">🌇 Tarde</option>
+    </select>
+  </div>
+</div>
+
     </div>
 
     <div>
