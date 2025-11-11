@@ -380,6 +380,51 @@ header.scrolled{
   color: #fff;
   transform: translateY(-2px);
 }
+.trail-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+/* Tamanho fixo para todos os botões */
+.trail-actions a {
+  min-width: 160px;
+  text-align: center;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 14px 0;
+  font-size: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Efeito hover geral */
+.trail-actions a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Reservar (azul sólido) */
+.btn-reservar {
+  background: #0ea5e9;
+  color: #fff;
+  border: none;
+}
+
+/* WhatsApp (verde app) */
+.btn-whatsapp {
+  background: #25D366;
+  color: #fff;
+  border: none;
+}
+
+/* Ver condições (borda azul, fundo branco) */
+.btn-conditions {
+  background: #fff;
+  color: #0ea5e9;
+  border: 2px solid #0ea5e9;
+}
 
 
 /* animação de entrada */
@@ -479,23 +524,27 @@ select {
             <span class="pill">Dificuldade: Fácil</span>
           </div>
           <p>Centro histórico, Marina, Peter, fortes e histórias de cabo submarino. Passeio urbano com paragens fotográficas e notas de gastronomia local.</p>
-          <div class="trail-actions">
-             <div class="trail-actions">
-  <!-- Botão RESERVAR: abre o formulário com o trilho pré-selecionado -->
+          <!-- Ações do trilho -->
+<div class="trail-actions">
+  <!-- Reservar (abre o inquérito com o trilho pré-selecionado) -->
   <button
+    type="button"
     class="btn btn-primary js-reserve"
     data-trail="City Walk • Horta a pé">
     Reservar
   </button>
 
-  <!-- Botão WhatsApp -->
-<div class="trail-actions">
-  <a class="btn-whatsapp" target="_blank" rel="noopener"
-     href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20City%20Walk%20-%20Horta%20a%20pé.">
-     WhatsApp
+  <!-- WhatsApp -->
+  <a
+    class="btn btn-whatsapp"
+    target="_blank"
+    rel="noopener noreferrer"
+    href="https://wa.me/351968750436?text=Ol%C3%A1%20C%C3%A9sar!%20Quero%20informa%C3%A7%C3%A3o%20sobre%20o%20trilho%20City%20Walk%20-%20Horta%20a%20pé.">
+    WhatsApp
   </a>
 
-  <a class="btn-conditions" href="#booking">
+  <!-- Ver condições -->
+  <a class="btn btn-conditions" href="#booking">
     Ver condições
   </a>
 </div>
@@ -519,6 +568,7 @@ select {
          <div class="trail-actions">
   <!-- Botão RESERVAR: abre o formulário com o trilho pré-selecionado -->
   <button
+    type="button"
     class="btn btn-primary js-reserve"
     data-trail="Entre Montes ">
     Reservar
@@ -526,7 +576,7 @@ select {
 
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
  <div class="trail-actions">
-  <a class="btn-whatsapp" target="_blank" rel="noopener"
+  <a class="btn-whatsapp" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Entre%20Montes.">
      WhatsApp
   </a>
@@ -555,6 +605,7 @@ select {
           <div class="trail-actions">
   <!-- Botão RESERVAR: abre o formulário com o trilho pré-selecionado -->
   <button
+    type="button"
     class="btn btn-primary js-reserve"
     data-trail="Miradouro do Neptuno">
     Reservar
@@ -562,7 +613,7 @@ select {
 
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
   <div class="trail-actions">
-  <a class="btn-whatsapp" target="_blank" rel="noopener"
+  <a class="btn-whatsapp" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Miradouro%20do%20Neptuno.">
      WhatsApp
   </a>
@@ -591,6 +642,7 @@ select {
          <div class="trail-actions">
   <!-- Botão RESERVAR: abre o formulário com o trilho pré-selecionado -->
   <button
+    type="button"
     class="btn btn-primary js-reserve"
     data-trail="Caldeira — perímetro">
     Reservar
@@ -598,7 +650,7 @@ select {
 
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
   <div class="trail-actions">
-  <a class="btn-whatsapp" target="_blank" rel="noopener"
+  <a class="btn-whatsapp" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Caldeira%20Perímetro.">
      WhatsApp
   </a>
@@ -624,6 +676,7 @@ select {
          <div class="trail-actions">
   <!-- Botão RESERVAR: abre o formulário com o trilho pré-selecionado -->
   <button
+    type="button"
     class="btn btn-primary js-reserve"
     data-trail="Caldeira Descida • Santuário da fauna local">
     Reservar
@@ -631,7 +684,7 @@ select {
 
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
   <div class="trail-actions">
-  <a class="btn-whatsapp" target="_blank" rel="noopener"
+  <a class="btn-whatsapp" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Caldeira%20Descida.">
      WhatsApp
   </a>
@@ -658,6 +711,7 @@ select {
     <div class="trail-actions">
   <!-- Botão RESERVAR: abre o formulário com o trilho pré-selecionado -->
   <button
+    type="button"
     class="btn btn-primary js-reserve"
     data-trail="Rocha da Fajã">
     Reservar
@@ -665,7 +719,7 @@ select {
 
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
   <div class="trail-actions">
-  <a class="btn-whatsapp" target="_blank" rel="noopener"
+  <a class="btn-whatsapp" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Rocha%20da%20Fajã.">
      WhatsApp
   </a>
@@ -692,6 +746,7 @@ select {
     <div class="trail-actions">
   <!-- Botão RESERVAR: abre o formulário com o trilho pré-selecionado -->
   <button
+    type="button"
     class="btn btn-primary js-reserve"
     data-trail="Farol da Ribeirinha">
     Reservar
@@ -699,7 +754,7 @@ select {
 
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
  <div class="trail-actions">
-  <a class="btn-whatsapp" target="_blank" rel="noopener"
+  <a class="btn-whatsapp" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Farol%20da%20Ribirinha.">
      WhatsApp
   </a>
@@ -726,6 +781,7 @@ select {
     <div class="trail-actions">
   <!-- Botão RESERVAR: abre o formulário com o trilho pré-selecionado -->
   <button
+    type="button"
     class="btn btn-primary js-reserve"
     data-trail="Levadas ao Cabeço dos Trinta">
     Reservar
@@ -733,7 +789,7 @@ select {
 
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
   <div class="trail-actions">
-  <a class="btn-whatsapp" target="_blank" rel="noopener"
+  <a class="btn-whatsapp" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Levadas.">
      WhatsApp
   </a>
@@ -760,6 +816,7 @@ select {
     <div class="trail-actions">
   <!-- Botão RESERVAR: abre o formulário com o trilho pré-selecionado -->
   <button
+    type="button"
     class="btn btn-primary js-reserve"
     data-trail="Capelo → Capelinhos ">
     Reservar
@@ -767,7 +824,7 @@ select {
 
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
   <div class="trail-actions">
-  <a class="btn-whatsapp" target="_blank" rel="noopener"
+  <a class="btn-whatsapp" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Ca+elo%20Capelinhos.">
      WhatsApp
   </a>
@@ -793,7 +850,7 @@ select {
     <p>Trilho leve e acessível, com vistas magníficas sobre a Fajã e as ilhas vizinhas. Perfeito para quem procura uma experiência tranquila.</p>
     <div class="trail-actions">
   <!-- Botão RESERVAR: abre o formulário com o trilho pré-selecionado -->
-  <button
+  <buttontype="button"
     class="btn btn-primary js-reserve"
     data-trail="Miradouro da Braça">
     Reservar
@@ -801,7 +858,7 @@ select {
 
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
   <div class="trail-actions">
-  <a class="btn-whatsapp" target="_blank" rel="noopener"
+  <a class="btn-whatsapp" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Miradouro%20da%20Braça.">
      WhatsApp
   </a>
