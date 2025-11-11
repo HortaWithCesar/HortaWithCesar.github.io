@@ -755,14 +755,62 @@ body.modal-open{ overflow:hidden; }
   width:20px; height:20px; object-fit:contain; display:block;
 }
 
-/* Botão redondo com logo (WhatsApp e afins) */
-.brand-round{
-  width:56px; height:56px; border-radius:50%;
-  display:inline-grid; place-items:center;
-  background:#fff; border:1px solid rgba(2,6,23,.06);
-  box-shadow:0 8px 20px rgba(2,6,23,.08);
-  overflow:hidden; transition:transform .2s ease, filter .2s ease;
+/* ===== Ajuste final do logótipo oficial do WhatsApp ===== */
+
+/* versão usada nos trilhos e contactos */
+.brand-round, .btn-whatsapp {
+  width:46px;            /* tamanho fixo mais pequeno */
+  height:46px;
+  border-radius:50%;
+  display:inline-grid;
+  place-items:center;
+  background:#fff;
+  border:1px solid rgba(2,6,23,.08);
+  overflow:hidden;
+  box-shadow:0 6px 14px rgba(2,6,23,.06);
+  transition:transform .2s ease, filter .2s ease;
+  padding:0 !important;
 }
+.brand-round:hover, .btn-whatsapp:hover {
+  transform:translateY(-1px);
+  filter:brightness(1.05);
+}
+
+/* imagem do logotipo */
+.brand-round img, .btn-whatsapp img {
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
+
+/* botão dentro das .trail-actions */
+.trail-actions .btn-whatsapp {
+  width:46px;
+  height:46px;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:transparent;
+  box-shadow:none;
+  border:none;
+}
+
+/* modal: ícone + texto */
+.brand-stack {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  text-decoration:none;
+}
+.brand-stack small {
+  color:#0f172a;
+  font-weight:600;
+  opacity:.85;
+}
+
 .brand-round:hover{ transform:translateY(-1px); filter:brightness(1.03); }
 .brand-round img{ width:100%; height:100%; object-fit:contain; }
 
@@ -786,7 +834,7 @@ body.modal-open{ overflow:hidden; }
   margin-top: 0 !important; /* impede empurrar demasiado */
 }
 .contact-photo + .contact-photo{
-  margin-top: 16px !important;
+  margin-top: 10px !important;
 }
 
 
