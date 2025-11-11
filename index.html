@@ -600,6 +600,84 @@ body.modal-open{ overflow:hidden; }
 }
 
 #about{ overflow:hidden; }
+/* ===== Contactos – versão Pro ===== */
+
+/* grid geral */
+.contact-grid{
+  display:grid; grid-template-columns: 1.05fr .95fr; gap:28px; align-items:start;
+}
+
+/* cartão */
+.contact-card{
+  background:#fff; border:1px solid var(--line); border-radius:18px; padding:18px;
+  box-shadow:0 12px 28px rgba(2,6,23,.06);
+}
+
+/* linhas */
+.contact-list{ list-style:none; margin:0; padding:0; display:grid; gap:12px }
+.contact-list li{
+  display:grid;
+  grid-template-columns: 42px 1fr auto;        /* ícone | rótulo+valor | chip */
+  align-items:center; gap:12px;
+  padding:12px; border:1px solid var(--line); border-radius:14px; background:#fbfdff;
+  transition: box-shadow .15s ease, transform .1s ease;
+}
+.contact-list li:hover{ box-shadow:0 6px 16px rgba(2,6,23,.08); transform:translateY(-1px); }
+
+/* ícone com “aura” */
+.contact-list .ico{
+  width:42px; height:42px; border-radius:12px;
+  display:grid; place-items:center;
+  background:linear-gradient(135deg, rgba(14,165,233,.12), rgba(16,185,129,.12));
+  border:1px solid rgba(2,6,23,.06);
+}
+.contact-list .ico svg{ width:18px; height:18px; color:#0ea5e9; display:block }
+
+/* rótulo + valor */
+.contact-list .label span{ display:block; font-size:12px; color:#64748b; line-height:1.1 }
+.contact-list .label strong{ display:block; color:#0f172a; line-height:1.25 }
+
+/* ação (chip à direita) */
+.contact-list .chip{
+  justify-self:end;
+  padding:8px 12px; border-radius:999px; line-height:1;
+  border:1.5px solid #0ea5e9; color:#0ea5e9; text-decoration:none; font-weight:700;
+  background:#fff;
+}
+.contact-list .chip:hover{ background:rgba(14,165,233,.06) }
+
+/* foto com overlay e sombra */
+.contact-photo{
+  margin:0; position:relative; border-radius:20px; overflow:hidden;
+  box-shadow:0 18px 40px rgba(2,6,23,.12);
+  background:#eaf7f3;
+}
+.contact-photo img{
+  width:100%; height:auto; display:block; object-fit:cover; max-height:360px;
+}
+.photo-caption{
+  position:absolute; left:12px; right:12px; bottom:12px;
+  background:linear-gradient(135deg, rgba(14,165,233,.12), rgba(16,185,129,.12));
+  border:1px solid rgba(2,6,23,.08); color:#0f172a;
+  padding:10px 14px; border-radius:12px; backdrop-filter:saturate(120%) blur(2px);
+}
+/* segunda foto por baixo da principal */
+.contact-photo--secondary{
+  margin-top:16px;
+  max-height:320px;
+}
+.contact-photo--secondary img{
+  width:100%; height:auto; object-fit:cover;
+}
+
+/* botões ao fim */
+.contact-actions{ display:flex; gap:12px; flex-wrap:wrap; margin-top:12px }
+
+/* mobile */
+@media (max-width: 980px){
+  .contact-grid{ grid-template-columns:1fr; }
+  .contact-list .chip{ justify-self:start; margin-top:6px }
+}
 
 
 
@@ -1242,15 +1320,32 @@ body.modal-open{ overflow:hidden; }
           <span>E-mail</span>
           <a class="chip" href="mailto:hortawithcesar@gmail.com">hortawithcesar@gmail.com</a>
         </li>
+        <li>
+  <i class="ico">
+    <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg>
+  </i>
+  <div class="label">
+    <span>Instagram</span>
+    <strong>@hortawithcesar</strong>
+  </div>
+  <a class="chip" target="_blank" rel="noopener"
+     href="https://www.instagram.com/hortawithcesar">Abrir</a>
+</li>
+
 
         <li>
-          <!-- Local -->
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-7.06 7-12a7 7 0 1 0-14 0c0 4.94 7 12 7 12zM12 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" fill="currentColor"/></svg>
-          <span>Base</span>
-          <span class="muted">Horta · Ilha do Faial, Açores</span>
-          <a class="chip" target="_blank" rel="noopener"
-             href="https://maps.google.com/?q=Horta,+Faial,+Açores">Ver no mapa</a>
-        </li>
+  <!-- Local -->
+  <i class="ico">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-7.06 7-12a7 7 0 1 0-14 0c0 4.94 7 12 7 12zM12 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" fill="currentColor"/></svg>
+  </i>
+  <div class="label">
+    <span>Base</span>
+    <strong>Horta · Ilha do Faial, Açores</strong>
+  </div>
+  <a class="chip" target="_blank" rel="noopener"
+     href="https://maps.google.com/?q=Horta,+Faial,+Açores">Ver no mapa</a>
+</li>
+
 
         <li>
           <!-- Horários -->
@@ -1274,7 +1369,15 @@ body.modal-open{ overflow:hidden; }
     <!-- Lado B: foto -->
     <figure class="contact-photo">
       <img src="foto-contacto.jpg" alt="César, guia local nos Açores, sorridente junto ao mar">
-      <figcaption class="muted">Horta with César • Faial</figcaption>
+      <figcaption class="photo-caption">Horta with César • Faial</figcaption>
+      <figure class="contact-photo contact-photo--secondary">
+  <img src="Foto.Pico"
+       onerror="this.onerror=null;this.src='foto-perfil.jpg';"
+       alt="Vista do Pico e canal do Faial">
+  <figcaption class="photo-caption">O paraíso tem nome....</figcaption>
+</figure>
+
+
     </figure>
   </div>
 </section>
