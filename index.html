@@ -901,6 +901,35 @@ body.modal-open{ overflow:hidden; }
 .photo-caption-below::after{
   content: none !important;
 }
+/* ===== MODAL PRIVACIDADE ===== */
+#privacyModal .modal {
+  max-width: 800px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+  padding: 20px 24px;
+}
+
+#privacyModal header {
+  background: linear-gradient(90deg, #25D366, #0077ff);
+  color: #fff;
+  padding: 16px 20px;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#privacyModal h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+#privacyModal h4 {
+  margin-top: 1.4em;
+  color: #003a57;
+  font-size: 1.05rem;
+}
 
 
   </style>
@@ -1628,7 +1657,8 @@ body.modal-open{ overflow:hidden; }
     <div class="small">
   © <span id="year"></span> Horta with César · Faial, Açores — PT/EN  
   · <a href="https://www.livroreclamacoes.pt/Inicio/" target="_blank" rel="noopener noreferrer">Livro de Reclamações</a>  
-  · <a href="#privacidade">Política de Privacidade</a>
+  · <a href="#" onclick="openPrivacy()" class="btn btn-outline">Política de Privacidade</a>
+
 </div>
 
   </footer>
@@ -1690,6 +1720,71 @@ body.modal-open{ overflow:hidden; }
   </div>
 </div>
 <!-- 🔼 FIM DO MODAL -->
+
+  <!-- ===== MODAL POLÍTICA DE PRIVACIDADE ===== -->
+<div id="privacyModal" class="modal-backdrop">
+  <div class="modal">
+    <header>
+      <h3>Política de Privacidade</h3>
+      <button class="close-x" onclick="closePrivacy()">×</button>
+    </header>
+
+    <div class="modal-body">
+      <h4>1. Introdução</h4>
+      <p>
+        A Horta with César respeita a sua privacidade e está empenhada em proteger os seus dados pessoais. Esta política explica como recolhemos, usamos e salvaguardamos as suas informações.
+      </p>
+
+      <h4>2. Dados Recolhidos</h4>
+      <p>
+        Recolhemos apenas os dados essenciais ao funcionamento dos nossos serviços, nomeadamente:
+        nome, contacto (telefone/e-mail) e dados relacionados com a reserva. 
+        Não partilhamos informações pessoais com terceiros sem o seu consentimento.
+      </p>
+
+      <h4>3. Finalidade do Tratamento</h4>
+      <p>
+        Os dados são utilizados apenas para gerir reservas, prestar informações sobre os serviços e cumprir obrigações legais.
+      </p>
+
+      <h4>4. Conservação dos Dados</h4>
+      <p>
+        Os dados pessoais são conservados apenas pelo tempo necessário à finalidade que motivou a recolha, ou conforme exigido por lei.
+      </p>
+
+      <h4>5. Direitos do Titular</h4>
+      <p>
+        Pode, a qualquer momento, solicitar o acesso, retificação, eliminação, limitação ou portabilidade dos seus dados pessoais, através do e-mail:
+        <a href="mailto:hortawithcesar@gmail.com">hortawithcesar@gmail.com</a>.
+      </p>
+
+      <h4>6. Segurança</h4>
+      <p>
+        Implementamos medidas técnicas e organizativas adequadas para proteger os seus dados contra acesso não autorizado, perda ou destruição.
+      </p>
+
+      <h4>7. Cookies</h4>
+      <p>
+        Este site utiliza cookies apenas para melhorar a experiência do utilizador. Pode desativar os cookies nas definições do seu navegador.
+      </p>
+
+      <h4>8. Alterações</h4>
+      <p>
+        A Horta with César reserva-se o direito de atualizar esta política de privacidade sempre que necessário. Recomenda-se a consulta periódica desta página.
+      </p>
+
+      <h4>9. Contacto</h4>
+      <p>
+        Para qualquer questão sobre esta política, contacte-nos em:
+        <a href="mailto:hortawithcesar@gmail.com">hortawithcesar@gmail.com</a>.
+      </p>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-ghost" onclick="closePrivacy()">Fechar</button>
+    </div>
+  </div>
+</div>
 
   <script>
   // reveal on scroll
@@ -1820,6 +1915,17 @@ body.modal-open{ overflow:hidden; }
   "email": "hortawithcesar@gmail.com",
   "url": "https://hortawithcesar.github.io/",
   "sameAs": []
+}
+</script>
+<script>
+function openPrivacy() {
+  document.getElementById('privacyModal').classList.add('open');
+  document.body.classList.add('modal-open');
+}
+
+function closePrivacy() {
+  document.getElementById('privacyModal').classList.remove('open');
+  document.body.classList.remove('modal-open');
 }
 </script>
 
