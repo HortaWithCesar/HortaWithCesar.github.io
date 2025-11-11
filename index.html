@@ -836,6 +836,23 @@ body.modal-open{ overflow:hidden; }
 .contact-photo + .contact-photo{
   margin-top: 10px !important;
 }
+    /* ===== Alinhamento perfeito dos botões de ação ===== */
+.trail-actions{
+  display:flex;
+  justify-content:center;   /* centra os 3 botões na horizontal */
+  align-items:center;        /* alinha-os pela altura */
+  gap:14px;                  /* espaço igual entre os botões */
+  margin-top:20px;
+  flex-wrap:wrap;            /* garante que se ajusta no mobile */
+}
+
+/* garante que os botões não esticam em alturas diferentes */
+.trail-actions a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  height:48px;
+}
 
 
 
@@ -1593,6 +1610,7 @@ body.modal-open{ overflow:hidden; }
       <div class="box" id="cond-legal">
         <h4>Informação legal & condições</h4>
         <ul style="margin:0; padding-left:18px">
+          <li><strong>Equipamento & cuidados:</strong> usar <em>roupa e calçado adequados</em> ao trilho; aplicar <em>protetor solar</em>; levar <em>chapéu</em> e/ou <em>capa de chuva</em> conforme a previsão meteorológica. Recomenda-se ainda água suficiente, pequeno snack e telemóvel carregado.</li>
           <li><strong>Seguros:</strong> atividade coberta por <em>Seguro de Responsabilidade Civil</em> e <em>Seguro de Acidentes Pessoais</em> durante o passeio.</li>
           <li><strong>Reserva & Pagamento:</strong> sinal de <strong>20%</strong> no ato da reserva (deduzido ao valor final). Restante no dia do passeio, antes do início.</li>
           <li><strong>Cancelamentos do cliente:</strong> reembolso total até <strong>48h</strong> antes. Após esse prazo, <strong>não há reembolso</strong>.</li>
