@@ -692,16 +692,15 @@ body.modal-open{ overflow:hidden; }
 .ico--clock{ background:#64748b22; }   .ico--clock svg{ color:#64748b; }
 
 /* Legendas por baixo das fotos (sem overlay) */
-.photo-caption-below{
-  margin:10px 8px 0;
-  font-weight:600;
-  color:#0f172a;
-  background:linear-gradient(135deg, rgba(14,165,233,.10), rgba(16,185,129,.10));
-  border:1px solid rgba(2,6,23,.08);
-  border-radius:10px;
-  padding:8px 12px;
-  display:inline-block;
+.photo-caption-below {
+  background: transparent;      /* remove a caixa verde extra */
+  color: #0f1a20;               /* mantém o texto visível */
+  font-weight: 500;
+  font-size: 1rem;
+  margin-top: 8px;
+  text-align: center;
 }
+
 /* Força as fotos dos contactos a ficarem na coluna 2 (direita) */
 .contact-grid > .contact-photo{ grid-column: 2; }
 .contact-grid > .contact-photo + .contact-photo{ margin-top:8px; } /* espaçamento entre as duas */
