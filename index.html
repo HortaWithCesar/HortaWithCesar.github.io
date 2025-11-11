@@ -342,6 +342,45 @@ header.scrolled{
 .btn{ appearance:none; border:0; border-radius:999px; padding:10px 14px; font-weight:700; cursor:pointer }
 .btn-primary{ background:var(--brand); color:#fff }
 .btn-outline{ background:#fff; border:2px solid var(--brand); color:var(--brand) }
+/* Botão WhatsApp - cor oficial */
+.btn-whatsapp {
+  background-color: #25D366;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+}
+
+.btn-whatsapp:hover {
+  background-color: #1ebe5b;
+  transform: translateY(-2px);
+}
+
+/* Botão Ver Condições - azul com fundo branco */
+.btn-conditions {
+  color: #007bff;
+  background-color: #fff;
+  border: 2px solid #007bff;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.btn-conditions:hover {
+  background-color: #007bff;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
 
 /* animação de entrada */
 .reveal{ opacity:0; transform: translateY(14px); }
@@ -449,15 +488,18 @@ select {
     Reservar
   </button>
 
-  <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
-  <a
-    class="btn btn-outline"
-    target="_blank"
-    rel="noopener"
-    href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20City%20Walk%20•%20Horta%20a%20pé.">
-    WhatsApp
+  <!-- Botão WhatsApp -->
+<div class="trail-actions">
+  <a class="btn-whatsapp" target="_blank" rel="noopener"
+     href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20City%20Walk%20-%20Horta%20a%20pé.">
+     WhatsApp
+  </a>
+
+  <a class="btn-conditions" href="#booking">
+    Ver condições
   </a>
 </div>
+
         </div>
       </article>
     
@@ -483,14 +525,17 @@ select {
   </button>
 
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
-  <a
-    class="btn btn-outline"
-    target="_blank"
-    rel="noopener"
-    href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Entre%20Montes.">
-    WhatsApp
+ <div class="trail-actions">
+  <a class="btn-whatsapp" target="_blank" rel="noopener"
+     href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Entre%20Montes.">
+     WhatsApp
+  </a>
+
+  <a class="btn-conditions" href="#booking">
+    Ver condições
   </a>
 </div>
+
 
         </div>
       </article>
@@ -516,14 +561,17 @@ select {
   </button>
 
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
-  <a
-    class="btn btn-outline"
-    target="_blank"
-    rel="noopener"
-    href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Miradouro%20do%20Neptuno.">
-    WhatsApp
+  <div class="trail-actions">
+  <a class="btn-whatsapp" target="_blank" rel="noopener"
+     href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Miradouro%20do%20Neptuno.">
+     WhatsApp
+  </a>
+
+  <a class="btn-conditions" href="#booking">
+    Ver condições
   </a>
 </div>
+
 
         </div>
       </article>
@@ -549,14 +597,17 @@ select {
   </button>
 
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
-  <a
-    class="btn btn-outline"
-    target="_blank"
-    rel="noopener"
-    href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Caldeira%20Perímetro.">
-    WhatsApp
+  <div class="trail-actions">
+  <a class="btn-whatsapp" target="_blank" rel="noopener"
+     href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Caldeira%20Perímetro.">
+     WhatsApp
+  </a>
+
+  <a class="btn-conditions" href="#booking">
+    Ver condições
   </a>
 </div>
+
         </div>
       </article>
        <!-- Descida à Caldeira -->
@@ -579,14 +630,17 @@ select {
   </button>
 
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
-  <a
-    class="btn btn-outline"
-    target="_blank"
-    rel="noopener"
-    href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Caldeira%20Descida.">
-    WhatsApp
+  <div class="trail-actions">
+  <a class="btn-whatsapp" target="_blank" rel="noopener"
+     href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Caldeira%20Descida.">
+     WhatsApp
+  </a>
+
+  <a class="btn-conditions" href="#booking">
+    Ver condições
   </a>
 </div>
+
         </div>
       </article>
       <!-- ROCHA DA FAJÃ -->
@@ -610,14 +664,17 @@ select {
   </button>
 
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
-  <a
-    class="btn btn-outline"
-    target="_blank"
-    rel="noopener"
-    href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Rocha%20da%20Fajã.">
-    WhatsApp
+  <div class="trail-actions">
+  <a class="btn-whatsapp" target="_blank" rel="noopener"
+     href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Rocha%20da%20Fajã.">
+     WhatsApp
+  </a>
+
+  <a class="btn-conditions" href="#booking">
+    Ver condições
   </a>
 </div>
+
   </div>
 </article>
       <!-- FAROL DA RIBEIRINHA -->
@@ -641,17 +698,20 @@ select {
   </button>
 
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
-  <a
-    class="btn btn-outline"
-    target="_blank"
-    rel="noopener"
-    href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Farol%20da%20Ribirinha.">
-    WhatsApp
+ <div class="trail-actions">
+  <a class="btn-whatsapp" target="_blank" rel="noopener"
+     href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Farol%20da%20Ribirinha.">
+     WhatsApp
+  </a>
+
+  <a class="btn-conditions" href="#booking">
+    Ver condições
   </a>
 </div>
+
   </div>
 </article>
-      <!-- LEVADA AO CABEÇO DOS TRINTA -->
+      <!-- LEVADAS AO CABEÇO DOS TRINTA -->
 <article class="trail-card reveal">
   <div class="trail-media">FOTO • Levadas ao Cabeço dos Trinta</div>
   <div class="trail-body">
@@ -672,14 +732,17 @@ select {
   </button>
 
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
-  <a
-    class="btn btn-outline"
-    target="_blank"
-    rel="noopener"
-    href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Levadas%20ao%20Cabeço.">
-    WhatsApp
+  <div class="trail-actions">
+  <a class="btn-whatsapp" target="_blank" rel="noopener"
+     href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Levadas.">
+     WhatsApp
+  </a>
+
+  <a class="btn-conditions" href="#booking">
+    Ver condições
   </a>
 </div>
+
   </div>
 </article>
       <!-- CAPELO → CAPELINHOS -->
@@ -703,14 +766,17 @@ select {
   </button>
 
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
-  <a
-    class="btn btn-outline"
-    target="_blank"
-    rel="noopener"
-    href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Capelo%20Capelinhos.">
-    WhatsApp
+  <div class="trail-actions">
+  <a class="btn-whatsapp" target="_blank" rel="noopener"
+     href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Ca+elo%20Capelinhos.">
+     WhatsApp
+  </a>
+
+  <a class="btn-conditions" href="#booking">
+    Ver condições
   </a>
 </div>
+
   </div>
 </article>
       <!-- MIRADOURO DA BRAÇA -->
@@ -734,14 +800,17 @@ select {
   </button>
 
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
-  <a
-    class="btn btn-outline"
-    target="_blank"
-    rel="noopener"
-    href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Miradouro%20da%20Braça.">
-    WhatsApp
+  <div class="trail-actions">
+  <a class="btn-whatsapp" target="_blank" rel="noopener"
+     href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Miradouro%20da%20Braça.">
+     WhatsApp
+  </a>
+
+  <a class="btn-conditions" href="#booking">
+    Ver condições
   </a>
 </div>
+
   </div>
 </article>
     </div>
