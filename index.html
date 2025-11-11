@@ -546,48 +546,11 @@ body.modal-open{ overflow:hidden; }
 }
 
 /* Mobile: um pouco menos de padding para caber tudo */
-@media (max-width: 520px){
- /* ===== Cabeçalho do modal (único) ===== */
-.modal header{
-  position: relative;
-  display: flex;
-  flex-direction: column;            /* título + subtítulo em coluna */
-  align-items: center;               /* centra horizontalmente */
-  justify-content: center;
-  text-align: center;
-  padding: 20px 60px 14px;           /* espaço p/ o X à direita */
-  margin: 0 0 10px;
-  border-radius: 14px 14px 0 0;
-  background: linear-gradient(135deg, rgba(14,165,233,.10) 0%, rgba(16,185,129,.10) 100%);
-  border-bottom: 1px solid rgba(2,6,23,.08);
-}
-.modal header::after{
-  content:""; display:block; height:3px; width:120px; margin:10px auto 0;
-  border-radius:999px;
-  background: linear-gradient(90deg,#0ea5e9 0%, #10b981 100%); opacity:.6;
-}
-.modal h3{
-  margin:0; font-size:22px; color:#0f172a;
-  text-align:center; width:100%;     /* garante centrado */
-}
-.modal .muted{ color:#475569; font-size:14px; margin-top:4px; text-align:center; }
-
-/* Botão X no canto direito, centrado verticalmente */
-.modal .close-x{
-  position:absolute; right:16px; top:50%; transform:translateY(-50%);
-  width:38px; height:38px; border-radius:12px;
-  border:1px solid rgba(2,6,23,.12); background:#fff; cursor:pointer;
-  box-shadow:0 2px 8px rgba(2,6,23,.06);
-}
-.modal .close-x:hover{ transform:translateY(-50%) scale(1.05); box-shadow:0 6px 14px rgba(2,6,23,.10); }
-.modal .close-x svg{ transition: stroke .2s ease; }
-.modal .close-x:hover svg{ stroke:#0ea5e9; }
-
-/* Mobile tweaks */
 @media (max-width:520px){
   .modal header{ padding:16px 48px 12px; }
   .modal .close-x{ right:8px; }
 }
+
 /* ===== CONTACTOS ===== */
 .contact{ padding:60px 0 }
 .contact-grid{
@@ -602,7 +565,6 @@ body.modal-open{ overflow:hidden; }
   display:grid; grid-template-columns:28px 110px 1fr; align-items:center; gap:10px;
   padding:10px; border:1px solid var(--line); border-radius:12px; background:#f9fbfd;
 }
-.contact-list svg{ width:20px; height:20px; color:#0ea5e9 }
 .contact-list .chip{
   justify-self:start; display:inline-block; padding:6px 10px; border-radius:999px;
   border:1.5px solid #0ea5e9; color:#0ea5e9; text-decoration:none; font-weight:700;
@@ -626,14 +588,19 @@ body.modal-open{ overflow:hidden; }
 /* Garante que os marcadores (•) nunca aparecem na lista */
 .contact-list, .contact-list li{ list-style: none; padding-left: 0; }
 
-/* Tamanho seguro dos ícones dos contactos */
-.contact-list svg{
+/* Ícones dos contactos — tamanho fixo */
+.contact-list li > svg{
   width:18px; height:18px; flex:0 0 18px;
+  color:#0ea5e9; display:block;
 }
+    .contact-photo{ max-width:520px; }
 .contact-photo img{
-  display:block; width:100%; height:auto; object-fit:cover;
-  min-height: 260px;          /* opcional: mantém presença visual */
+  display:block; width:100%; height:auto;
+  object-fit:cover; max-height:360px; border-radius:18px;
 }
+
+#about{ overflow:hidden; }
+
 
 
   </style>
