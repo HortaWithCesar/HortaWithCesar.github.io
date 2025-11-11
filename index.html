@@ -488,7 +488,6 @@ select {
 /* impedir scroll do body quando o modal está aberto */
 body.modal-open{ overflow:hidden; }
 
-  <!-- 🔼 FIM DO MODAL -->
     /* ===== Cabeçalho bonito do modal ===== */
 .modal header{
   position: relative;
@@ -548,70 +547,46 @@ body.modal-open{ overflow:hidden; }
 
 /* Mobile: um pouco menos de padding para caber tudo */
 @media (max-width: 520px){
-  /* ===== Cabeçalho centrado e bonito ===== */
+ /* ===== Cabeçalho do modal (único) ===== */
 .modal header{
-  display: flex;
-  flex-direction: column;             /* empilha título e subtítulo */
-  align-items: center;                /* centra horizontalmente */
-  justify-content: center;
   position: relative;
+  display: flex;
+  flex-direction: column;            /* título + subtítulo em coluna */
+  align-items: center;               /* centra horizontalmente */
+  justify-content: center;
   text-align: center;
-  padding: 20px 60px 16px;            /* espaço lateral para o botão X */
+  padding: 20px 60px 14px;           /* espaço p/ o X à direita */
+  margin: 0 0 10px;
   border-radius: 14px 14px 0 0;
-  background: linear-gradient(135deg,
-              rgba(14,165,233,0.1) 0%,
-              rgba(16,185,129,0.1) 100%);
+  background: linear-gradient(135deg, rgba(14,165,233,.10) 0%, rgba(16,185,129,.10) 100%);
   border-bottom: 1px solid rgba(2,6,23,.08);
 }
-
-/* Linha decorativa sob o subtítulo */
 .modal header::after{
-  content:"";
-  display:block;
-  height:3px;
-  margin:10px auto 0;
-  width:120px;
+  content:""; display:block; height:3px; width:120px; margin:10px auto 0;
   border-radius:999px;
-  background:linear-gradient(90deg,#0ea5e9 0%, #10b981 100%);
-  opacity:.6;
+  background: linear-gradient(90deg,#0ea5e9 0%, #10b981 100%); opacity:.6;
 }
-
 .modal h3{
-  margin:0;
-  font-size:22px;
-  color:#0f172a;
-  text-align:center;        /* centra apenas o título */
-  width:100%;               /* garante que ocupa toda a largura */
+  margin:0; font-size:22px; color:#0f172a;
+  text-align:center; width:100%;     /* garante centrado */
 }
+.modal .muted{ color:#475569; font-size:14px; margin-top:4px; text-align:center; }
 
-.modal .muted{
-  color:#475569;
-  font-size:14px;
-  margin-top:4px;
-  text-align:center;
-}
-
-/* Botão X fixo no canto superior direito */
+/* Botão X no canto direito, centrado verticalmente */
 .modal .close-x{
-  position:absolute;
-  top:50%;
-  right:16px;
-  transform:translateY(-50%);
-  width:38px;height:38px;
-  border-radius:12px;
-  border:1px solid rgba(2,6,23,.12);
-  background:#fff;
+  position:absolute; right:16px; top:50%; transform:translateY(-50%);
+  width:38px; height:38px; border-radius:12px;
+  border:1px solid rgba(2,6,23,.12); background:#fff; cursor:pointer;
   box-shadow:0 2px 8px rgba(2,6,23,.06);
 }
-.modal .close-x:hover{
-  transform:translateY(-50%) scale(1.05);
-  box-shadow:0 6px 14px rgba(2,6,23,.10);
-}
+.modal .close-x:hover{ transform:translateY(-50%) scale(1.05); box-shadow:0 6px 14px rgba(2,6,23,.10); }
+.modal .close-x svg{ transition: stroke .2s ease; }
+.modal .close-x:hover svg{ stroke:#0ea5e9; }
 
-/* Mobile ajustado */
+/* Mobile tweaks */
 @media (max-width:520px){
-  .modal header{padding:16px 48px 12px;}
-  .modal .close-x{right:8px;}
+  .modal header{ padding:16px 48px 12px; }
+  .modal .close-x{ right:8px; }
 }
 
 
