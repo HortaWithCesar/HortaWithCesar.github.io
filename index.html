@@ -884,6 +884,23 @@ body.modal-open{ overflow:hidden; }
   display: inline-block;
 }
 
+/* Remover o fundo verde do caption (mantendo o verde do bloco da foto) */
+.contact-media .contact-photo figcaption.photo-caption-below,
+.contact-photo figcaption.photo-caption-below{
+  background: transparent !important;   /* retira o fundo/pill */
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding: 10px 14px 0 !important;      /* só espaçamento do texto */
+  color: #0f172a !important;            /* texto bem legível */
+  font-weight: 600;
+}
+
+/* Se algum “pill” estiver a ser desenhado com pseudo-elementos */
+.photo-caption-below::before,
+.photo-caption-below::after{
+  content: none !important;
+}
 
 
   </style>
