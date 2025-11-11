@@ -853,6 +853,51 @@ body.modal-open{ overflow:hidden; }
   justify-content:center;
   height:48px;
 }
+/* ===== CONTACTOS – correção final das fotos ===== */
+
+/* garante que as duas fotos ficam agrupadas na coluna da direita */
+.contact-media {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;           /* pequeno espaçamento fixo */
+  margin: 0;
+  padding: 0;
+}
+
+/* remove margens residuais dos figures */
+.contact-photo {
+  margin: 0 !important;
+  padding: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(2,6,23,.12);
+}
+
+/* garante que a segunda não “salta” */
+.contact-photo--secondary {
+  margin-top: 0 !important;
+}
+
+/* imagens responsivas e encaixadas */
+.contact-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  max-height: 360px;
+}
+
+/* legenda por baixo */
+.photo-caption-below {
+  margin: 8px 0 0;
+  font-weight: 600;
+  color: #0f172a;
+  background: linear-gradient(135deg, rgba(14,165,233,.10), rgba(16,185,129,.10));
+  border: 1px solid rgba(2,6,23,.08);
+  border-radius: 10px;
+  padding: 8px 12px;
+  display: inline-block;
+}
 
 
 
@@ -1562,6 +1607,7 @@ body.modal-open{ overflow:hidden; }
     <figure class="contact-photo contact-photo--secondary">
   <img src="Foto.Pico" onerror="this.onerror=null;this.src='Foto.Pico.jpg';" alt="Pico visto do Faial ao pôr do sol">
   <figcaption class="photo-caption-below">O paraíso tem nome....</figcaption>
+      </figure>
   </div>
 </section>
 
