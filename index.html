@@ -620,6 +620,20 @@ body.modal-open{ overflow:hidden; }
 @media (max-width: 980px){
   .contact-grid{ grid-template-columns:1fr; }
 }
+/* Impede o SVG decorativo do #about de sair da secção */
+#about{ overflow: hidden; }
+
+/* Garante que os marcadores (•) nunca aparecem na lista */
+.contact-list, .contact-list li{ list-style: none; padding-left: 0; }
+
+/* Tamanho seguro dos ícones dos contactos */
+.contact-list svg{
+  width:18px; height:18px; flex:0 0 18px;
+}
+.contact-photo img{
+  display:block; width:100%; height:auto; object-fit:cover;
+  min-height: 260px;          /* opcional: mantém presença visual */
+}
 
 
   </style>
