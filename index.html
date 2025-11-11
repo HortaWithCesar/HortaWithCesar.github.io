@@ -543,9 +543,8 @@ select {
   </a>
 
   <!-- Ver condições -->
-  <a class="btn btn-conditions" href="#booking">
-    Ver condições
-  </a>
+  <button type="button" class="btn btn-conditions">Ver condições</button>
+
 </div>
 
         </div>
@@ -582,9 +581,8 @@ select {
      WhatsApp
   </a>
 
-  <a class="btn-conditions" href="#booking">
-    Ver condições
-  </a>
+  <button type="button" class="btn btn-conditions">Ver condições</button>
+
 </div>
 
 
@@ -623,9 +621,8 @@ select {
      WhatsApp
   </a>
 
-  <a class="btn-conditions" href="#booking">
-    Ver condições
-  </a>
+  <button type="button" class="btn btn-conditions">Ver condições</button>
+
 </div>
         </div>
       </article>
@@ -659,9 +656,8 @@ select {
      WhatsApp
   </a>
 
-  <a class="btn-conditions" href="#booking">
-    Ver condições
-  </a>
+  <button type="button" class="btn btn-conditions">Ver condições</button>
+
 </div>
         </div>
       </article>
@@ -694,9 +690,8 @@ select {
      WhatsApp
   </a>
 
-  <a class="btn-conditions" href="#booking">
-    Ver condições
-  </a>
+  <button type="button" class="btn btn-conditions">Ver condições</button>
+
 </div>
 
         </div>
@@ -731,9 +726,8 @@ select {
      WhatsApp
   </a>
 
-  <a class="btn-conditions" href="#booking">
-    Ver condições
-  </a>
+  <button type="button" class="btn btn-conditions">Ver condições</button>
+
 </div>
 
   </div>
@@ -768,9 +762,8 @@ select {
      WhatsApp
   </a>
 
-  <a class="btn-conditions" href="#booking">
-    Ver condições
-  </a>
+  <button type="button" class="btn btn-conditions">Ver condições</button>
+
 </div>
 
   </div>
@@ -804,9 +797,8 @@ select {
      WhatsApp
   </a>
 
-  <a class="btn-conditions" href="#booking">
-    Ver condições
-  </a>
+  <button type="button" class="btn btn-conditions">Ver condições</button>
+
 </div>
 
   </div>
@@ -841,9 +833,8 @@ select {
      WhatsApp
   </a>
 
-  <a class="btn-conditions" href="#booking">
-    Ver condições
-  </a>
+  <button type="button" class="btn btn-conditions">Ver condições</button>
+
 </div>
 
   </div>
@@ -877,9 +868,8 @@ select {
      WhatsApp
   </a>
 
-  <a class="btn-conditions" href="#booking">
-    Ver condições
-  </a>
+  <button type="button" class="btn btn-conditions">Ver condições</button>
+
 </div>
 
   </div>
@@ -1084,46 +1074,44 @@ select {
 </div>
 
   </footer>
-  <!-- 🔽 INSERE O MODAL AQUI -->
-  <div class="modal-backdrop" id="cond-modal">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cond-title">
-      <header>
-        <div>
-          <h3 id="cond-title">Condições do trilho</h3>
-          <div class="muted" id="cond-sub">Informação e termos</div>
-        </div>
-        <button class="close-x" id="cond-close" aria-label="Fechar">✕</button>
-      </header>
+  /* ===== MODAL “VER CONDIÇÕES” (fix) ===== */
+.modal-backdrop{
+  position:fixed; inset:0;
+  background:rgba(2,6,23,.55);
+  backdrop-filter: blur(2px);
+  display:none;                 /* escondido por omissão */
+  z-index:9999;
+}
+.modal-backdrop.open{
+  display:flex;                 /* centra o modal */
+  align-items:flex-start;       /* topo confortável */
+  justify-content:center;
+  overflow:auto;                /* se for alto em mobile, permite scroll no próprio backdrop */
+  padding:6vh 16px;             /* respiro nas margens */
+}
+.modal{
+  width:100%;
+  max-width:760px;
+  background:#fff;
+  border-radius:16px;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+  padding:20px 20px 16px;
+  animation: modalIn .2s ease;
+}
+@keyframes modalIn{ from{ transform:translateY(10px); opacity:0 } to{ transform:none; opacity:1 } }
+.modal header{display:flex;align-items:center;gap:12px;justify-content:space-between;margin-bottom:6px}
+.modal h3{margin:0;font-size:22px}
+.modal .muted{color:var(--muted);font-size:14px}
+.modal .grid{display:grid;gap:14px;margin-top:12px}
+.modal .box{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+.modal .box h4{margin:0 0 6px;font-size:16px}
+.modal .actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin-top:14px}
+.modal .btn-ghost{background:#fff;border:1px solid var(--line);color:var(--fg)}
+.modal .close-x{appearance:none;border:0;background:#fff;border:1px solid var(--line);width:36px;height:36px;border-radius:10px;cursor:pointer}
+@media (max-width:820px){ .modal{max-width:92vw} }
 
-      <div class="grid">
-        <!-- Caixa dinâmica por trilho -->
-        <div class="box" id="cond-dynamic">
-          <h4 id="cond-trail">Trilho</h4>
-          <p id="cond-price" style="font-weight:700;margin:.2rem 0">Desde —</p>
-          <p id="cond-brief" class="muted">…</p>
-          <p class="muted">💬 O preço por pessoa pode mudar consoante o número de pessoas, época e logística. Para grupos e parcerias, pede orçamento.</p>
-        </div>
-
-        <!-- Caixa legal comum -->
-        <div class="box" id="cond-legal">
-          <h4>Informação legal & condições</h4>
-          <ul style="margin:0; padding-left:18px">
-            <li><strong>Seguros:</strong> atividade coberta por <em>Seguro de Responsabilidade Civil</em> e <em>Seguro de Acidentes Pessoais</em>.</li>
-            <li><strong>Reserva & Pagamento:</strong> sinal de <strong>20%</strong> no ato da reserva (deduzido ao valor final). Restante no dia do passeio.</li>
-            <li><strong>Cancelamentos do cliente:</strong> reembolso total até <strong>48h</strong> antes. Após esse prazo, <strong>sem reembolso</strong>.</li>
-            <li><strong>Cancelamentos pelo guia:</strong> reembolso integral ou remarcação, à escolha do cliente.</li>
-            <li><strong>Livro de Reclamações:</strong> disponível online (<a href="https://www.livroreclamacoes.pt/Inicio/" target="_blank" rel="noopener">aqui</a>).</li>
-            <li><strong>Dados pessoais (RGPD):</strong> usados apenas para gerir reservas, sem cedência a terceiros. Contacto: <em>hortawithcesar@gmail.com</em>.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="actions">
-        <a id="cond-whatsapp" class="btn btn-whatsapp" target="_blank" rel="noopener">Pedir orçamento no WhatsApp</a>
-        <button class="btn btn-ghost" id="cond-close-2">Fechar</button>
-      </div>
-    </div>
-  </div>
+/* impedir scroll do body quando o modal está aberto */
+body.modal-open{ overflow:hidden; }
 
   <!-- 🔼 FIM DO MODAL -->
   <script>
@@ -1191,7 +1179,8 @@ select {
   <script>
 (function(){
   const modal = document.getElementById('cond-modal');
-  const closeBtns = [document.getElementById('cond-close'), document.getElementById('cond-close-2')];
+  const close1 = document.getElementById('cond-close');
+  const close2 = document.getElementById('cond-close-2');
   const title = document.getElementById('cond-title');
   const sub = document.getElementById('cond-sub');
   const trailEl = document.getElementById('cond-trail');
@@ -1199,49 +1188,50 @@ select {
   const briefEl = document.getElementById('cond-brief');
   const waBtn = document.getElementById('cond-whatsapp');
 
-  // Abrir ao clicar em qualquer ".btn-conditions"
+  // abrir
   document.addEventListener('click', (e)=>{
-    const a = e.target.closest('.btn-conditions');
-    if(!a) return;
-
+    const btn = e.target.closest('.btn-conditions');
+    if(!btn) return;
     e.preventDefault();
-    // encontra o card pai para ir buscar os data-*
-    const card = a.closest('.trail-card');
+
+    const card = btn.closest('.trail-card');
     const trail = card?.dataset.trail || 'Trilho';
     const priceFrom = card?.dataset.priceFrom || 'sob consulta';
     const brief = card?.dataset.brief || 'Preço base para 1 pessoa. Para grupos, pede cotação.';
 
-    // Preenche
     title.textContent = `Condições — ${trail}`;
     sub.textContent   = 'Preços, seguros e termos';
     trailEl.textContent = trail;
     priceEl.textContent = `Desde ${priceFrom} (1 px)`;
     briefEl.textContent = brief;
 
-    // WhatsApp com mensagem preenchida
     const msg = encodeURIComponent(`Olá César! Quero saber as condições/preço para: ${trail}.`);
     waBtn.href = `https://wa.me/351968750436?text=${msg}`;
 
     modal.classList.add('open');
-    // Foco no botão WhatsApp para acessibilidade
+    document.body.classList.add('modal-open'); // ❗ bloqueia scroll do body
     setTimeout(()=> waBtn.focus(), 50);
   });
 
-  // Fechar
-  function closeModal(){ modal.classList.remove('open'); }
-  closeBtns.forEach(b => b.addEventListener('click', closeModal));
+  function closeModal(){
+    modal.classList.remove('open');
+    document.body.classList.remove('modal-open'); // ❗ volta a permitir scroll
+  }
 
-  // Fechar ao clicar fora
+  [close1, close2].forEach(b=> b && b.addEventListener('click', closeModal));
+
+  // clicar fora fecha
   modal.addEventListener('click', (e)=>{
     if(e.target === modal) closeModal();
   });
 
-  // Esc
+  // tecla Esc fecha
   document.addEventListener('keydown', (e)=>{
     if(e.key === 'Escape' && modal.classList.contains('open')) closeModal();
   });
 })();
 </script>
+
 
 
 
