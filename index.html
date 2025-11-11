@@ -450,29 +450,6 @@ select {
   background-size: 5px 5px;
   background-repeat: no-repeat;
 }
-/* ===== MODAL “VER CONDIÇÕES” ===== */
-.modal-backdrop{
-  position:fixed; inset:0; background:rgba(2,6,23,.55);
-  backdrop-filter: blur(2px); display:none; z-index:9999;
-}
-.modal-backdrop.open{ display:block; }
-.modal{
-  position:fixed; inset:auto 0 0 0; margin:auto; top:10vh; max-width:760px;
-  background:#fff; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,.25);
-  padding:20px 20px 16px; animation: modalIn .2s ease;
-}
-@keyframes modalIn{ from{ transform:translateY(10px); opacity:0 } to{ transform:none; opacity:1 } }
-.modal header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:6px}
-.modal h3{margin:0;font-size:22px}
-.modal .muted{color:var(--muted);font-size:14px}
-.modal .grid{display:grid;gap:14px;margin-top:12px}
-.modal .box{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
-.modal .box h4{margin:0 0 6px;font-size:16px}
-.modal .actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin-top:14px}
-.modal .btn-ghost{background:#fff;border:1px solid var(--line);color:var(--fg)}
-.modal .close-x{appearance:none;border:0;background:#fff;border:1px solid var(--line);width:36px;height:36px;border-radius:10px;cursor:pointer}
-@media (max-width:820px){ .modal{max-width:92vw; top:6vh} }
-
 
   </style>
 </head>
@@ -749,7 +726,6 @@ select {
   </button>
 
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
-  <div class="trail-actions">
   <a class="btn-whatsapp" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351968750436?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Rocha%20da%20Fajã.">
      WhatsApp
@@ -889,7 +865,7 @@ select {
     <p>Trilho leve e acessível, com vistas magníficas sobre a Fajã e as ilhas vizinhas. Perfeito para quem procura uma experiência tranquila.</p>
     <div class="trail-actions">
   <!-- Botão RESERVAR: abre o formulário com o trilho pré-selecionado -->
-  <buttontype="button"
+    <button type="button"
     class="btn btn-primary js-reserve"
     data-trail="Miradouro da Braça">
     Reservar
@@ -1108,6 +1084,48 @@ select {
 </div>
 
   </footer>
+  <!-- 🔽 INSERE O MODAL AQUI -->
+  <div class="modal-backdrop" id="cond-modal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cond-title">
+      <header>
+        <div>
+          <h3 id="cond-title">Condições do trilho</h3>
+          <div class="muted" id="cond-sub">Informação e termos</div>
+        </div>
+        <button class="close-x" id="cond-close" aria-label="Fechar">✕</button>
+      </header>
+
+      <div class="grid">
+        <!-- Caixa dinâmica por trilho -->
+        <div class="box" id="cond-dynamic">
+          <h4 id="cond-trail">Trilho</h4>
+          <p id="cond-price" style="font-weight:700;margin:.2rem 0">Desde —</p>
+          <p id="cond-brief" class="muted">…</p>
+          <p class="muted">💬 O preço por pessoa pode mudar consoante o número de pessoas, época e logística. Para grupos e parcerias, pede orçamento.</p>
+        </div>
+
+        <!-- Caixa legal comum -->
+        <div class="box" id="cond-legal">
+          <h4>Informação legal & condições</h4>
+          <ul style="margin:0; padding-left:18px">
+            <li><strong>Seguros:</strong> atividade coberta por <em>Seguro de Responsabilidade Civil</em> e <em>Seguro de Acidentes Pessoais</em>.</li>
+            <li><strong>Reserva & Pagamento:</strong> sinal de <strong>20%</strong> no ato da reserva (deduzido ao valor final). Restante no dia do passeio.</li>
+            <li><strong>Cancelamentos do cliente:</strong> reembolso total até <strong>48h</strong> antes. Após esse prazo, <strong>sem reembolso</strong>.</li>
+            <li><strong>Cancelamentos pelo guia:</strong> reembolso integral ou remarcação, à escolha do cliente.</li>
+            <li><strong>Livro de Reclamações:</strong> disponível online (<a href="https://www.livroreclamacoes.pt/Inicio/" target="_blank" rel="noopener">aqui</a>).</li>
+            <li><strong>Dados pessoais (RGPD):</strong> usados apenas para gerir reservas, sem cedência a terceiros. Contacto: <em>hortawithcesar@gmail.com</em>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a id="cond-whatsapp" class="btn btn-whatsapp" target="_blank" rel="noopener">Pedir orçamento no WhatsApp</a>
+        <button class="btn btn-ghost" id="cond-close-2">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔼 FIM DO MODAL -->
   <script>
   // reveal on scroll
   const els = document.querySelectorAll('.reveal');
