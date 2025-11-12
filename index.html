@@ -1723,7 +1723,7 @@ a[aria-disabled="true"] {
   </div>
 
   <p class="legal-note">
-    Ao avançar concorda com as <a href="#politica-privacidade">Condições e Política de Privacidade</a>.
+    Ao avançar concorda com as <a href="#politica-privacidade">Condições e Política do site HortaWithCesar.com</a>.
   </p>
 </section>
 
@@ -2182,12 +2182,7 @@ if(bookingForm){
   trailInput.addEventListener('input', updatePreview);
   updatePreview();
 
-  /* Botão pagar sinal */
-  const payBtn = document.createElement('button');
-  payBtn.type = 'button';
-  payBtn.className = 'btn btn-primary';
-  payBtn.textContent = 'Pagar sinal (20%)';
-  bookingForm.querySelector('.reserve-actions').prepend(payBtn);
+
 
   payBtn.addEventListener('click', ()=>{
     const trail = trailInput.value.trim();
