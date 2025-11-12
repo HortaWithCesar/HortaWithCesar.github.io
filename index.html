@@ -1050,9 +1050,6 @@ body.modal-open{ overflow:hidden; }
   cursor:not-allowed;
 }
 
-/* Pequena melhoria: alinha a caixinha de disponibilidade */
-.reserve-availability .tag{ min-width: 140px; text-align:center; }
-
 /* Bloqueia qualquer control dentro do modal (por precaução) */
 .rv-lock input,
 .rv-lock select,
@@ -1060,18 +1057,6 @@ body.modal-open{ overflow:hidden; }
 .rv-lock button[disabled] {
   pointer-events: none;
 }
-
-/* Badge de disponibilidade */
-.badge {
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-width: 140px;
-  padding: 8px 12px;
-  border-radius: 999px;
-  font-weight: 700;
-}
-.badge-soft { background: #eaf3ff; color: #0a5; }
 
 /* Botão desativado via aria-disabled */
 a[aria-disabled="true"] {
@@ -1092,6 +1077,38 @@ a[aria-disabled="true"] {
 }
 @media (max-width: 560px) {
   .reserve-grid { grid-template-columns: 1fr; }
+}
+/* Centraliza o modal na tela */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-backdrop[style*="display:flex"] {
+  display: flex !important;
+}
+
+/* Caixa do modal (ajuste para centralização perfeita) */
+.modal.box {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+  width: 90%;
+  max-width: 680px;
+  margin: auto;
+  overflow: hidden;
+  animation: fadeInUp .3s ease;
+}
+
+/* Suave transição */
+@keyframes fadeInUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
   </style>
@@ -2611,10 +2628,7 @@ $date && $date.addEventListener('change', checkAvailability);
           <div id="rv-period" class="rv-read">—</div>
         </div>
 
-        <div class="reserve-field">
-          <label>Disponibilidade</label>
-          <div id="rv-availability" class="badge badge-soft">—</div>
-        </div>
+        
 
         <div class="reserve-field reserve-field--full">
           <label>Total estimado</label>
