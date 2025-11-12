@@ -1129,6 +1129,44 @@ a[aria-disabled="true"] {
   text-decoration: underline;
 }
 .link:hover { text-decoration: none; }
+/* Disponibilidade compacta, por baixo da data */
+.availability-inline{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:10px;
+}
+
+.availability-inline .label{
+  font-size:14px;
+  color:var(--muted);
+}
+
+/* badge mais pequena que a antiga */
+.availability-badge{
+  display:inline-grid;
+  place-items:center;
+  min-width:88px;
+  height:44px;
+  padding:0 14px;
+  border-radius:18px;
+  background:#eef7ff;                 /* neutro */
+  color:#0b3954;
+  font-weight:700;
+  box-shadow: inset 0 0 0 2px rgba(12,130,200,.08);
+}
+
+/* estados (se já usas outros, mantém) */
+.availability-badge[data-state="ok"]{
+  background:#eafff1;
+  color:#0b5330;
+  box-shadow: inset 0 0 0 2px rgba(20,160,80,.14);
+}
+.availability-badge[data-state="busy"]{
+  background:#fff3f2;
+  color:#8c1f1f;
+  box-shadow: inset 0 0 0 2px rgba(220,70,70,.14);
+}
 
   </style>
 </head>
@@ -1725,14 +1763,19 @@ a[aria-disabled="true"] {
 <!-- Disponibilidade (debaixo da data) -->
 <div class="reserve-field">
   <label>Disponibilidade</label>
-  <div id="bk-availability" class="avail-pill" aria-live="polite">—</div>
-  <small class="note">É necessário haver disponibilidade para avançar.</small>
+  <div id="bk-availability" class="avail-pill" aria-live="polite"></div>
+
+  <div class="availability-inline">
+    <span class="label">Disponibilidade</span>
+    <span id="rv-availability" class="availability-badge" data-state="pending">—</span>
+  </div>
 </div>
+
 
     <div>
       <label for="message">Mensagem (opcional)</label>
       <textarea id="message" name="Mensagem" rows="4"
-                placeholder="Preferências, restrições, notas…"></textarea>
+                placeholder="Preferências, restrições, horários…"></textarea>
     </div>
 
     <div class="booking-actions">
