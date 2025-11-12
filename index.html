@@ -1167,6 +1167,29 @@ a[aria-disabled="true"] {
   color:#8c1f1f;
   box-shadow: inset 0 0 0 2px rgba(220,70,70,.14);
 }
+/* Corrige alinhamento da disponibilidade */
+.reserve-field .availability-inline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 0;              /* remove espaço acima */
+  margin-left: 16px;          /* empurra um pouco para dentro */
+  position: relative;
+  top: -70px;                 /* sobe para a altura da data */
+}
+
+/* Ajusta o tamanho da badge */
+.availability-badge {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 80px;
+  height: 42px;
+  background: #eef7ff;
+  border-radius: 20px;
+  font-weight: 600;
+  color: #0b3d91;
+}
 
   </style>
 </head>
@@ -2370,20 +2393,7 @@ if(bookingForm){
   (async () => {
     const busy = await fetchBusySet();
 
-    // dica inline opcional
-    const hint = document.createElement('small');
-    hint.style.display = 'block';
-    hint.style.marginTop = '6px';
-    hint.style.opacity = '0.8';
-    hint.textContent = 'Datas já reservadas serão rejeitadas ao selecionar.';
-    dateInput.insertAdjacentElement('afterend', hint);
-
-    dateInput.addEventListener('change', () => {
-      const sel = dateInput.value;
-      if (busy.has(sel)) {
-        alert('Essa data já está reservada. Por favor escolhe outra data.');
-        dateInput.value = '';
-        dateInput.focus();
+  
       }
     });
   })();
