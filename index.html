@@ -1110,6 +1110,25 @@ a[aria-disabled="true"] {
   from { transform: translateY(30px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
+/* Pill de disponibilidade */
+.avail-pill{
+  display:inline-flex;
+  min-width:140px;
+  justify-content:center;
+  align-items:center;
+  padding:10px 14px;
+  border-radius:20px;
+  background:#eef7ff;
+  color:#0b466b;
+  font-weight:700;
+}
+.avail-pill.is-free{ background:#e9fbef; color:#0a6e3d; }
+.avail-pill.is-busy{ background:#fdecec; color:#933; }
+.link {
+  color: var(--brand, #0aa3e6);
+  text-decoration: underline;
+}
+.link:hover { text-decoration: none; }
 
   </style>
 </head>
@@ -1703,6 +1722,12 @@ a[aria-disabled="true"] {
 </div>
 
     </div>
+<!-- Disponibilidade (debaixo da data) -->
+<div class="reserve-field">
+  <label>Disponibilidade</label>
+  <div id="bk-availability" class="avail-pill" aria-live="polite">—</div>
+  <small class="note">É necessário haver disponibilidade para avançar.</small>
+</div>
 
     <div>
       <label for="message">Mensagem (opcional)</label>
@@ -1733,6 +1758,8 @@ a[aria-disabled="true"] {
         <span id="rv-deposit">—</span>
       </div>
       <small class="note">Deduzido ao valor final. Reembolso total até 48h antes.</small>
+      <a href="#politica-privacidade">Condições e Política de Privacidade</a>
+      <a href="#politica-cancelamento" id="open-cancel-policy-2">Política de Cancelamento</a>.
     </div>
   </div>
 
@@ -2637,21 +2664,26 @@ $date && $date.addEventListener('change', checkAvailability);
         </div>
 
         <div class="reserve-field reserve-field--full">
-          <label>Sinal 20%</label>
-          <div id="rv-deposit-m" class="amount amount-accent">—</div>
-          <small class="muted">Dedu zido ao valor final. Reembolso total até 48h antes.</small>
-        </div>
-      </div>
-    </div>
+  <label>Confirmar Reserva</label>
+  <div id="rv-deposit" class="amount amount-accent">—</div>
+  <small class="muted">Deduzido ao valor final. <a href="#politica-cancelamento" class="link" id="open-cancel-policy">
+    Política de Cancelamento
+  </small>
+</div>
 
-    <footer class="modal__footer actions">
-      <a id="rv-pay-20"
-         class="btn btn-primary"
-         target="_blank"
-         rel="noopener"
-         aria-disabled="true">Pagar sinal 20%</a>
+<footer class="modal__footer actions">
+  <a id="rv-pay"
+     class="btn btn-primary"
+     href="#"
+     target="_blank"
+     rel="noopener"
+     aria-disabled="true">Pagar sinal 20%</a>
 
-      <button id="rv-close-2" class="btn btn-ghost">Fechar</button>
+  <button id="rv-close-2"
+          class="btn btn-ghost"
+          type="button">Fechar</button>
+</footer>
+
     </footer>
   </div>
 </div>
@@ -2705,81 +2737,151 @@ $date && $date.addEventListener('change', checkAvailability);
     closeModal();
   });
 })();
-  /* === CONFIG REVOLUT ===
+ <script>
+/* === CONFIG REVOLUT ===
    Se tiveres link do tipo revolut.me/teuuser, mete aqui:
    Ex.: 'https://revolut.me/hortawithcesar'
    ou, se for com amount por query, usamos ?amount=…&currency=EUR
 */
 const REVOLUT_LINK_BASE = 'https://revolut.me/hortawithcesar';  // ajusta se precisares
 
-/* Util: extrai texto seguro */
-const $ = (sel, ctx = document) => ctx.querySelector(sel);
-const text = el => (el && el.textContent || '').trim();
+/* Util: seletor curto + texto seguro */
+const $    = (sel, ctx = document) => ctx.querySelector(sel);
+const text = el => ((el && el.textContent) || '').trim();
 
-/* Form: lê do inquérito */
+/* Normaliza string para comparar disponibilidade sem acentos */
+function norm(s){ return (s||'').toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu,''); }
+
+/* Lê dados do inquérito (fora do modal) */
 function readBookingForm() {
-  const trailSel   = $('#bk-trail');
-  const trail      = trailSel?.options?.[trailSel.selectedIndex]?.text || '—';
-  const people     = $('#bk-people')?.value || '—';
-  const date       = $('#bk-date')?.value || '—';
-  const periodSel  = $('#bk-period');
-  const period     = periodSel?.options?.[periodSel.selectedIndex]?.text || '—';
+  const trailSel  = $('#bk-trail');
+  const trail     = trailSel?.options?.[trailSel.selectedIndex]?.text || '—';
+  const people    = $('#bk-people')?.value || '—';
+  const date      = $('#bk-date')?.value   || '—';
+  const periodSel = $('#bk-period');
+  const period    = periodSel?.options?.[periodSel.selectedIndex]?.text || '—';
 
-  // Estes estão no bloco “Efectuar Reserva” fora do modal (os teus ids).
+  // Estes estão no bloco “Efectuar Reserva” (fora do modal)
   const availability = text($('#rv-availability')) || '—';
   const totalStr     = text($('#rv-total'))      || '—';
   const depositStr   = text($('#rv-deposit'))    || '—';
 
-  return { trail, people, date, period, availability, totalStr, depositStr };
+  // Também devolve o value “cru” do trilho (se precisares da key)
+  const trailValue   = trailSel?.value || '';
+
+  return { trail, trailValue, people, date, period, availability, totalStr, depositStr };
 }
 
-/* Converte “€ 123,45” → 123.45 */
+/* Converte “€ 123,45” → 123.45 (aceita formatos comuns) */
 function parseMoney(str) {
   if (!str || str === '—') return NaN;
-  const s = str.replace(/[^\d,.-]/g,'').replace(/\./g,'').replace(',', '.');
+  const s = String(str).replace(/[^\d,.-]/g,'').replace(/\.(?=\d{3}\b)/g,'').replace(',', '.');
   return parseFloat(s);
 }
 
-/* Atualiza os campos (só leitura) do modal e prepara botão Revolut */
+/* Verifica se a disponibilidade está ok:
+   - badge com data-state="ok" OU
+   - texto contem “dispon” (disponivel, disponibilidade: disponivel, etc.) */
+function isAvailabilityOK() {
+  const badge = $('#rv-availability');
+  if (!badge) return false;
+  const state = badge.dataset.state;
+  if (state && state === 'ok') return true;
+  return /dispon/.test(norm(badge.textContent));
+}
+
+/* Valida o inquérito e bloqueia/desbloqueia o botão “Efectuar reserva” */
+function validateBooking() {
+  const f = readBookingForm();
+  const hasTrail   = f.trail && f.trail !== '—';
+  const hasPeople  = !!(+f.people > 0);
+  const hasDate    = !!f.date && f.date !== '—';
+  const hasPeriod  = f.period && f.period !== '—';
+  const hasAvail   = isAvailabilityOK();
+
+  const ok = hasTrail && hasPeople && hasDate && hasPeriod && hasAvail;
+
+  const openBtn = $('#btn-open-reserve');
+  if (openBtn) openBtn.disabled = !ok;
+
+  return { ok, f };
+}
+
+/* Preenche o modal e prepara link do Revolut */
 function syncReserveSummary(){
-  const refs = readBookingForm();
+  const { f } = validateBooking();
 
-  // preenche modal
-  $('#rv-trail').textContent        = refs.trail;
-  $('#rv-people').textContent       = refs.people;
-  $('#rv-date').textContent         = refs.date;
-  $('#rv-period').textContent       = refs.period;
+  // Campos do modal
+  if ($('#rv-trail'))   $('#rv-trail').textContent   = f.trail   || '—';
+  if ($('#rv-people'))  $('#rv-people').textContent  = f.people  || '—';
+  if ($('#rv-date'))    $('#rv-date').textContent    = f.date    || '—';
+  if ($('#rv-period'))  $('#rv-period').textContent  = f.period  || '—';
 
-  // no modal usei ids diferentes para total/sinal para não chocar com os do bloco
-  const totalNum   = parseMoney(refs.totalStr);
-  const depositNum = parseMoney(refs.depositStr);
+  // Total/sinal: tenta os do modal (#rv-total-m/#rv-deposit-m), senão usa os de fora
+  const totalLabel   = $('#rv-total-m')   || $('#rv-total');
+  const depositLabel = $('#rv-deposit-m') || $('#rv-deposit');
 
-  $('#rv-total-m').textContent   = refs.totalStr || '—';
-  $('#rv-deposit-m').textContent = refs.depositStr || '—';
+  const totalStr   = (totalLabel ? text(totalLabel) : f.totalStr)   || f.totalStr || '—';
+  const depositStr = (depositLabel ? text(depositLabel) : f.depositStr) || f.depositStr || '—';
 
-  // disponibilidade (mostra sempre o que está fora)
-  $('#rv-availability').textContent = refs.availability;
+  if ($('#rv-total-m'))   $('#rv-total-m').textContent   = totalStr;
+  if ($('#rv-deposit-m')) $('#rv-deposit-m').textContent = depositStr;
 
-  // habilitar / desabilitar “Pagar 20%”
+  // Botão pagar 20%
   const payBtn = $('#rv-pay-20');
-  const isAvailable = /dispon/i.test(refs.availability); // “Disponível”, “Disponibilidade: Disponível”, etc.
+  const depositNum = parseMoney(depositStr);
+  const availOK    = isAvailabilityOK();
 
-  if (isFinite(depositNum) && depositNum > 0 && isAvailable) {
-    const url = `${REVOLUT_LINK_BASE}?amount=${depositNum.toFixed(2)}&currency=EUR`;
-    payBtn.setAttribute('href', url);
-    payBtn.removeAttribute('aria-disabled');
-  } else {
-    payBtn.removeAttribute('href');
-    payBtn.setAttribute('aria-disabled', 'true');
+  if (payBtn) {
+    if (isFinite(depositNum) && depositNum > 0 && availOK) {
+      const url = `${REVOLUT_LINK_BASE}?amount=${depositNum.toFixed(2)}&currency=EUR`;
+      payBtn.setAttribute('href', url);
+      payBtn.removeAttribute('aria-disabled');
+    } else {
+      payBtn.removeAttribute('href');
+      payBtn.setAttribute('aria-disabled', 'true');
+    }
   }
 }
 
-/* Botão fechar (o teu script já tem, aqui só garantimos que existe) */
-$('#rv-close-2')?.addEventListener('click', () => {
+/* Abre modal se válido, senão bloqueia */
+function openReserveModal(e){
+  const { ok } = validateBooking();
+  if (!ok) { e?.preventDefault?.(); return; }
+  syncReserveSummary();
   const modal = $('#rv-modal');
-  modal.style.display = 'none';
-  document.body.classList.remove('modal-open');
+  if (modal) {
+    modal.style.display = 'flex';
+    document.body.classList.add('modal-open');
+  }
+}
+
+/* Fecha modal (X e botão ghost) */
+function closeReserveModal(){
+  const modal = $('#rv-modal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.classList.remove('modal-open');
+  }
+}
+
+/* ===== Ligações ===== */
+['#bk-trail','#bk-people','#bk-date','#bk-period','#rv-availability'].forEach(sel=>{
+  const el = $(sel);
+  if (!el) return;
+  ['change','input'].forEach(evt=> el.addEventListener(evt, validateBooking));
 });
+
+// Abre/fecha
+$('#btn-open-reserve')?.addEventListener('click', openReserveModal);
+$('#rv-close')?.addEventListener('click', closeReserveModal);
+$('#rv-close-2')?.addEventListener('click', closeReserveModal);
+// Fecha ao clicar no backdrop
+$('#rv-modal')?.addEventListener('click', (ev)=>{ if(ev.target === ev.currentTarget) closeReserveModal(); });
+
+// Valida ao carregar
+validateBooking();
+
 </script>
 
 
