@@ -1167,16 +1167,6 @@ a[aria-disabled="true"] {
   color:#8c1f1f;
   box-shadow: inset 0 0 0 2px rgba(220,70,70,.14);
 }
-/* Corrige alinhamento da disponibilidade */
-.reserve-field .availability-inline {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 0;              /* remove espaço acima */
-  margin-left: 16px;          /* empurra um pouco para dentro */
-  position: relative;
-  top: -70px;                 /* sobe para a altura da data */
-}
 
 /* Ajusta o tamanho da badge */
 .availability-badge {
@@ -2310,94 +2300,7 @@ if(bookingForm){
 }
 </script>
 <script>
-/* ===== GOOGLE CALENDAR → bloquear datas ocupadas ===== */
 
-(() => {
-  // 1) CONFIGURAÇÃO
-  const calendarId = 'hortawithcesar@gmail.com';     // teu calendário
-  const apiKey     = 'AIzaSyBJ79Q2R7X7tpzr8XnY3VCBcu6i45Cujc8'; // <— substitui aqui
-
-  // tenta apanhar o input da data (ajusta se o teu id for outro)
-  const dateInput =
-    document.querySelector('#date_from') ||
-    document.querySelector('#data') ||
-    document.querySelector('#date');
-
-  if (!dateInput) {
-    console.warn('⚠️ Campo de data não encontrado. Ajusta o seletor no script.');
-    return;
-  }
-
-  // 2) AJUSTES: mínimo hoje, máximo +6 meses
-  const today = new Date();
-  const pad  = n => String(n).padStart(2, '0');
-  const ymd  = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
-
-  dateInput.min = ymd(today);
-  const max = new Date(); max.setMonth(max.getMonth()+6);
-  dateInput.max = ymd(max);
-
-  // 3) Utilitários de datas
-  const toLocalDate = isoStr => {
-    // recebe "YYYY-MM-DD" ou "YYYY-MM-DDTHH:mm:ssZ"
-    const d = isoStr.length > 10 ? new Date(isoStr) : new Date(isoStr + 'T00:00:00');
-    return ymd(d);
-  };
-
-  const eachDateInclusive = (startISO, endISOExclusive) => {
-    // Google Calendar fornece 'end' EXCLUSIVO → recuamos 1 dia
-    const start = new Date(startISO.length>10 ? startISO : startISO + 'T00:00:00');
-    const end   = new Date((endISOExclusive.length>10 ? endISOExclusive : endISOExclusive + 'T00:00:00'));
-    end.setDate(end.getDate()-1); // exclusivo → torna inclusivo
-
-    const out = [];
-    for (let d = new Date(start); d <= end; d.setDate(d.getDate()+1)) {
-      out.push(ymd(d));
-    }
-    return out;
-  };
-
-  // 4) Vai buscar eventos ocupados ao Google Calendar
-  async function fetchBusySet() {
-    const timeMin = new Date(today.getFullYear(), today.getMonth(), today.getDate()).toISOString();
-    const timeMax = new Date(max.getFullYear(), max.getMonth(), max.getDate()+1).toISOString();
-
-    const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events`
-      + `?key=${encodeURIComponent(apiKey)}`
-      + `&timeMin=${encodeURIComponent(timeMin)}`
-      + `&timeMax=${encodeURIComponent(timeMax)}`
-      + `&singleEvents=true&orderBy=startTime`;
-
-    const res  = await fetch(url);
-    if (!res.ok) {
-      console.error('Erro a ler Calendar API:', await res.text());
-      return new Set();
-    }
-    const data = await res.json();
-
-    const busy = new Set();
-    for (const ev of (data.items || [])) {
-      const start = ev.start?.date || ev.start?.dateTime;
-      const end   = ev.end?.date   || ev.end?.dateTime;
-      if (!start || !end) continue;
-
-      // eventos "all-day" ou por horas → marcam o(s) dia(s)
-      for (const day of eachDateInclusive(start, end)) {
-        busy.add(day);
-      }
-    }
-    return busy;
-  }
-
-  // 5) Liga validação ao input
-  (async () => {
-    const busy = await fetchBusySet();
-
-  
-      }
-    });
-  })();
-})();
 </script>
 <script>
 /* ===== Disponibilidade por blocos (manhã/tarde) via Google Calendar ===== */
@@ -2676,11 +2579,10 @@ $date && $date.addEventListener('change', checkAvailability);
 })();
 </script>
 <!-- ===== Modal: Efectuar Reserva ===== -->
-<div id="rv-modal"
-  <div class="modal-backdrop">
-  <div class="modal box">
+<div id="rv-modal" class="modal-backdrop" style="display:none">
+  <div class="modal box" role="dialog" aria-modal="true" aria-labelledby="rv-title">
     <header class="modal__header">
-      <h3 class="h3">Resumo da reserva</h3>
+      <h3 id="rv-title" class="h3">Resumo da reserva</h3>
       <button id="rv-close" class="close-x" aria-label="Fechar">×</button>
     </header>
 
@@ -2706,8 +2608,6 @@ $date && $date.addEventListener('change', checkAvailability);
           <div id="rv-period" class="rv-read">—</div>
         </div>
 
-        
-
         <div class="reserve-field reserve-field--full">
           <label>Total estimado</label>
           <div id="rv-total-m" class="amount">—</div>
@@ -2715,30 +2615,29 @@ $date && $date.addEventListener('change', checkAvailability);
         </div>
 
         <div class="reserve-field reserve-field--full">
-  <label>Confirmar Reserva</label>
-  <div id="rv-deposit" class="amount amount-accent">—</div>
-  <small class="muted">Deduzido ao valor final. <a href="#politica-cancelamento" class="link" id="open-cancel-policy">
-    Política de Cancelamento
-  </small>
-</div>
+          <label>Sinal 20%</label>
+          <div id="rv-deposit-m" class="amount amount-accent">—</div>
+          <small class="muted">
+            Deduzido ao valor final. <a href="#politica-cancelamento" class="link" id="open-cancel-policy">Política de Cancelamento</a>.
+          </small>
+        </div>
+      </div>
+    </div>
 
-<footer class="modal__footer actions">
-  <a id="rv-pay"
-     class="btn btn-primary"
-     href="#"
-     target="_blank"
-     rel="noopener"
-     aria-disabled="true">Pagar sinal 20%</a>
+    <footer class="modal__footer actions">
+      <a id="rv-pay-20"
+         class="btn btn-primary"
+         href="#"
+         target="_blank"
+         rel="noopener"
+         aria-disabled="true">Pagar sinal 20%</a>
 
-  <button id="rv-close-2"
-          class="btn btn-ghost"
-          type="button">Fechar</button>
-</footer>
-
+      <button id="rv-close-2" class="btn btn-ghost" type="button">Fechar</button>
     </footer>
   </div>
 </div>
 <!-- ===== /Modal ===== -->
+
 <script>
 (() => {
   const $ = (sel, ctx=document) => ctx.querySelector(sel);
@@ -2766,22 +2665,38 @@ $date && $date.addEventListener('change', checkAvailability);
   function textOrDash(el){ return el && el.value ? el.value : '—'; }
 
   function syncReserveSummary(){
-    $('#rv-trail').textContent  = $('#bk-trail')?.selectedOptions?.[0]?.textContent || '—';
-    $('#rv-people').textContent = textOrDash($('#bk-people'));
-    $('#rv-date').textContent   = textOrDash($('#bk-date'));
-    $('#rv-period').textContent = $('#bk-period')?.selectedOptions?.[0]?.textContent || '—';
-    $('#rv-availability').textContent = $('#bk-availability')?.textContent?.trim() || '—';
+  // lê infos fora do modal
+  const getText = sel => (document.querySelector(sel)?.textContent || '—').trim();
+  const trail   = getText('#rv-trail')   || (document.querySelector('#trail')?.value || '—');
+  const people  = document.querySelector('#people')?.value || getText('#rv-people') || '—';
+  const date    = document.querySelector('#date_from')?.value || getText('#rv-date') || '—';
+  const period  = document.querySelector('#period')?.selectedOptions?.[0]?.text || getText('#rv-period') || '—';
 
-    if (typeof calcTotal === 'function' && typeof calcDeposit === 'function') {
-      const total = calcTotal();
-      const dep   = calcDeposit(total);
-      $('#rv-total').textContent   = total ? total : '—';
-      $('#rv-deposit').textContent = dep   ? dep   : '—';
-    } else {
-      $('#rv-total').textContent   = '—';
-      $('#rv-deposit').textContent = '—';
-    }
+  // escreve no modal
+  document.querySelector('#rv-trail').textContent  = trail;
+  document.querySelector('#rv-people').textContent = people;
+  document.querySelector('#rv-date').textContent   = date;
+  document.querySelector('#rv-period').textContent = period;
+
+  const totalStr   = getText('#rv-total')   || '—';
+  const depositStr = getText('#rv-deposit') || '—';
+  document.querySelector('#rv-total-m').textContent   = totalStr;
+  document.querySelector('#rv-deposit-m').textContent = depositStr;
+
+  // prepara Revolut
+  const payBtn = document.querySelector('#rv-pay-20');
+  const depNum = parseFloat(depositStr.replace(/[^\d,.-]/g,'').replace('.', '').replace(',', '.'));
+  const availOK = /dispon/i.test(getText('#rv-availability'));
+  if (isFinite(depNum) && depNum > 0 && availOK) {
+    const url = `https://revolut.me/hortawithcesar?amount=${depNum.toFixed(2)}&currency=EUR`;
+    payBtn.setAttribute('href', url);
+    payBtn.removeAttribute('aria-disabled');
+  } else {
+    payBtn.removeAttribute('href');
+    payBtn.setAttribute('aria-disabled', 'true');
   }
+}
+
 
   $('#rv-send')?.addEventListener('click', () => {
     $('#booking-form')?.requestSubmit?.();
