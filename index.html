@@ -1180,6 +1180,17 @@ a[aria-disabled="true"] {
   font-weight: 600;
   color: #0b3d91;
 }
+/* Alinha a caixa de disponibilidade com a coluna da data */
+.reserve-field .availability-inline {
+  margin-left: 260px;   /* empurra para a direita */
+  margin-top: -10px;    /* ligeiro ajuste vertical opcional */
+}
+@media (max-width: 900px) {
+  .reserve-field .availability-inline {
+    margin-left: 0;   /* volta ao normal em ecrãs pequenos */
+    margin-top: 0;
+  }
+}
 
   </style>
 </head>
