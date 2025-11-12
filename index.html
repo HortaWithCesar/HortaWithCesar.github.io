@@ -970,6 +970,88 @@ body.modal-open{ overflow:hidden; }
   padding: 4px 0 !important;   /* espaço mínimo */
   text-align: center;
 }
+/* ===== EFECTUAR RESERVA – layout */
+.booking-box { 
+  margin-top: 24px; 
+}
+
+.h2 { 
+  font-size: 28px; 
+  margin: 12px 0 16px; 
+}
+
+.reserve-grid {
+  display:grid;
+  grid-template-columns: repeat(5,1fr);
+  gap:16px;
+  margin: 8px 0 18px;
+}
+@media (max-width: 1000px){
+  .reserve-grid{ grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px){
+  .reserve-grid{ grid-template-columns: 1fr; }
+}
+
+.reserve-field label{
+  display:block; 
+  font-weight:700; 
+  margin:0 0 6px;
+}
+.rv-read{
+  background:#fff; 
+  border:1px solid var(--line, #cfe8fb); 
+  border-radius:12px; 
+  padding:12px 14px;
+}
+
+.tag{
+  display:inline-block; 
+  padding:8px 12px; 
+  border-radius:999px; 
+  font-weight:700;
+}
+.tag-muted{ background: #eef7ff; color:#2a5a7a; }
+.tag-ok    { background: #e6fbef; color:#237a4a; }
+.tag-warn  { background: #fff5e6; color:#8a5a00; }
+.tag-bad   { background: #ffe9e9; color:#8a1a1a; }
+
+.price-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:18px;
+  margin: 4px 0 12px;
+}
+@media (max-width: 640px){
+  .price-grid{ grid-template-columns:1fr; }
+}
+.amount{
+  background:#fff; 
+  border:1px solid var(--line, #cfe8fb); 
+  border-radius:16px; 
+  padding:18px; 
+  font-weight:800; 
+  font-size:26px;
+}
+.amount-accent{
+  border-color:#bde5c8; 
+  background: #f6fffa;
+}
+.note{ color:#6c7e8b; font-size:12px; }
+
+.reserve-actions{
+  display:flex; 
+  justify-content:flex-start; 
+  margin: 14px 0 6px; 
+  gap:12px;
+}
+.btn[disabled]{ 
+  opacity:.5; 
+  cursor:not-allowed;
+}
+
+/* Pequena melhoria: alinha a caixinha de disponibilidade */
+.reserve-availability .tag{ min-width: 140px; text-align:center; }
 
 
   </style>
@@ -1575,50 +1657,66 @@ body.modal-open{ overflow:hidden; }
       <button class="btn btn-primary" type="submit">Enviar pedido</button>
   
     </div>
-    <!-- RESERVAS -->
-<section id="booking" class="wrap booking">
-  <h2>Reserva</h2>
+  <!-- ===== EFECTUAR RESERVA (único bloco) ===== -->
+<section id="effectuar-reserva" class="booking-box">
+  <h2 class="h2">Efectuar Reserva</h2>
 
-<form id="booking-form" class="booking-form" onsubmit="return false;">
-  <label for="bk-trail">Escolhe o trilho</label>
-  <select id="bk-trail" name="trail" required>
-    <option value="" selected disabled>— selecionar —</option>
-
-    <option value="city-walk">City Walk — Horta a pé</option>
-    <option value="entre-montes">Entre Montes (Horta)</option>
-    <option value="neptuno">Miradouro do Neptuno</option>
-    <option value="caldeira-perimetro">Caldeira — perímetro</option>
-    <option value="caldeira-descida">Caldeira Descida • Santuário da fauna local</option>
-    <option value="rocha-faja">Rocha da Fajã</option>
-    <option value="ribeirinha">Farol da Ribeirinha</option>
-    <option value="levadas-trinta">Levadas ao Cabeço dos Trinta</option>
-    <option value="capelo-capelinhos">Capelo → Capelinhos</option>
-    <option value="braca">Miradouro da Braça</option>
-  </select>
-</form>
-
-
-
-    <!-- Pessoas -->
-    <label>Número de pessoas</label>
-    <input id="bk-people" type="number" min="1" value="2" required>
-
-    <!-- Data -->
-    <label>Data</label>
-    <input id="bk-date" type="date" required>
-    <div id="bk-availability" class="muted" style="margin-top:6px">Disponibilidade: —</div>
-
-    <!-- Preview de preços -->
-    <div id="bk-preview" class="muted" style="margin-top:10px">Total: — • Sinal (20%): —</div>
-
-    <!-- Ações -->
-    <div class="booking-actions" style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap">
-      <button id="bk-pay" class="btn btn-primary" disabled>Pagar sinal 20%</button>
+  <!-- Info dinâmica (lê os campos do formulário de cima) -->
+  <div class="reserve-grid">
+    <div class="reserve-field">
+      <label>Trilho escolhido</label>
+      <div id="rv-trail" class="rv-read">—</div>
     </div>
 
-    <small class="muted">O sinal é deduzido ao valor final. Reembolso total até 48h antes.</small>
-  </form>
+    <div class="reserve-field">
+      <label>Nº de pessoas</label>
+      <div id="rv-pax" class="rv-read">—</div>
+    </div>
+
+    <div class="reserve-field">
+      <label>Data</label>
+      <div id="rv-date" class="rv-read">—</div>
+    </div>
+
+    <div class="reserve-field">
+      <label>Período</label>
+      <div id="rv-slot" class="rv-read">—</div>
+    </div>
+
+    <div class="reserve-field reserve-availability">
+      <label>Disponibilidade</label>
+      <div id="rv-availability" class="tag tag-muted">—</div>
+    </div>
+  </div>
+
+  <!-- Preços -->
+  <div class="price-grid">
+    <div>
+      <label>Total estimado</label>
+      <div class="amount">
+        <span id="rv-total">—</span>
+      </div>
+      <small class="note">Valor calculado com base no trilho e nº de pessoas. Poderá ajustar consoante logística.</small>
+    </div>
+
+    <div>
+      <label>Sinal 20%</label>
+      <div class="amount amount-accent">
+        <span id="rv-deposit">—</span>
+      </div>
+      <small class="note">Deduzido ao valor final. Reembolso total até 48h antes.</small>
+    </div>
+  </div>
+
+  <div class="reserve-actions">
+    <button id="btn-pay-20" class="btn btn-primary" disabled>Pagar sinal 20%</button>
+  </div>
+
+  <p class="legal-note">
+    Ao avançar concorda com as <a href="#politica-privacidade">Condições e Política de Privacidade</a>.
+  </p>
 </section>
+
 
   </form>
 </section>
@@ -2329,6 +2427,153 @@ async function checkAvailability(){
 
 // liga nos teus listeners já existentes
 $date && $date.addEventListener('change', checkAvailability);
+</script>
+<script>
+(() => {
+  // ===== 1) Mapeia os elementos do teu formulário de cima =====
+  const elTrail  = document.querySelector('#bk-trail');   // select do trilho (o teu ID)
+  const elPax    = document.querySelector('#bk-pax, #nPessoas, [name="pax"], [name="pessoas"]') 
+                  || { value: '' };
+  const elDate   = document.querySelector('#bk-date, #date, [name="date"]') 
+                  || { value: '' };
+  const elSlot   = document.querySelector('#bk-slot, #periodo, [name="slot"]') 
+                  || { value: '' };
+
+  // Campos de leitura (bloco "Efectuar Reserva")
+  const outTrail = document.querySelector('#rv-trail');
+  const outPax   = document.querySelector('#rv-pax');
+  const outDate  = document.querySelector('#rv-date');
+  const outSlot  = document.querySelector('#rv-slot');
+
+  // Disponibilidade e valores
+  const outAvail = document.querySelector('#rv-availability');
+  const outTotal = document.querySelector('#rv-total');
+  const outDepos = document.querySelector('#rv-deposit');
+
+  const btnPay   = document.querySelector('#btn-pay-20');
+
+  // ===== 2) Tabela fallback (se não encontrar nos cartões) =====
+  // Ajusta conforme a tua "Tabela de preços Trilhos 2026"
+  const priceTable = {
+    'city-walk'     : 25,  // exemplo
+    'entre-montes'  : 35,
+    'neptuno'       : 30,
+    'caldeira-circ' : 45,  // Caldeira perímetro
+    'caldeira-desc' : 55   // Caldeira descida
+  };
+
+  // ===== 3) Localiza preço por pessoa a partir dos próprios cartões de trilho =====
+  function getTrailPrice(trailId){
+    if(!trailId) return null;
+    // tenta achar no DOM um card com data-trail e data-price
+    const card = document.querySelector(`[data-trail="${trailId}"]`);
+    if(card && card.dataset && card.dataset.price){
+      const p = parseFloat(card.dataset.price);
+      if(!isNaN(p)) return p;
+    }
+    // fallback
+    return priceTable[trailId] ?? null;
+  }
+
+  // ===== 4) Helpers =====
+  const money = v => (isNaN(v) ? '—' : `${v.toFixed(2)} €`);
+
+  function setAvailability(state){
+    // state: 'ok-manha', 'ok-tarde', 'indisponivel', 'desconhecido'
+    outAvail.classList.remove('tag-ok','tag-warn','tag-bad','tag-muted');
+    switch (state){
+      case 'ok-manha':
+        outAvail.textContent = 'Disponível de manhã';
+        outAvail.classList.add('tag','tag-ok');
+        break;
+      case 'ok-tarde':
+        outAvail.textContent = 'Disponível à tarde';
+        outAvail.classList.add('tag','tag-ok');
+        break;
+      case 'indisponivel':
+        outAvail.textContent = 'Indisponível';
+        outAvail.classList.add('tag','tag-bad');
+        break;
+      default:
+        outAvail.textContent = '—';
+        outAvail.classList.add('tag','tag-muted');
+    }
+  }
+
+  // ===== 5) Calcula e atualiza UI =====
+  function refreshUI(){
+    // espelha os campos de cima
+    const trailId = (elTrail?.value || '').trim();
+    const trailTxt = elTrail?.options?.[elTrail.selectedIndex]?.text || '—';
+    const pax   = parseInt(elPax?.value || '0', 10);
+    const date  = (elDate?.value || '').trim();
+    const slot  = (elSlot?.value || '').trim();
+
+    outTrail.textContent = trailTxt || '—';
+    outPax.textContent   = pax ? String(pax) : '—';
+    outDate.textContent  = date || '—';
+    outSlot.textContent  = slot || '—';
+
+    // preço
+    const pp = getTrailPrice(trailId);
+    const total  = (pp && pax > 0) ? (pp * pax) : NaN;
+    const deposit = isNaN(total) ? NaN : total * 0.20;
+
+    outTotal.textContent = money(total);
+    outDepos.textContent = money(deposit);
+
+    // Disponibilidade — aqui liga ao teu script do Calendar se já tens a info:
+    // EXEMPLO simples: se não há data ou slot, ainda não se sabe
+    if(!date || !slot){
+      setAvailability('desconhecido');
+    } else {
+      // Se tens uma função global que já apura disponibilidade, chama-a.
+      // Ex.: window.checkSlot(date, slot) -> 'ok' | 'no'
+      if (typeof window.checkSlot === 'function'){
+        const st = window.checkSlot(date, slot); // devolve 'ok' | 'no' | 'maybe'
+        if (st === 'ok')      setAvailability(slot === 'manhã' ? 'ok-manha' : 'ok-tarde');
+        else if (st === 'no') setAvailability('indisponivel');
+        else                  setAvailability('desconhecido');
+      } else {
+        // até ligares ao Calendar, assume "desconhecido"
+        setAvailability('desconhecido');
+      }
+    }
+
+    // desbloqueia botão se tiver tudo válido
+    const canPay = (
+      !!trailId &&
+      pax > 0 &&
+      !!date &&
+      !!slot &&
+      !isNaN(total) &&
+      total > 0
+    );
+    btnPay.disabled = !canPay;
+  }
+
+  // ===== 6) Listeners nos campos do formulário de cima =====
+  ['change','input'].forEach(ev=>{
+    elTrail?.addEventListener(ev, refreshUI);
+    elPax?.addEventListener(ev, refreshUI);
+    elDate?.addEventListener(ev, refreshUI);
+    elSlot?.addEventListener(ev, refreshUI);
+  });
+
+  // ===== 7) Click “Pagar sinal 20%” – aqui integras o link Revolut/checkout =====
+  btnPay.addEventListener('click', () => {
+    // Podes construir a referência para o pagamento (ex.: nome+data+trilho)
+    const trailTxt = outTrail.textContent.trim();
+    const dep = outDepos.textContent.replace(' €','');
+    // TODO: integrar com Revolut Checkout ou Payment Link gerado dinamicamente.
+    // Por agora, só damos um feedback.
+    alert(`A avançar para pagamento do sinal (${dep} €) para: ${trailTxt}.`);
+    // window.location.href = 'URL_DO_CHECKOUT_REVOLUT?amount=...&reference=...';
+  });
+
+  // arranque
+  refreshUI();
+})();
 </script>
 
 
