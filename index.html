@@ -1575,6 +1575,51 @@ body.modal-open{ overflow:hidden; }
       <button class="btn btn-primary" type="submit">Enviar pedido</button>
   
     </div>
+    <!-- RESERVAS -->
+<section id="booking" class="wrap booking">
+  <h2>Reserva</h2>
+
+<form id="booking-form" class="booking-form" onsubmit="return false;">
+  <label for="bk-trail">Escolhe o trilho</label>
+  <select id="bk-trail" name="trail" required>
+    <option value="" selected disabled>— selecionar —</option>
+
+    <option value="city-walk">City Walk — Horta a pé</option>
+    <option value="entre-montes">Entre Montes (Horta)</option>
+    <option value="neptuno">Miradouro do Neptuno</option>
+    <option value="caldeira-perimetro">Caldeira — perímetro</option>
+    <option value="caldeira-descida">Caldeira Descida • Santuário da fauna local</option>
+    <option value="rocha-faja">Rocha da Fajã</option>
+    <option value="ribeirinha">Farol da Ribeirinha</option>
+    <option value="levadas-trinta">Levadas ao Cabeço dos Trinta</option>
+    <option value="capelo-capelinhos">Capelo → Capelinhos</option>
+    <option value="braca">Miradouro da Braça</option>
+  </select>
+</form>
+
+
+
+    <!-- Pessoas -->
+    <label>Número de pessoas</label>
+    <input id="bk-people" type="number" min="1" value="2" required>
+
+    <!-- Data -->
+    <label>Data</label>
+    <input id="bk-date" type="date" required>
+    <div id="bk-availability" class="muted" style="margin-top:6px">Disponibilidade: —</div>
+
+    <!-- Preview de preços -->
+    <div id="bk-preview" class="muted" style="margin-top:10px">Total: — • Sinal (20%): —</div>
+
+    <!-- Ações -->
+    <div class="booking-actions" style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap">
+      <button id="bk-pay" class="btn btn-primary" disabled>Pagar sinal 20%</button>
+    </div>
+
+    <small class="muted">O sinal é deduzido ao valor final. Reembolso total até 48h antes.</small>
+  </form>
+</section>
+
   </form>
 </section>
 
@@ -1965,6 +2010,92 @@ function openPrivacy() {
 function closePrivacy() {
   document.getElementById('privacyModal').classList.remove('open');
   document.body.classList.remove('modal-open');
+}
+</script>
+<script>
+/* ===== Tabela de Preços Trilhos 2026 =====
+   (conforme .data-trail e documento oficial) */
+
+const PRICE_TABLE = {
+  "City Walk • Horta a pé":             { type: "perPerson", tiers: [ { max:4, price:30 },  ] },
+  "Entre Montes (Horta)":               { type: "perPerson", tiers: [ { max:4, price:40 }, { max:99, price:45 } ] },
+  "Caldeira Descida • Santuário da fauna local": { type: "perGroup", tiers: [ { max:4, price:130 }, { max:99, price:90 } ] },
+  "Caldeira — perímetro":               { type: "perPerson", tiers: [ { max:4, price:90 }, { max:99, price:75 } ] },
+  "Rocha da Fajã":                      { type: "perPerson", tiers: [ { max:4, price:90 }, { max:99, price:75 } ] },
+  "Farol da Ribeirinha":                { type: "perPerson", tiers: [ { max:4, price:90 }, { max:99, price:85 } ] },
+  "Levadas ao Cabeço dos Trinta":       { type: "perPerson", tiers: [ { max:4, price:150 }, { max:99, price:120 } ] },
+  "Capelo → Capelinhos ":               { type: "perPerson", tiers: [ { max:4, price:100 }, { max:99, price:90 } ] },
+  "Miradouro do Neptuno":               { type: "perPerson", tiers: [ { max:4, price:35 }, { max:99, price:35 } ] },
+  "Miradouro da Braça":                 { type: "perPerson", tiers: [ { max:4, price:90 }, { max:99, price:75 } ] }
+};
+
+const DEPOSIT_RATE = 0.20; // 20%
+const MIN_DEPOSIT  = 10;   // sinal mínimo
+
+function getPrice(trail, people){
+  const data = PRICE_TABLE[trail];
+  if(!data){ return { onRequest:true }; }
+
+  // encontrar tier correta
+  const t = data.tiers.find(x => people <= x.max) || data.tiers.at(-1);
+  const total = (data.type === "perGroup") ? t.price : (t.price * people);
+  const deposit = Math.max(MIN_DEPOSIT, +(total * DEPOSIT_RATE).toFixed(2));
+  return { total, deposit, unit: t.price, onRequest:false };
+}
+
+function eur(v){ return v == null ? "—" : v.toLocaleString('pt-PT',{style:'currency',currency:'EUR'}); }
+
+/* ===== Integração com formulário de reserva ===== */
+const bookingForm = document.querySelector('.reserve-form');
+if(bookingForm){
+  const trailInput = bookingForm.querySelector('#trail');
+  const peopleInput = bookingForm.querySelector('#people');
+  const dateInput = bookingForm.querySelector('#date_from');
+
+  const preview = document.createElement('div');
+  preview.id = 'price-preview';
+  preview.style.cssText = "margin-top:8px;font-weight:600;color:var(--brand)";
+  bookingForm.insertBefore(preview, bookingForm.querySelector('.reserve-actions'));
+
+  function updatePreview(){
+    const trail = trailInput.value.trim();
+    const people = parseInt(peopleInput.value || "1",10);
+    if(!trail || !PRICE_TABLE[trail]){ preview.textContent = "—"; return; }
+
+    const r = getPrice(trail, people);
+    if(r.onRequest){
+      preview.textContent = "Preço sob consulta. Pede orçamento no WhatsApp.";
+      return;
+    }
+    preview.textContent = `Total: ${eur(r.total)} • Sinal (20%): ${eur(r.deposit)}`;
+  }
+
+  peopleInput.addEventListener('input', updatePreview);
+  trailInput.addEventListener('input', updatePreview);
+  updatePreview();
+
+  /* Botão pagar sinal */
+  const payBtn = document.createElement('button');
+  payBtn.type = 'button';
+  payBtn.className = 'btn btn-primary';
+  payBtn.textContent = 'Pagar sinal (20%)';
+  bookingForm.querySelector('.reserve-actions').prepend(payBtn);
+
+  payBtn.addEventListener('click', ()=>{
+    const trail = trailInput.value.trim();
+    const people = parseInt(peopleInput.value || "1",10);
+    const date = dateInput.value;
+    const r = getPrice(trail, people);
+
+    if(r.onRequest){
+      const msg = encodeURIComponent(`Olá César! Quero reservar ${trail}, data ${date}, ${people} pessoas. Preço sob consulta.`);
+      window.open(`https://wa.me/351968750436?text=${msg}`,'_blank');
+      return;
+    }
+
+    const msg = encodeURIComponent(`Olá César! Quero confirmar a reserva de ${trail} para ${people} pessoa(s) em ${date}. Total ${eur(r.total)} · Sinal (20%): ${eur(r.deposit)}. Podes enviar o link de pagamento Revolut?`);
+    window.open(`https://wa.me/351968750436?text=${msg}`,'_blank');
+  });
 }
 </script>
 
