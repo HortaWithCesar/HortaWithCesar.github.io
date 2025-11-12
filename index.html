@@ -2098,6 +2098,109 @@ if(bookingForm){
   });
 }
 </script>
+<script>
+/* ===== GOOGLE CALENDAR → bloquear datas ocupadas ===== */
+
+(() => {
+  // 1) CONFIGURAÇÃO
+  const calendarId = 'hortawithcesar@gmail.com';     // teu calendário
+  const apiKey     = 'AIzaSyBJ79Q2R7X7tpzr8XnY3VCBcu6i45Cujc8'; // <— substitui aqui
+
+  // tenta apanhar o input da data (ajusta se o teu id for outro)
+  const dateInput =
+    document.querySelector('#date_from') ||
+    document.querySelector('#data') ||
+    document.querySelector('#date');
+
+  if (!dateInput) {
+    console.warn('⚠️ Campo de data não encontrado. Ajusta o seletor no script.');
+    return;
+  }
+
+  // 2) AJUSTES: mínimo hoje, máximo +6 meses
+  const today = new Date();
+  const pad  = n => String(n).padStart(2, '0');
+  const ymd  = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+
+  dateInput.min = ymd(today);
+  const max = new Date(); max.setMonth(max.getMonth()+6);
+  dateInput.max = ymd(max);
+
+  // 3) Utilitários de datas
+  const toLocalDate = isoStr => {
+    // recebe "YYYY-MM-DD" ou "YYYY-MM-DDTHH:mm:ssZ"
+    const d = isoStr.length > 10 ? new Date(isoStr) : new Date(isoStr + 'T00:00:00');
+    return ymd(d);
+  };
+
+  const eachDateInclusive = (startISO, endISOExclusive) => {
+    // Google Calendar fornece 'end' EXCLUSIVO → recuamos 1 dia
+    const start = new Date(startISO.length>10 ? startISO : startISO + 'T00:00:00');
+    const end   = new Date((endISOExclusive.length>10 ? endISOExclusive : endISOExclusive + 'T00:00:00'));
+    end.setDate(end.getDate()-1); // exclusivo → torna inclusivo
+
+    const out = [];
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate()+1)) {
+      out.push(ymd(d));
+    }
+    return out;
+  };
+
+  // 4) Vai buscar eventos ocupados ao Google Calendar
+  async function fetchBusySet() {
+    const timeMin = new Date(today.getFullYear(), today.getMonth(), today.getDate()).toISOString();
+    const timeMax = new Date(max.getFullYear(), max.getMonth(), max.getDate()+1).toISOString();
+
+    const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events`
+      + `?key=${encodeURIComponent(apiKey)}`
+      + `&timeMin=${encodeURIComponent(timeMin)}`
+      + `&timeMax=${encodeURIComponent(timeMax)}`
+      + `&singleEvents=true&orderBy=startTime`;
+
+    const res  = await fetch(url);
+    if (!res.ok) {
+      console.error('Erro a ler Calendar API:', await res.text());
+      return new Set();
+    }
+    const data = await res.json();
+
+    const busy = new Set();
+    for (const ev of (data.items || [])) {
+      const start = ev.start?.date || ev.start?.dateTime;
+      const end   = ev.end?.date   || ev.end?.dateTime;
+      if (!start || !end) continue;
+
+      // eventos "all-day" ou por horas → marcam o(s) dia(s)
+      for (const day of eachDateInclusive(start, end)) {
+        busy.add(day);
+      }
+    }
+    return busy;
+  }
+
+  // 5) Liga validação ao input
+  (async () => {
+    const busy = await fetchBusySet();
+
+    // dica inline opcional
+    const hint = document.createElement('small');
+    hint.style.display = 'block';
+    hint.style.marginTop = '6px';
+    hint.style.opacity = '0.8';
+    hint.textContent = 'Datas já reservadas serão rejeitadas ao selecionar.';
+    dateInput.insertAdjacentElement('afterend', hint);
+
+    dateInput.addEventListener('change', () => {
+      const sel = dateInput.value;
+      if (busy.has(sel)) {
+        alert('Essa data já está reservada. Por favor escolhe outra data.');
+        dateInput.value = '';
+        dateInput.focus();
+      }
+    });
+  })();
+})();
+</script>
 
 
 
