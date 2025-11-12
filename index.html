@@ -2201,6 +2201,135 @@ if(bookingForm){
   })();
 })();
 </script>
+<script>
+/* ===== Disponibilidade por blocos (manhã/tarde) via Google Calendar ===== */
+/* Requer: calendário público (livre/ocupado) + API key restrita ao teu domínio */
+
+const GCAL_ID  = 'hortawithcesar@gmail.com';        // teu calendário
+const GCAL_KEY = 'AIzaSyBJ79Q2R7X7tpzr8XnY3VCBcu6i45Cujc8'; // <-- substitui pela nova chave
+
+// elementos já existentes no teu formulário
+const $date = document.getElementById('bk-date') || document.getElementById('date_from') || document.getElementById('date');
+const $avail = document.getElementById('bk-availability');
+const $pay = document.getElementById('bk-pay');
+
+// (ajusta aqui os teus horários de trabalho se quiseres)
+const MORNING = { hStart: 8,  hEnd: 12 };  // 08:00–12:00
+const AFTERNOON = { hStart: 14, hEnd: 18 }; // 14:00–18:00
+
+function ymd(d){ const p=n=>String(n).padStart(2,'0'); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`; }
+function toISOAt(d, h=0, m=0, s=0){
+  const x = new Date(d.getFullYear(), d.getMonth(), d.getDate(), h, m, s);
+  return x.toISOString();
+}
+
+// verifica sobreposição entre [a1,a2) e [b1,b2)
+function overlaps(aStart, aEnd, bStart, bEnd){
+  return aStart < bEnd && bStart < aEnd;
+}
+
+async function fetchDayEvents(yyyy_mm_dd){
+  // janela do dia: [00:00, 24:00) hora local
+  const [Y,M,D] = yyyy_mm_dd.split('-').map(Number);
+  const day = new Date(Y, M-1, D);
+  const timeMin = toISOAt(day, 0, 0, 0);
+  const endDay = new Date(Y, M-1, D+1);
+  const timeMax = endDay.toISOString();
+
+  const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(GCAL_ID)}/events`
+    + `?key=${encodeURIComponent(GCAL_KEY)}`
+    + `&timeMin=${encodeURIComponent(timeMin)}`
+    + `&timeMax=${encodeURIComponent(timeMax)}`
+    + `&singleEvents=true&orderBy=startTime`;
+
+  const res = await fetch(url);
+  if(!res.ok){ console.error('Calendar API', await res.text()); return []; }
+  const data = await res.json();
+  return data.items || [];
+}
+
+// devolve { morningFree, afternoonFree, allDayBusy }
+async function checkDaySlots(yyyy_mm_dd){
+  const events = await fetchDayEvents(yyyy_mm_dd);
+
+  // intervalos do dia alvo
+  const [Y,M,D] = yyyy_mm_dd.split('-').map(Number);
+  const day = new Date(Y, M-1, D);
+  const morningStart = new Date(Y, M-1, D, MORNING.hStart, 0, 0);
+  const morningEnd   = new Date(Y, M-1, D, MORNING.hEnd,   0, 0);
+  const afternoonStart = new Date(Y, M-1, D, AFTERNOON.hStart, 0, 0);
+  const afternoonEnd   = new Date(Y, M-1, D, AFTERNOON.hEnd,   0, 0);
+
+  let morningBusy = false;
+  let afternoonBusy = false;
+  let allDayBusy = false;
+
+  for(const ev of events){
+    const sISO = ev.start?.dateTime || ev.start?.date;
+    const eISO = ev.end?.dateTime   || ev.end?.date;
+    if(!sISO || !eISO) continue;
+
+    // all-day: start/end em formato 'YYYY-MM-DD'
+    const isAllDay = (ev.start?.date && ev.end?.date);
+    if(isAllDay){
+      allDayBusy = true; break; // o dia todo indisponível
+    }
+
+    const s = new Date(sISO);
+    const e = new Date(eISO);
+
+    if(overlaps(s, e, morningStart, morningEnd))   morningBusy = true;
+    if(overlaps(s, e, afternoonStart, afternoonEnd)) afternoonBusy = true;
+
+    if(morningBusy && afternoonBusy) break;
+  }
+
+  return {
+    morningFree: !morningBusy && !allDayBusy,
+    afternoonFree: !afternoonBusy && !allDayBusy,
+    allDayBusy
+  };
+}
+
+// === Substitui a tua função antiga por esta
+async function checkAvailability(){
+  if(!$date){ return; }
+  const val = $date.value;
+  if(!val){ $avail.textContent = 'Disponibilidade: —'; $pay && ($pay.disabled = true); return; }
+
+  try{
+    const slots = await checkDaySlots(val);
+
+    if(slots.allDayBusy){
+      $avail.textContent = 'Disponibilidade: indisponível o dia todo';
+      if($pay) $pay.disabled = true;
+      return;
+    }
+
+    if(slots.morningFree && slots.afternoonFree){
+      $avail.textContent = 'Disponibilidade: manhã e tarde';
+      if($pay) $pay.disabled = false;
+    } else if(slots.morningFree){
+      $avail.textContent = 'Disponibilidade: manhã';
+      if($pay) $pay.disabled = false;
+    } else if(slots.afternoonFree){
+      $avail.textContent = 'Disponibilidade: tarde';
+      if($pay) $pay.disabled = false;
+    } else {
+      $avail.textContent = 'Disponibilidade: indisponível o dia todo';
+      if($pay) $pay.disabled = true;
+    }
+  }catch(err){
+    console.error(err);
+    $avail.textContent = 'Disponibilidade: não foi possível verificar';
+    // em caso de falha, não bloqueamos o pagamento
+    if($pay) $pay.disabled = false;
+  }
+}
+
+// liga nos teus listeners já existentes
+$date && $date.addEventListener('change', checkAvailability);
+</script>
 
 
 
