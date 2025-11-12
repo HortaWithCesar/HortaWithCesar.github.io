@@ -1479,8 +1479,8 @@ body.modal-open{ overflow:hidden; }
     </div>
   </div>
 </section>
-<section id="booking" class="wrap about" aria-label="Pedido de Reserva">
-  <h2 style="margin-bottom:10px">Pedido de Reserva</h2>
+<section id="booking" class="wrap about" aria-label="Efectuar Reserva">
+  <h2 style="margin-bottom:10px">Efectuar Reserva</h2>
   <p class="small" id="booking-subtitle" style="margin-top:0;color:var(--muted)">
     Preenche o pedido abaixo. O trilho selecionado aparece em “Trilho”.
   </p>
@@ -1653,41 +1653,12 @@ body.modal-open{ overflow:hidden; }
                 placeholder="Preferências, restrições, notas…"></textarea>
     </div>
 
-    <div class="reserve-actions">
-      <button class="btn btn-primary" type="submit">Enviar pedido</button>
-  
-    </div>
-  <!-- ===== EFECTUAR RESERVA (único bloco) ===== -->
-<section id="effectuar-reserva" class="booking-box">
-  <h2 class="h2">Efectuar Reserva</h2>
+    <div class="booking-actions">
+  <button id="btn-send" class="btn btn-primary" type="submit">Enviar pedido</button>
+  <button id="btn-open-reserve" class="btn btn-ghost" type="button">Efectuar reserva</button>
+</div>
 
-  <!-- Info dinâmica (lê os campos do formulário de cima) -->
-  <div class="reserve-grid">
-    <div class="reserve-field">
-      <label>Trilho escolhido</label>
-      <div id="rv-trail" class="rv-read">—</div>
-    </div>
-
-    <div class="reserve-field">
-      <label>Nº de pessoas</label>
-      <div id="rv-pax" class="rv-read">—</div>
-    </div>
-
-    <div class="reserve-field">
-      <label>Data</label>
-      <div id="rv-date" class="rv-read">—</div>
-    </div>
-
-    <div class="reserve-field">
-      <label>Período</label>
-      <div id="rv-slot" class="rv-read">—</div>
-    </div>
-
-    <div class="reserve-field reserve-availability">
-      <label>Disponibilidade</label>
-      <div id="rv-availability" class="tag tag-muted">—</div>
-    </div>
-  </div>
+ 
 
   <!-- Preços -->
   <div class="price-grid">
@@ -2572,6 +2543,104 @@ $date && $date.addEventListener('change', checkAvailability);
 
   // arranque
   refreshUI();
+})();
+</script>
+<!-- ===== Modal: Efectuar Reserva ===== -->
+<div id="rv-modal" class="modal-backdrop" style="display:none">
+  <div class="modal">
+    <header>
+      <h3>Efectuar Reserva</h3>
+      <button class="close-x" id="rv-close" aria-label="Fechar">×</button>
+    </header>
+
+    <div class="grid" style="display:grid;gap:12px;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:10px;">
+      <div>
+        <small class="muted">Trilho escolhido</small>
+        <div id="rv-trail" class="strong">—</div>
+      </div>
+      <div>
+        <small class="muted">Nº de pessoas</small>
+        <div id="rv-people" class="strong">—</div>
+      </div>
+      <div>
+        <small class="muted">Data</small>
+        <div id="rv-date" class="strong">—</div>
+      </div>
+      <div>
+        <small class="muted">Período</small>
+        <div id="rv-period" class="strong">—</div>
+      </div>
+      <div style="grid-column:1 / -1">
+        <small class="muted">Disponibilidade</small>
+        <div id="rv-availability" class="pill pill-info">—</div>
+      </div>
+      <div style="grid-column:1 / -1">
+        <small class="muted">Total estimado</small>
+        <div id="rv-total" class="strong">—</div>
+        <small class="note">Valor calculado com base no trilho e nº de pessoas.</small>
+      </div>
+      <div style="grid-column:1 / -1;background:#f3fff7;border:1px solid #c9f1d8;border-radius:12px;padding:12px">
+        <small class="muted">Sinal 20%</small>
+        <div id="rv-deposit" class="strong">—</div>
+        <small class="note">Deduzi-do ao valor final. Reembolso total até 48h antes.</small>
+      </div>
+    </div>
+
+    <div class="actions" style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
+      <button class="btn btn-ghost" id="rv-close-2" type="button">Fechar</button>
+      <button class="btn btn-primary" id="rv-send" type="button">Enviar pedido</button>
+    </div>
+  </div>
+</div>
+<!-- ===== /Modal ===== -->
+<script>
+(() => {
+  const $ = (sel, ctx=document) => ctx.querySelector(sel);
+
+  const modal = $('#rv-modal');
+  const openBtn = $('#btn-open-reserve');
+  const closeBtn = $('#rv-close');
+  const closeBtn2 = $('#rv-close-2');
+
+  function openModal(){
+    syncReserveSummary();
+    modal.style.display = 'flex';
+    document.body.classList.add('modal-open');
+  }
+  function closeModal(){
+    modal.style.display = 'none';
+    document.body.classList.remove('modal-open');
+  }
+
+  openBtn?.addEventListener('click', openModal);
+  closeBtn?.addEventListener('click', closeModal);
+  closeBtn2?.addEventListener('click', closeModal);
+  modal?.addEventListener('click', e => { if(e.target === modal) closeModal(); });
+
+  function textOrDash(el){ return el && el.value ? el.value : '—'; }
+
+  function syncReserveSummary(){
+    $('#rv-trail').textContent  = $('#bk-trail')?.selectedOptions?.[0]?.textContent || '—';
+    $('#rv-people').textContent = textOrDash($('#bk-people'));
+    $('#rv-date').textContent   = textOrDash($('#bk-date'));
+    $('#rv-period').textContent = $('#bk-period')?.selectedOptions?.[0]?.textContent || '—';
+    $('#rv-availability').textContent = $('#bk-availability')?.textContent?.trim() || '—';
+
+    if (typeof calcTotal === 'function' && typeof calcDeposit === 'function') {
+      const total = calcTotal();
+      const dep   = calcDeposit(total);
+      $('#rv-total').textContent   = total ? total : '—';
+      $('#rv-deposit').textContent = dep   ? dep   : '—';
+    } else {
+      $('#rv-total').textContent   = '—';
+      $('#rv-deposit').textContent = '—';
+    }
+  }
+
+  $('#rv-send')?.addEventListener('click', () => {
+    $('#booking-form')?.requestSubmit?.();
+    closeModal();
+  });
 })();
 </script>
 
