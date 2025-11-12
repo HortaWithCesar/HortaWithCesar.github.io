@@ -1053,6 +1053,46 @@ body.modal-open{ overflow:hidden; }
 /* Pequena melhoria: alinha a caixinha de disponibilidade */
 .reserve-availability .tag{ min-width: 140px; text-align:center; }
 
+/* Bloqueia qualquer control dentro do modal (por precaução) */
+.rv-lock input,
+.rv-lock select,
+.rv-lock textarea,
+.rv-lock button[disabled] {
+  pointer-events: none;
+}
+
+/* Badge de disponibilidade */
+.badge {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width: 140px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+.badge-soft { background: #eaf3ff; color: #0a5; }
+
+/* Botão desativado via aria-disabled */
+a[aria-disabled="true"] {
+  opacity: .5;
+  pointer-events: none;
+}
+
+/* Layout das linhas no modal (segue o teu “reserve-grid”/“reserve-field”) */
+.reserve-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.reserve-field--full { grid-column: 1 / -1; }
+
+@media (max-width: 900px) {
+  .reserve-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .reserve-grid { grid-template-columns: 1fr; }
+}
 
   </style>
 </head>
@@ -2546,50 +2586,64 @@ $date && $date.addEventListener('change', checkAvailability);
 })();
 </script>
 <!-- ===== Modal: Efectuar Reserva ===== -->
-<div id="rv-modal" class="modal-backdrop" style="display:none">
-  <div class="modal">
-    <header>
-      <h3>Efectuar Reserva</h3>
-      <button class="close-x" id="rv-close" aria-label="Fechar">×</button>
+<div id="rv-modal"
+  <div class="modal-backdrop">
+  <div class="modal box">
+    <header class="modal__header">
+      <h3 class="h3">Resumo da reserva</h3>
+      <button id="rv-close" class="close-x" aria-label="Fechar">×</button>
     </header>
 
-    <div class="grid" style="display:grid;gap:12px;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:10px;">
-      <div>
-        <small class="muted">Trilho escolhido</small>
-        <div id="rv-trail" class="strong">—</div>
-      </div>
-      <div>
-        <small class="muted">Nº de pessoas</small>
-        <div id="rv-people" class="strong">—</div>
-      </div>
-      <div>
-        <small class="muted">Data</small>
-        <div id="rv-date" class="strong">—</div>
-      </div>
-      <div>
-        <small class="muted">Período</small>
-        <div id="rv-period" class="strong">—</div>
-      </div>
-      <div style="grid-column:1 / -1">
-        <small class="muted">Disponibilidade</small>
-        <div id="rv-availability" class="pill pill-info">—</div>
-      </div>
-      <div style="grid-column:1 / -1">
-        <small class="muted">Total estimado</small>
-        <div id="rv-total" class="strong">—</div>
-        <small class="note">Valor calculado com base no trilho e nº de pessoas.</small>
-      </div>
-      <div style="grid-column:1 / -1;background:#f3fff7;border:1px solid #c9f1d8;border-radius:12px;padding:12px">
-        <small class="muted">Sinal 20%</small>
-        <div id="rv-deposit" class="strong">—</div>
-        <small class="note">Deduzi-do ao valor final. Reembolso total até 48h antes.</small>
+    <div class="modal__body rv-lock">
+      <div class="reserve-grid">
+        <div class="reserve-field">
+          <label>Trilho</label>
+          <div id="rv-trail" class="rv-read">—</div>
+        </div>
+
+        <div class="reserve-field">
+          <label>Nº de pessoas</label>
+          <div id="rv-people" class="rv-read">—</div>
+        </div>
+
+        <div class="reserve-field">
+          <label>Data</label>
+          <div id="rv-date" class="rv-read">—</div>
+        </div>
+
+        <div class="reserve-field">
+          <label>Período</label>
+          <div id="rv-period" class="rv-read">—</div>
+        </div>
+
+        <div class="reserve-field">
+          <label>Disponibilidade</label>
+          <div id="rv-availability" class="badge badge-soft">—</div>
+        </div>
+
+        <div class="reserve-field reserve-field--full">
+          <label>Total estimado</label>
+          <div id="rv-total-m" class="amount">—</div>
+          <small class="muted">Valor calculado com base no trilho e nº de pessoas. Poderá ajustar consoante logística.</small>
+        </div>
+
+        <div class="reserve-field reserve-field--full">
+          <label>Sinal 20%</label>
+          <div id="rv-deposit-m" class="amount amount-accent">—</div>
+          <small class="muted">Dedu zido ao valor final. Reembolso total até 48h antes.</small>
+        </div>
       </div>
     </div>
 
-    <div class="actions" style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
-      <button class="btn btn-ghost" id="rv-close-2" type="button">Fechar</button>
-      <button class="btn btn-primary" id="rv-send" type="button">Enviar pedido</button>
-    </div>
+    <footer class="modal__footer actions">
+      <a id="rv-pay-20"
+         class="btn btn-primary"
+         target="_blank"
+         rel="noopener"
+         aria-disabled="true">Pagar sinal 20%</a>
+
+      <button id="rv-close-2" class="btn btn-ghost">Fechar</button>
+    </footer>
   </div>
 </div>
 <!-- ===== /Modal ===== -->
@@ -2642,6 +2696,81 @@ $date && $date.addEventListener('change', checkAvailability);
     closeModal();
   });
 })();
+  /* === CONFIG REVOLUT ===
+   Se tiveres link do tipo revolut.me/teuuser, mete aqui:
+   Ex.: 'https://revolut.me/hortawithcesar'
+   ou, se for com amount por query, usamos ?amount=…&currency=EUR
+*/
+const REVOLUT_LINK_BASE = 'https://revolut.me/hortawithcesar';  // ajusta se precisares
+
+/* Util: extrai texto seguro */
+const $ = (sel, ctx = document) => ctx.querySelector(sel);
+const text = el => (el && el.textContent || '').trim();
+
+/* Form: lê do inquérito */
+function readBookingForm() {
+  const trailSel   = $('#bk-trail');
+  const trail      = trailSel?.options?.[trailSel.selectedIndex]?.text || '—';
+  const people     = $('#bk-people')?.value || '—';
+  const date       = $('#bk-date')?.value || '—';
+  const periodSel  = $('#bk-period');
+  const period     = periodSel?.options?.[periodSel.selectedIndex]?.text || '—';
+
+  // Estes estão no bloco “Efectuar Reserva” fora do modal (os teus ids).
+  const availability = text($('#rv-availability')) || '—';
+  const totalStr     = text($('#rv-total'))      || '—';
+  const depositStr   = text($('#rv-deposit'))    || '—';
+
+  return { trail, people, date, period, availability, totalStr, depositStr };
+}
+
+/* Converte “€ 123,45” → 123.45 */
+function parseMoney(str) {
+  if (!str || str === '—') return NaN;
+  const s = str.replace(/[^\d,.-]/g,'').replace(/\./g,'').replace(',', '.');
+  return parseFloat(s);
+}
+
+/* Atualiza os campos (só leitura) do modal e prepara botão Revolut */
+function syncReserveSummary(){
+  const refs = readBookingForm();
+
+  // preenche modal
+  $('#rv-trail').textContent        = refs.trail;
+  $('#rv-people').textContent       = refs.people;
+  $('#rv-date').textContent         = refs.date;
+  $('#rv-period').textContent       = refs.period;
+
+  // no modal usei ids diferentes para total/sinal para não chocar com os do bloco
+  const totalNum   = parseMoney(refs.totalStr);
+  const depositNum = parseMoney(refs.depositStr);
+
+  $('#rv-total-m').textContent   = refs.totalStr || '—';
+  $('#rv-deposit-m').textContent = refs.depositStr || '—';
+
+  // disponibilidade (mostra sempre o que está fora)
+  $('#rv-availability').textContent = refs.availability;
+
+  // habilitar / desabilitar “Pagar 20%”
+  const payBtn = $('#rv-pay-20');
+  const isAvailable = /dispon/i.test(refs.availability); // “Disponível”, “Disponibilidade: Disponível”, etc.
+
+  if (isFinite(depositNum) && depositNum > 0 && isAvailable) {
+    const url = `${REVOLUT_LINK_BASE}?amount=${depositNum.toFixed(2)}&currency=EUR`;
+    payBtn.setAttribute('href', url);
+    payBtn.removeAttribute('aria-disabled');
+  } else {
+    payBtn.removeAttribute('href');
+    payBtn.setAttribute('aria-disabled', 'true');
+  }
+}
+
+/* Botão fechar (o teu script já tem, aqui só garantimos que existe) */
+$('#rv-close-2')?.addEventListener('click', () => {
+  const modal = $('#rv-modal');
+  modal.style.display = 'none';
+  document.body.classList.remove('modal-open');
+});
 </script>
 
 
