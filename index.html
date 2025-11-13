@@ -2311,9 +2311,7 @@ if(bookingForm){
   });
 }
 </script>
-<script>
 
-</script>
 <script>
 /* ===== Disponibilidade por blocos (manhã/tarde) via Google Calendar ===== */
 /* Requer: calendário público (livre/ocupado) + API key restrita ao teu domínio */
@@ -2702,190 +2700,162 @@ $date && $date.addEventListener('change', checkAvailability);
 
 <script>
 (() => {
-  const $ = (sel, ctx=document) => ctx.querySelector(sel);
+  const REVOLUT_LINK_BASE = 'https://revolut.me/hortawithcesar';
 
-  const modal = $('#rv-modal');
-  const openBtn = $('#btn-open-reserve');
-  const closeBtn = $('#rv-close');
-  const closeBtn2 = $('#rv-close-2');
+  const $    = (sel, ctx = document) => ctx.querySelector(sel);
+  const text = el => ((el && el.textContent) || '').trim();
 
-  function openModal(){
+  // normaliza texto para comparar "disponivel" sem acentos
+  function norm(s) {
+    return (s || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/\p{Diacritic}/gu, '');
+  }
+
+  // "€ 123,45" -> 123.45
+  function parseMoney(str) {
+    if (!str || str === '—') return NaN;
+    const s = String(str)
+      .replace(/[^\d,.-]/g, '')
+      .replace(/\.(?=\d{3}\b)/g, '')   // tira separadores de milhar
+      .replace(',', '.');
+    return parseFloat(s);
+  }
+
+  // Lê o formulário principal
+  function readBookingForm() {
+    const trailEl   = $('#trail');
+    const peopleEl  = $('#people');
+    const dateEl    = $('#date_from');
+    const periodSel = $('#period');
+
+    const trail  = trailEl?.value || '—';
+    const people = peopleEl?.value || '—';
+    const date   = dateEl?.value || '—';
+    const period = periodSel?.options?.[periodSel.selectedIndex]?.text || '—';
+
+    // pill de disponibilidade que está no formulário
+    const availability = text($('#rv-availability')) || '—';
+
+    const totalStr   = text($('#rv-total'))   || '—';
+    const depositStr = text($('#rv-deposit')) || '—';
+
+    return { trail, people, date, period, availability, totalStr, depositStr };
+  }
+
+  // Disponibilidade ok se tiver data-state="ok" OU texto com “dispon”
+  function isAvailabilityOK() {
+    const badge = $('#rv-availability');
+    if (!badge) return false;
+    if (badge.dataset.state === 'ok') return true;
+    return /dispon/i.test(norm(badge.textContent));
+  }
+
+  // Atualiza resumo do modal + link Revolut
+  function syncReserveSummary() {
+    const f = readBookingForm();
+
+    // Campos do resumo
+    $('#rv-trail').textContent  = f.trail;
+    $('#rv-people').textContent = f.people;
+    $('#rv-date').textContent   = f.date;
+    $('#rv-period').textContent = f.period;
+
+    $('#rv-total-m').textContent   = f.totalStr   || '—';
+    $('#rv-deposit-m').textContent = f.depositStr || '—';
+
+    // Link do Revolut
+    const payBtn = $('#rv-pay-20');
+    const depNum = parseMoney(f.depositStr);
+    const availOK = isAvailabilityOK();
+
+    if (payBtn) {
+      if (isFinite(depNum) && depNum > 0 && availOK) {
+        const url = `${REVOLUT_LINK_BASE}?amount=${depNum.toFixed(2)}&currency=EUR`;
+        payBtn.setAttribute('href', url);
+        payBtn.removeAttribute('aria-disabled');
+      } else {
+        payBtn.removeAttribute('href');
+        payBtn.setAttribute('aria-disabled', 'true');
+      }
+    }
+  }
+
+  // Valida campos para desbloquear o botão “Efectuar reserva”
+  function validateBooking() {
+    const f = readBookingForm();
+
+    const hasTrail  = !!f.trail  && f.trail  !== '—';
+    const hasPeople = +f.people > 0;
+    const hasDate   = !!f.date  && f.date  !== '—';
+    const hasPeriod = !!f.period && f.period !== '—';
+    const hasAvail  = isAvailabilityOK();
+
+    const ok = hasTrail && hasPeople && hasDate && hasPeriod && hasAvail;
+
+    const openBtn = $('#btn-open-reserve');
+    if (openBtn) {
+      openBtn.disabled = !ok;
+      openBtn.classList.toggle('btn-disabled', !ok);
+    }
+
+    return { ok, hasTrail, hasPeople, hasDate, hasPeriod, hasAvail };
+  }
+
+  // Modal
+  function openReserveModal(e) {
+    const { ok } = validateBooking();
+    if (!ok) {
+      e?.preventDefault?.();
+      return;
+    }
+
     syncReserveSummary();
-    modal.style.display = 'flex';
-    document.body.classList.add('modal-open');
+
+    const modal = $('#rv-modal');
+    if (modal) {
+      modal.style.display = 'flex';
+      document.body.classList.add('modal-open');
+    }
   }
-  function closeModal(){
-    modal.style.display = 'none';
-    document.body.classList.remove('modal-open');
+
+  function closeReserveModal() {
+    const modal = $('#rv-modal');
+    if (modal) {
+      modal.style.display = 'none';
+      document.body.classList.remove('modal-open');
+    }
   }
 
-  openBtn?.addEventListener('click', openModal);
-  closeBtn?.addEventListener('click', closeModal);
-  closeBtn2?.addEventListener('click', closeModal);
-  modal?.addEventListener('click', e => { if(e.target === modal) closeModal(); });
+  // Liga eventos aos campos do formulário para revalidar
+  ['#trail', '#people', '#date_from', '#period', '#rv-availability'].forEach(sel => {
+    const el = $(sel);
+    if (!el) return;
+    ['change', 'input'].forEach(evt => {
+      el.addEventListener(evt, validateBooking);
+    });
+  });
 
-  function textOrDash(el){ return el && el.value ? el.value : '—'; }
+  // Botões abrir / fechar modal
+  $('#btn-open-reserve')?.addEventListener('click', openReserveModal);
+  $('#rv-close')?.addEventListener('click', closeReserveModal);
+  $('#rv-close-2')?.addEventListener('click', closeReserveModal);
 
-  function syncReserveSummary(){
-  // lê infos fora do modal
-  const getText = sel => (document.querySelector(sel)?.textContent || '—').trim();
-  const trail   = getText('#rv-trail')   || (document.querySelector('#trail')?.value || '—');
-  const people  = document.querySelector('#people')?.value || getText('#rv-people') || '—';
-  const date    = document.querySelector('#date_from')?.value || getText('#rv-date') || '—';
-  const period  = document.querySelector('#period')?.selectedOptions?.[0]?.text || getText('#rv-period') || '—';
+  // Fecha ao clicar fora da caixa do modal
+  $('#rv-modal')?.addEventListener('click', ev => {
+    if (ev.target === ev.currentTarget) closeReserveModal();
+  });
 
-  // escreve no modal
-  document.querySelector('#rv-trail').textContent  = trail;
-  document.querySelector('#rv-people').textContent = people;
-  document.querySelector('#rv-date').textContent   = date;
-  document.querySelector('#rv-period').textContent = period;
-
-  const totalStr   = getText('#rv-total')   || '—';
-  const depositStr = getText('#rv-deposit') || '—';
-  document.querySelector('#rv-total-m').textContent   = totalStr;
-  document.querySelector('#rv-deposit-m').textContent = depositStr;
-
-  // prepara Revolut
-  const payBtn = document.querySelector('#rv-pay-20');
-  const depNum = parseFloat(depositStr.replace(/[^\d,.-]/g,'').replace('.', '').replace(',', '.'));
-  const availOK = /dispon/i.test(getText('#rv-availability'));
-  if (isFinite(depNum) && depNum > 0 && availOK) {
-    const url = `https://revolut.me/hortawithcesar?amount=${depNum.toFixed(2)}&currency=EUR`;
-    payBtn.setAttribute('href', url);
-    payBtn.removeAttribute('aria-disabled');
-  } else {
-    payBtn.removeAttribute('href');
-    payBtn.setAttribute('aria-disabled', 'true');
-  }
-}
-
-
+  // Botão "Enviar pedido" dentro do modal
   $('#rv-send')?.addEventListener('click', () => {
     $('#booking-form')?.requestSubmit?.();
-    closeModal();
+    closeReserveModal();
   });
+
+  // Validação inicial ao carregar a página
+  validateBooking();
 })();
- <script>
-/* === CONFIG REVOLUT + validação do modal === */
-
-const REVOLUT_LINK_BASE = 'https://revolut.me/hortawithcesar';
-
-const $    = (sel, ctx = document) => ctx.querySelector(sel);
-const text = el => ((el && el.textContent) || '').trim();
-
-/* normaliza string para comparar “disponivel” sem acentos */
-function norm(s){
-  return (s || '')
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/\p{Diacritic}/gu,'');
-}
-
-/* € 123,45 -> 123.45 */
-function parseMoney(str){
-  if (!str || str === '—') return NaN;
-  const s = String(str)
-    .replace(/[^\d,.-]/g,'')
-    .replace(/\.(?=\d{3}\b)/g,'')
-    .replace(',', '.');
-  return parseFloat(s);
-}
-
-/* Lê o formulário principal */
-function readBookingForm(){
-  const trailEl   = $('#trail');
-  const peopleEl  = $('#people');
-  const dateEl    = $('#date_from');
-  const periodSel = $('#period');
-
-  const trail     = trailEl?.value || '—';
-  const people    = peopleEl?.value || '—';
-  const date      = dateEl?.value || '—';
-  const period    = periodSel?.options?.[periodSel.selectedIndex]?.text || '—';
-
-  const availability = text($('#bk-availability')) || '—';
-  const totalStr     = text($('#rv-total'))   || '—';
-  const depositStr   = text($('#rv-deposit')) || '—';
-
-  return { trail, people, date, period, availability, totalStr, depositStr };
-}
-
-  /* disponibilidade ok se tiver data-state="ok" OU texto com “dispon” */
-function isAvailabilityOK() {
-  const badge = $('#rv-availability');
-  if (!badge) return false;
-  if (badge.dataset.state === 'ok') return true;
-  return /dispon/i.test(norm(badge.textContent));
-}
-
-/* Valida campos para desbloquear o botão “Efectuar reserva” */
-function validateBooking() {
-  const f = readBookingForm();
-
-  const hasTrail  = !!f.trail  && f.trail  !== '—';
-  const hasPeople = +f.people > 0;
-  const hasDate   = !!f.date  && f.date  !== '—';
-  const hasPeriod = !!f.period && f.period !== '—';
-  const hasAvail  = isAvailabilityOK();
-
-  const ok = hasTrail && hasPeople && hasDate && hasPeriod && hasAvail;
-
-  const openBtn = $('#btn-open-reserve');
-  if (openBtn) {
-    openBtn.disabled = !ok;
-    openBtn.classList.toggle('btn-disabled', !ok);
-  }
-
-  return { ok, hasTrail, hasPeople, hasDate, hasPeriod, hasAvail };
-}
-
-/* Abre o modal só se estiver tudo válido */
-function openReserveModal(e) {
-  const { ok } = validateBooking();
-  if (!ok) {
-    e?.preventDefault?.();
-    return;
-  }
-
-  // Preenche o resumo + link Revolut
-  syncReserveSummary();
-
-  const modal = $('#rv-modal');
-  if (modal) {
-    modal.style.display = 'flex';
-    document.body.classList.add('modal-open');
-  }
-}
-
-/* Fecha o modal */
-function closeReserveModal() {
-  const modal = $('#rv-modal');
-  if (modal) {
-    modal.style.display = 'none';
-    document.body.classList.remove('modal-open');
-  }
-}
-
-/* Liga eventos aos campos do formulário */
-['#trail', '#people', '#date_from', '#period', '#rv-availability'].forEach(sel => {
-  const el = $(sel);
-  if (!el) return;
-  ['change', 'input'].forEach(evt => {
-    el.addEventListener(evt, validateBooking);
-  });
-});
-
-/* Botões abrir / fechar modal */
-$('#btn-open-reserve')?.addEventListener('click', openReserveModal);
-$('#rv-close')?.addEventListener('click', closeReserveModal);
-$('#rv-close-2')?.addEventListener('click', closeReserveModal);
-$('#rv-modal')?.addEventListener('click', ev => {
-  if (ev.target === ev.currentTarget) closeReserveModal();
-});
-
-/* Faz uma validação inicial ao carregar a página */
-validateBooking();
-
 </script>
 
 
