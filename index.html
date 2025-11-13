@@ -934,6 +934,27 @@ body.modal-open{ overflow:hidden; }
   color: #003a57;
   font-size: 1.05rem;
 }
+/* ==== LIMITA ALTURA DO MODAL DE PRIVACIDADE E ATIVA SCROLL ==== */
+
+#modal-privacy .modal {
+  max-height: 90vh;        /* não deixa o modal sair do ecrã */
+  overflow: hidden;        /* evita ultrapassar os cantos */
+  display: flex;
+  flex-direction: column;
+}
+
+/* onde está o texto longo */
+#modal-privacy .modal__body {
+  overflow-y: auto;        /* scroll só no texto, não na página */
+  padding: 20px 24px;
+}
+
+/* footer fixo e visível */
+#modal-privacy .modal__footer {
+  padding: 16px 24px;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  background: #fff;
+}
 
 /* Aumentar ícones dentro das caixas de contacto */
 .contact-info img,
