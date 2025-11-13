@@ -1806,35 +1806,6 @@ a[aria-disabled="true"] {
   <button id="btn-open-reserve" class="btn btn-ghost" type="button">Efectuar reserva</button>
 </div>
 
- 
-
-  <!-- Preços -->
-  <div class="price-grid">
-    <div>
-      <label>Total estimado</label>
-      <div class="amount">
-        <span id="rv-total">—</span>
-      </div>
-      <small class="note">Valor calculado com base no trilho e nº de pessoas. Poderá ajustar consoante logística.</small>
-    </div>
-
-    <div>
-      <label>Sinal 20%</label>
-      <div class="amount amount-accent">
-        <span id="rv-deposit">—</span>
-      </div>
-      <small class="note">Deduzido ao valor final. Reembolso total até 48h antes.</small>
-      <a href="#politica-privacidade">Condições e Política de Privacidade</a>
-      <a href="#politica-cancelamento" id="open-cancel-policy-2">Política de Cancelamento</a>.
-    </div>
-  </div>
-
-  <div class="reserve-actions">
-  </div>
-
-  <p class="legal-note">
-    Ao avançar concorda com as <a href="#politica-privacidade">Condições e Política do site HortaWithCesar.com</a>.
-  </p>
 </section>
 
 
@@ -2685,12 +2656,11 @@ $date && $date.addEventListener('change', checkAvailability);
     </div>
 
     <footer class="modal__footer actions">
-      <a id="rv-pay-20"
-         class="btn btn-primary"
-         href="#"
-         target="_blank"
-         rel="noopener"
-         aria-disabled="true">Pagar sinal 20%</a>
+      <a id="rv-pay-20" class="btn btn-primary" 
+   target="_blank" rel="noopener" aria-disabled="true">
+   Confirmar reserva
+</a>
+
 
       <button id="rv-close-2" class="btn btn-ghost" type="button">Fechar</button>
     </footer>
