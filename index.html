@@ -2002,7 +2002,7 @@ a[aria-disabled="true"] {
     <header>
       <h3>Política de Privacidade</h3>
       <button class="close-x" type="button" id="close-privacy" aria-label="Fechar">×</button>
-    </header
+    </header>
 
     <div class="modal-body">
       <h4>1. Introdução</h4>
@@ -2455,30 +2455,7 @@ $date && $date.addEventListener('change', checkAvailability);
     return priceTable[trailId] ?? null;
   }
 
-  // ===== 4) Helpers =====
-  const money = v => (isNaN(v) ? '—' : `${v.toFixed(2)} €`);
-
-  badge.textContebility(state){
-    // state: 'ok-manha', 'ok-tarde', 'indisponivel', 'desconhecido'
-    outAvail.classList.remove('tag-ok','tag-warn','tag-bad','tag-muted');
-    switch (state){
-      case 'ok-manha':
-        outAvail.textContent = 'Disponível de manhã';
-        outAvail.classList.add('tag','tag-ok');
-        break;
-      case 'ok-tarde':
-        outAvail.textContent = 'Disponível à tarde';
-        outAvail.classList.add('tag','tag-ok');
-        break;
-      case 'indisponivel':
-        outAvail.textContent = 'Indisponível';
-        outAvail.classList.add('tag','tag-bad');
-        break;
-      default:
-        outAvail.textContent = '—';
-        outAvail.classList.add('tag','tag-muted');
-    }
-  }
+  
 
   // ===== 5) Calcula e atualiza UI =====
   function refreshUI(){
