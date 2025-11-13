@@ -906,7 +906,7 @@ body.modal-open{ overflow:hidden; }
   content: none !important;
 }
 /* ===== MODAL PRIVACIDADE ===== */
-#privacyModal .modal {
+#modal-privacy .modal {
   max-width: 800px;
   background: #fff;
   border-radius: 16px;
@@ -914,7 +914,7 @@ body.modal-open{ overflow:hidden; }
   padding: 20px 24px;
 }
 
-#privacyModal header {
+#modal-privacy header {
   background: linear-gradient(90deg, #25D366, #0077ff);
   color: #fff;
   padding: 16px 20px;
@@ -924,16 +924,17 @@ body.modal-open{ overflow:hidden; }
   align-items: center;
 }
 
-#privacyModal h3 {
+#modal-privacy h3 {
   margin: 0;
   font-size: 1.3rem;
 }
 
-#privacyModal h4 {
+#modal-privacy h4 {
   margin-top: 1.4em;
   color: #003a57;
   font-size: 1.05rem;
 }
+
 /* Aumentar ícones dentro das caixas de contacto */
 .contact-info img,
 .contact-info svg {
@@ -1996,12 +1997,12 @@ a[aria-disabled="true"] {
 <!-- 🔼 FIM DO MODAL -->
 
   <!-- ===== MODAL POLÍTICA DE PRIVACIDADE ===== -->
-<div id="privacyModal" class="modal-backdrop">
+<div id="modal-privacy" class="modal-backdrop" style="display:none;">
   <div class="modal">
     <header>
       <h3>Política de Privacidade</h3>
-      <button class="close-x" onclick="closePrivacy()">×</button>
-    </header>
+      <button class="close-x" type="button" id="close-privacy" aria-label="Fechar">×</button>
+    </header
 
     <div class="modal-body">
       <h4>1. Introdução</h4>
@@ -2055,7 +2056,7 @@ a[aria-disabled="true"] {
     </div>
 
     <div class="actions">
-      <button class="btn btn-ghost" onclick="closePrivacy()">Fechar</button>
+      <button class="btn btn-ghost" type="button" id="close-privacy-footer">Fechar</button>
     </div>
   </div>
 </div>
@@ -2191,17 +2192,7 @@ a[aria-disabled="true"] {
   "sameAs": []
 }
 </script>
-<script>
-function openPrivacy() {
-  document.getElementById('privacyModal').classList.add('open');
-  document.body.classList.add('modal-open');
-}
 
-function closePrivacy() {
-  document.getElementById('privacyModal').classList.remove('open');
-  document.body.classList.remove('modal-open');
-}
-</script>
 <script>
 /* ===== Tabela de Preços Trilhos 2026 =====
    (conforme .data-trail e documento oficial) */
@@ -2886,6 +2877,13 @@ document.querySelectorAll('.js-open-cancel').forEach(el => {
 
 // fecha modal de privacidade (ajusta os IDs de acordo com o teu HTML)
 document.getElementById('close-privacy')?.addEventListener('click', () => {
+  const m = document.getElementById('modal-privacy');
+  if (m) {
+    m.style.display = 'none';
+    document.body.classList.remove('modal-open');
+  }
+});
+document.getElementById('close-privacy-footer')?.addEventListener('click', () => {
   const m = document.getElementById('modal-privacy');
   if (m) {
     m.style.display = 'none';
