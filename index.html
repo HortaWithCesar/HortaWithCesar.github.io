@@ -2543,7 +2543,7 @@ $date && $date.addEventListener('change', checkAvailability);
   // ===== 4) Helpers =====
   const money = v => (isNaN(v) ? '—' : `${v.toFixed(2)} €`);
 
-  function setAvailability(state){
+  badge.textContebility(state){
     // state: 'ok-manha', 'ok-tarde', 'indisponivel', 'desconhecido'
     outAvail.classList.remove('tag-ok','tag-warn','tag-bad','tag-muted');
     switch (state){
@@ -2811,12 +2811,19 @@ function readBookingForm(){
 }
 
 /* disponibilidade ok se tiver data-state="ok" OU texto com “dispon” */
-function isAvailabilityOK(){
-  const badge = $('#rv-availability');
-  if (!badge) return false;
+function isAvailabilityOK() {
+  const badge = $('#bk-availability');   // <-- aqui é BK, não RV
+
+  if (!badge) return false;              // se não existir, não deixa avançar
+
+  // se o date-state já estiver marcado como ok
   if (badge.dataset.state === 'ok') return true;
-  return /dispon/.test(norm(badge.textContent));
+
+  // senão, faz fallback para o texto que estiver lá
+  const txt = (badge.textContent || '').toLowerCase();
+  return txt.includes('dispon');         // “disponível”, “disponivel”, etc.
 }
+
 
 /* Valida campos para desbloquear o botão “Efectuar reserva” */
 function validateBooking(){
