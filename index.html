@@ -1899,7 +1899,8 @@ a[aria-disabled="true"] {
       </div>
 
       <p class="small" style="margin-top:8px">
-         contactos usados apenas para responder e gerir marcações. <a href="#privacidade">Política de Privacidade</a>.
+         contactos usados apenas para responder e gerir marcações. 
+<a href="#" class="link js-open-privacy">Política de Privacidade.</a>
       </p>
     </div>
 
@@ -1928,7 +1929,6 @@ a[aria-disabled="true"] {
       <div class="small">© <span id="year"></span> Horta with César · Faial, Açores — PT/EN</div>
     </div>
     <div class="small">
-  © Horta with César · Faial, Açores — PT/EN ·
 <a href="TEU_LINK_LIVRO" class="link" target="_blank">Livro de Reclamações</a> ·
 <a href="#" class="link js-open-cancel">Política de Cancelamento</a> ·
 <a href="#" class="link js-open-privacy">Política de Privacidade</a>
@@ -2861,6 +2861,61 @@ $date && $date.addEventListener('change', checkAvailability);
     </div>
   </div>
 </section>
+<script>
+// abre modal de Política de Privacidade a partir de QUALQUER link com essa classe
+document.querySelectorAll('.js-open-privacy').forEach(el => {
+  el.addEventListener('click', function (e) {
+    e.preventDefault();                 // evita o scroll por causa do href="#"
+    const modal = document.getElementById('modal-privacy');
+    if (!modal) return;
+    modal.style.display = 'flex';
+    document.body.classList.add('modal-open');
+  });
+});
+
+// abre modal de Política de Cancelamento a partir de QUALQUER link com essa classe
+document.querySelectorAll('.js-open-cancel').forEach(el => {
+  el.addEventListener('click', function (e) {
+    e.preventDefault();                 // também evita o scroll
+    const modal = document.getElementById('modal-cancel-policy');
+    if (!modal) return;
+    modal.style.display = 'flex';
+    document.body.classList.add('modal-open');
+  });
+});
+
+// fecha modal de privacidade (ajusta os IDs de acordo com o teu HTML)
+document.getElementById('close-privacy')?.addEventListener('click', () => {
+  const m = document.getElementById('modal-privacy');
+  if (m) {
+    m.style.display = 'none';
+    document.body.classList.remove('modal-open');
+  }
+});
+
+// fecha modal de cancelamento (botão X + botão "Fechar")
+['close-cancel-policy', 'close-cancel-policy-2'].forEach(id => {
+  document.getElementById(id)?.addEventListener('click', () => {
+    const m = document.getElementById('modal-cancel-policy');
+    if (m) {
+      m.style.display = 'none';
+      document.body.classList.remove('modal-open');
+    }
+  });
+});
+
+// fechar se clicar fora da box (para os dois modais)
+['modal-privacy', 'modal-cancel-policy'].forEach(id => {
+  const m = document.getElementById(id);
+  if (!m) return;
+  m.addEventListener('click', ev => {
+    if (ev.target === ev.currentTarget) {
+      m.style.display = 'none';
+      document.body.classList.remove('modal-open');
+    }
+  });
+});
+</script>
 
 
 </body>
