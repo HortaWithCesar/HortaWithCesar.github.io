@@ -2234,53 +2234,7 @@ function getPrice(trail, people){
 
 function eur(v){ return v == null ? "—" : v.toLocaleString('pt-PT',{style:'currency',currency:'EUR'}); }
 
-/* ===== Integração com formulário de reserva ===== */
-const bookingForm = document.querySelector('.reserve-form');
-if(bookingForm){
-  const trailInput = bookingForm.querySelector('#trail');
-  const peopleInput = bookingForm.querySelector('#people');
-  const dateInput = bookingForm.querySelector('#date_from');
 
-  const preview = document.createElement('div');
-  preview.id = 'price-preview';
-  preview.style.cssText = "margin-top:8px;font-weight:600;color:var(--brand)";
-  bookingForm.insertBefore(preview, bookingForm.querySelector('.reserve-actions'));
-
-  function updatePreview(){
-    const trail = trailInput.value.trim();
-    const people = parseInt(peopleInput.value || "1",10);
-    if(!trail || !PRICE_TABLE[trail]){ preview.textContent = "—"; return; }
-
-    const r = getPrice(trail, people);
-    if(r.onRequest){
-      preview.textContent = "Preço sob consulta. Pede orçamento no WhatsApp.";
-      return;
-    }
-    preview.textContent = `Total: ${eur(r.total)} • Sinal (20%): ${eur(r.deposit)}`;
-  }
-
-  peopleInput.addEventListener('input', updatePreview);
-  trailInput.addEventListener('input', updatePreview);
-  updatePreview();
-
-
-
-  payBtn.addEventListener('click', ()=>{
-    const trail = trailInput.value.trim();
-    const people = parseInt(peopleInput.value || "1",10);
-    const date = dateInput.value;
-    const r = getPrice(trail, people);
-
-    if(r.onRequest){
-      const msg = encodeURIComponent(`Olá César! Quero reservar ${trail}, data ${date}, ${people} pessoas. Preço sob consulta.`);
-      window.open(`https://wa.me/351968750436?text=${msg}`,'_blank');
-      return;
-    }
-
-    const msg = encodeURIComponent(`Olá César! Quero confirmar a reserva de ${trail} para ${people} pessoa(s) em ${date}. Total ${eur(r.total)} · Sinal (20%): ${eur(r.deposit)}. Podes enviar o link de pagamento Revolut?`);
-    window.open(`https://wa.me/351968750436?text=${msg}`,'_blank');
-  });
-}
 </script>
 
 <script>
@@ -2694,6 +2648,7 @@ $date && $date.addEventListener('change', checkAvailability);
   }
 
   // Lê o formulário principal
+    // Lê o formulário principal + calcula total/sinal
   function readBookingForm() {
     const trailEl   = $('#trail');
     const peopleEl  = $('#people');
@@ -2705,14 +2660,25 @@ $date && $date.addEventListener('change', checkAvailability);
     const date   = dateEl?.value || '—';
     const period = periodSel?.options?.[periodSel.selectedIndex]?.text || '—';
 
-    // pill de disponibilidade que está no formulário
+    // texto da badge de disponibilidade
     const availability = text($('#rv-availability')) || '—';
 
-    const totalStr   = text($('#rv-total'))   || '—';
-    const depositStr = text($('#rv-deposit')) || '—';
+    // calcula total e sinal usando a PRICE_TABLE
+    let totalStr = '—';
+    let depositStr = '—';
+
+    const peopleNum = parseInt(peopleEl?.value || '0', 10);
+    if (trail && trail !== '—' && !isNaN(peopleNum) && peopleNum > 0 && PRICE_TABLE[trail]) {
+      const priceInfo = getPrice(trail, peopleNum);
+      if (!priceInfo.onRequest) {
+        totalStr   = eur(priceInfo.total);
+        depositStr = eur(priceInfo.deposit);
+      }
+    }
 
     return { trail, people, date, period, availability, totalStr, depositStr };
   }
+
 
   // Disponibilidade ok se tiver data-state="ok" OU texto com “dispon”
   function isAvailabilityOK() {
