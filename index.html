@@ -2603,8 +2603,14 @@ $date && $date.addEventListener('change', checkAvailability);
           <label>Sinal 20%</label>
           <div id="rv-deposit-m" class="amount amount-accent">—</div>
           <small class="muted">
-            Deduzido ao valor final. <a href="#politica-cancelamento" class="link" id="open-cancel-policy">Política de Cancelamento</a>.
-          </small>
+  Deduzido ao valor final.
+  <a href="#politica-cancelamento" class="link" id="open-cancel-policy">
+    Política de Cancelamento
+  </a>.
+  Ao confirmar a reserva, assumes que leste e concordas com as
+  condições gerais do serviço e com a política de privacidade do site.
+</small>
+
         </div>
       </div>
     </div>
@@ -2792,7 +2798,68 @@ $date && $date.addEventListener('change', checkAvailability);
   // Validação inicial ao carregar a página
   validateBooking();
 })();
+  
 </script>
+  <script>
+(() => {
+  const $ = (sel, ctx = document) => ctx.querySelector(sel);
+
+  const cancelModal   = $('#modal-cancel-policy');
+  const openCancel    = $('#open-cancel-policy');   // link dentro do modal de reserva
+  const closeCancel   = $('#cancel-modal-close');
+
+  if (!cancelModal || !openCancel) return;
+
+  function openCancelModal(ev) {
+    ev.preventDefault();
+    cancelModal.style.display = 'flex';
+    document.body.classList.add('modal-open');
+  }
+
+  function closeCancelModal(ev) {
+    ev && ev.preventDefault && ev.preventDefault();
+    cancelModal.style.display = 'none';
+    document.body.classList.remove('modal-open');
+  }
+
+  openCancel.addEventListener('click', openCancelModal);
+  closeCancel?.addEventListener('click', closeCancelModal);
+
+  cancelModal.addEventListener('click', (ev) => {
+    if (ev.target === cancelModal) {
+      closeCancelModal(ev);
+    }
+  });
+})();
+</script>
+
+<!-- ===== Modal: Política de Cancelamento ===== -->
+<section id="modal-cancel-policy" class="modal-backdrop" style="display:none;">
+  <div class="modal modal-policy">
+    <header class="modal__header">
+      <h3>Política de Cancelamento</h3>
+      <button type="button" class="close-x" id="cancel-modal-close" aria-label="Fechar">×</button>
+    </header>
+
+    <div class="modal__body">
+      <p>
+        • O sinal de 20% é reembolsável em cancelamentos feitos até <strong>48h antes</strong> do início do trilho.
+      </p>
+      <p>
+        • Em cancelamentos com menos de <strong>48h</strong>, ou em caso de <strong>não comparência</strong>,
+        o sinal não é devolvido.
+      </p>
+      <p>
+        • Caso o passeio seja cancelado por motivos de segurança, condições meteorológicas
+        adversas ou outra decisão do guia, o sinal será <strong>reembolsado na totalidade</strong>
+        ou poderá ser reagendado, conforme a tua preferência e disponibilidade.
+      </p>
+      <p>
+        • Alterações de data e horário estão sempre sujeitas à disponibilidade do calendário.
+      </p>
+    </div>
+  </div>
+</section>
 
 
 </body>
