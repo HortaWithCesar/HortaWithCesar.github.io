@@ -937,10 +937,10 @@ body.modal-open{ overflow:hidden; }
 /* ==== LIMITA ALTURA DO MODAL DE PRIVACIDADE E ATIVA SCROLL ==== */
 
 #modal-privacy .modal {
-  max-height: 90vh;        /* não deixa o modal sair do ecrã */
-  overflow: hidden;        /* evita ultrapassar os cantos */
-  display: flex;
-  flex-direction: column;
+  max-height: 90vh;        /* limita à altura do ecrã */
+  overflow-y: auto;        /* ativa scroll vertical no modal */
+  overflow-x: hidden;      /* esconde apenas scroll horizontal */
+  display: block;          /* não precisamos de flex aqui */
 }
 
 /* onde está o texto longo */
