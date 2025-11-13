@@ -1126,6 +1126,68 @@ a[aria-disabled="true"] {
   overflow: hidden;
   animation: fadeInUp .3s ease;
 }
+/* ===== Modal genérico (backdrop) ===== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;                /* fica hidden por defeito */
+  justify-content: center;      /* centra horizontal */
+  align-items: center;          /* centra vertical */
+  z-index: 9999;
+}
+
+/* Quando o JS mete display:flex ele centra a caixa */
+.modal-backdrop .modal {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;             /* NÃO deixa passar da janela */
+  overflow-y: auto;             /* aparece scroll se o texto for grande */
+}
+
+/* ===== Específico do modal de Privacidade ===== */
+#modal-privacy .modal {
+  padding: 0;                   /* header tem o seu padding próprio */
+}
+
+/* Header do modal de privacidade */
+#modal-privacy header {
+  background: linear-gradient(90deg, #25D366, #0077ff);
+  color: #fff;
+  padding: 16px 20px;
+  border-radius: 16px 16px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Título principal */
+#modal-privacy h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+/* Sub-títulos numerados (1. Introdução, 2. Dados…) */
+#modal-privacy h4 {
+  margin-top: 1.4em;
+  color: #003a57;
+  font-size: 1.05rem;
+}
+
+/* Conteúdo do corpo do modal */
+#modal-privacy .modal-body {
+  padding: 20px 24px 24px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Botão “Fechar” dentro do modal de privacidade */
+#modal-privacy .btn-ghost {
+  margin-top: 16px;
+}
 
 /* Suave transição */
 @keyframes fadeInUp {
