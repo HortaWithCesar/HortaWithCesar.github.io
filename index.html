@@ -1293,6 +1293,42 @@ a[aria-disabled="true"] {
   color: #003a57;
   border: 1px solid #d8e6f8;
 }
+/* ===== CORES DAS DIFICULDADES ===== */
+
+/* Fácil */
+.pill.diff-easy {
+  background: #e6fbef !important;
+  color: #1c6b3c !important;
+  border-color: #b5e7c8 !important;
+}
+
+/* Moderado */
+.pill.diff-medium {
+  background: #fff8d9 !important;
+  color: #8a6500 !important;
+  border-color: #f0d98c !important;
+}
+
+/* Difícil */
+.pill.diff-hard {
+  background: #ffe9e9 !important;
+  color: #8a1a1a !important;
+  border-color: #e0a0a0 !important;
+}
+
+/* Fácil / Moderado → gradiente verde → amarelo */
+.pill.diff-easy-medium {
+  background: linear-gradient(90deg, #e6fbef, #fff8d9) !important;
+  color: #5a5a00 !important;
+  border: 1px solid #e3e3a0 !important;
+}
+
+/* Moderado / Difícil → gradiente amarelo → vermelho */
+.pill.diff-medium-hard {
+  background: linear-gradient(90deg, #fff8d9, #ffe9e9) !important;
+  color: #8a3a1a !important;
+  border: 1px solid #f0b0a0 !important;
+}
 
   </style>
 </head>
@@ -1369,7 +1405,7 @@ Foi ali que aprendi a valorizar a essência desta ilha atlântica, onde cada tri
             <span class="pill">~2h</span>
             <span class="pill">Dificuldade: Fácil</span>
           </div>
-          <p>Centro histórico, colónias, igrejas marcantes, marina e histórias das famílias mais marcantes. Passeio urbano com paragens fotográficas e comercio local.</p>
+          <p>Centro histórico, colónias, igrejas antigas, marina e histórias das famílias mais marcantes. Passeio urbano com paragens fotográficas e comercio local.</p>
           <!-- Ações do trilho -->
 <div class="trail-actions">
   <!-- Reservar (abre o inquérito com o trilho pré-selecionado) -->
@@ -2994,6 +3030,30 @@ document.getElementById('close-privacy-footer')?.addEventListener('click', () =>
     }
   });
 });
+
+  // ===== Colorir dificuldade automaticamente =====
+document.querySelectorAll('.pill').forEach(p => {
+  const t = p.textContent.toLowerCase();
+
+  if (t.includes('dificuldade')) {
+    if (t.includes('fácil / moderado') || t.includes('fácil/moderado')) {
+      p.classList.add('diff-easy-medium');
+    }
+    else if (t.includes('moderado / difícil') || t.includes('moderado/difícil')) {
+      p.classList.add('diff-medium-hard');
+    }
+    else if (t.includes('fácil')) {
+      p.classList.add('diff-easy');
+    }
+    else if (t.includes('moderado')) {
+      p.classList.add('diff-medium');
+    }
+    else if (t.includes('difícil')) {
+      p.classList.add('diff-hard');
+    }
+  }
+});
+
 </script>
 
 
