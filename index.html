@@ -3421,7 +3421,7 @@ document.querySelectorAll('.pill').forEach(p => {
   <button class="photo-prev">❮</button>
   <button class="photo-next">❯</button>
 </div>
-<script>
+  
 <script>
 /* ===========================================
    MODAL DE FOTOS (City Walk + Entre Montes)
@@ -3435,17 +3435,18 @@ document.querySelectorAll('.pill').forEach(p => {
   const nextBtn  = modal.querySelector(".photo-next");
   const prevBtn  = modal.querySelector(".photo-prev");
 
-  // --- GALERIA CITY WALK (pelas thumbs) ---
+  // --- GALERIA CITY WALK (thumbs) ---
   const cityThumbs = Array.from(
     document.querySelectorAll(".city-thumb[data-type='img']")
   );
   const cityImgs = cityThumbs.map(t => t.dataset.src);
 
-  // --- GALERIA ENTRE MONTES (pelas loop-items) ---
+  // --- GALERIA ENTRE MONTES (loop-items) ---
   const entreSlider = document.getElementById("slider-entre-montes");
   const entreImgs = entreSlider
-    ? Array.from(entreSlider.querySelectorAll(".loop-items span[data-type='img']"))
-        .map(el => el.dataset.src)
+    ? Array.from(
+        entreSlider.querySelectorAll(".loop-items span[data-type='img']")
+      ).map(el => el.dataset.src)
     : [];
 
   let currentGallery = null; // "city" ou "entre"
@@ -3461,23 +3462,21 @@ document.querySelectorAll('.pill').forEach(p => {
     modal.style.display = "block";
   }
 
-  // --- City: clicar nas thumbs abre modal na foto certa ---
+  // City: duplo-clique na thumb abre modal
   cityThumbs.forEach((thumb, i) => {
-    thumb.addEventListener("dblclick", function(){
-      // duplo-clique na thumb abre modal
+    thumb.addEventListener("dblclick", () => {
       openGallery("city", i);
     });
   });
 
-  // --- Entre Montes: clicar no vídeo/foto abre modal (sempre começa na 1ª) ---
+  // Entre Montes: clique no slider abre modal (começa na 1.ª foto)
   if (entreSlider){
     const main = entreSlider.querySelector(".loop-main");
-    main.addEventListener("click", function(){
+    main.addEventListener("click", () => {
       openGallery("entre", 0);
     });
   }
 
-  // controlo das setas
   function showNext(step){
     const list = currentGallery === "city" ? cityImgs : entreImgs;
     if (!list.length) return;
@@ -3488,19 +3487,20 @@ document.querySelectorAll('.pill').forEach(p => {
   nextBtn.onclick = () => showNext(+1);
   prevBtn.onclick = () => showNext(-1);
 
-  // fechar modal
+  // fechar
   closeBtn.onclick = () => modal.style.display = "none";
   modal.onclick = (e) => {
     if (e.target === modal) modal.style.display = "none";
   };
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") modal.style.display = "none";
-    if (e.key === "ArrowRight") showNext(+1);
-    if (e.key === "ArrowLeft")  showNext(-1);
+    if (e.key === "Escape")      modal.style.display = "none";
+    if (e.key === "ArrowRight")  showNext(+1);
+    if (e.key === "ArrowLeft")   showNext(-1);
   });
 })();
 </script>
+  
 <script>
 /* ============================
    LOOP AUTOMÁTICO ENTRE MONTES
@@ -3510,17 +3510,13 @@ document.querySelectorAll('.pill').forEach(p => {
   if (!slider) return;
 
   const main  = slider.querySelector(".loop-main");
-  const items = Array.from(
-    slider.querySelectorAll(".loop-items span")
-  );
-
+  const items = Array.from(slider.querySelectorAll(".loop-items span"));
   if (!items.length) return;
-
-  let idx = 0;
 
   function render(i){
     const item = items[i];
     if (!item) return;
+
     main.innerHTML = "";
 
     const type = item.dataset.type;
@@ -3530,9 +3526,9 @@ document.querySelectorAll('.pill').forEach(p => {
       const v = document.createElement("video");
       v.src = src;
       v.muted = true;
-      v.loop = true;
       v.playsInline = true;
       v.autoplay = true;
+      v.loop = false; // só queremos tocar uma vez no início
       main.appendChild(v);
     } else {
       const img = document.createElement("img");
@@ -3542,46 +3538,26 @@ document.querySelectorAll('.pill').forEach(p => {
     }
   }
 
-  // mostra o primeiro (vídeo)
-  render(idx);
+  // 1) começa no vídeo (índice 0)
+  render(0);
 
-  // muda de media a cada 2 segundos
-  let interval = null;
+  // 2) depois de 13s começa loop só nas fotos (índices 1..N-1, 2s cada)
+  function startLoop(){
+    let idx = 1; // começa na primeira foto
 
-function startLoop() {
-  // limpar interval antigo se existir
-  if (interval) clearInterval(interval);
+    setInterval(() => {
+      render(idx);
+      idx++;
+      if (idx >= items.length) {
+        idx = 1; // volta à primeira foto, nunca volta ao vídeo
+      }
+    }, 2000); // 2 segundos por foto
+  }
 
-  // loop automático das fotos (2s)
-  interval = setInterval(() => {
-    idx = (idx + 1) % items.length;
-    render(idx);
-  }, 2000);
-}
-
-// Render do primeiro item (vídeo)
-render(idx);
-
-// Se o primeiro item for vídeo → esperar acabar
-const first = items[0];
-if (first.dataset.type === "video") {
-  const tempVideo = document.createElement("video");
-  tempVideo.src = first.dataset.src;
-
-  // quando o vídeo terminar, iniciar o loop das fotos
-  tempVideo.addEventListener("ended", () => {
-    idx = 1;          // passar à primeira foto
-    render(idx);
-    startLoop();
-  });
-
-  tempVideo.play();  // inicia temporariamente
-} else {
-  // se não for vídeo, arranca loop normal
-  startLoop();
-}
-
+  setTimeout(startLoop, 13000); // 13s para o vídeo tocar antes de começar as fotos
+})();
 </script>
+
 
 
 
