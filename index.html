@@ -3546,11 +3546,41 @@ document.querySelectorAll('.pill').forEach(p => {
   render(idx);
 
   // muda de media a cada 2 segundos
-  setInterval(() => {
+  let interval = null;
+
+function startLoop() {
+  // limpar interval antigo se existir
+  if (interval) clearInterval(interval);
+
+  // loop automático das fotos (2s)
+  interval = setInterval(() => {
     idx = (idx + 1) % items.length;
     render(idx);
   }, 2000);
-})();
+}
+
+// Render do primeiro item (vídeo)
+render(idx);
+
+// Se o primeiro item for vídeo → esperar acabar
+const first = items[0];
+if (first.dataset.type === "video") {
+  const tempVideo = document.createElement("video");
+  tempVideo.src = first.dataset.src;
+
+  // quando o vídeo terminar, iniciar o loop das fotos
+  tempVideo.addEventListener("ended", () => {
+    idx = 1;          // passar à primeira foto
+    render(idx);
+    startLoop();
+  });
+
+  tempVideo.play();  // inicia temporariamente
+} else {
+  // se não for vídeo, arranca loop normal
+  startLoop();
+}
+
 </script>
 
 
