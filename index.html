@@ -349,7 +349,7 @@ header.scrolled{
 .trail-media{
   background:#eef6ff; display:grid; place-items:center; font-weight:700; color:var(--muted);
 }
-.trail-body{ padding:16px; display:grid; gap:10px }
+.trail-body{ padding:36px; display:grid; gap:10px }
 .trail-title{ margin:0; font-size:clamp(18px,2.6vw,22px) }
 .trail-meta{ display:flex; flex-wrap:wrap; gap:8px }
 .pill{
@@ -1364,6 +1364,9 @@ a[aria-disabled="true"] {
   display:flex;
   flex-direction:column;
   width:100%;
+  .city-main {
+  margin-bottom: 10px; /* aumenta espaço abaixo do vídeo */
+}
 }
 
 /* Altura do slider mais baixa para não tapar info */
@@ -1403,7 +1406,8 @@ a[aria-disabled="true"] {
   display:grid;
   grid-auto-flow:column;
   gap:6px;
-  margin-top:8px;
+  margin-top: -6px;  /* aproxima das fotos sem colar demais */
+  margin-bottom: 18px; /* cria espaço para os dados (~3 km, ~2h, etc) */
 }
 
 .city-thumb{
