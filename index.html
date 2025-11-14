@@ -1355,6 +1355,95 @@ a[aria-disabled="true"] {
   color: #8a3a1a !important;
   border: 1px solid #f0b0a0 !important;
 }
+/* foto/vídeo do City Walk ocupa a caixa toda */
+.trail-card-featured .trail-media{
+  padding: 18px;
+}
+
+.city-slider{
+  display:flex;
+  flex-direction:column;
+  width:100%;
+}
+
+.city-main{
+  border-radius:14px;
+  overflow:hidden;
+  position:relative;
+  background:#000;
+  height:220px;
+}
+
+@media (min-width:900px){
+  .city-main{ height:260px; }
+}
+
+.city-main img,
+.city-main video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition: transform .7s ease, filter .7s ease;
+}
+
+/* efeito cinematic no hover */
+.city-main:hover img,
+.city-main:hover video{
+  transform:scale(1.06);
+  filter:brightness(1.05);
+}
+
+/* thumbs em baixo */
+.city-thumbs{
+  display:grid;
+  grid-auto-flow:column;
+  gap:6px;
+  margin-top:8px;
+}
+
+.city-thumb{
+  border:0;
+  padding:0;
+  border-radius:10px;
+  overflow:hidden;
+  background:#0f172a;
+  cursor:pointer;
+  min-width:0;
+  position:relative;
+}
+
+.city-thumb img{
+  width:100%;
+  height:52px;
+  object-fit:cover;
+  display:block;
+}
+
+.city-thumb span{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:52px;
+  padding:0 8px;
+  font-size:12px;
+  font-weight:700;
+  color:#e5f4ff;
+}
+
+/* thumb activa */
+.city-thumb.is-active{
+  outline:2px solid #0ea5e9;
+  outline-offset:1px;
+}
+
+/* em ecrã pequeno as thumbs quebram linha */
+@media (max-width: 900px){
+  .city-thumbs{
+    grid-auto-flow:row;
+    grid-template-columns:repeat(4,1fr);
+  }
+}
 
   </style>
 </head>
@@ -1423,7 +1512,66 @@ Foi ali que aprendi a valorizar a essência desta ilha atlântica, onde cada tri
   data-trail="City Walk • Horta a pé"
   data-price-from="30€ /px"
   data-brief="Percurso circular. Preço base para 1 pessoa. Ponto de encontro Pousada de Santa Cruz.">
-        <div class="trail-media">FOTO • City Walk</div>
+        <div class="trail-media">
+  <div class="city-slider" data-active="0">
+    <div class="city-main">
+      <!-- começa com o vídeo -->
+      <video
+        src="img/city-tour/VID.citytour.mp4"
+        muted
+        loop
+        playsinline
+      ></video>
+    </div>
+
+    <div class="city-thumbs">
+      <!-- thumb do vídeo -->
+      <button class="city-thumb is-active"
+              data-type="video"
+              data-src="img/city-tour/VID.citytour.mp4">
+        <span>Vídeo</span>
+      </button>
+
+      <!-- 6 fotos -->
+      <button class="city-thumb"
+              data-type="img"
+              data-src="img/city-tour/City.tour.Colonia.jpg">
+        <img src="img/city-tour/City.tour.Colonia.jpg" alt="City tour Horta 1">
+      </button>
+
+      <button class="city-thumb"
+              data-type="img"
+              data-src="img/city-tour/City.tour.Igreja.jpg">
+        <img src="img/city-tour/City.tour.Igreja.jpg" alt="City tour Horta 2">
+      </button>
+
+      <button class="city-thumb"
+              data-type="img"
+              data-src="img/city-tour/City.tour.Matriz.jpg">
+        <img src="img/city-tour/City.tour.Matriz.jpg" alt="City tour Horta 3">
+      </button>
+
+      <button class="city-thumb"
+              data-type="img"
+              data-src="img/city-tour/City.tour.JFT.jpg">
+        <img src="img/city-tour/City.tour.JFT.jpg" alt="City tour Horta 4">
+      </button>
+
+      <button class="city-thumb"
+              data-type="img"
+              data-src="img/city-tour/City.tour.JFT2.jpg">
+        <img src="img/city-tour/City.tour.JFT2.jpg" alt="City tour Horta 5">
+      </button>
+
+      <button class="city-thumb"
+              data-type="img"
+              data-src="img/city-tour/City.tour.ILF1.jpg">
+        <img src="img/city-tour/City.tour.ILF1.jpg" alt="City tour Horta 6">
+      </button>
+    </div>
+  </div>
+</div>
+
         <div class="trail-body">
           <h3 class="trail-title">City Walk • Horta a pé</h3>
           <div class="trail-meta--center">
@@ -3080,6 +3228,48 @@ document.querySelectorAll('.pill').forEach(p => {
   }
 });
 
+</script>
+<script>
+// Slider City Walk (vídeo + 6 fotos)
+(function(){
+  const slider = document.querySelector('.city-slider');
+  if (!slider) return;
+
+  const main   = slider.querySelector('.city-main');
+  const thumbs = Array.from(slider.querySelectorAll('.city-thumb'));
+
+  function setActive(thumb){
+    thumbs.forEach(t => t.classList.remove('is-active'));
+    thumb.classList.add('is-active');
+
+    const type = thumb.dataset.type;
+    const src  = thumb.dataset.src;
+
+    main.innerHTML = '';
+
+    if (type === 'video'){
+      const v = document.createElement('video');
+      v.src = src;
+      v.muted = true;
+      v.loop = true;
+      v.playsInline = true;
+      v.autoplay = true;
+      main.appendChild(v);
+    } else {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = 'City Walk Horta';
+      main.appendChild(img);
+    }
+  }
+
+  thumbs.forEach(thumb => {
+    thumb.addEventListener('click', () => setActive(thumb));
+  });
+
+  // começa sempre no vídeo
+  setActive(thumbs[0]);
+})();
 </script>
 
 
