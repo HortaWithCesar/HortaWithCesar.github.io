@@ -1444,6 +1444,67 @@ a[aria-disabled="true"] {
     grid-template-columns:repeat(4,1fr);
   }
 }
+/* === MODAL FULLSCREEN === */
+
+.photo-modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  padding-top: 40px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba(0,0,0,0.88);
+}
+
+.photo-modal-content {
+  margin: auto;
+  display: block;
+  max-width: 90%;
+  max-height: 80%;
+  border-radius: 10px;
+  animation: zoomIn .3s ease;
+}
+
+@keyframes zoomIn {
+  from {transform: scale(0.8); opacity:0;}
+  to   {transform: scale(1); opacity:1;}
+}
+
+.photo-close {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.photo-prev,
+.photo-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 38px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  user-select: none;
+}
+
+.photo-prev { left: 20px; }
+.photo-next { right: 20px; }
+
+.photo-prev:hover,
+.photo-next:hover,
+.photo-close:hover {
+  color: #0ea5e9;
+}
 
   </style>
 </head>
@@ -3269,6 +3330,63 @@ document.querySelectorAll('.pill').forEach(p => {
 
   // começa sempre no vídeo
   setActive(thumbs[0]);
+})();
+</script>
+<!-- Modal de fotos -->
+<div id="photoModal" class="photo-modal">
+  <span class="photo-close">&times;</span>
+  <img class="photo-modal-content" id="photoModalImg">
+  <button class="photo-prev">❮</button>
+  <button class="photo-next">❯</button>
+</div>
+<script>
+/* =============================
+   MODAL DE FOTOS PARA CITY TOUR
+   ============================= */
+
+(function(){
+  const modal = document.getElementById("photoModal");
+  const modalImg = document.getElementById("photoModalImg");
+  const closeBtn = document.querySelector(".photo-close");
+  const nextBtn  = document.querySelector(".photo-next");
+  const prevBtn  = document.querySelector(".photo-prev");
+
+  // pegar as thumbs de imagem
+  const thumbs = Array.from(document.querySelectorAll(".city-thumb[data-type='img']"));
+  let index = 0;
+
+  // clicar numa foto → abre modal
+  thumbs.forEach((thumb, i) => {
+    thumb.addEventListener("click", () => {
+      index = i;
+      modal.style.display = "block";
+      modalImg.src = thumb.dataset.src;
+    });
+  });
+
+  // fechar modal
+  closeBtn.onclick = () => modal.style.display = "none";
+
+  // clicar fora fecha também
+  modal.onclick = (e) => {
+    if (e.target === modal) modal.style.display = "none";
+  };
+
+  // navegar fotos
+  nextBtn.onclick = () => {
+    index = (index + 1) % thumbs.length;
+    modalImg.src = thumbs[index].dataset.src;
+  };
+
+  prevBtn.onclick = () => {
+    index = (index - 1 + thumbs.length) % thumbs.length;
+    modalImg.src = thumbs[index].dataset.src;
+  };
+
+  // tecla ESC fecha
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") modal.style.display = "none";
+  });
 })();
 </script>
 
