@@ -449,6 +449,16 @@ select {
   background-size: 5px 5px;
   background-repeat: no-repeat;
 }
+/* Ajustes só para o select do Período no mobile */
+@media (max-width: 768px) {
+  #period {
+    -webkit-appearance: none;   /* remove alguns estilos estranhos */
+    appearance: none;
+    width: 100%;
+    padding-right: 2.5rem;      /* espaço para a setinha */
+  }
+}
+
  /* ===== MODAL “VER CONDIÇÕES” (fix) ===== */
 .modal-backdrop{
   position:fixed; inset:0;
@@ -1012,8 +1022,24 @@ body.modal-open{ overflow:hidden; }
   .reserve-grid{ grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 640px){
-  .reserve-grid{ grid-template-columns: 1fr; }
+  .reserve-grid{
+    grid-template-columns: 1fr;  /* todos os campos em coluna */
+  }
+
+  /* Garante que os campos ocupam a largura total e não ficam apertados */
+  .reserve-grid .reserve-field {
+    width: 100%;
+  }
+
+  /* Corrige o select do iPhone (Manhã / Tarde) */
+  #period {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    padding-right: 2.5rem; 
+  }
 }
+
 
 .reserve-field label{
   display:block; 
