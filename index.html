@@ -297,10 +297,20 @@ header.scrolled{
 }
 .trail-card{
   grid-column: span 6;
-  background:var(--card); border:1px solid var(--line);
-  border-radius:16px; overflow:hidden; display:grid; grid-template-rows: 180px auto;
+  background:var(--card); 
+  border:1px solid var(--line);
+  border-radius:16px; 
+  overflow:hidden; 
+  display:grid; 
+  grid-template-rows: 180px auto;
   transition: box-shadow .2s ease;
 }
+
+/* override só para o primeiro card (City Walk) */
+.trail-card-featured{
+  grid-template-rows: auto auto;  /* aqui já não é fixo */
+}
+
     /* Estilo especial para o primeiro card destacado */
 .trail-card-featured {
   grid-template-columns: 1fr; /* foto e texto empilhados, não lado a lado */
@@ -1375,7 +1385,7 @@ a[aria-disabled="true"] {
   overflow:hidden;
   position:relative;
   background:#000;
-  height:140px;   /* mobile */
+  height:170px;   /* mobile */
 }
 
 @media (min-width:900px){
@@ -1406,8 +1416,8 @@ a[aria-disabled="true"] {
   display:grid;
   grid-auto-flow:column;
   gap:6px;
-  margin-top: 6px;      /* um bocadinho por baixo do vídeo */
-  margin-bottom: 10px;  /* deixa respirar antes das pills (~3 km, ~2h...) */
+  margin-top: 8px;      /* um bocadinho por baixo do vídeo */
+  margin-bottom: 12px;  /* deixa respirar antes das pills (~3 km, ~2h...) */
 }
 
 
@@ -1516,8 +1526,8 @@ a[aria-disabled="true"] {
 /* Sobe o bloco inteiro da imagem + thumbs */
 /* Sobe um bocadinho o vídeo+thumbs, mas sem tapar o título */
 .trail-card-featured .trail-media{
-  margin-top: -10px;   /* sobe só um pouco o bloco inteiro */
-  margin-bottom: 24px; /* espaço normal antes do título */
+  margin-top: 0px;   /* sobe só um pouco o bloco inteiro */
+  margin-bottom: 0px; /* espaço normal antes do título */
 }
 
 
