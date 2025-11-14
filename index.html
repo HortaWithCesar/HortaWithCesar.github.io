@@ -1406,9 +1406,10 @@ a[aria-disabled="true"] {
   display:grid;
   grid-auto-flow:column;
   gap:6px;
-  margin-top: -6px;  /* aproxima das fotos sem colar demais */
-  margin-bottom: 18px; /* cria espaço para os dados (~3 km, ~2h, etc) */
+  margin-top: 6px;      /* um bocadinho por baixo do vídeo */
+  margin-bottom: 10px;  /* deixa respirar antes das pills (~3 km, ~2h...) */
 }
+
 
 .city-thumb{
   border:0;
@@ -1513,10 +1514,12 @@ a[aria-disabled="true"] {
   color: #0ea5e9;
 }
 /* Sobe o bloco inteiro da imagem + thumbs */
+/* Sobe um bocadinho o vídeo+thumbs, mas sem tapar o título */
 .trail-card-featured .trail-media{
-  margin-bottom: -55px;  /* valor ajustável */
-  margin-top: -20px;     /* sobe tudo */
+  margin-top: -10px;   /* sobe só um pouco o bloco inteiro */
+  margin-bottom: 24px; /* espaço normal antes do título */
 }
+
 
   </style>
 </head>
