@@ -1529,6 +1529,44 @@ a[aria-disabled="true"] {
   margin-top: 0px;   /* sobe só um pouco o bloco inteiro */
   margin-bottom: 0px; /* espaço normal antes do título */
 }
+/* ===== Slider em loop para outros trilhos (ex: Entre Montes) ===== */
+
+.loop-slider{
+  width:100%;
+}
+
+.loop-main{
+  border-radius:14px;
+  overflow:hidden;
+  position:relative;
+  background:#000;
+  height:170px;           /* ajusta aqui a altura */
+}
+
+@media (min-width:900px){
+  .loop-main{ height:190px; }
+}
+
+.loop-main img,
+.loop-main video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition: transform .7s ease, filter .7s ease;
+}
+
+/* pequeno efeito cinematic no hover */
+.loop-main:hover img,
+.loop-main:hover video{
+  transform:scale(1.04);
+  filter:brightness(1.05);
+}
+
+/* a lista de medias fica escondida, é só para o JS ler */
+.loop-items{
+  display:none;
+}
 
 
   </style>
@@ -1698,7 +1736,26 @@ Foi ali que aprendi a valorizar a essência desta ilha atlântica, onde cada tri
   data-trail="Entre Montes (Horta)"
   data-price-from="40€ / px"
   data-brief="Percurso circular. Preço base para 1 pessoa. Ponto de encontro Peter Cafe Sport.">
-        <div class="trail-media">FOTO • Entre Montes</div>
+          <div class="trail-media">
+    <div class="loop-slider" id="slider-entre-montes">
+      <div class="loop-main"></div>
+
+      <!-- lista escondida com as medias (1 vídeo + fotos) -->
+      <div class="loop-items">
+        <!-- vídeo primeiro -->
+        <span data-type="video" data-src="img/entre-montes/entre-montes-video.mp4"></span>
+
+        <!-- fotos (mete os nomes certos que tens no GitHub) -->
+        <span data-type="img" data-src="img/entre-montes/entre-montes-1.jpg"></span>
+        <span data-type="img" data-src="img/entre-montes/entre-montes-2.jpg"></span>
+        <span data-type="img" data-src="img/entre-montes/entre-montes-3.jpg"></span>
+        <span data-type="img" data-src="img/entre-montes/entre-montes-4.jpg"></span>
+        <span data-type="img" data-src="img/entre-montes/entre-montes-5.jpg"></span>
+        <span data-type="img" data-src="img/entre-montes/entre-montes-6.jpg"></span>
+      </div>
+    </div>
+  </div>
+
         <div class="trail-body">
           <h3 class="trail-title">Entre Montes (Horta)</h3>
           <div class="trail-meta">
@@ -3365,55 +3422,137 @@ document.querySelectorAll('.pill').forEach(p => {
   <button class="photo-next">❯</button>
 </div>
 <script>
-/* =============================
-   MODAL DE FOTOS PARA CITY TOUR
-   ============================= */
-
+<script>
+/* ===========================================
+   MODAL DE FOTOS (City Walk + Entre Montes)
+   =========================================== */
 (function(){
-  const modal = document.getElementById("photoModal");
-  const modalImg = document.getElementById("photoModalImg");
-  const closeBtn = document.querySelector(".photo-close");
-  const nextBtn  = document.querySelector(".photo-next");
-  const prevBtn  = document.querySelector(".photo-prev");
+  const modal    = document.getElementById("photoModal");
+  if (!modal) return;
 
-  // pegar as thumbs de imagem
-  const thumbs = Array.from(document.querySelectorAll(".city-thumb[data-type='img']"));
+  const modalImg = document.getElementById("photoModalImg");
+  const closeBtn = modal.querySelector(".photo-close");
+  const nextBtn  = modal.querySelector(".photo-next");
+  const prevBtn  = modal.querySelector(".photo-prev");
+
+  // --- GALERIA CITY WALK (pelas thumbs) ---
+  const cityThumbs = Array.from(
+    document.querySelectorAll(".city-thumb[data-type='img']")
+  );
+  const cityImgs = cityThumbs.map(t => t.dataset.src);
+
+  // --- GALERIA ENTRE MONTES (pelas loop-items) ---
+  const entreSlider = document.getElementById("slider-entre-montes");
+  const entreImgs = entreSlider
+    ? Array.from(entreSlider.querySelectorAll(".loop-items span[data-type='img']"))
+        .map(el => el.dataset.src)
+    : [];
+
+  let currentGallery = null; // "city" ou "entre"
   let index = 0;
 
-  // clicar numa foto → abre modal
-  thumbs.forEach((thumb, i) => {
-    thumb.addEventListener("click", () => {
-      index = i;
-      modal.style.display = "block";
-      modalImg.src = thumb.dataset.src;
+  function openGallery(gal, start){
+    const list = gal === "city" ? cityImgs : entreImgs;
+    if (!list.length) return;
+
+    currentGallery = gal;
+    index = start || 0;
+    modalImg.src = list[index];
+    modal.style.display = "block";
+  }
+
+  // --- City: clicar nas thumbs abre modal na foto certa ---
+  cityThumbs.forEach((thumb, i) => {
+    thumb.addEventListener("dblclick", function(){
+      // duplo-clique na thumb abre modal
+      openGallery("city", i);
     });
   });
 
+  // --- Entre Montes: clicar no vídeo/foto abre modal (sempre começa na 1ª) ---
+  if (entreSlider){
+    const main = entreSlider.querySelector(".loop-main");
+    main.addEventListener("click", function(){
+      openGallery("entre", 0);
+    });
+  }
+
+  // controlo das setas
+  function showNext(step){
+    const list = currentGallery === "city" ? cityImgs : entreImgs;
+    if (!list.length) return;
+    index = (index + step + list.length) % list.length;
+    modalImg.src = list[index];
+  }
+
+  nextBtn.onclick = () => showNext(+1);
+  prevBtn.onclick = () => showNext(-1);
+
   // fechar modal
   closeBtn.onclick = () => modal.style.display = "none";
-
-  // clicar fora fecha também
   modal.onclick = (e) => {
     if (e.target === modal) modal.style.display = "none";
   };
 
-  // navegar fotos
-  nextBtn.onclick = () => {
-    index = (index + 1) % thumbs.length;
-    modalImg.src = thumbs[index].dataset.src;
-  };
-
-  prevBtn.onclick = () => {
-    index = (index - 1 + thumbs.length) % thumbs.length;
-    modalImg.src = thumbs[index].dataset.src;
-  };
-
-  // tecla ESC fecha
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") modal.style.display = "none";
+    if (e.key === "ArrowRight") showNext(+1);
+    if (e.key === "ArrowLeft")  showNext(-1);
   });
 })();
 </script>
+<script>
+/* ============================
+   LOOP AUTOMÁTICO ENTRE MONTES
+   ============================ */
+(function(){
+  const slider = document.getElementById("slider-entre-montes");
+  if (!slider) return;
+
+  const main  = slider.querySelector(".loop-main");
+  const items = Array.from(
+    slider.querySelectorAll(".loop-items span")
+  );
+
+  if (!items.length) return;
+
+  let idx = 0;
+
+  function render(i){
+    const item = items[i];
+    if (!item) return;
+    main.innerHTML = "";
+
+    const type = item.dataset.type;
+    const src  = item.dataset.src;
+
+    if (type === "video"){
+      const v = document.createElement("video");
+      v.src = src;
+      v.muted = true;
+      v.loop = true;
+      v.playsInline = true;
+      v.autoplay = true;
+      main.appendChild(v);
+    } else {
+      const img = document.createElement("img");
+      img.src = src;
+      img.alt = "Trilho Entre Montes";
+      main.appendChild(img);
+    }
+  }
+
+  // mostra o primeiro (vídeo)
+  render(idx);
+
+  // muda de media a cada 2 segundos
+  setInterval(() => {
+    idx = (idx + 1) % items.length;
+    render(idx);
+  }, 2000);
+})();
+</script>
+
 
 
 </body>
