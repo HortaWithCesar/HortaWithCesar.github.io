@@ -14,12 +14,50 @@
 header img {
   animation: fadeIn 1.4s ease forwards;
 }
+footer img {
+  animation: fadeIn 1.8s ease forwards;
+}
+    /* Altura e alinhamento do menu */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;            /* altura total da barra */
+}
 
-/* Reset básico e layout */
-:root{
-      --bg:#020617;
-      --fg:#0f172a;
-      --muted:#64748b;
+/* Espaçamento interno do header */
+header .wrap {
+  padding: 8px 18px;       /* pequeno respiro vertical */
+}
+
+/* ===== HEADER FIXO ===== */
+header{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255,255,255,.9);
+  backdrop-filter: saturate(150%) blur(6px);
+  border-bottom: 1px solid var(--line);
+  z-index: 999;
+  transition: box-shadow .3s ease;
+}
+
+/* Sombra quando há scroll */
+header.scrolled{
+  box-shadow: 0 4px 10px rgba(0,0,0,.08);
+}
+
+/* Grelha base para centralizar conteúdo */
+.wrap{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 18px;
+}
+
+
+    :root{
+      --bg:#ffffff; --fg:#0f172a; --muted:#475569; --brand:#0ea5e9; --brand2:#10b981;
       --card:#f8fafc; --line:#e2e8f0;
     }
     *{box-sizing:border-box}
@@ -34,742 +72,1618 @@ header img {
 
     nav a{color:var(--fg);text-decoration:none;margin-left:18px;font-weight:600}
     nav a:hover{color:var(--brand)}
-    .wrap{
-      max-width:1080px;
-      margin:0 auto;
-      padding:0 16px;
-    }
-    header{
-      position:fixed;
-      top:0;left:0;right:0;
-      backdrop-filter:blur(16px);
-      background:rgba(15,23,42,.92);
-      border-bottom:1px solid rgba(148,163,184,.4);
-      z-index:20;
-    }
-    header .wrap{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      height:80px;
-    }
-    header nav{display:flex;align-items:center;justify-content:space-between;width:100%}
-    h1,h2,h3{margin:0 0 12px;font-weight:700;color:#0f172a}
-    h1{font-size:clamp(28px,4vw,38px)}
-    h2{font-size:clamp(24px,3vw,30px)}
-    h3{font-size:20px}
-    p{line-height:1.6;margin:0 0 12px}
-    a{color:#0f172a}
-    a:hover{color:#0ea5e9}
-    .small{font-size:12px;color:#64748b}
-
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      border-radius:999px;
-      padding:10px 18px;
-      font-size:14px;
-      font-weight:600;
-      border:none;
-      cursor:pointer;
-      transition:all .18s ease-out;
-      text-decoration:none;
-      white-space:nowrap;
-    }
-    .btn-primary{
-      background:#22c55e;
-      color:#022c22;
-      box-shadow:0 10px 25px rgba(34,197,94,.35);
-    }
-    .btn-primary:hover{
-      background:#16a34a;
-      box-shadow:0 12px 30px rgba(34,197,94,.45);
-      transform:translateY(-1px);
-    }
-    .btn-ghost{
-      background:transparent;
-      color:#0f172a;
-      border:1px solid rgba(148,163,184,.7);
-    }
-    .btn-ghost:hover{
-      border-color:#0f172a;
-      background:rgba(15,23,42,.03);
-    }
-    .btn-outline{
-      background:#0f172a;
-      color:#e5e7eb;
-      border:1px solid #0f172a;
-    }
-    .btn-outline:hover{
-      background:#020617;
-    }
-    .btn-sm{
-      padding:6px 12px;
-      font-size:12px;
-    }
-
-    section{
-      padding:56px 0;
-    }
-
-    .about{
-      position:relative;
-      overflow:hidden;
-    }
-    .about .accent{
-      position:absolute;
-      inset:-80px 50% auto auto;
-      width:360px;
-      opacity:.7;
-      pointer-events:none;
-    }
-    .about .accent svg{
-      width:100%;
-      height:auto;
-    }
-    .about > div{
-      position:relative;
-      max-width:700px;
-    }
-
-    .photo-float{
-      float:right;
-      margin:0 0 14px 24px;
-      shape-outside:circle();
-      border-radius:999px;
-      width:140px;
-      height:140px;
-      overflow:hidden;
-      box-shadow:0 18px 45px rgba(15,23,42,.32);
-    }
-    .photo-float img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-    }
-
-    .vision{
-      padding:10px 14px;
-      border-radius:12px;
-      background:rgba(34,197,94,.07);
-      border:1px solid rgba(34,197,94,.25);
-      font-weight:500;
-      margin:16px 0;
-    }
-
-    .tours-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      margin-bottom:24px;
-    }
-    .scroll-cue{
-      font-size:13px;
-      color:#0f172a;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-    }
-    .scroll-cue::after{
-      content:"";
-      width:30px;
-      height:1px;
-      background:#0f172a;
-      opacity:.5;
-    }
-
-    .tours-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      gap:20px;
-    }
-
-    .trail-card{
-      background:#f8fafc;
-      border-radius:18px;
-      padding:14px;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      box-shadow:0 14px 40px rgba(15,23,42,.18);
-      border:1px solid rgba(148,163,184,.35);
-      position:relative;
-      overflow:hidden;
-    }
-
-    .trail-card-featured{
-      display:grid;
-      grid-template-columns: minmax(0,1.05fr) minmax(0,1fr);
-      gap:18px;
-      align-items:stretch;
-    }
-
-    .trail-media{
-      border-radius:16px;
-      overflow:hidden;
-      background:#020617;
-      min-height:220px;
-      position:relative;
-    }
-
-    .trail-body{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-
-    .trail-title{
-      font-size:18px;
-      margin-bottom:6px;
-    }
-
-    .trail-meta,
-    .trail-meta--center{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      align-items:center;
-    }
-
-    .trail-meta--center{
-      justify-content:flex-start;
-    }
-
-    .pill{
-      border-radius:999px;
-      padding:4px 10px;
-      font-size:12px;
-      background:#e2e8f0;
-      color:#020617;
-    }
-
-    .trail-actions{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      margin-top:8px;
-      flex-wrap:wrap;
-    }
-
-    .btn-whatsapp{
-      padding:0;
-      border-radius:999px;
-      width:40px;
-      height:40px;
-      border:none;
-      cursor:pointer;
-      background:#22c55e;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      box-shadow:0 10px 25px rgba(34,197,94,.4);
-    }
-
-    .btn-whatsapp img{
-      width:24px;
-      height:24px;
-      display:block;
-    }
-
-    .lang-toggle{
-      display:inline-flex;
-      border-radius:999px;
-      border:1px solid rgba(148,163,184,.6);
-      overflow:hidden;
-      margin-left:10px;
-    }
-    .lang-toggle button{
-      border:none;
-      background:transparent;
-      padding:4px 10px;
-      font-size:11px;
-      font-weight:600;
-      cursor:pointer;
-      color:#e5e7eb;
-    }
-    .lang-toggle button.active{
-      background:#e5e7eb;
-      color:#0f172a;
-    }
-
-    .modal-backdrop{
-      position:fixed;
-      inset:0;
-      background:rgba(15,23,42,.75);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      z-index:40;
-    }
-    .modal-backdrop.is-open{display:flex}
-    .modal{
-      background:#f8fafc;
-      border-radius:18px;
-      max-width:520px;
-      width:100%;
-      max-height:90vh;
-      overflow:auto;
-      padding:18px 18px 20px;
-      box-shadow:0 22px 60px rgba(15,23,42,.55);
-      border:1px solid rgba(148,163,184,.6);
-    }
-    .modal h2{
-      margin-bottom:4px;
-      font-size:20px;
-    }
-    .modal__header{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:12px;
-      margin-bottom:12px;
-    }
-
-    .close-x{
-      border:none;
-      background:transparent;
-      font-size:20px;
-      cursor:pointer;
-      color:#64748b;
-    }
-
-    form{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-    label{
-      font-size:13px;
-      color:#475569;
-      margin-bottom:2px;
-      display:block;
-    }
-    input,select,textarea{
-      width:100%;
-      border-radius:10px;
-      border:1px solid #cbd5f5;
-      padding:7px 10px;
-      font-size:14px;
-      font-family:inherit;
-    }
-    textarea{
-      min-height:70px;
-      resize:vertical;
-    }
-
-    .field-row{
-      display:flex;
-      gap:10px;
-    }
-    .field-row > div{flex:1}
-
-    .contact-grid{
-      display:grid;
-      grid-template-columns:2fr 1.2fr;
-      gap:28px;
-      align-items:flex-start;
-    }
-
-    .contact-card{
-      background:#f8fafc;
-      border-radius:18px;
-      padding:16px 16px 12px;
-      border:1px solid rgba(148,163,184,.45);
-      box-shadow:0 18px 45px rgba(15,23,42,.22);
-    }
-
-    .contact-card h3{
-      margin-bottom:6px;
-    }
-
-    .contact-list{
-      margin:10px 0 0;
-      padding:0;
-      list-style:none;
-      font-size:14px;
-      color:#0f172a;
-    }
-
-    .contact-list li{
-      margin-bottom:8px;
-      display:flex;
-      gap:8px;
-      align-items:flex-start;
-    }
-
-    .contact-list span.label{
-      display:inline-block;
-      min-width:80px;
-      font-weight:600;
-      color:#475569;
-    }
-
-    .contact-list a{
-      color:#0f172a;
-      text-decoration:none;
-    }
-
-    .contact-list a:hover{
-      text-decoration:underline;
-    }
-
-    .contact-note{
-      font-size:12px;
-      color:#64748b;
-      margin-top:8px;
-    }
-
-    .contact-note a{
-      color:#0f172a;
-      text-decoration:underline;
-    }
-
-    footer{
-      padding:24px 0 40px;
-      font-size:12px;
-      color:#94a3b8;
-    }
-
-    footer .wrap{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    footer a{
-      color:#e5e7eb;
-      text-decoration:none;
-    }
-
-    footer a:hover{
-      text-decoration:underline;
-    }
-
-    .reveal{
-      opacity:0;
-      transform:translateY(10px);
-      transition:all .4s ease-out;
-    }
-    .reveal.in{
-      opacity:1;
-      transform:translateY(0);
-    }
-
-    .btn-conditions{
-      font-size:12px;
-      padding:6px 12px;
-      border-radius:999px;
-      border:1px dashed rgba(148,163,184,.8);
-      background:rgba(15,23,42,.01);
-    }
-
-    .conditions_text{
-      font-size:12px;
-      color:#0f172a;
-      margin:4px 0 0;
-    }
-
-    .damage-note{
-      font-size:11px;
-      color:#0f172a;
-      margin-top:8px;
-    }
-
-    .modal-conditions p{
-      font-size:13px;
-      margin-bottom:8px;
-    }
-
-    .modal-conditions ul{
-      font-size:13px;
-      padding-left:18px;
-    }
-
-    .modal-conditions li{
-      margin-bottom:4px;
-    }
-
-    .city-slider{
-      position:relative;
-      width:100%;
-      height:100%;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
-
-    .city-main{
-      flex:1;
-      border-radius:14px;
-      overflow:hidden;
-      background:#020617;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    .city-main img,
-    .city-main video{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-
-    .city-thumbs{
-      display:flex;
-      gap:6px;
-      flex-wrap:wrap;
-    }
-
-    .city-thumb{
-      border:none;
-      border-radius:10px;
-      overflow:hidden;
-      padding:0;
-      cursor:pointer;
-      flex:1 1 80px;
-      max-width:calc(33% - 4px);
-      position:relative;
-      isolation:isolate;
-    }
-
-    .city-thumb img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-      filter:brightness(.9);
-      transition:filter .2s ease-out, transform .2s ease-out;
-    }
-
-    .city-thumb span{
-      position:absolute;
-      inset:auto 6px 6px 6px;
-      font-size:11px;
-      font-weight:600;
-      padding:4px 6px;
-      border-radius:999px;
-      background:rgba(15,23,42,.85);
-      color:#e5e7eb;
-      text-align:center;
-    }
-
-    .city-thumb.is-active img{
-      filter:brightness(1.05);
-      transform:translateY(-1px);
-      box-shadow:0 10px 25px rgba(15,23,42,.7);
-    }
-
-    .city-thumb.is-active span{
-      background:#22c55e;
-      color:#022c22;
-    }
-
-    .loop-slider{
-      position:relative;
-      width:100%;
-      height:100%;
-      min-height:220px;
-      border-radius:14px;
-      overflow:hidden;
-      background:#020617;
-    }
-
-    .loop-main{
-      width:100%;
-      height:100%;
-    }
-
-    .loop-main img,
-    .loop-main video{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-
-    .loop-items{
-      display:none;
-    }
-
-    .contact-hero{
-      font-size:13px;
-      color:#0f172a;
-      margin-bottom:10px;
-    }
-
-    .whatsapp-inline{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-    }
-
-    .whatsapp-inline img{
-      width:18px;
-      height:18px;
-      display:block;
-    }
-
-    .damage-note strong{
-      font-weight:600;
-    }
-
-    .privacy-link{
-      color:#0f172a;
-      font-weight:600;
-      text-decoration:underline;
-      cursor:pointer;
-    }
-
-    .hero-trails{
-      display:flex;
-      gap:40px;
-      flex-wrap:wrap;
-      margin-top:32px;
-    }
-
-    .hero-col{
-      flex:1 1 280px;
-      min-width:260px;
-    }
-
-    .hero-col ul{
-      list-style:none;
-      padding:0;
-      margin:0;
-      font-size:14px;
-      color:#0f172a;
-    }
-
-    .hero-col li{
-      margin-bottom:8px;
-    }
-
-    .hero-col li strong{
-      font-weight:600;
-    }
-
-    .hero-note{
-      font-size:12px;
-      color:#64748b;
-      margin-top:8px;
-    }
-
-    .damage-note a{
-      color:#0f172a;
-      text-decoration:underline;
-    }
-
-    .privacy-modal{
-      font-size:13px;
-    }
-
-    .privacy-modal h3{
-      margin-top:0;
-      margin-bottom:8px;
-    }
-
-    .privacy-modal p{
-      margin-bottom:8px;
-    }
-
-    .privacy-modal ul{
-      margin:0 0 8px 16px;
-      padding:0;
-    }
-
-    .privacy-modal li{
-      margin-bottom:4px;
-    }
-
-    .modal-footer{
-      margin-top:10px;
-      font-size:12px;
-      color:#64748b;
-    }
-
-    .modal-footer a{
-      color:#0f172a;
-      text-decoration:underline;
-    }
-
-    .hero-intro{
-      font-size:14px;
-      color:#0f172a;
-      margin-bottom:16px;
-    }
-
-    .hero-intro strong{
-      font-weight:700;
-    }
-
-    .hero-highlight{
-      font-size:13px;
-      color:#0f172a;
-      margin:8px 0 0;
-    }
-
-    .damage-note em{
-      font-style:italic;
-    }
-
-    .hero-intro em{
-      font-style:italic;
-    }
-
-    .hero-badges{
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
-      margin-bottom:10px;
-    }
-
-    .hero-badges .pill{
-      background:#e0f2fe;
-      color:#0f172a;
-      font-size:11px;
-    }
-
-    .hero-badges .pill strong{
-      font-weight:700;
-    }
-
-    .hero-badges .pill svg{
-      margin-right:4px;
-    }
-
-    .damage-note strong{
-      font-weight:600;
-    }
-
-    .trail-picker{
-      margin-top:6px;
-      width:100%;
-      border-radius:999px;
-      border:1px solid var(--line);
-      padding:8px 14px;
-      font-size:14px;
-      background:#fff;
-    }
+    .lang-toggle{display:inline-flex;gap:6px;background:var(--card);border:1px solid var(--line);padding:6px;border-radius:999px}
+    .lang-toggle button{border:0;background:transparent;padding:6px 10px;border-radius:999px;font-weight:700;cursor:pointer}
+    .lang-toggle button.active{background:var(--brand);color:#fff}
+
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center;padding:56px 0}
+    .hero .media{min-height:260px;border:2px dashed var(--line);border-radius:16px;display:grid;place-items:center;font-weight:700;color:var(--muted)}
+    h1{font-size:clamp(28px,4vw,44px);line-height:1.1;margin:0 0 8px}
+    p.lead{font-size:clamp(16px,2.3vw,20px);color:var(--muted);margin:0 0 18px}
+    .cta{display:flex;gap:12px;flex-wrap:wrap}
+    .btn{appearance:none;border:0;border-radius:999px;padding:12px 18px;font-weight:700;cursor:pointer}
+    .btn-primary{background:var(--brand);color:#fff}
+    .btn-outline{background:#fff;border:2px solid var(--brand);color:var(--brand)}
+
+    section{padding:40px 0;border-top:1px solid var(--line)}
+    h2{font-size:clamp(22px,3vw,32px);margin:0 0 16px}
+    /* Sobre mim: largura própria, sem grelha */
+.about{
+  display:block;           /* sai da grid de 2 colunas */
+  max-width:1000px;        /* mais largo que antes, mas só aqui */
+  margin:40px auto;        /* centra a secção e dá respiro */
+  line-height:1.65;
+  font-size:18px;
+}
+/* controla o comprimento das linhas para ficar legível */
+.about p{max-width:80ch}
+
+/* garante que a imagem flutuante não “empurra” o rodapé */
+.about::after{content:"";display:block;clear:both}
+
+    .ph{min-height:220px;border:2px dashed var(--line);border-radius:14px;display:grid;place-items:center;color:var(--muted);font-weight:700}
+
+    .tours{display:grid;gap:22px}
+    .tour-card{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+    .tour-media{display:grid;gap:10px}
+    .vid{height:160px;border:2px dashed var(--line);border-radius:12px;display:grid;place-items:center;color:var(--muted);font-weight:700}
+    .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .shot{height:80px;border:2px dashed var(--line);border-radius:10px;display:grid;place-items:center;color:var(--muted);font-size:12px}
+    .facts{display:grid;gap:10px}
+    .pill{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 10px;margin-right:8px;font-size:14px}
+    .reserve{margin-top:8px}
+
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    form{display:grid;gap:10px}
+    label{font-size:14px;color:var(--muted)}
+    input,select,textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;font:inherit}
+    textarea{min-height:110px}
+    .map{min-height:220px;border:2px dashed var(--line);border-radius:12px;display:grid;place-items:center;color:var(--muted);font-weight:700}
+
+    footer{padding:32px 0;color:var(--muted);text-align:center;border-top:1px solid var(--line)}
+    footer img{height:40px;display:block;margin:0 auto 10px}
+    .small{font-size:12px;color:var(--muted)}
+
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr}
+      .about{grid-template-columns:1fr}
+      .tour-card{grid-template-columns:1fr}
+      .gallery{grid-template-columns:repeat(2,1fr)}
+    }
+    .about .photo-wrap {
+  position: relative;
+  float: right;
+  max-width: 420px;          /* tamanho máximo da imagem */
+  margin: 8px 0 16px 36px;   /* empurra o texto à esquerda */
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.about .photo-wrap::before {
+  content: "";
+  position: absolute;
+  top: -12%;
+  left: -8%;
+  width: 150%;
+  height: 150%;
+  background: radial-gradient(
+    circle at center,
+    rgba(16,185,129,0.25) 0%,
+    rgba(34,197,94,0.18) 40%,
+    rgba(101,163,13,0.10) 80%,
+    transparent 100%
+  );
+  z-index: 0;
+}
+
+.about .photo-wrap img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: inherit;
+}
+
+
+/* Garante que o conteúdo fica por cima do fundo */
+.wrap, footer { position: relative; z-index: 1; }
+/* Secção Sobre mim com camada de acento ao fundo */
+#about{ position:relative; }
+#about > *{ position:relative; z-index:2; }          /* conteúdo acima do fundo */
+#about .accent{
+  position:absolute; inset:0;
+  z-index:1; pointer-events:none;
+}
+
+/* controla a posição/tamanho do grafismo */
+#about .accent svg{
+  position:absolute; right:6%; top:6%;
+  width:min(520px,45vw); height:auto;
+  opacity:.18;                                        /* intensidade do desenho */
+  filter: drop-shadow(0 10px 24px rgba(0,0,0,.06));
+}
+
+/* mancha verde suave por baixo do SVG (para dar “glow”) */
+#about .accent::before{
+  content:""; position:absolute; right:0; top:0; bottom:-10%;
+  width:50%; border-bottom-left-radius:60% 80%;
+  background: radial-gradient(70% 60% at 65% 35%,
+    rgba(34,197,94,.18) 0%,
+    rgba(16,185,129,.12) 40%,
+    rgba(16,185,129,.06) 70%,
+    transparent 100%);
+}
+#about {
+  position: relative;
+}
+
+#about > * {
+  position: relative;
+  z-index: 2;
+}
+
+#about .accent {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* posição e tamanho da folha */
+#about .accent svg {
+  position: absolute;
+  right: 4%;
+  top: 8%;
+  width: min(460px, 38vw);
+  opacity: .12;
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,.05));
+}
+/* posicionamento das camadas na secção */
+#about{ position:relative; }
+#about > *{ position:relative; z-index:2; }     /* conteúdo por cima do fundo */
+
+/* a camada do grafismo fica por baixo e não é clicável */
+#about .accent{
+  position:absolute; inset:0; z-index:1; pointer-events:none;
+}
+
+/* posição/escala do SVG (ajusta aqui para “assentar” na foto) */
+#about .accent svg{
+  position:absolute;
+  right:4%;           /* aproxima/afasta da direita */
+  top:8%;             /* desce/sobe o desenho */
+  width:min(460px,38vw);
+  opacity:.12;        /* 0.10 mais suave | 0.16 mais visível */
+  filter:drop-shadow(0 8px 18px rgba(0,0,0,.05));
+}
+/* Foto flutuante à direita + halo suave */
+.photo-float{
+  float: right;
+  max-width: 420px;          /* tamanho da foto */
+  margin: 8px 0 16px 36px;   /* espaço entre foto e texto à esquerda */
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+.photo-float img{
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: inherit;
+}
+
+/* Opcional: glow verde muito discreto por trás da foto */
+.photo-float::before{
+  content:"";
+  position:absolute; inset:-12% -8% auto auto;
+  width:150%; height:150%;
+  background: radial-gradient(circle at 60% 40%,
+    rgba(16,185,129,.22) 0%,
+    rgba(34,197,94,.14) 45%,
+    rgba(101,163,13,.08) 80%,
+    transparent 100%);
+  z-index:0;
+}
+.photo-float{ position:relative; } /* para o ::before funcionar */
+.photo-float img{ position:relative; z-index:1; }
+
+/* Mobile */
+@media (max-width: 820px){
+  .photo-float{ float:none; margin:20px auto; max-width:80%; }
+}
+/* ===== TRILHOS ===== */
+#tours{
+  padding: 60px 0;
+  border-top: 1px solid var(--line);
+}
+
+.tours-head{
+  display:flex; align-items:center; justify-content:space-between; gap:18px;
+  margin-bottom: 18px;
+}
+.tours-head h2{ margin:0 }
+.scroll-cue{
+  appearance:none; border:0; border-radius:999px; padding:10px 14px;
+  background:var(--brand); color:#fff; font-weight:700; cursor:pointer;
+  display:inline-flex; align-items:center; gap:8px;
+  box-shadow:0 6px 18px rgba(2,132,199,.25);
+}
+.scroll-cue:hover{ transform:translateY(1px); }
+
+.tours-grid{
+  display:grid; gap:18px;
+  grid-template-columns: repeat(12, 1fr);
+}
+.trail-card{
+  grid-column: span 6;
+  background:var(--card); 
+  border:1px solid var(--line);
+  border-radius:16px; 
+  overflow:hidden; 
+  display:grid; 
+  grid-template-rows: 180px auto;
+  transition: box-shadow .2s ease;
+}
+
+/* override só para o primeiro card (City Walk) */
+.trail-card-featured{
+  grid-template-rows: auto auto;  /* aqui já não é fixo */
+}
+
+    /* Estilo especial para o primeiro card destacado */
+.trail-card-featured {
+  grid-template-columns: 1fr; /* foto e texto empilhados, não lado a lado */
+  text-align: center;
+}
+
+/* força todos os botões a ter a mesma altura e alinhamento */
+.trail-actions a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+}
+
+/* corrige o WhatsApp (ícone redondo) para alinhar no meio */
+.trail-actions .btn-whatsapp,
+.trail-actions .brand-round {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+/* pequeno efeito premium opcional */
+.trail-actions a:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
+
+/* Opcional: ligeiramente mais largo e com sombra suave */
+.trail-card-featured {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
+  padding: 28px;
+}
+.trail-card-featured p {
+  max-width: 80%;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.trail-card:hover{ box-shadow: 0 14px 28px rgba(2,6,23,.08) }
+
+.trail-media{
+  background:#eef6ff; display:grid; place-items:center; font-weight:700; color:var(--muted);
+}
+    /* Ajuste para header fixo em ecrãs mais pequenos */
+@media (max-width: 768px){
+  body{
+    padding-top: 72px;   /* sobe um bocadinho o conteúdo para não ficar por baixo da barra */
+  }
+}
+
+.trail-body{ padding:36px; display:grid; gap:10px }
+.trail-title{ margin:0; font-size:clamp(18px,2.6vw,22px) }
+.trail-meta{ display:flex; flex-wrap:wrap; gap:8px }
+.pill{
+  display:inline-block; background:#fff; border:1px solid var(--line);
+  border-radius:999px; padding:6px 10px; font-size:14px
+}
+.btn{ appearance:none; border:0; border-radius:999px; padding:10px 14px; font-weight:700; cursor:pointer }
+.btn-primary{ background:var(--brand); color:#fff }
+.btn-outline{ background:#fff; border:2px solid var(--brand); color:var(--brand) }
+/* Botão WhatsApp - cor oficial */
+.btn-whatsapp {
+  background-color: #25D366;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+}
+
+.btn-whatsapp:hover {
+  background-color: #1ebe5b;
+  transform: translateY(-2px);
+}
+
+/* Botão Ver Condições - azul com fundo branco */
+.btn-conditions {
+  color: #007bff;
+  background-color: #fff;
+  border: 2px solid #007bff;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.btn-conditions:hover {
+  background-color: #007bff;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* Efeito hover geral */
+.trail-actions a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Reservar (azul sólido) */
+.btn-reservar {
+  background: #0ea5e9;
+  color: #fff;
+  border: none;
+}
+
+/* WhatsApp (verde app) */
+.btn-whatsapp {
+  background: #25D366;
+  color: #fff;
+  border: none;
+}
+
+/* Ver condições (borda azul, fundo branco) */
+.btn-conditions {
+  background: #fff;
+  color: #0ea5e9;
+  border: 2px solid #0ea5e9;
+}
+
+
+/* animação de entrada */
+.reveal{ opacity:0; transform: translateY(14px); }
+.reveal.in{ opacity:1; transform:none; transition: all .55s ease }
+
+/* layout responsivo */
+@media (max-width: 980px){
+  .trail-card{ grid-column: span 12; }
+}
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  font: inherit;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #888 50%), 
+                    linear-gradient(135deg, #888 50%, transparent 50%);
+  background-position: calc(100% - 20px) calc(1em + 4px),
+                       calc(100% - 15px) calc(1em + 4px);
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+}
+/* Ajustes só para o select do Período no mobile */
+@media (max-width: 768px) {
+  #period {
+    -webkit-appearance: none;   /* remove alguns estilos estranhos */
+    appearance: none;
+    width: 100%;
+    padding-right: 2.5rem;      /* espaço para a setinha */
+  }
+}
+
+ /* ===== MODAL “VER CONDIÇÕES” (fix) ===== */
+.modal-backdrop{
+  position:fixed; inset:0;
+  background:rgba(2,6,23,.55);
+  backdrop-filter: blur(2px);
+  display:none;                 /* escondido por omissão */
+  z-index:9999;
+}
+.modal-backdrop.open{
+  display:flex;                 /* centra o modal */
+  align-items:flex-start;       /* topo confortável */
+  justify-content:center;
+  overflow:auto;                /* se for alto em mobile, permite scroll no próprio backdrop */
+  padding:6vh 16px;             /* respiro nas margens */
+}
+.modal{
+  width:100%;
+  max-width:760px;
+  background:#fff;
+  border-radius:16px;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+  padding:20px 20px 16px;
+  animation: modalIn .2s ease;
+}
+@keyframes modalIn{ from{ transform:translateY(10px); opacity:0 } to{ transform:none; opacity:1 } }
+.modal h3{margin:0;font-size:22px}
+.modal .muted{color:var(--muted);font-size:14px}
+.modal .grid{display:grid;gap:14px;margin-top:12px}
+.modal .box{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+.modal .box h4{margin:0 0 6px;font-size:16px}
+.modal .actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin-top:14px}
+.modal .btn-ghost{background:#fff;border:1px solid var(--line);color:var(--fg)}
+.modal .close-x{appearance:none;border:0;background:#fff;border:1px solid var(--line);width:36px;height:36px;border-radius:10px;cursor:pointer}
+@media (max-width:820px){ .modal{max-width:92vw} }
+
+/* impedir scroll do body quando o modal está aberto */
+body.modal-open{ overflow:hidden; }
+
+    /* ===== Cabeçalho bonito do modal ===== */
+.modal header{
+  position: relative;
+  display: block;                  /* deixa o conteúdo em coluna */
+  text-align: center;              /* centra título e subtítulo */
+  padding: 14px 56px 12px;         /* espaço; 56px para não colidir com o X */
+  margin: -8px -8px 10px;          /* encosta ao bordo da caixa */
+  border-radius: 14px 14px 0 0;
+  background:
+    linear-gradient(135deg,
+      rgba(14,165,233,.12) 0%,
+      rgba(16,185,129,.12) 100%);
+  border-bottom: 1px solid rgba(2,6,23,.08);
+}
+.modal header::after{              /* linha suave decorativa */
+  content:"";
+  display:block;
+  height:3px;
+  margin:10px auto 0;
+  width:120px;
+  border-radius:999px;
+  background: linear-gradient(90deg,#0ea5e9 0%, #10b981 100%);
+  opacity:.5;
+}
+
+.modal h3{
+  margin:0;
+  font-size:22px;
+  color:#0f172a;
+}
+.modal .muted{
+  color:#475569;
+  font-size:14px;
+}
+
+/* Botão X fixo no canto direito, alinhado verticalmente */
+.modal .close-x{
+  position:absolute;
+  top:10px;                        /* alinha com o título */
+  right:10px;
+  width:38px; height:38px;
+  border-radius:12px;
+  border:1px solid rgba(2,6,23,.12);
+  background:#fff;
+  box-shadow:0 2px 8px rgba(2,6,23,.06);
+}
+.modal .close-x:hover{
+  transform: translateY(-1px);
+  box-shadow:0 6px 14px rgba(2,6,23,.10);
+}
+.modal .close-x svg {
+  transition: stroke .2s ease;
+}
+.modal .close-x:hover svg {
+  stroke: #0ea5e9; /* muda a cor do X para azul no hover */
+}
+
+/* Mobile: um pouco menos de padding para caber tudo */
+@media (max-width:520px){
+  .modal header{ padding:16px 48px 12px; }
+  .modal .close-x{ right:8px; }
+}
+
+/* ===== CONTACTOS ===== */
+.contact{ padding:60px 0 }
+.contact-grid{
+  display:grid; grid-template-columns:1.1fr .9fr; gap:24px; align-items:start;
+}
+.contact-card{
+  background:#fff; border:1px solid var(--line); border-radius:16px; padding:18px;
+  box-shadow:0 10px 24px rgba(2,6,23,.05);
+}
+.contact-list{ list-style:none; margin:0; padding:0; display:grid; gap:12px }
+.contact-list li{
+  display:grid; grid-template-columns:28px 110px 1fr; align-items:center; gap:10px;
+  padding:10px; border:1px solid var(--line); border-radius:12px; background:#f9fbfd;
+}
+.contact-list .chip{
+  justify-self:start; display:inline-block; padding:6px 10px; border-radius:999px;
+  border:1.5px solid #0ea5e9; color:#0ea5e9; text-decoration:none; font-weight:700;
+}
+.contact-actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px }
+
+.contact-photo{
+  margin:0; border-radius:18px; overflow:hidden; background:
+    radial-gradient(120% 80% at 70% 10%, rgba(16,185,129,.12), rgba(14,165,233,.12));
+  box-shadow:0 14px 28px rgba(2,6,23,.08);
+}
+.contact-photo img{ display:block; width:100%; height:auto }
+.contact-photo figcaption{ padding:8px 12px }
+
+@media (max-width: 980px){
+  .contact-grid{ grid-template-columns:1fr; }
+}
+/* Impede o SVG decorativo do #about de sair da secção */
+#about{ overflow: hidden; }
+
+/* Garante que os marcadores (•) nunca aparecem na lista */
+.contact-list, .contact-list li{ list-style: none; padding-left: 0; }
+
+/* Ícones dos contactos — tamanho fixo */
+.contact-list li > svg{
+  width:18px; height:18px; flex:0 0 18px;
+  color:#0ea5e9; display:block;
+}
+    .contact-photo{ max-width:520px; }
+.contact-photo img{
+  display:block; width:100%; height:auto;
+  object-fit:cover; max-height:360px; border-radius:18px;
+}
+
+#about{ overflow:hidden; }
+/* ===== Contactos – versão Pro ===== */
+
+/* grid geral */
+.contact-grid{
+  display:grid; grid-template-columns: 1.05fr .95fr; gap:28px; align-items:start;
+}
+
+/* cartão */
+.contact-card{
+  background:#fff; border:1px solid var(--line); border-radius:18px; padding:18px;
+  box-shadow:0 12px 28px rgba(2,6,23,.06);
+}
+
+/* linhas */
+.contact-list{ list-style:none; margin:0; padding:0; display:grid; gap:12px }
+.contact-list li{
+  display:grid;
+  grid-template-columns: 42px 1fr auto;        /* ícone | rótulo+valor | chip */
+  align-items:center; gap:12px;
+  padding:12px; border:1px solid var(--line); border-radius:14px; background:#fbfdff;
+  transition: box-shadow .15s ease, transform .1s ease;
+}
+.contact-list li:hover{ box-shadow:0 6px 16px rgba(2,6,23,.08); transform:translateY(-1px); }
+
+/* ícone com “aura” */
+.contact-list .ico{
+  width:42px; height:42px; border-radius:12px;
+  display:grid; place-items:center;
+  background:linear-gradient(135deg, rgba(14,165,233,.12), rgba(16,185,129,.12));
+  border:1px solid rgba(2,6,23,.06);
+}
+.contact-list .ico svg{ width:18px; height:18px; color:#0ea5e9; display:block }
+
+/* rótulo + valor */
+.contact-list .label span{ display:block; font-size:12px; color:#64748b; line-height:1.1 }
+.contact-list .label strong{ display:block; color:#0f172a; line-height:1.25 }
+
+/* ação (chip à direita) */
+.contact-list .chip{
+  justify-self:end;
+  padding:8px 12px; border-radius:999px; line-height:1;
+  border:1.5px solid #0ea5e9; color:#0ea5e9; text-decoration:none; font-weight:700;
+  background:#fff;
+}
+.contact-list .chip:hover{ background:rgba(14,165,233,.06) }
+
+/* foto com overlay e sombra */
+.contact-photo{
+  margin:0; position:relative; border-radius:20px; overflow:hidden;
+  box-shadow:0 18px 40px rgba(2,6,23,.12);
+  background:#eaf7f3;
+}
+.contact-photo img{
+  width:100%; height:auto; display:block; object-fit:cover; max-height:360px;
+}
+.photo-caption{
+  position:absolute; left:12px; right:12px; bottom:12px;
+  background:linear-gradient(135deg, rgba(14,165,233,.12), rgba(16,185,129,.12));
+  border:1px solid rgba(2,6,23,.08); color:#0f172a;
+  padding:10px 14px; border-radius:12px; backdrop-filter:saturate(120%) blur(2px);
+}
+/* segunda foto por baixo da principal */
+.contact-photo--secondary{
+  margin-top:15px;
+  max-height:300px;
+}
+.contact-photo--secondary img{
+  width:100%; height:auto; object-fit:cover;
+}
+
+/* botões ao fim */
+.contact-actions{ display:flex; gap:12px; flex-wrap:wrap; margin-top:12px }
+
+/* mobile */
+@media (max-width: 980px){
+  .contact-grid{ grid-template-columns:1fr; }
+  .contact-list .chip{ justify-self:start; margin-top:6px }
+}
+/* Cores de marca dos ícones */
+.ico{ width:42px; height:42px; border-radius:12px; display:grid; place-items:center;
+      background:linear-gradient(135deg, rgba(14,165,233,.10), rgba(16,185,129,.10));
+      border:1px solid rgba(2,6,23,.06); }
+.ico svg{ width:18px; height:18px; display:block; color:#0ea5e9; }
+
+/* específicas */
+.ico--wa{ background:#25D36622; }      .ico--wa svg{ color:#25D366; }
+.ico--ig{ background:#c1358422; }      .ico--ig svg{ color:#c13584; }
+.ico--gmail{ background:#ea433522; }   .ico--gmail svg{ color:#ea4335; }  /* vermelho Gmail */
+.ico--tel{ background:#0ea5e922; }     .ico--tel svg{ color:#0ea5e9; }
+.ico--map{ background:#10b98122; }     .ico--map svg{ color:#10b981; }
+.ico--clock{ background:#64748b22; }   .ico--clock svg{ color:#64748b; }
+
+/* Legendas por baixo das fotos (sem overlay) */
+.photo-caption-below {
+  background: transparent;      /* remove a caixa verde extra */
+  color: #0f1a20;               /* mantém o texto visível */
+  font-weight: 500;
+  font-size: 1rem;
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* Força as fotos dos contactos a ficarem na coluna 2 (direita) */
+.contact-grid > .contact-photo{ grid-column: 2; }
+.contact-grid > .contact-photo + .contact-photo{ margin-top:8px; } /* espaçamento entre as duas */
+
+   /* ===== WHATSAPP OFICIAL ===== */
+.wa-icon{
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  display:inline-grid;
+  place-items:center;
+  background:transparent;
+  overflow:hidden;
+  box-shadow:0 8px 20px rgba(37,211,102,.35);
+  border:none;
+  transition: transform .2s ease, filter .2s ease;
+}
+.wa-icon:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.05);
+}
+
+/* usa a imagem do logo */
+.wa-icon img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+/* versão vertical (modal: ícone + texto) */
+.wa-stack{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  text-decoration:none;
+}
+.wa-stack small{
+  color:#0f172a;
+  font-weight:600;
+  opacity:.85;
+}
+/* ===== Brand icons (PNG) ===== */
+.ico.brand {                      /* caixinha do lado esquerdo na lista */
+  width:42px; height:42px; border-radius:12px;
+  display:grid; place-items:center;
+  background:#fff; border:1px solid var(--line);
+}
+.ico.brand img {
+  width: 40px !important;   /* aumenta o tamanho real do logo */
+  height: 40px !important;
+  object-fit: contain;
+  display: block;
+}
+
+
+/* ===== Ajuste final do logótipo oficial do WhatsApp ===== */
+
+/* versão usada nos trilhos e contactos */
+.brand-round, .btn-whatsapp {
+  width:46px;            /* tamanho fixo mais pequeno */
+  height:46px;
+  border-radius:50%;
+  display:inline-grid;
+  place-items:center;
+  background:#fff;
+  border:1px solid rgba(2,6,23,.08);
+  overflow:hidden;
+  box-shadow:0 6px 14px rgba(2,6,23,.06);
+  transition:transform .2s ease, filter .2s ease;
+  padding:0 !important;
+}
+.brand-round:hover, .btn-whatsapp:hover {
+  transform:translateY(-1px);
+  filter:brightness(1.05);
+}
+
+/* imagem do logotipo */
+.brand-round img, .btn-whatsapp img {
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
+
+/* modal: ícone + texto */
+.brand-stack {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  text-decoration:none;
+}
+.brand-stack small {
+  color:#0f172a;
+  font-weight:600;
+  opacity:.85;
+}
+
+.brand-round:hover{ transform:translateY(-1px); filter:brightness(1.03); }
+.brand-round img{ width:100%; height:100%; object-fit:contain; }
+
+/* Versão vertical do modal (ícone + texto) */
+.brand-stack{ display:flex; flex-direction:column; align-items:center; gap:6px; text-decoration:none; }
+.brand-stack small{ color:#0f172a; font-weight:600; opacity:.85; }
+
+    /* ===== Ajuste do espaço entre as fotos ===== */
+.contact-media{
+  display: grid;
+  gap: 16px; /* espaço uniforme entre as duas */
+  margin: 0; /* remove qualquer margem extra */
+  padding: 0;
+}
+
+.contact-photo{
+  margin: 0; /* remove margem vertical antiga */
+}
+
+.contact-photo--secondary{
+  margin-top: 0 !important; /* impede empurrar demasiado */
+}
+.contact-photo + .contact-photo{
+  margin-top: 10px !important;
+}
+    /* ===== Alinhamento perfeito dos botões de ação ===== */
+.trail-actions{
+  display:flex;
+  justify-content:center;   /* centra os 3 botões na horizontal */
+  align-items:center;        /* alinha-os pela altura */
+  gap:14px;                  /* espaço igual entre os botões */
+  margin-top:20px;
+  flex-wrap:wrap;            /* garante que se ajusta no mobile */
+}
+
+/* garante que os botões não esticam em alturas diferentes */
+.trail-actions a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  height:48px;
+}
+/* ===== CONTACTOS – correção final das fotos ===== */
+
+/* garante que as duas fotos ficam agrupadas na coluna da direita */
+.contact-media {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;           /* pequeno espaçamento fixo */
+  margin: 0;
+  padding: 0;
+}
+
+/* remove margens residuais dos figures */
+.contact-photo {
+  margin: 0 !important;
+  padding: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(2,6,23,.12);
+}
+
+/* garante que a segunda não “salta” */
+.contact-photo--secondary {
+  margin-top: 0 !important;
+}
+
+/* imagens responsivas e encaixadas */
+.contact-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  max-height: 360px;
+}
+
+/* legenda por baixo */
+.photo-caption-below {
+  margin: 8px 0 0;
+  font-weight: 600;
+  color: #0f172a;
+  background: linear-gradient(135deg, rgba(14,165,233,.10), rgba(16,185,129,.10));
+  border: 1px solid rgba(2,6,23,.08);
+  border-radius: 10px;
+  padding: 8px 12px;
+  display: inline-block;
+}
+
+/* Remover o fundo verde do caption (mantendo o verde do bloco da foto) */
+.contact-media .contact-photo figcaption.photo-caption-below,
+.contact-photo figcaption.photo-caption-below{
+  background: transparent !important;   /* retira o fundo/pill */
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding: 10px 14px 0 !important;      /* só espaçamento do texto */
+  color: #0f172a !important;            /* texto bem legível */
+  font-weight: 600;
+}
+
+/* Se algum “pill” estiver a ser desenhado com pseudo-elementos */
+.photo-caption-below::before,
+.photo-caption-below::after{
+  content: none !important;
+}
+/* ===== MODAL PRIVACIDADE ===== */
+#modal-privacy .modal {
+  max-width: 800px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+  padding: 20px 24px;
+}
+
+#modal-privacy header {
+  background: linear-gradient(90deg, #25D366, #0077ff);
+  color: #fff;
+  padding: 16px 20px;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#modal-privacy h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+#modal-privacy h4 {
+  margin-top: 1.4em;
+  color: #003a57;
+  font-size: 1.05rem;
+}
+/* ==== LIMITA ALTURA DO MODAL DE PRIVACIDADE E ATIVA SCROLL ==== */
+
+#modal-privacy .modal {
+  max-height: 90vh;        /* limita à altura do ecrã */
+  overflow-y: auto;        /* ativa scroll vertical no modal */
+  overflow-x: hidden;      /* esconde apenas scroll horizontal */
+  display: block;          /* não precisamos de flex aqui */
+}
+
+/* onde está o texto longo */
+#modal-privacy .modal__body {
+  overflow-y: auto;        /* scroll só no texto, não na página */
+  padding: 20px 24px;
+}
+
+/* footer fixo e visível */
+#modal-privacy .modal__footer {
+  padding: 16px 24px;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  background: #fff;
+}
+
+/* Aumentar ícones dentro das caixas de contacto */
+.contact-info img,
+.contact-info svg {
+  width: 28px !important;      /* antes devia estar 18–22px */
+  height: 28px !important;
+  object-fit: contain;         /* mantém proporção */
+}
+
+/* Garante que as caixas se ajustam */
+.contact-info-icon {
+  width: 64px !important;
+  height: 64px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: #eef6ff;         /* tom suave azul */
+}
+
+/* Espaçamento e equilíbrio visual */
+.contact-info {
+  gap: 14px;
+}
+/* ===== Ajuste visual das legendas das fotos (contactos) ===== */
+.photo-caption-below {
+  font-size: 0.9rem;           /* ligeiramente mais pequeno */
+  font-style: italic;          /* texto em itálico */
+  color: #6b7280;              /* cinzento suave */
+  font-weight: 400;            /* peso leve */
+  margin-top: 6px;
+  background: transparent !important; /* remove qualquer fundo residual */
+  border: none !important;
+  box-shadow: none !important;
+  padding: 4px 0 !important;   /* espaço mínimo */
+  text-align: center;
+}
+/* ===== EFECTUAR RESERVA – layout */
+.booking-box { 
+  margin-top: 24px; 
+}
+
+.h2 { 
+  font-size: 28px; 
+  margin: 12px 0 16px; 
+}
+
+.reserve-grid {
+  display:grid;
+  grid-template-columns: repeat(5,1fr);
+  gap:16px;
+  margin: 8px 0 18px;
+}
+@media (max-width: 1000px){
+  .reserve-grid{ grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px){
+  .reserve-grid{
+    grid-template-columns: 1fr;  /* todos os campos em coluna */
+  }
+
+  /* Garante que os campos ocupam a largura total e não ficam apertados */
+  .reserve-grid .reserve-field {
+    width: 100%;
+  }
+
+  /* Corrige o select do iPhone (Manhã / Tarde) */
+  #period {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    padding-right: 2.5rem; 
+  }
+}
+
+
+.reserve-field label{
+  display:block; 
+  font-weight:700; 
+  margin:0 0 6px;
+}
+.rv-read{
+  background:#fff; 
+  border:1px solid var(--line, #cfe8fb); 
+  border-radius:12px; 
+  padding:12px 14px;
+}
+
+.tag{
+  display:inline-block; 
+  padding:8px 12px; 
+  border-radius:999px; 
+  font-weight:700;
+}
+.tag-muted{ background: #eef7ff; color:#2a5a7a; }
+.tag-ok    { background: #e6fbef; color:#237a4a; }
+.tag-warn  { background: #fff5e6; color:#8a5a00; }
+.tag-bad   { background: #ffe9e9; color:#8a1a1a; }
+
+.price-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:18px;
+  margin: 4px 0 12px;
+}
+@media (max-width: 640px){
+  .price-grid{ grid-template-columns:1fr; }
+}
+.amount{
+  background:#fff; 
+  border:1px solid var(--line, #cfe8fb); 
+  border-radius:16px; 
+  padding:18px; 
+  font-weight:800; 
+  font-size:26px;
+}
+.amount-accent{
+  border-color:#bde5c8; 
+  background: #f6fffa;
+}
+.note{ color:#6c7e8b; font-size:12px; }
+
+.reserve-actions{
+  display:flex; 
+  justify-content:flex-start; 
+  margin: 14px 0 6px; 
+  gap:12px;
+}
+.btn[disabled]{ 
+  opacity:.5; 
+  cursor:not-allowed;
+}
+
+/* Bloqueia qualquer control dentro do modal (por precaução) */
+.rv-lock input,
+.rv-lock select,
+.rv-lock textarea,
+.rv-lock button[disabled] {
+  pointer-events: none;
+}
+
+/* Botão desativado via aria-disabled */
+a[aria-disabled="true"] {
+  opacity: .5;
+  pointer-events: none;
+}
+
+/* Layout das linhas no modal (segue o teu “reserve-grid”/“reserve-field”) */
+.reserve-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.reserve-field--full { grid-column: 1 / -1; }
+
+@media (max-width: 900px) {
+  .reserve-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .reserve-grid { grid-template-columns: 1fr; }
+}
+/* Centraliza o modal na tela */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-backdrop[style*="display:flex"] {
+  display: flex !important;
+}
+/* MOBILE: modal de reserva adaptado à altura do ecrã */
+@media (max-width: 768px){
+  .modal-backdrop{
+    align-items:flex-start;     /* modal encostado ao topo, não ao centro */
+    padding:12px 8px;           /* menos margem para ganhar altura útil */
+  }
+
+  .modal.booking-modal{
+    width:100%;
+    max-height:calc(100vh - 24px);  /* nunca passa da altura do ecrã */
+    overflow-y:auto;                /* permite scroll dentro do próprio modal */
+    margin:0;
+    border-radius:16px;
+  }
+}
+
+/* Caixa do modal (ajuste para centralização perfeita) */
+.modal.box {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+  width: 90%;
+  max-width: 680px;
+  margin: auto;
+  overflow: hidden;
+  animation: fadeInUp .3s ease;
+}
+/* ===== Modal genérico (backdrop) ===== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;                /* fica hidden por defeito */
+  justify-content: center;      /* centra horizontal */
+  align-items: center;          /* centra vertical */
+  z-index: 9999;
+}
+
+/* Quando o JS mete display:flex ele centra a caixa */
+.modal-backdrop .modal {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;             /* NÃO deixa passar da janela */
+  overflow-y: auto;             /* aparece scroll se o texto for grande */
+}
+
+/* ===== Específico do modal de Privacidade ===== */
+#modal-privacy .modal {
+  padding: 0;                   /* header tem o seu padding próprio */
+}
+
+/* Header do modal de privacidade */
+#modal-privacy header {
+  background: linear-gradient(90deg, #25D366, #0077ff);
+  color: #fff;
+  padding: 16px 20px;
+  border-radius: 16px 16px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Título principal */
+#modal-privacy h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+/* Sub-títulos numerados (1. Introdução, 2. Dados…) */
+#modal-privacy h4 {
+  margin-top: 1.4em;
+  color: #003a57;
+  font-size: 1.05rem;
+}
+
+/* Conteúdo do corpo do modal */
+#modal-privacy .modal-body {
+  padding: 20px 24px 24px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Botão “Fechar” dentro do modal de privacidade */
+#modal-privacy .btn-ghost {
+  margin-top: 16px;
+}
+
+/* Suave transição */
+@keyframes fadeInUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+/* Pill de disponibilidade */
+.avail-pill{
+  display:inline-flex;
+  min-width:140px;
+  justify-content:center;
+  align-items:center;
+  padding:10px 14px;
+  border-radius:20px;
+  background:#eef7ff;
+  color:#0b466b;
+  font-weight:700;
+}
+.avail-pill.is-free{ background:#e9fbef; color:#0a6e3d; }
+.avail-pill.is-busy{ background:#fdecec; color:#933; }
+.link {
+  color: var(--brand, #0aa3e6);
+  text-decoration: underline;
+}
+.link:hover { text-decoration: none; }
+/* Disponibilidade compacta, por baixo da data */
+.availability-inline{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:10px;
+}
+
+.availability-inline .label{
+  font-size:14px;
+  color:var(--muted);
+}
+
+/* badge mais pequena que a antiga */
+.availability-badge{
+  display:inline-grid;
+  place-items:center;
+  min-width:88px;
+  height:44px;
+  padding:0 14px;
+  border-radius:18px;
+  background:#eef7ff;                 /* neutro */
+  color:#0b3954;
+  font-weight:700;
+  box-shadow: inset 0 0 0 2px rgba(12,130,200,.08);
+}
+
+/* estados (se já usas outros, mantém) */
+.availability-badge[data-state="ok"]{
+  background:#eafff1;
+  color:#0b5330;
+  box-shadow: inset 0 0 0 2px rgba(20,160,80,.14);
+}
+.availability-badge[data-state="busy"]{
+  background:#fff3f2;
+  color:#8c1f1f;
+  box-shadow: inset 0 0 0 2px rgba(220,70,70,.14);
+}
+
+/* Ajusta o tamanho da badge */
+.availability-badge {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 80px;
+  height: 42px;
+  background: #eef7ff;
+  border-radius: 20px;
+  font-weight: 600;
+  color: #0b3d91;
+}
+/* Alinhar disponibilidade com a coluna da data prevista */
+.reserve-field .availability-inline {
+  margin-left: 495px;   /* aumenta progressivamente até ficar perfeito */
+  margin-top: 10px;
+}
+
+@media (max-width: 900px) {
+  .reserve-field .availability-inline {
+    margin-left: 0;   /* volta ao normal em ecrãs pequenos */
+    margin-top: 0;
+  }
+}
+/* Centrar os meta pills */
+.trail-meta--center {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 10px;
+  margin-bottom: 25px;
+}
+
+.trail-meta--center .pill {
+  font-size: 0.95rem;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: #f5f9ff;
+  color: #003a57;
+  border: 1px solid #d8e6f8;
+}
+/* ===== CORES DAS DIFICULDADES ===== */
+
+/* Fácil */
+.pill.diff-easy {
+  background: #e6fbef !important;
+  color: #1c6b3c !important;
+  border-color: #b5e7c8 !important;
+}
+
+/* Moderado */
+.pill.diff-medium {
+  background: #fff8d9 !important;
+  color: #8a6500 !important;
+  border-color: #f0d98c !important;
+}
+
+/* Difícil */
+.pill.diff-hard {
+  background: #ffe9e9 !important;
+  color: #8a1a1a !important;
+  border-color: #e0a0a0 !important;
+}
+
+/* Fácil / Moderado → gradiente verde → amarelo */
+.pill.diff-easy-medium {
+  background: linear-gradient(90deg, #e6fbef, #fff8d9) !important;
+  color: #5a5a00 !important;
+  border: 1px solid #e3e3a0 !important;
+}
+
+/* Moderado / Difícil → gradiente amarelo → vermelho */
+.pill.diff-medium-hard {
+  background: linear-gradient(90deg, #fff8d9, #ffe9e9) !important;
+  color: #8a3a1a !important;
+  border: 1px solid #f0b0a0 !important;
+}
+/* foto/vídeo do City Walk ocupa a caixa toda */
+.trail-card-featured .trail-media{
+  padding: 18px;
+}
+
+.city-slider{
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  .city-main {
+  margin-bottom: 10px; /* aumenta espaço abaixo do vídeo */
+}
+}
+
+/* Altura do slider mais baixa para não tapar info */
+.city-main{
+  border-radius:14px;
+  overflow:hidden;
+  position:relative;
+  background:#000;
+  height:170px;   /* mobile */
+}
+
+@media (min-width:900px){
+  .city-main{
+    height:180px; /* desktop */
+  }
+}
+
+
+.city-main img,
+.city-main video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition: transform .7s ease, filter .7s ease;
+}
+
+/* efeito cinematic no hover */
+.city-main:hover img,
+.city-main:hover video{
+  transform:scale(1.06);
+  filter:brightness(1.05);
+}
+
+/* thumbs em baixo */
+.city-thumbs{
+  display:grid;
+  grid-auto-flow:column;
+  gap:6px;
+  margin-top: 8px;      /* um bocadinho por baixo do vídeo */
+  margin-bottom: 12px;  /* deixa respirar antes das pills (~3 km, ~2h...) */
+}
+
+
+.city-thumb{
+  border:0;
+  padding:0;
+  border-radius:10px;
+  overflow:hidden;
+  background:#0f172a;
+  cursor:pointer;
+  min-width:0;
+  position:relative;
+}
+
+.city-thumb img,
+.city-thumb span{
+  height:40px;
+}
+
+
+.city-thumb span{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:52px;
+  padding:0 8px;
+  font-size:12px;
+  font-weight:700;
+  color:#e5f4ff;
+}
+
+/* thumb activa */
+.city-thumb.is-active{
+  outline:2px solid #0ea5e9;
+  outline-offset:1px;
+}
+
+/* em ecrã pequeno as thumbs quebram linha */
+@media (max-width: 900px){
+  .city-thumbs{
+    grid-auto-flow:row;
+    grid-template-columns:repeat(4,1fr);
+  }
+}
+/* === MODAL FULLSCREEN === */
+
+.photo-modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  padding-top: 40px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba(0,0,0,0.88);
+}
+
+.photo-modal-content {
+  margin: auto;
+  display: block;
+  max-width: 90%;
+  max-height: 80%;
+  border-radius: 10px;
+  animation: zoomIn .3s ease;
+}
+
+@keyframes zoomIn {
+  from {transform: scale(0.8); opacity:0;}
+  to   {transform: scale(1); opacity:1;}
+}
+
+.photo-close {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.photo-prev,
+.photo-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 38px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  user-select: none;
+}
+
+.photo-prev { left: 20px; }
+.photo-next { right: 20px; }
+
+.photo-prev:hover,
+.photo-next:hover,
+.photo-close:hover {
+  color: #0ea5e9;
+}
+/* Sobe o bloco inteiro da imagem + thumbs */
+/* Sobe um bocadinho o vídeo+thumbs, mas sem tapar o título */
+.trail-card-featured .trail-media{
+  margin-top: 0px;   /* sobe só um pouco o bloco inteiro */
+  margin-bottom: 0px; /* espaço normal antes do título */
+}
+/* ===== Slider em loop para outros trilhos (ex: Entre Montes) ===== */
+
+.loop-slider{
+  width:100%;
+}
+
+.loop-main{
+  border-radius:14px;
+  overflow:hidden;
+  position:relative;
+  background:#000;
+  height:170px;           /* ajusta aqui a altura */
+}
+
+@media (min-width:900px){
+  .loop-main{ height:190px; }
+}
+
+.loop-main img,
+.loop-main video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition: transform .7s ease, filter .7s ease;
+}
+
+/* pequeno efeito cinematic no hover */
+.loop-main:hover img,
+.loop-main:hover video{
+  transform:scale(1.04);
+  filter:brightness(1.05);
+}
+
+/* a lista de medias fica escondida, é só para o JS ler */
+.loop-items{
+  display:none;
+}
+/* ===== Botões flutuantes (WhatsApp + Reservar) ===== */
+.floating-actions{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  z-index:9990;
+}
+
+.fab{
+  appearance:none;
+  border:none;
+  border-radius:999px;
+  width:60px;
+  height:60px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 12px 30px rgba(15,23,42,.35);
+  cursor:pointer;
+  background:#0f172a;
+  color:#fff;
+  transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+}
+
+.fab:hover{
+  transform:translateY(-2px) scale(1.04);
+  box-shadow:0 16px 36px rgba(15,23,42,.45);
+  opacity:0.96;
+}
+
+/* WhatsApp */
+.fab-whatsapp{
+  background:#25D366;
+}
+
+/* trata do ícone lá dentro */
+.fab-whatsapp img{
+  width:28px;
+  height:28px;
+  display:block;
+  border-radius:50%;     /* arredonda o quadrado */
+  object-fit:cover;      /* corta os cantos se for quadrado */
+}
+
+/* Botão Reservar */
+.fab-reserve{
+  background:#0ea5e9;
+  font-weight:700;
+  font-size:12px;
+  letter-spacing:.04em;
+  padding:0 4px;
+}
+
+/* mobile: ligeiramente mais pequenos e mais perto da borda */
+@media (max-width:640px){
+  .floating-actions{
+    right:12px;
+    bottom:12px;
+  }
+  /* Botão Reservar — 1 tamanho abaixo */
+.fab-reserve{
+  background:#0ea5e9;
+  font-weight:700;
+  font-size:12px;
+  letter-spacing:.04em;
+  padding:0 4px;
+
+  width:48px !important;
+  height:48px !important;
+}
+}
+
+.trail-picker{
+  margin-top:6px;
+  width:100%;
+  border-radius:999px;
+  border:1px solid var(--line);
+  padding:8px 14px;
+  font-size:14px;
+  background:#fff;
+}
 
 
   </style>
 </head>
-
 <body>
   <header>
     <div class="wrap">
       <nav>
         <div style="display:flex;align-items:center;gap:12px">
           <img src="logotipo1.png" alt="Horta with César logo" style="height:52px;margin-top:0" />
-          <span class="small" data-i18n="header.location">Faial • Açores</span>
+          <span class="small">Faial • Açores</span>
         </div>
         <div style="display:flex;align-items:center;gap:14px">
           <a href="#about" data-i18n="nav.about">Sobre mim</a>
@@ -785,7 +1699,7 @@ header img {
     </div>
   </header>
 
-<section class="wrap about" id="about">
+  <section class="wrap about" id="about">
        <div class="accent" aria-hidden="true">
     <!-- folha abstrata minimal (SVG) -->
     <svg viewBox="0 0 600 600" fill="none">
@@ -827,10 +1741,7 @@ header img {
     </p>
   </div>
 </section>
-
-
-  <!-- TRILHOS -->
-  <section id="tours">
+<section id="tours">
   <div class="wrap">
     <div class="tours-head">
       <h2 data-i18n="tours.title">Trilhos & Walking Tours</h2>
@@ -860,7 +1771,7 @@ header img {
       <button class="city-thumb is-active"
               data-type="video"
               data-src="img/city-tour/VID.citytour.mp4">
-        <span data-i18n="trail.city.thumb.video">Vídeo</span>
+        <span>Vídeo</span>
       </button>
 
       <!-- 6 fotos -->
@@ -878,20 +1789,20 @@ header img {
 
       <button class="city-thumb"
               data-type="img"
-              data-src="img/city-tour/City.tour.MCarmo.jpg">
-        <img src="img/city-tour/City.tour.MCarmo.jpg" alt="City tour Horta 3">
-      </button>
-
-      <button class="city-thumb"
-              data-type="img"
               data-src="img/city-tour/City.tour.Matriz.jpg">
-        <img src="img/city-tour/City.tour.Matriz.jpg" alt="City tour Horta 4">
+        <img src="img/city-tour/City.tour.Matriz.jpg" alt="City tour Horta 3">
       </button>
 
       <button class="city-thumb"
               data-type="img"
               data-src="img/city-tour/City.tour.JFT.jpg">
-        <img src="img/city-tour/City.tour.JFT.jpg" alt="City tour Horta 5">
+        <img src="img/city-tour/City.tour.JFT.jpg" alt="City tour Horta 4">
+      </button>
+
+      <button class="city-thumb"
+              data-type="img"
+              data-src="img/city-tour/City.tour.JFT2.jpg">
+        <img src="img/city-tour/City.tour.JFT2.jpg" alt="City tour Horta 5">
       </button>
 
       <button class="city-thumb"
@@ -904,20 +1815,19 @@ header img {
 </div>
 
         <div class="trail-body">
-          <h3 class="trail-title" data-i18n="trail.city.title">City Walk • Horta a pé</h3>
+          <h3 class="trail-title">City Walk • Horta a pé</h3>
           <div class="trail-meta--center">
-            <span class="pill" data-i18n="trail.city.meta1">~3 km</span>
-            <span class="pill" data-i18n="trail.city.meta2">~2h</span>
-            <span class="pill" data-i18n="trail.city.meta3">Dificuldade: Fácil</span>
+            <span class="pill">~3 km</span>
+            <span class="pill">~2h</span>
+            <span class="pill">Dificuldade: Fácil</span>
           </div>
-          <p data-i18n="trail.city.desc">Centro histórico, colónias, igrejas antigas, marina e histórias das famílias mais marcantes. Passeio urbano com paragens fotográficas e comercio local.</p>
+          <p>Centro histórico, colónias, igrejas antigas, marina e histórias das famílias mais marcantes. Passeio urbano com paragens fotográficas e comercio local.</p>
           <!-- Ações do trilho -->
 <div class="trail-actions">
   <!-- Reservar (abre o inquérito com o trilho pré-selecionado) -->
   <button type="button"
     class="btn btn-primary js-reserve"
-    data-trail="City Walk • Horta a pé"
-    data-i18n="trail.btn.reserve">
+    data-trail="City Walk • Horta a pé">
     Reservar
   </button>
 
@@ -926,14 +1836,14 @@ header img {
   class="btn-whatsapp wa-icon"
   target="_blank"
   rel="noopener noreferrer"
-    href="https://wa.me/351964616199?text=Ol%C3%A1%20C%C3%A9sar!%20Quero%20informação%20sobre%20o%20trilho%20City%20Walk%20-%20Horta%20a%20pé.">
-    <img src="whatsapp-logo.png" alt="WhatsApp">
+    href="https://wa.me/351964616199?text=Ol%C3%A1%20C%C3%A9sar!%20Quero%20informa%C3%A7%C3%A3o%20sobre%20o%20trilho%20City%20Walk%20-%20Horta%20a%20pé.">
+    <img src="whatsapp-icon.jpg" alt="WhatsApp">
 </a>
-  <!-- Botão Condições → abre modal -->
-  <button type="button" class="btn btn-conditions" data-i18n="trail.btn.conditions">Ver condições</button>
+
+  <!-- Ver condições -->
+  <button type="button" class="btn btn-conditions">Ver condições</button>
 
 </div>
-
 
         </div>
       </article>
@@ -965,21 +1875,20 @@ header img {
   </div>
 
         <div class="trail-body">
-          <h3 class="trail-title" data-i18n="trail.entre.title">Entre Montes (Horta)</h3>
+          <h3 class="trail-title">Entre Montes (Horta)</h3>
           <div class="trail-meta">
-            <span class="pill" data-i18n="trail.entre.meta1">~3.5 km</span>
-            <span class="pill" data-i18n="trail.entre.meta2">▲ +120 m</span>
-            <span class="pill" data-i18n="trail.entre.meta3">~2h30</span>
-            <span class="pill" data-i18n="trail.entre.meta4">Dificuldade: Fácil / Moderado</span>
+            <span class="pill">~3.5 km</span>
+            <span class="pill">▲ +120 m</span>
+            <span class="pill">~2h30</span>
+            <span class="pill">Dificuldade: Fácil / Moderado</span>
           </div>
-          <p data-i18n="trail.entre.desc">Percurso circular entre duas elevações vulcânicas muito destintas. Vista da baía da Horta, baía do Porto Pim, história local e cantos escondidos no coração da Horta.</p>
+          <p>Percurso circular entre duas elevações vulcânicas muito destintas. Vista da baía da Horta, baía do Porto Pim, história local e cantos escondidos no coração da Horta.</p>
          <div class="trail-actions">
   <!-- Botão RESERVAR: abre o formulário com o trilho pré-selecionado -->
   <button
     type="button"
     class="btn btn-primary js-reserve"
-    data-trail="Entre Montes "
-    data-i18n="trail.btn.reserve">
+    data-trail="Entre Montes ">
     Reservar
   </button>
 
@@ -989,7 +1898,7 @@ header img {
     <img src="whatsapp-logo.png" alt="WhatsApp">
 </a>
 
-  <button type="button" class="btn btn-conditions" data-i18n="trail.btn.conditions">Ver condições</button>
+  <button type="button" class="btn btn-conditions">Ver condições</button>
 
 </div>
 
@@ -1001,25 +1910,24 @@ header img {
       <article class="trail-card reveal"
   data-trail="Miradouro do Neptuno"
   data-price-from="35€ / px"
-  data-brief="Ideal para fotografia. Valor por pessoa varia consoante o número de participantes. Ponto de encontro Museu Fabrica da Baleia.">
+  data-brief="Ideal para fotografia. Valor por pessoa varia com nº de participantes. Ponto de encontro Museu Fabrica da Baleia.">
 
         <div class="trail-media">FOTO • Miradouro do Neptuno</div>
         <div class="trail-body">
-          <h3 class="trail-title" data-i18n="trail.neptuno.title">Miradouro do Neptuno</h3>
+          <h3 class="trail-title">Miradouro do Neptuno</h3>
           <div class="trail-meta">
-            <span class="pill" data-i18n="trail.neptuno.meta1">~3 km</span>
-            <span class="pill" data-i18n="trail.neptuno.meta2">▲ +50 m</span>
-            <span class="pill" data-i18n="trail.neptuno.meta3">~1h30</span>
-            <span class="pill" data-i18n="trail.neptuno.meta4">Dificuldade: Fácil</span>
+            <span class="pill">~3 km</span>
+            <span class="pill">▲ +50 m</span>
+            <span class="pill">~1h30</span>
+            <span class="pill">Dificuldade: Fácil</span>
           </div>
-          <p data-i18n="trail.neptuno.desc">Passeio até ao famoso Miradouro do Neptuno. Ideal para quem quer fotografia, conhecer a história local e relaxar.</p>
+          <p>Passeio até ao famoso Miradouro do Neptuno. Ideal para quem quer fotografia, conhecer a história local e relaxar.</p>
           <div class="trail-actions">
   <!-- Botão RESERVAR: abre o formulário com o trilho pré-selecionado -->
   <button
     type="button"
     class="btn btn-primary js-reserve"
-    data-trail="Miradouro do Neptuno"
-    data-i18n="trail.btn.reserve">
+    data-trail="Miradouro do Neptuno">
     Reservar
   </button>
 
@@ -1027,16 +1935,14 @@ header img {
   
   <a class="btn-whatsapp wa-icon" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351964616199?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Miradouro%20do%20Neptuno.">
-    <img src="whatsapp-logo.png" alt="WhatsApp">
+     <img src="whatsapp-logo.png" alt="WhatsApp">
 </a>
 
-  <button type="button" class="btn btn-conditions" data-i18n="trail.btn.conditions">Ver condições</button>
+  <button type="button" class="btn btn-conditions">Ver condições</button>
 
 </div>
-
-  </div>
-</article>
-
+        </div>
+      </article>
       <!-- CALDEIRA (perímetro) -->
       <article class="trail-card reveal"
   data-trail="Caldeira — perímetro"
@@ -1044,21 +1950,20 @@ header img {
   data-brief="Acesso sujeito a condições meteorológicas. Preço ajusta com logística e grupo. Ponto de encontro a combinar">
         <div class="trail-media">FOTO • Caldeira</div>
         <div class="trail-body">
-          <h3 class="trail-title" data-i18n="trail.per.title">Caldeira — perímetro</h3>
+          <h3 class="trail-title">Caldeira — perímetro</h3>
           <div class="trail-meta">
-            <span class="pill" data-i18n="trail.per.meta1">~8 km</span>
-            <span class="pill" data-i18n="trail.per.meta2">▲ +200 m</span>
-            <span class="pill" data-i18n="trail.per.meta3">~3h</span>
-            <span class="pill" data-i18n="trail.per.meta4">Dificuldade: Fácil / Moderado</span>
+            <span class="pill">~8 km</span>
+            <span class="pill">▲ +200 m</span>
+            <span class="pill">~3h</span>
+            <span class="pill">Dificuldade: Fácil / Moderado</span>
           </div>
-          <p data-i18n="trail.per.desc">Trilho icónico no centro do Faial. 360º de vistas, e fotografia, fauna e flora endémica. Em dias limpos temos o  Pico em grande plano.</p>
+          <p>Trilho icónico no centro do Faial. 360º de vistas, e fotografias. Geologia e fauna endémica. Em dias limpos temos o  Pico em grande plano.</p>
          <div class="trail-actions">
   <!-- Botão RESERVAR: abre o formulário com o trilho pré-selecionado -->
   <button
     type="button"
     class="btn btn-primary js-reserve"
-    data-trail="Caldeira — perímetro"
-    data-i18n="trail.btn.reserve">
+    data-trail="Caldeira — perímetro">
     Reservar
   </button>
 
@@ -1068,7 +1973,7 @@ header img {
      <img src="whatsapp-logo.png" alt="WhatsApp">
 </a>
 
-  <button type="button" class="btn btn-conditions" data-i18n="trail.btn.conditions">Ver condições</button>
+  <button type="button" class="btn btn-conditions">Ver condições</button>
 
 </div>
         </div>
@@ -1080,20 +1985,19 @@ header img {
   data-brief="Acesso sujeito a condições meteorológicas. Preço ajusta com logística e grupo. Guia certificado pelo Parque Natural dos Açores. Ponto de encontro a combinar">
         <div class="trail-media">FOTO • Fundo da Caldeira</div>
         <div class="trail-body">
-          <h3 class="trail-title" data-i18n="trail.desc.title">Caldeira Descida • Santuário da fauna local</h3>
+          <h3 class="trail-title">Caldeira Descida • Santuário da fauna local</h3>
           <div class="trail-meta">
-            <span class="pill" data-i18n="trail.desc.meta1">~3 km</span>
-            <span class="pill" data-i18n="trail.desc.meta2">~3h30</span>
-            <span class="pill" data-i18n="trail.desc.meta3">Dificuldade: Moderado / Difícil</span>
+            <span class="pill">~3 km</span>
+            <span class="pill">~3h30</span>
+            <span class="pill">Dificuldade: Moderado / Difícil</span>
           </div>
-          <p data-i18n="trail.desc.desc">Zona protegida pelo Parque Natural dos Açores. Requer guia certificado! Paisagens fantásticas.</p>
+          <p>Zona protegida pelo Parque Natural dos Açores. Requer guia certificado! Paisagens fantásticas.</p>
          <div class="trail-actions">
   <!-- Botão RESERVAR: abre o formulário com o trilho pré-selecionado -->
   <button
     type="button"
     class="btn btn-primary js-reserve"
-    data-trail="Caldeira Descida • Santuário da fauna local"
-    data-i18n="trail.btn.reserve">
+    data-trail="Caldeira Descida • Santuário da fauna local">
     Reservar
   </button>
 
@@ -1103,7 +2007,114 @@ header img {
      <img src="whatsapp-logo.png" alt="WhatsApp">
 </a>
 
-  <button type="button" class="btn btn-conditions" data-i18n="trail.btn.conditions">Ver condições</button>
+  <button type="button" class="btn btn-conditions">Ver condições</button>
+
+</div>
+
+        </div>
+      </article>
+      <!-- ROCHA DA FAJÃ -->
+<article class="trail-card reveal"
+  data-trail="Rocha da Fajã"
+  data-price-from="90€ /px"
+  data-brief="Acesso sujeito a condições meteorológicas. Preço ajusta com logística e grupo. Ponto de encontro a combinar">
+  <div class="trail-media">FOTO • Rocha da Fajã</div>
+  <div class="trail-body">
+    <h3 class="trail-title">Rocha da Fajã</h3>
+    <div class="trail-meta">
+      <span class="pill">~5 km</span>
+      <span class="pill">▲ +260 m</span>
+      <span class="pill">~3h00</span>
+      <span class="pill">Dificuldade: Moderado</span>
+    </div>
+    <p>Trilho circular entre formações vulcânicas e falésias, com vistas sobre a areia negra e vegetação costeira do Faial.</p>
+    <div class="trail-actions">
+  <!-- Botão RESERVAR: abre o formulário com o trilho pré-selecionado -->
+  <button
+    type="button"
+    class="btn btn-primary js-reserve"
+    data-trail="Rocha da Fajã">
+    Reservar
+  </button>
+
+  <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
+  <a class="btn-whatsapp wa-icon" target="_blank" rel="noopener noreferrer"
+     href="https://wa.me/351964616199?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Rocha%20da%20Fajã.">
+     <img src="whatsapp-logo.png" alt="WhatsApp">
+</a>
+
+  <button type="button" class="btn btn-conditions">Ver condições</button>
+
+</div>
+
+  </div>
+</article>
+      <!-- FAROL DA RIBEIRINHA -->
+<article class="trail-card reveal"
+  data-trail="Farol da Ribeirinha"
+  data-price-from="90€ /px"
+  data-brief="Acesso sujeito a condições meteorológicas. Preço ajusta com logística e grupo. Ponto de encontro a combinar.">
+  <div class="trail-media">FOTO • Farol da Ribeirinha</div>
+  <div class="trail-body">
+    <h3 class="trail-title">Farol da Ribeirinha</h3>
+    <div class="trail-meta">
+      <span class="pill">~8.5 km</span>
+      <span class="pill">▲ +320 m</span>
+      <span class="pill">~3h30</span>
+      <span class="pill">Dificuldade: Difícil</span>
+    </div>
+    <p>Percurso com subidas exigentes até ao antigo farol destruído pelo sismo de 1998, com vista privilegiada sobre a costa norte.</p>
+    <div class="trail-actions">
+  <!-- Botão RESERVAR: abre o formulário com o trilho pré-selecionado -->
+  <button
+    type="button"
+    class="btn btn-primary js-reserve"
+    data-trail="Farol da Ribeirinha">
+    Reservar
+  </button>
+
+  <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
+  <a class="btn-whatsapp wa-icon" target="_blank" rel="noopener noreferrer"
+     href="https://wa.me/351964616199?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Farol%20da%20Ribirinha.">
+     <img src="whatsapp-logo.png" alt="WhatsApp">
+</a>
+
+  <button type="button" class="btn btn-conditions">Ver condições</button>
+
+</div>
+
+  </div>
+</article>
+      <!-- LEVADAS AO CABEÇO DOS TRINTA -->
+<article class="trail-card reveal"
+  data-trail="Levadas ao Cabeço dos Trinta"
+  data-price-from="150€ /px"
+  data-brief="Acesso sujeito a condições meteorológicas. Preço ajusta com logística e grupo. Ponto de encontro a combinar">
+  <div class="trail-media">FOTO • Levadas ao Cabeço dos Trinta</div>
+  <div class="trail-body">
+    <h3 class="trail-title">Levadas ao Cabeço dos Trinta</h3>
+    <div class="trail-meta">
+      <span class="pill">~4 km</span>
+      <span class="pill">▲ +120 m</span>
+      <span class="pill">~2h</span>
+      <span class="pill">Dificuldade: Fácil</span>
+    </div>
+    <p>Trilho florestal com sombra e frescura, acompanhando a levada até ao Cabeço dos Trinta. Ideal para dias quentes.</p>
+    <div class="trail-actions">
+  <!-- Botão RESERVAR: abre o formulário com o trilho pré-selecionado -->
+  <button type="button"
+    class="btn btn-primary js-reserve"
+    data-trail="Levadas ao Cabeço dos Trinta">
+    Reservar
+  </button>
+
+  <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
+  <a class="btn-whatsapp wa-icon" target="_blank" rel="noopener noreferrer"
+     href="https://wa.me/351964616199?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Levadas.">
+     <img src="whatsapp-logo.png" alt="WhatsApp">
+</a>
+
+  <button type="button" class="btn btn-conditions">Ver condições</button>
 
 </div>
 
@@ -1123,7 +2134,7 @@ header img {
       <span class="pill">~3h</span>
       <span class="pill">Dificuldade: Moderado / Difícil</span>
     </div>
-    <p>Trilho icónico que termina no Vulcão dos Capelinhos, com passagem por zonas de pasto, floresta e antigas crateras. Possibilidade de visita ao Centro de Interpretação do Vulcão dos Capelinhos. Paisagens áridas com uma história única.</p>
+    <p>Trilho icónico que termina no Vulcão dos Capelinhos, com paragem no Farol dos Capelinhos. Paisagens áridas com uma história única.</p>
     <div class="trail-actions">
   <!-- Botão RESERVAR: abre o formulário com o trilho pré-selecionado -->
   <button
@@ -1134,9 +2145,9 @@ header img {
   </button>
 
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
-  <a class="btn-whatsapp wa-icon" target="_blank" rel="noopener noreferrer"
+ <a class="btn-whatsapp wa-icon" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351964616199?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Capelo%20Capelinhos.">
-    <img src="whatsapp-logo.png" alt="WhatsApp">
+     <img src="whatsapp-logo.png" alt="WhatsApp">
 </a>
 
   <button type="button" class="btn btn-conditions">Ver condições</button>
@@ -1145,109 +2156,33 @@ header img {
 
   </div>
 </article>
-
-      <!-- ROCHA DA FAJÃ -->
-<article class="trail-card reveal"
-  data-trail="Rocha da Fajã • Trilho do Vulcão "
-  data-price-from="75€ /px "
-  data-brief="Trilho com degraus. Acesso a uma das fajãs mais icónicas do Faial.">
-  <div class="trail-media">FOTO • Rocha da Fajã</div>
-  <div class="trail-body">
-    <h3 class="trail-title">Rocha da Fajã • Trilho do Vulcão </h3>
-    <div class="trail-meta">
-      <span class="pill">~3.5 km</span>
-      <span class="pill">▲ +300 m</span>
-      <span class="pill">~3h</span>
-      <span class="pill">Dificuldade: Moderado / Difícil</span>
-    </div>
-    <p>Descida por escadaria até à fajã lá em baixo. Vista incrível sobre o Oceano Atlântico, arribas e estrutura rochosa. Ideal para quem gosta de desafios e paisagens marcantes.</p>
-    <div class="trail-actions">
-  <!-- Botão RESERVAR: abre o formulário com o trilho pré-selecionado -->
-  <button
-    type="button"
-    class="btn btn-primary js-reserve"
-    data-trail="Rocha da Fajã • Trilho do Vulcão ">
-    Reservar
-  </button>
-
-  <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
-  <a class="btn-whatsapp wa-icon" target="_blank" rel="noopener noreferrer"
-     href="https://wa.me/351964616199?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Rocha%20da%20Fajã.">
-    <img src="whatsapp-logo.png" alt="WhatsApp">
-</a>
-
-  <button type="button" class="btn btn-conditions">Ver condições</button>
-
-</div>
-
-  </div>
-</article>
-
-      <!-- LEVADA / CABEÇO DOS TRINTA -->
-<article class="trail-card reveal"
-  data-trail="Levada • Cabeço dos Trinta "
-  data-price-from="70€ /px "
-  data-brief="Trilho pela antiga levada de abastecimento de água da ilha.">
-  <div class="trail-media">FOTO • Levada</div>
-  <div class="trail-body">
-    <h3 class="trail-title">Levada • Cabeço dos Trinta </h3>
-    <div class="trail-meta">
-      <span class="pill">~7 km</span>
-      <span class="pill">▲ +150 m</span>
-      <span class="pill">~3h30</span>
-      <span class="pill">Dificuldade: Fácil / Moderado</span>
-    </div>
-    <p>Trilho que segue a antiga levada que distribuía água pela ilha. Paisagem verdejante, túneis, pontes e floresta. Ideal para quem gosta de caminhadas em ambiente fresco e sombreado.</p>
-    <div class="trail-actions">
-  <!-- Botão RESERVAR: abre o formulário com o trilho pré-selecionado -->
-  <button
-    type="button"
-    class="btn btn-primary js-reserve"
-    data-trail="Levada • Cabeço dos Trinta ">
-    Reservar
-  </button>
-
-  <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
-  <a class="btn-whatsapp wa-icon" target="_blank" rel="noopener noreferrer"
-     href="https://wa.me/351964616199?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Levada%20Cabeço%20dos%20Trinta.">
-    <img src="whatsapp-logo.png" alt="WhatsApp">
-</a>
-
-  <button type="button" class="btn btn-conditions">Ver condições</button>
-
-</div>
-
-  </div>
-</article>
-
       <!-- MIRADOURO DA BRAÇA -->
 <article class="trail-card reveal"
-  data-trail="Miradouro da Braça "
-  data-price-from="35€ /px "
-  data-brief="Passeio leve com vista sobre a cidade e a marina.">
+  data-trail="Miradouro da Braça"
+  data-price-from="90€ / px"
+  data-brief="Acesso sujeito a condições meteorológicas. Preço ajusta com logística e grupo. Ponto de encontro a combinar">
   <div class="trail-media">FOTO • Miradouro da Braça</div>
   <div class="trail-body">
-    <h3 class="trail-title">Miradouro da Braça </h3>
+    <h3 class="trail-title">Miradouro da Braça</h3>
     <div class="trail-meta">
-      <span class="pill">~2.5 km</span>
-      <span class="pill">▲ +80 m</span>
-      <span class="pill">~1h30</span>
-      <span class="pill">Dificuldade: Fácil</span>
+      <span class="pill">4 km</span>
+      <span class="pill">▲ +130 m</span>
+      <span class="pill">~2h00</span>
+      <span class="pill">Dificuldade: Fácil / Moderado</span>
     </div>
-    <p>Passeio tranquilo até um dos miradouros mais simpáticos da Horta, com vista sobre a marina, a cidade e a ilha do Pico. Ideal para quem quer algo leve mas com boas fotografias.</p>
+    <p>Trilho circular, com vistas magníficas sobre o vulcão. Perfeito para quem procura uma experiência cheia de história.</p>
     <div class="trail-actions">
   <!-- Botão RESERVAR: abre o formulário com o trilho pré-selecionado -->
-  <button
-    type="button"
+    <button type="button"
     class="btn btn-primary js-reserve"
-    data-trail="Miradouro da Braça ">
+    data-trail="Miradouro da Braça">
     Reservar
   </button>
 
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
   <a class="btn-whatsapp wa-icon" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351964616199?text=Olá%20César!%20Quero%20informação%20sobre%20o%20trilho%20Miradouro%20da%20Braça.">
-    <img src="whatsapp-logo.png" alt="WhatsApp">
+       <img src="whatsapp-logo.png" alt="WhatsApp">
 </a>
 
   <button type="button" class="btn btn-conditions">Ver condições</button>
@@ -1256,20 +2191,14 @@ header img {
 
   </div>
 </article>
-
     </div>
   </div>
 </section>
-
-<!-- Booking / Reservas, contactos, modais, etc. -->
-<!-- (Mantive tudo em PT como estava; só acrescentei data-i18n onde já tinhas ou onde combinámos) -->
-
 <section id="booking" class="wrap about" aria-label="Efetuar Reserva">
   <header class="modal__header">
-    <h2 class="h3" style="margin-bottom:4px" data-i18n="booking.title">Efetuar reserva</h2>
+    <h2 class="h3" style="margin-bottom:4px">Efetuar reserva</h2>
     <button type="button" class="close-x" id="booking-close" aria-label="Fechar">×</button>
-    <p class="small" id="booking-subtitle" style="margin-top:4px;color:var(--muted)"
-       data-i18n="booking.subtitle">
+    <p class="small" id="booking-subtitle" style="margin-top:4px;color:var(--muted)">
       Preenche o pedido abaixo. O trilho selecionado aparece em “Trilho”.
     </p>
   </header>
@@ -2905,249 +3834,6 @@ document.querySelectorAll('.pill').forEach(p => {
   }
 })();
 </script>
-  <!-- aqui ficam os teus outros scripts normais -->
-  <script src="script.js"></script>
-
-  <!-- AQUI COLAS O SCRIPT I18N -->
-  <script>
-    const I18N = {
-      pt: {
-      "trail.per.title": "Caldeira • Perímetro",
-"trail.per.meta1": "~7 km",
-"trail.per.meta2": "▲ +300 m",
-"trail.per.meta3": "~3h",
-"trail.per.meta4": "Dificuldade: Moderado",
-"trail.per.desc":
-  "Trilho circular à volta da cratera vulcânica mais emblemática do Faial. Vista 360º sobre a ilha e a imponente parede interior da Caldeira.",
-
-"trail.desc.title": "Caldeira • Descida",
-"trail.desc.meta1": "~8 km",
-"trail.desc.meta2": "▲ +450 m",
-"trail.desc.meta3": "~4h",
-"trail.desc.meta4": "Dificuldade: Exigente",
-"trail.desc.desc":
-  "Descida autorizada ao interior da Caldeira. Vegetação endémica, ribeiras, piso irregular e regresso pela encosta íngreme da cratera.",
-
-      },
-      en: {
-      "trail.per.title": "Caldeira • Perimeter",
-"trail.per.meta1": "~7 km",
-"trail.per.meta2": "▲ +300 m",
-"trail.per.meta3": "~3h",
-"trail.per.meta4": "Difficulty: Moderate",
-"trail.per.desc":
-  "Circular hike around Faial’s most iconic volcanic crater. 360º views over the island and the dramatic inner walls of the Caldeira.",
-
-"trail.desc.title": "Caldeira • Descent",
-"trail.desc.meta1": "~8 km",
-"trail.desc.meta2": "▲ +450 m",
-"trail.desc.meta3": "~4h",
-"trail.desc.meta4": "Difficulty: Hard",
-"trail.desc.desc":
-  "The official descent into the Caldeira is a rare, protected experience. Endemic vegetation, streams, uneven paths and a steep climb up the crater wall.",
-
-      }
-    };
-
-    function applyLang(lang) { ... }
-    function setLang(lang) { ... }
-
-    document.addEventListener("DOMContentLoaded", () => { ... });
-  </script>
-
-</body>
-</html>
-<script>
-  // reveal on scroll
-  const els = document.querySelectorAll('.reveal');
-  const obs = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }
-    });
-  },{ threshold:.2 });
-  els.forEach(el=>obs.observe(el));
-</script>
-<script>
-  // Smooth-scroll para reservas + preencher o "Trilho"
-  const reserveButtons = document.querySelectorAll('.js-reserve');
-  const bookingSection = document.getElementById('booking');
-  const trailInput = document.getElementById('trail-input');
-
-  function openBooking(trailName){
-    if (trailInput && trailName){
-      trailInput.value = trailName;
-    }
-    if (bookingSection){
-      bookingSection.scrollIntoView({behavior:'smooth'});
-    }
-  }
-
-  reserveButtons.forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      const trailName = btn.getAttribute('data-trail') || '';
-      openBooking(trailName);
-    });
-  });
-</script>
-
-<!-- resto dos teus scripts (sliders, formulário, etc.) -->
-
-<script>
-  // Exemplo: ligar select dos trilhos ao input "trail-input"
-  (function(){
-    const trailPicker = document.getElementById('trail');
-    const trailInput = document.getElementById('trail-input');
-
-    if (!trailInput || !trailPicker) return;
-
-    trailPicker.addEventListener('change', () => {
-      trailInput.value = trailPicker.value;
-    });
-  })();
-</script>
-
-<!-- SCRIPT I18N PT/EN -->
-<script>
-  const I18N = {
-    pt: {
-      "site.title": "Horta with César — Walking Tours no Faial",
-      "header.location": "Faial • Açores",
-
-      "nav.about": "Sobre mim",
-      "nav.tours": "Trilhos",
-      "nav.booking": "Reservas",
-      "nav.contact": "Contactos",
-
-      "tours.title": "Trilhos & Walking Tours",
-      "tours.cta": "Explorar trilhos ↓",
-
-      "trail.city.title": "City Walk • Horta a pé",
-      "trail.city.meta1": "~3 km",
-      "trail.city.meta2": "~2h",
-      "trail.city.meta3": "Dificuldade: Fácil",
-      "trail.city.desc": "Centro histórico, colónias, igrejas antigas, marina e histórias das famílias mais marcantes. Passeio urbano com paragens fotográficas e comercio local.",
-      "trail.city.thumb.video": "Vídeo",
-
-      "trail.entre.title": "Entre Montes (Horta)",
-      "trail.entre.meta1": "~3.5 km",
-      "trail.entre.meta2": "▲ +120 m",
-      "trail.entre.meta3": "~2h30",
-      "trail.entre.meta4": "Dificuldade: Fácil / Moderado",
-
-      "trail.neptuno.title": "Miradouro do Neptuno",
-      "trail.neptuno.meta1": "~3 km",
-      "trail.neptuno.meta2": "▲ +50 m",
-      "trail.neptuno.meta3": "~1h30",
-      "trail.neptuno.meta4": "Dificuldade: Fácil",
-      "trail.neptuno.desc": "Passeio até ao famoso Miradouro do Neptuno. Ideal para quem quer fotografia, conhecer a história local e relaxar.",
-
-      "trail.per.title": "Caldeira — perímetro",
-      "trail.per.meta1": "~8 km",
-      "trail.per.meta2": "▲ +200 m",
-      "trail.per.meta3": "~3h",
-      "trail.per.meta4": "Dificuldade: Fácil / Moderado",
-
-      "trail.desc.title": "Caldeira Descida • Santuário da fauna local",
-      "trail.desc.meta1": "~3 km",
-      "trail.desc.meta2": "~3h30",
-      "trail.desc.meta3": "Dificuldade: Moderado / Difícil",
-      "trail.desc.desc": "Zona protegida pelo Parque Natural dos Açores. Requer guia certificado! Paisagens fantásticas.",
-
-      "trail.btn.reserve": "Reservar",
-      "trail.btn.conditions": "Ver condições"
-    },
-
-    en: {
-      "site.title": "Horta with César — Walking Tours in Faial",
-      "header.location": "Faial • Azores",
-
-      "nav.about": "About me",
-      "nav.tours": "Trails",
-      "nav.booking": "Booking",
-      "nav.contact": "Contacts",
-
-      "tours.title": "Trails & Walking Tours",
-      "tours.cta": "Explore the trails ↓",
-
-      "trail.city.title": "City Walk • Horta on foot",
-      "trail.city.meta1": "~3 km",
-      "trail.city.meta2": "~2h",
-      "trail.city.meta3": "Difficulty: Easy",
-      "trail.city.desc": "Historic centre, foreign colonies, old churches, marina and stories of the most notable local families. Urban walk with photo stops and local shops.",
-      "trail.city.thumb.video": "Video",
-
-      "trail.entre.title": "Entre Montes (Horta)",
-      "trail.entre.meta1": "~3.5 km",
-      "trail.entre.meta2": "▲ +120 m",
-      "trail.entre.meta3": "~2h30",
-      "trail.entre.meta4": "Difficulty: Easy / Moderate",
-
-      "trail.neptuno.title": "Miradouro do Neptuno",
-      "trail.neptuno.meta1": "~3 km",
-      "trail.neptuno.meta2": "▲ +50 m",
-      "trail.neptuno.meta3": "~1h30",
-      "trail.neptuno.meta4": "Difficulty: Easy",
-      "trail.neptuno.desc": "Walk up to the famous Neptuno viewpoint. Ideal for photography lovers, for learning local history and simply relaxing.",
-
-      "trail.per.title": "Caldeira — perimeter",
-      "trail.per.meta1": "~8 km",
-      "trail.per.meta2": "▲ +200 m",
-      "trail.per.meta3": "~3h",
-      "trail.per.meta4": "Difficulty: Easy / Moderate",
-
-      "trail.desc.title": "Caldeira Descent • Sanctuary of local fauna",
-      "trail.desc.meta1": "~3 km",
-      "trail.desc.meta2": "~3h30",
-      "trail.desc.meta3": "Difficulty: Moderate / Hard",
-      "trail.desc.desc": "Protected area managed by the Azores Natural Park. Certified guide required! Stunning scenery inside the crater.",
-
-      "trail.btn.reserve": "Book now",
-      "trail.btn.conditions": "View details"
-    }
-  };
-
-  function applyLang(lang) {
-    const dict = I18N[lang] || I18N.pt;
-
-    document.querySelectorAll('[data-i18n]').forEach((el) => {
-      const key = el.getAttribute('data-i18n');
-      if (dict[key] !== undefined) {
-        el.textContent = dict[key];
-      }
-    });
-
-    if (dict["site.title"]) {
-      document.title = dict["site.title"];
-    }
-
-    const btnPt = document.getElementById('btn-pt');
-    const btnEn = document.getElementById('btn-en');
-    if (btnPt && btnEn) {
-      btnPt.classList.toggle('active', lang === 'pt');
-      btnEn.classList.toggle('active', lang === 'en');
-    }
-
-    try {
-      localStorage.setItem('hwc_lang', lang);
-    } catch (e) {}
-  }
-
-  function setLang(lang) {
-    applyLang(lang);
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    let lang = 'pt';
-    try {
-      const saved = localStorage.getItem('hwc_lang');
-      if (saved === 'en' || saved === 'pt') lang = saved;
-    } catch (e) {}
-    applyLang(lang);
-  });
-</script>
-
-</body>
-</html>
 
 
 
