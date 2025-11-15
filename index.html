@@ -1605,11 +1605,13 @@ a[aria-disabled="true"] {
   background:#25D366;
 }
 
-/* se o ícone for imagem, centra e reduz */
+/* trata do ícone lá dentro */
 .fab-whatsapp img{
   width:26px;
   height:26px;
   display:block;
+  border-radius:50%;     /* arredonda o quadrado */
+  object-fit:cover;      /* corta os cantos se for quadrado */
 }
 
 /* Botão Reservar */
