@@ -1574,7 +1574,7 @@ a[aria-disabled="true"] {
   bottom:18px;
   display:flex;
   flex-direction:column;
-  gap:10px;
+  gap:12px;
   z-index:9990;
 }
 
@@ -1582,40 +1582,57 @@ a[aria-disabled="true"] {
   appearance:none;
   border:none;
   border-radius:999px;
-  width:54px;
-  height:54px;
+  width:56px;
+  height:56px;
   display:flex;
   align-items:center;
   justify-content:center;
-  box-shadow:0 10px 25px rgba(15,23,42,.25);
+  box-shadow:0 12px 30px rgba(15,23,42,.35);
   cursor:pointer;
-  background:#ffffff;
+  background:#0f172a;
+  color:#fff;
+  transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease;
 }
 
-/* WhatsApp oficial */
+.fab:hover{
+  transform:translateY(-2px) scale(1.04);
+  box-shadow:0 16px 36px rgba(15,23,42,.45);
+  opacity:0.96;
+}
+
+/* WhatsApp */
 .fab-whatsapp{
   background:#25D366;
 }
+
+/* se o ícone for imagem, centra e reduz */
 .fab-whatsapp img{
   width:26px;
   height:26px;
+  display:block;
 }
 
-/* Botão reservar redondo */
+/* Botão Reservar */
 .fab-reserve{
   background:#0ea5e9;
-  color:#fff;
   font-weight:700;
-  font-size:13px;
+  font-size:12px;
+  letter-spacing:.04em;
+  padding:0 4px;
 }
 
-/* em mobile encosta um bocadinho mais às margens */
+/* mobile: ligeiramente mais pequenos e mais perto da borda */
 @media (max-width:640px){
   .floating-actions{
     right:12px;
     bottom:12px;
   }
+  .fab{
+    width:52px;
+    height:52px;
+  }
 }
+
 
 
   </style>
