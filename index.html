@@ -2193,27 +2193,25 @@ Foi ali que aprendi a valorizar a essência desta ilha atlântica, onde cada tri
       <div>
   <label for="trail">Trilho</label>
 
-  <!-- Campo que é enviado no formulário -->
-  <input id="trail" name="Trilho" type="text" readonly required
-         placeholder="Escolhe ‘Reservar’ num trilho">
+  
 
-  <!-- Caixa com os trilhos exatos do site -->
-  <select id="trail-picker" class="trail-picker">
-    <option value="">Seleciona um trilho</option>
+ <select id="trail" name="Trilho" class="trail-picker" required>
+  <option value="">Seleciona um trilho</option>
 
-    <option value="City Walk • Horta a pé">City Walk • Horta a pé</option>
-    <option value="Entre Montes (Horta)">Entre Montes (Horta)</option>
-    <option value="Miradouro do Neptuno">Miradouro do Neptuno</option>
-    <option value="Caldeira — perímetro">Caldeira — perímetro</option>
-    <option value="Caldeira Descida • Santuário da fauna local">
-      Caldeira Descida • Santuário da fauna local
-    </option>
-    <option value="Rocha da Fajã">Rocha da Fajã</option>
-    <option value="Farol da Ribeirinha">Farol da Ribeirinha</option>
-    <option value="Levadas ao Cabeço dos Trinta">Levadas ao Cabeço dos Trinta</option>
-    <option value="Capelo → Capelinhos ">Capelo → Capelinhos </option>
-    <option value="Miradouro da Braça">Miradouro da Braça</option>
-  </select>
+  <option value="City Walk • Horta a pé">City Walk • Horta a pé</option>
+  <option value="Entre Montes (Horta)">Entre Montes (Horta)</option>
+  <option value="Miradouro do Neptuno">Miradouro do Neptuno</option>
+  <option value="Caldeira — perímetro">Caldeira — perímetro</option>
+  <option value="Caldeira Descida • Santuário da fauna local">
+    Caldeira Descida • Santuário da fauna local
+  </option>
+  <option value="Rocha da Fajã">Rocha da Fajã</option>
+  <option value="Farol da Ribeirinha">Farol da Ribeirinha</option>
+  <option value="Levadas ao Cabeço dos Trinta">Levadas ao Cabeço dos Trinta</option>
+  <option value="Capelo → Capelinhos ">Capelo → Capelinhos </option>
+  <option value="Miradouro da Braça">Miradouro da Braça</option>
+</select>
+
 </div>
 
 
@@ -3652,18 +3650,25 @@ document.querySelectorAll('.pill').forEach(p => {
   bookingSection.classList.add('modal', 'booking-modal');
 
   function openBooking(trailName = '') {
-    if (trailInput) {
-      trailInput.value = trailName;
-    }
-    if (subtitle) {
-      subtitle.textContent = trailName
-        ? `Estás a reservar o trilho: ${trailName}`
-        : 'Preenche o pedido abaixo. O trilho selecionado aparece em “Trilho”.';
+    // novo campo oficial
+    const trailPicker = document.getElementById('trail');
+
+    // preencher o select
+    if (trailPicker) {
+        trailPicker.value = trailName || '';
     }
 
-    bookingModal.style.display = 'flex';
-    document.body.classList.add('modal-open');
-  }
+    // texto animado do topo
+    if (subtitle) {
+        subtitle.textContent = trailName
+            ? `Estás a reservar o trilho: ${trailName}`
+            : 'Seleciona um trilho abaixo.';
+    }
+
+    bookingModal.style.display = "flex";
+    document.body.classList.add("modal-open");
+}
+
 
   function closeBooking() {
     bookingModal.style.display = 'none';
@@ -3755,8 +3760,8 @@ document.querySelectorAll('.pill').forEach(p => {
 </script>
 <script>
 (function(){
-  const trailInput  = document.getElementById('trail');
-  const trailPicker = document.getElementById('trail-picker');
+  const trailPicker = document.getElementById('trail');
+
 
   if (!trailInput || !trailPicker) return;
 
