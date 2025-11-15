@@ -359,6 +359,13 @@ header.scrolled{
 .trail-media{
   background:#eef6ff; display:grid; place-items:center; font-weight:700; color:var(--muted);
 }
+    /* Ajuste para header fixo em ecrãs mais pequenos */
+@media (max-width: 768px){
+  body{
+    padding-top: 72px;   /* sobe um bocadinho o conteúdo para não ficar por baixo da barra */
+  }
+}
+
 .trail-body{ padding:36px; display:grid; gap:10px }
 .trail-title{ margin:0; font-size:clamp(18px,2.6vw,22px) }
 .trail-meta{ display:flex; flex-wrap:wrap; gap:8px }
@@ -1149,6 +1156,21 @@ a[aria-disabled="true"] {
 
 .modal-backdrop[style*="display:flex"] {
   display: flex !important;
+}
+/* MOBILE: modal de reserva adaptado à altura do ecrã */
+@media (max-width: 768px){
+  .modal-backdrop{
+    align-items:flex-start;     /* modal encostado ao topo, não ao centro */
+    padding:12px 8px;           /* menos margem para ganhar altura útil */
+  }
+
+  .modal.booking-modal{
+    width:100%;
+    max-height:calc(100vh - 24px);  /* nunca passa da altura do ecrã */
+    overflow-y:auto;                /* permite scroll dentro do próprio modal */
+    margin:0;
+    border-radius:16px;
+  }
 }
 
 /* Caixa do modal (ajuste para centralização perfeita) */
@@ -2558,6 +2580,7 @@ Foi ali que aprendi a valorizar a essência desta ilha atlântica, onde cada tri
       <div class="box" id="cond-legal">
         <h4>Informação legal & condições</h4>
         <ul style="margin:0; padding-left:18px">
+          <li><strong>Transporte incluído até 7 pessoas.</strong> Acima sob consulta.</li>
           <li><strong>Equipamento & cuidados:</strong> usar <em>roupa e calçado adequados</em> ao trilho; aplicar <em>protetor solar</em>; levar <em>chapéu</em> e/ou <em>capa de chuva</em> conforme a previsão meteorológica. Recomenda-se ainda água suficiente, pequeno snack e telemóvel carregado.</li>
           <li><strong>Seguros:</strong> atividade coberta por <em>Seguro de Responsabilidade Civil</em> e <em>Seguro de Acidentes Pessoais</em> durante o passeio.</li>
           <li><strong>Reserva & Pagamento:</strong> sinal de <strong>20%</strong> no ato da reserva (deduzido ao valor final). Restante no dia do passeio, antes do início.</li>
