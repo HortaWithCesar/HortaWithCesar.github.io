@@ -1567,6 +1567,55 @@ a[aria-disabled="true"] {
 .loop-items{
   display:none;
 }
+/* ===== Botões flutuantes (WhatsApp + Reservar) ===== */
+.floating-actions{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  z-index:9990;
+}
+
+.fab{
+  appearance:none;
+  border:none;
+  border-radius:999px;
+  width:54px;
+  height:54px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 10px 25px rgba(15,23,42,.25);
+  cursor:pointer;
+  background:#ffffff;
+}
+
+/* WhatsApp oficial */
+.fab-whatsapp{
+  background:#25D366;
+}
+.fab-whatsapp img{
+  width:26px;
+  height:26px;
+}
+
+/* Botão reservar redondo */
+.fab-reserve{
+  background:#0ea5e9;
+  color:#fff;
+  font-weight:700;
+  font-size:13px;
+}
+
+/* em mobile encosta um bocadinho mais às margens */
+@media (max-width:640px){
+  .floating-actions{
+    right:12px;
+    bottom:12px;
+  }
+}
 
 
   </style>
@@ -2077,17 +2126,23 @@ Foi ali que aprendi a valorizar a essência desta ilha atlântica, onde cada tri
   </div>
 </section>
 <section id="booking" class="wrap about" aria-label="Efectuar Reserva">
-  <h2 style="margin-bottom:10px">Efectuar Reserva</h2>
-  <p class="small" id="booking-subtitle" style="margin-top:0;color:var(--muted)">
-    Preenche o pedido abaixo. O trilho selecionado aparece em “Trilho”.
-  </p>
+  <header class="modal__header">
+    <h2 class="h3" style="margin-bottom:4px">Efectuar reserva</h2>
+    <button type="button" class="close-x" id="booking-close" aria-label="Fechar">×</button>
+    <p class="small" id="booking-subtitle" style="margin-top:4px;color:var(--muted)">
+      Preenche o pedido abaixo. O trilho selecionado aparece em “Trilho”.
+    </p>
+  </header>
 
-  <form
+
+    <form
+    id="booking-form"
     action="https://formsubmit.co/hortawithcesar@gmail.com"
     method="POST"
     class="reserve-form"
     autocomplete="on"
     novalidate>
+
 
     <!-- ⚙️ FormSubmit opções -->
     <input type="hidden" name="_subject" value="Nova reserva - Horta with César">
@@ -2269,6 +2324,8 @@ Foi ali que aprendi a valorizar a essência desta ilha atlântica, onde cada tri
 
   </form>
 </section>
+<!-- Backdrop do modal de reserva (o JS vai mover a secção #booking para aqui) -->
+<div id="booking-modal" class="modal-backdrop" style="display:none;"></div>
 
 
   <!-- (conteúdo igual ao protótipo anterior) -->
@@ -2380,6 +2437,26 @@ Foi ali que aprendi a valorizar a essência desta ilha atlântica, onde cada tri
 </div>
 
 </section>
+<!-- Botões fixos: WhatsApp + Reservar -->
+<div class="floating-actions">
+  <!-- WhatsApp geral -->
+  <a
+    href="https://wa.me/351964616199?text=Olá%20César!%20Quero%20informação%20sobre%20as%20tours%20Horta%20with%20César."
+    class="fab fab-whatsapp"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Contactar via WhatsApp">
+    <img src="whatsapp-logo.png" alt="WhatsApp">
+  </a>
+
+  <!-- Reservar (abre modal de reserva) -->
+  <button
+    type="button"
+    class="fab fab-reserve js-open-booking"
+    aria-label="Efectuar reserva">
+    Reservar
+  </button>
+</div>
 
   <footer>
     <div class="wrap">
@@ -3497,6 +3574,69 @@ document.querySelectorAll('.pill').forEach(p => {
     if (e.key === "Escape")      modal.style.display = "none";
     if (e.key === "ArrowRight")  showNext(+1);
     if (e.key === "ArrowLeft")   showNext(-1);
+  });
+})();
+</script>
+<script>
+(() => {
+  const $ = (sel, ctx = document) => ctx.querySelector(sel);
+
+  const bookingModal   = $('#booking-modal');
+  const bookingSection = $('#booking');
+  const trailInput     = $('#trail');
+  const subtitle       = $('#booking-subtitle');
+
+  if (!bookingModal || !bookingSection) return;
+
+  // 1) Mover a secção #booking para dentro do backdrop → deixa de ocupar espaço na página
+  bookingModal.appendChild(bookingSection);
+
+  // 2) Dar-lhe estilos de modal
+  bookingSection.classList.remove('wrap', 'about');
+  bookingSection.classList.add('modal', 'booking-modal');
+
+  function openBooking(trailName = '') {
+    if (trailInput) {
+      trailInput.value = trailName;
+    }
+    if (subtitle) {
+      subtitle.textContent = trailName
+        ? `Estás a reservar o trilho: ${trailName}`
+        : 'Preenche o pedido abaixo. O trilho selecionado aparece em “Trilho”.';
+    }
+
+    bookingModal.style.display = 'flex';
+    document.body.classList.add('modal-open');
+  }
+
+  function closeBooking() {
+    bookingModal.style.display = 'none';
+    document.body.classList.remove('modal-open');
+  }
+
+  // Botão X do modal
+  $('#booking-close')?.addEventListener('click', closeBooking);
+
+  // Fechar ao clicar fora da caixa
+  bookingModal.addEventListener('click', (ev) => {
+    if (ev.target === bookingModal) closeBooking();
+  });
+
+  // Botão flutuante "Reservar" (abre sem trilho definido)
+  document.querySelectorAll('.js-open-booking').forEach(btn => {
+    btn.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      openBooking('');
+    });
+  });
+
+  // Botões "Reservar" dos cartões de trilho (já tens a classe js-reserve)
+  document.querySelectorAll('.js-reserve').forEach(btn => {
+    btn.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      const trailName = btn.getAttribute('data-trail') || '';
+      openBooking(trailName);
+    });
   });
 })();
 </script>
