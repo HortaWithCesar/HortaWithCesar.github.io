@@ -1642,6 +1642,15 @@ a[aria-disabled="true"] {
 }
 }
 
+.trail-picker{
+  margin-top:6px;
+  width:100%;
+  border-radius:999px;
+  border:1px solid var(--line);
+  padding:8px 14px;
+  font-size:14px;
+  background:#fff;
+}
 
 
   </style>
@@ -2182,10 +2191,31 @@ Foi ali que aprendi a valorizar a essência desta ilha atlântica, onde cada tri
     <div class="grid-2">
       <!-- Trilho (bloqueado, vem do botão) -->
       <div>
-        <label for="trail">Trilho</label>
-        <input id="trail" name="Trilho" type="text" readonly required
-               placeholder="Escolhe ‘Reservar’ num trilho">
-      </div>
+  <label for="trail">Trilho</label>
+
+  <!-- Campo que é enviado no formulário -->
+  <input id="trail" name="Trilho" type="text" readonly required
+         placeholder="Escolhe ‘Reservar’ num trilho">
+
+  <!-- Caixa com os trilhos exatos do site -->
+  <select id="trail-picker" class="trail-picker">
+    <option value="">Seleciona um trilho</option>
+
+    <option value="City Walk • Horta a pé">City Walk • Horta a pé</option>
+    <option value="Entre Montes (Horta)">Entre Montes (Horta)</option>
+    <option value="Miradouro do Neptuno">Miradouro do Neptuno</option>
+    <option value="Caldeira — perímetro">Caldeira — perímetro</option>
+    <option value="Caldeira Descida • Santuário da fauna local">
+      Caldeira Descida • Santuário da fauna local
+    </option>
+    <option value="Rocha da Fajã">Rocha da Fajã</option>
+    <option value="Farol da Ribeirinha">Farol da Ribeirinha</option>
+    <option value="Levadas ao Cabeço dos Trinta">Levadas ao Cabeço dos Trinta</option>
+    <option value="Capelo → Capelinhos ">Capelo → Capelinhos </option>
+    <option value="Miradouro da Braça">Miradouro da Braça</option>
+  </select>
+</div>
+
 
       <div>
         <label for="name">Nome</label>
@@ -3717,10 +3747,51 @@ document.querySelectorAll('.pill').forEach(p => {
       if (idx >= items.length) {
         idx = 1; // volta à primeira foto, nunca volta ao vídeo
       }
-    }, 2000); // 2 segundos por foto
+    }, 4000); // 4 segundos por foto
   }
 
   setTimeout(startLoop, 13000); // 13s para o vídeo tocar antes de começar as fotos
+})();
+</script>
+<script>
+(function(){
+  const trailInput  = document.getElementById('trail');
+  const trailPicker = document.getElementById('trail-picker');
+
+  if (!trailInput || !trailPicker) return;
+
+  // 1) quando o utilizador escolhe no select → copiar para o input
+  trailPicker.addEventListener('change', () => {
+    trailInput.value = trailPicker.value;
+  });
+
+  // 2) integrar com a função openBooking se já a tens
+  //    (se não tiveres, ignora esta parte)
+  const originalOpen = window.openBooking;
+  if (typeof originalOpen === 'function') {
+    window.openBooking = function(trailName){
+      // chama a função original
+      originalOpen(trailName);
+
+      // sincroniza select com o trilho vindo do botão
+      if (trailName) {
+        let matched = false;
+        Array.from(trailPicker.options).forEach(opt => {
+          if (opt.value.trim() === trailName.trim()) {
+            trailPicker.value = opt.value;
+            matched = true;
+          }
+        });
+        if (!matched) {
+          trailPicker.value = '';
+        }
+      } else {
+        // chamado a partir do botão fixo / barra → limpa tudo
+        trailPicker.value = '';
+        trailInput.value  = '';
+      }
+    };
+  }
 })();
 </script>
 
