@@ -2283,11 +2283,12 @@ a[aria-disabled="true"] {
       <div>
   <label for="trail" data-i18n="booking.label.trail">Trilho</label>
  <select id="trail"
-        name="trail"
+        name="Trilho"
         class="trail-picker"
-        required
-        data-i18n-placeholder="booking.ph.trail"
-        placeholder="Seleciona um trilho">
+        required>
+  <option value="" data-i18n="booking.ph.trail">
+    Seleciona um trilho
+  </option>
 
 
   <option value="City Walk • Horta a pé">City Walk • Horta a pé</option>
@@ -2314,13 +2315,10 @@ a[aria-disabled="true"] {
 
       <div>
  <label for="country" data-i18n="booking.label.country">País</label>
-
-<select id="country" name="País" required data-i18n-placeholder="booking.ph.country" placeholder="Seleciona o teu país">
-
+<select id="country" name="País" required class="country-picker">
   <option value="" data-i18n="booking.ph.country">
     Seleciona o teu país
   </option>
-
 </select>
 
 
