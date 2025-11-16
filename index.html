@@ -2282,8 +2282,13 @@ a[aria-disabled="true"] {
       <!-- Trilho (bloqueado, vem do botão) -->
       <div>
   <label for="trail" data-i18n="booking.label.trail">Trilho</label>
- <select id="trail" name="Trilho" class="trail-picker" required>
-  <option value="">Seleciona um trilho</option>
+ <select id="trail"
+        name="trail"
+        class="trail-picker"
+        required
+        data-i18n-placeholder="booking.ph.trail"
+        placeholder="Seleciona um trilho">
+
 
   <option value="City Walk • Horta a pé">City Walk • Horta a pé</option>
   <option value="Entre Montes (Horta)">Entre Montes (Horta)</option>
@@ -2304,8 +2309,7 @@ a[aria-disabled="true"] {
 
       <div>
         <label for="name" data-i18n="booking.label.name">Nome</label>
-        <input id="name" name="Nome" type="text" required
-               placeholder="O teu nome completo">
+        <input id="name" name="name" type="text" data-i18n-placeholder="booking.ph.name" placeholder="O teu nome completo">
       </div>
 
       <div>
@@ -2430,8 +2434,7 @@ a[aria-disabled="true"] {
 
   <div>
     <label for="period" data-i18n="booking.label.period">Período do dia</label>
-    <select id="period" name="Período do dia" required>
-      <option value="">Selecionar...</option>
+    <select id="period" data-i18n-placeholder="booking.ph.period" placeholder="Selecionar...">
       <option value="Manhã" data-i18n="booking.period.morning">🌅 Manhã</option>
       <option value="Tarde" data-i18n="booking.period.afternoon">🌇 Tarde</option>
     </select>
@@ -2451,8 +2454,7 @@ a[aria-disabled="true"] {
 
     <div>
       <label for="message" data-i18n="booking.label.notes">Mensagem (opcional)</label>
-      <textarea id="message" name="Mensagem" rows="4"
-                placeholder="Preferências, restrições, horários…"></textarea>
+      <textarea id="notes" name="notes" data-i18n-placeholder="booking.ph.notes" placeholder="Preferências, restrições, horários..."></textarea>
     </div>
 
     <div class="booking-actions">
@@ -2847,7 +2849,7 @@ a[aria-disabled="true"] {
 "booking.label.period": "Período do dia",
 "booking.label.notes": "Observações",
 "booking.label.availability": "Disponibilidade",
-
+"booking.ph.period": "Selecionar...",
 "booking.period.morning": "Manhã",
 "booking.period.afternoon": "Tarde",
 "booking.period.other": "Outro",
@@ -2943,6 +2945,13 @@ a[aria-disabled="true"] {
 "booking.avail.morning": "Disponível: manhã",
 "booking.avail.afternoon": "Disponível: tarde",
 "booking.avail.error": "Não foi possível verificar",
+"booking.ph.trail": "Seleciona um trilho",
+"booking.ph.name": "O teu nome completo",
+"booking.ph.email": "nome@exemplo.com",
+"booking.ph.people": "1",
+"booking.ph.date": "dd/mm/aaaa",
+"booking.ph.period": "Selecionar...",
+"booking.ph.notes": "Preferências, restrições, horários...",
 
         "rv.title": "Resumo da reserva",
         "rv.label.trail": "Trilho",
@@ -3148,6 +3157,13 @@ a[aria-disabled="true"] {
 "booking.avail.morning": "Available: morning",
 "booking.avail.afternoon": "Available: afternoon",
 "booking.avail.error": "Could not check availability",
+"booking.ph.trail": "Select a trail",
+"booking.ph.name": "Your full name",
+"booking.ph.email": "name@example.com",
+"booking.ph.people": "1",
+"booking.ph.date": "dd/mm/yyyy",
+"booking.ph.period": "Select...",
+"booking.ph.notes": "Preferences, restrictions, schedule...",
 
 
         "rv.title": "Reservation summary",
@@ -3178,6 +3194,12 @@ a[aria-disabled="true"] {
         if (dict[key]) {
           el.textContent = dict[key];
         }
+        // placeholders
+document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+  const key = el.getAttribute('data-i18n-placeholder');
+  if (dict[key]) el.setAttribute('placeholder', dict[key]);
+});
+
       });
 
       // metas / content
