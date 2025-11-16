@@ -3231,62 +3231,60 @@ $date && $date.addEventListener('change', checkAvailability);
 <div id="rv-modal" class="modal-backdrop" style="display:none">
   <div class="modal box" role="dialog" aria-modal="true" aria-labelledby="rv-title">
     <header class="modal__header">
-      <h3 id="rv-title" class="h3">Resumo da reserva</h3>
+      <h3 id="rv-title" class="h3" data-i18n="rv.title">Resumo da reserva</h3>
       <button id="rv-close" class="close-x" aria-label="Fechar">×</button>
     </header>
 
     <div class="modal__body rv-lock">
       <div class="reserve-grid">
         <div class="reserve-field">
-          <label>Trilho</label>
+          <label data-i18n="rv.label.trail">Trilho</label>
           <div id="rv-trail" class="rv-read">—</div>
         </div>
 
         <div class="reserve-field">
-          <label>Nº de pessoas</label>
+          <label data-i18n="rv.label.people">Nº de pessoas</label>
           <div id="rv-people" class="rv-read">—</div>
         </div>
 
         <div class="reserve-field">
-          <label>Data</label>
+          <label data-i18n="rv.label.date">Data</label>
           <div id="rv-date" class="rv-read">—</div>
         </div>
 
         <div class="reserve-field">
-          <label>Período</label>
+          <label data-i18n="rv.label.period">Período</label>
           <div id="rv-period" class="rv-read">—</div>
         </div>
 
         <div class="reserve-field reserve-field--full">
-          <label>Total estimado</label>
+          <label data-i18n="rv.label.total">Total estimado</label>
           <div id="rv-total-m" class="amount">—</div>
-          <small class="muted">Valor calculado com base no trilho e nº de pessoas. Poderá ajustar consoante logística.</small>
+          <small class="muted" data-i18n="rv.note.total">Valor calculado com base no trilho e nº de pessoas. Poderá ajustar consoante logística.</small>
         </div>
 
         <div class="reserve-field reserve-field--full">
-          <label>Sinal 20%</label>
+          <label data-i18n="rv.label.deposit">Sinal 20%</label>
           <div id="rv-deposit-m" class="amount amount-accent">—</div>
           <small class="muted">
-  Deduzido ao valor final.
-  <a href="#politica-cancelamento" class="link" id="open-cancel-policy">
-    Política de Cancelamento
-  </a>.
-  Ao confirmar a reserva, assume que leu e concorda com as
-  condições gerais do serviço e com a política de privacidade do site.
-</small>
-
+            <span data-i18n="rv.note.deposit.1">Deduzido ao valor final.</span>
+ <a href="#politica-cancelamento" class="link" id="open-cancel-policy" data-i18n="rv.note.deposit.cancel">
+              Política de Cancelamento</a>.
+            <span data-i18n="rv.note.deposit.2">
+              Ao confirmar a reserva, assume que leu e concorda com as condições gerais do serviço e com a política de privacidade do site.
+            </span>
         </div>
       </div>
     </div>
 
     <footer class="modal__footer actions">
       <a id="rv-pay-20" class="btn btn-primary" 
-   target="_blank" rel="noopener" aria-disabled="true">
+   target="_blank" rel="noopener" aria-disabled="true" data-i18n="rv.btn.confirm">
    Confirmar reserva
 </a>
 
 
-      <button id="rv-close-2" class="btn btn-ghost" type="button">Fechar</button>
+      <button id="rv-close-2" class="btn btn-ghost" type="button" data-i18n="rv.btn.close">Fechar</button>
     </footer>
   </div>
 </div>
