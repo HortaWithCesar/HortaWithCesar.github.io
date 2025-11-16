@@ -2456,10 +2456,19 @@ a[aria-disabled="true"] {
     </div>
 
     <div class="booking-actions">
-  <button id="btn-send" class="btn btn-primary" type="submit" data-i18n="booking.btn.submit">
-   Enviar pedido
-</button>
-  <button id="btn-open-reserve" class="btn btn-ghost" type="button" data-i18n="booking.btn.submit">Efetuar reserva</button>
+  <button id="btn-send"
+          class="btn btn-primary"
+          type="submit"
+          data-i18n="booking.btn.send">
+    Enviar pedido
+  </button>
+
+  <button id="btn-open-reserve"
+          class="btn btn-ghost"
+          type="button"
+          data-i18n="booking.btn.reserve">
+    Efetuar reserva
+  </button>
 </div>
 
 </section>
@@ -2923,7 +2932,16 @@ a[aria-disabled="true"] {
 "footer.complaints": "Livro de Reclamações",
 "footer.cancel": "Política de Cancelamento",
 "footer.privacy": "Política de Privacidade",
-
+"booking.btn.send": "Enviar pedido",
+"booking.btn.reserve": "Efetuar reserva",
+"booking.subtitle.default": "Preenche o pedido abaixo. O trilho selecionado aparece em \"Trilho\".",
+"booking.subtitle.noTrail": "Seleciona um trilho abaixo.",
+"booking.subtitle.prefix": "Estás a reservar o trilho:",
+"booking.avail.unavailable": "Indisponível",
+"booking.avail.both": "Disponível: manhã e tarde",
+"booking.avail.morning": "Disponível: manhã",
+"booking.avail.afternoon": "Disponível: tarde",
+"booking.avail.error": "Não foi possível verificar",
 
         "rv.title": "Resumo da reserva",
         "rv.label.trail": "Trilho",
@@ -3119,6 +3137,17 @@ a[aria-disabled="true"] {
 "footer.complaints": "Complaints Book",
 "footer.cancel": "Cancellation Policy",
 "footer.privacy": "Privacy Policy",
+"booking.btn.send": "Send request",
+"booking.btn.reserve": "Confirm reservation",
+"booking.subtitle.default": "Fill in the form below. The selected trail appears in \"Trail\".",
+"booking.subtitle.noTrail": "Select a trail below.",
+"booking.subtitle.prefix": "You are booking the trail:",
+"booking.avail.unavailable": "Unavailable",
+"booking.avail.both": "Available: morning and afternoon",
+"booking.avail.morning": "Available: morning",
+"booking.avail.afternoon": "Available: afternoon",
+"booking.avail.error": "Could not check availability",
+
 
         "rv.title": "Reservation summary",
         "rv.label.trail": "Trail",
@@ -3498,29 +3527,41 @@ async function checkAvailability(){
     return;
   }
 
-  try{
-    const slots = await checkDaySlots(val);
+  try {
+  const slots = await checkDaySlots(val);
 
-    if (slots.allDayBusy){
-      $avail.textContent = 'Indisponível';
-      $avail.dataset.state = 'busy';
-      $pay && ($pay.disabled = true);
-      return;
-    }
+  // pega na língua atual e no dicionário
+  const lang = localStorage.getItem('hwc_lang') || 'pt';
+  const dict = (window.I18N && window.I18N[lang]) || window.I18N.pt || {};
 
-    if (slots.morningFree && slots.afternoonFree){
-      $avail.textContent = 'Disponível: manhã e tarde';
-      $avail.dataset.state = 'ok';
-    } else if (slots.morningFree){
-      $avail.textContent = 'Disponível: manhã';
-      $avail.dataset.state = 'ok';
-    } else if (slots.afternoonFree){
-      $avail.textContent = 'Disponível: tarde';
-      $avail.dataset.state = 'ok';
-    } else {
-      $avail.textContent = 'Indisponível';
-      $avail.dataset.state = 'busy';
-    }
+  if (slots.allDayBusy) {
+    $avail.textContent = dict["booking.avail.unavailable"] || 'Indisponível';
+    $avail.dataset.state = 'busy';
+    $pay && ($pay.disabled = true);
+    return;
+  }
+
+  if (slots.morningFree && slots.afternoonFree) {
+    $avail.textContent = dict["booking.avail.both"] || 'Disponível: manhã e tarde';
+    $avail.dataset.state = 'ok';
+  } else if (slots.morningFree) {
+    $avail.textContent = dict["booking.avail.morning"] || 'Disponível: manhã';
+    $avail.dataset.state = 'ok';
+  } else if (slots.afternoonFree) {
+    $avail.textContent = dict["booking.avail.afternoon"] || 'Disponível: tarde';
+    $avail.dataset.state = 'ok';
+  } else {
+    $avail.textContent = dict["booking.avail.unavailable"] || 'Indisponível';
+    $avail.dataset.state = 'busy';
+  }
+} catch (err) {
+  console.error(err);
+  const lang = localStorage.getItem('hwc_lang') || 'pt';
+  const dict = (window.I18N && window.I18N[lang]) || window.I18N.pt || {};
+  $avail.textContent = dict["booking.avail.error"] || 'Não foi possível verificar';
+  $avail.dataset.state = 'pending';
+}
+
 
     // aqui não bloqueamos o pagamento, quem decide é a validação em baixo
   } catch (err){
@@ -4193,12 +4234,19 @@ document.querySelectorAll('.pill').forEach(p => {
         trailPicker.value = trailName || '';
     }
 
-    // texto animado do topo
-    if (subtitle) {
-        subtitle.textContent = trailName
-            ? `Estás a reservar o trilho: ${trailName}`
-            : 'Seleciona um trilho abaixo.';
-    }
+    // texto animado do topo (i18n)
+if (subtitle) {
+  const lang = localStorage.getItem('hwc_lang') || 'pt';
+  const dict = (window.I18N && window.I18N[lang]) || window.I18N.pt || {};
+
+  if (trailName) {
+    const prefix = dict["booking.subtitle.prefix"] || "Estás a reservar o trilho:";
+    subtitle.textContent = `${prefix} ${trailName}`;
+  } else {
+    subtitle.textContent = dict["booking.subtitle.noTrail"] || "Seleciona um trilho abaixo.";
+  }
+}
+
 
     bookingModal.style.display = "flex";
     document.body.classList.add("modal-open");
