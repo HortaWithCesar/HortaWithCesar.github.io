@@ -1826,7 +1826,7 @@ a[aria-disabled="true"] {
             <span class="pill">~2h</span>
             <span class="pill" data-i18n="trail.city.meta3">Dificuldade: Fácil</span>
           </div>
-          <p>Centro histórico, colónias, igrejas antigas, marina e histórias das famílias mais marcantes. Passeio urbano com paragens fotográficas e comercio local.</p>
+          <p data-i18n="trail.city.desc">>Centro histórico, colónias, igrejas antigas, marina e histórias das famílias mais marcantes. Passeio urbano com paragens fotográficas e comercio local.</p>
           <!-- Ações do trilho -->
 <div class="trail-actions">
   <!-- Reservar (abre o inquérito com o trilho pré-selecionado) -->
@@ -2065,7 +2065,7 @@ a[aria-disabled="true"] {
       <span class="pill">~5 km</span>
       <span class="pill">▲ +260 m</span>
       <span class="pill">~3h00</span>
-      <span class="pill data-i18n="trail.rocha.difficulty"">Dificuldade: Moderado</span>
+      <span class="pill" data-i18n="trail.rocha.difficulty">Dificuldade: Moderado</span>
     </div>
     <p data-i18n="trail.rocha.desc">Trilho circular entre formações vulcânicas e falésias, com vistas sobre a areia negra e vegetação costeira do Faial.</p>
     <div class="trail-actions">
@@ -2442,7 +2442,7 @@ a[aria-disabled="true"] {
 <!-- Disponibilidade (debaixo da data) -->
 <div class="reserve-field">
   <div class="availability-inline">
-    <span class="label">Disponibilidade</span>
+    <span class="label" data-i18n="booking.label.availability">Disponibilidade</span>
     <span id="rv-availability" class="availability-badge" data-state="pending">—</span>
   </div>
 </div>
@@ -2456,7 +2456,7 @@ a[aria-disabled="true"] {
     </div>
 
     <div class="booking-actions">
-  <button id="btn-send" class="btn btn-primary" type="submit">Enviar pedido</button>
+  <button id="btn-send" class="btn btn-primary" type="submit" data-i18n="booking.btn.send">   Enviar pedido </button>
   <button id="btn-open-reserve" class="btn btn-ghost" type="button" data-i18n="booking.btn.submit">Efetuar reserva</button>
 </div>
 
@@ -2472,7 +2472,7 @@ a[aria-disabled="true"] {
   <!-- (conteúdo igual ao protótipo anterior) -->
 <!-- CONTACTOS -->
 <section id="contact" class="wrap contact">
-  <h2>Contactos</h2>
+  <h2 data-i18n="contact.title">Contactos</h2>
 
   <div class="contact-grid">
     <!-- Lado A: informação -->
@@ -2485,7 +2485,7 @@ a[aria-disabled="true"] {
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1.5 1.5 0 0 1 1.5-.37 12 12 0 0 0 3.8.62 1.5 1.5 0 0 1 1.5 1.5V20a1.5 1.5 0 0 1-1.5 1.5A17.5 17.5 0 0 1 3 7.5 1.5 1.5 0 0 1 4.5 6H7a1.5 1.5 0 0 1 1.5 1.5c0 1.3.21 2.6.62 3.8a1.5 1.5 0 0 1-.37 1.5z" fill="currentColor"/></svg>
     </i>
     <div class="label">
-      <span>Telefone</span>
+      <span data-i18n="contact.phone.label">Telefone</span>
       <strong><a class="chip" href="tel:+351964616199">+351 964 616 199</a></strong>
     </div>
   </li>
@@ -2525,7 +2525,7 @@ a[aria-disabled="true"] {
       <svg viewBox="0 0 24 24"><path d="M12 22s7-7.06 7-12a7 7 0 1 0-14 0c0 4.94 7 12 7 12z" fill="currentColor"/><circle cx="12" cy="10" r="2" fill="#fff"/></svg>
     </i>
     <div class="label">
-      <span>Base</span>
+      <span data-i18n="contact.base.label>Base</span>
       <strong>Horta · Ilha do Faial, Açores</strong>
     </div>
     <a class="chip" target="_blank" rel="noopener" href="https://maps.google.com/?q=Horta,+Faial,+Açores">Ver no mapa</a>
@@ -2537,7 +2537,7 @@ a[aria-disabled="true"] {
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 7v5l4 2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
     </i>
     <div class="label">
-      <span>Horário</span>
+      <span data-i18n="contact.hours.label">Horário</span>
       <strong>Seg-Dom · 08h-20h </strong>
     </div>
   </li>
@@ -2551,12 +2551,12 @@ a[aria-disabled="true"] {
 </a>
 
 
-        <a class="btn btn-outline" href="#booking">Reservar no site</a>
+        <a class="btn btn-outline" href="#booking" data-i18n="contact.btn.reserve-site">   Reservar no site </a>
       </div>
 
-      <p class="small" style="margin-top:8px">
+      <p class="small" style="margin-top:8px" data-i18n="contact.privacy.note">
          contactos usados apenas para responder e gerir marcações. 
-<a href="#" class="link js-open-privacy">Política de Privacidade.</a>
+<a href="#" class="link js-open-privacy" data-i18n="contact.privacy.link">Política de Privacidade.</a>
       </p>
     </div>
 
@@ -2566,14 +2566,15 @@ a[aria-disabled="true"] {
     <img src="foto-contacto.jpg"
          onerror="this.onerror=null;this.src='foto-contacto.jpg';"
          alt="César, guia local na Horta">
-    <figcaption class="photo-caption-below">Horta with César</figcaption>
+    <figcaption class="photo-caption-below" data-i18n="contact.photo.main">Horta with César</figcaption>
   </figure>
 
   <figure class="contact-photo contact-photo--secondary">
     <img src="Foto.Pico"
          onerror="this.onerror=null;this.src='Foto.Pico.jpg';"
          alt="Pico visto do Faial ao pôr do sol">
-    <figcaption class="photo-caption-below">O paraíso tem nome....</figcaption>
+    <figcaption class="photo-caption-below" data-i18n="contact.photo.pico">O paraíso tem nome....</figcaption>
+
   </figure>
 </div>
 
@@ -2605,9 +2606,9 @@ a[aria-disabled="true"] {
       <div class="small">© <span id="year"></span> Horta with César · Faial, Açores — PT/EN</div>
     </div>
     <div class="small">
-<a href="https://www.livroreclamacoes.pt/inicio" class="link" target="_blank">Livro de Reclamações</a> ·
-<a href="#" class="link js-open-cancel">Política de Cancelamento</a> ·
-<a href="#" class="link js-open-privacy">Política de Privacidade</a>
+<a href="https://www.livroreclamacoes.pt/inicio" class="link" target="_blank" data-i18n="footer.complaints">Livro de Reclamações</a> ·
+<a href="#" class="link js-open-cancel" data-i18n="footer.cancel">Política de Cancelamento</a> ·
+<a href="#" class="link js-open-privacy" data-i18n="footer.privacy">Política de Privacidade</a>
 
 </div>
 
@@ -2618,7 +2619,7 @@ a[aria-disabled="true"] {
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cond-title">
     <header>
       <div>
-        <h3 id="cond-title" data-i18n="cond.title>Condições — Trilho</h3>
+        <h3 id="cond-title" data-i18n="cond.title">Condições — Trilho</h3>
         <div class="muted" id="cond-sub" data-i18n="cond.subtitle">Preços, seguros e termos</div>
       </div>
       <button class="close-x" id="cond-close" aria-label="Fechar">
