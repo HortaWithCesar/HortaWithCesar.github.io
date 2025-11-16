@@ -3262,76 +3262,69 @@ a[aria-disabled="true"] {
 </script>
   <script>
 (function(){
-  const modal = document.getElementById('cond-modal');
-  const close1 = document.getElementById('cond-close');
-  const close2 = document.getElementById('cond-close-2');
-  const title = document.getElementById('cond-title');
-  const sub = document.getElementById('cond-sub');
+  const modal   = document.getElementById('cond-modal');
+  const close1  = document.getElementById('cond-close');
+  const close2  = document.getElementById('cond-close-2');
+  const title   = document.getElementById('cond-title');
+  const sub     = document.getElementById('cond-sub');
   const trailEl = document.getElementById('cond-trail');
   const priceEl = document.getElementById('cond-price');
   const briefEl = document.getElementById('cond-brief');
-  const waBtn = document.getElementById('cond-whatsapp');
+  const waBtn   = document.getElementById('cond-whatsapp');
 
-  // abrir
+  // abrir modal de condições
   document.addEventListener('click', (e)=>{
     const btn = e.target.closest('.btn-conditions');
-    if(!btn) return;
+    if (!btn) return;
     e.preventDefault();
 
-    const card = btn.closest('.trail-card');
-    const trail = card?.dataset.trail || 'Trilho';
+    const card      = btn.closest('.trail-card');
+    const trail     = card?.dataset.trail     || 'Trilho';
     const priceFrom = card?.dataset.priceFrom || 'sob consulta';
-    const brief = card?.dataset.brief || 'Preço base para 1 pessoa. Para grupos, pede cotação.';
 
-    title.textContent = `Condições — ${trail}`;
-    sub.textContent   = 'Preços, seguros e termos';
+    // escolhe o texto consoante o idioma
+    const lang = localStorage.getItem('hwc_lang') || 'pt';
+    let brief  = card?.dataset.brief || 'Preço base para 1 pessoa. Para grupos, pede cotação.';
+
+    if (lang === 'en' && card?.dataset.briefEn) {
+      brief = card.dataset.briefEn;
+    }
+
+    title.textContent   = `Condições — ${trail}`;
+    sub.textContent     = 'Preços, seguros e termos';
     trailEl.textContent = trail;
-    priceEl.textContent = `Desde ${priceFrom} `;
-    const card = btn.closest('.trail-card');
-const trail = card?.dataset.trail || 'Trilho';
-const priceFrom = card?.dataset.priceFrom || 'sob consulta';
-
-// 👇 NOVO BLOCO PARA ESCOLHER PT / EN
-const lang = localStorage.getItem('hwc_lang') || 'pt';
-
-let brief = card?.dataset.brief || 'Preço base para 1 pessoa. Para grupos, pede cotação.';
-if (lang === 'en' && card?.dataset.briefEn) {
-  brief = card.dataset.briefEn;
-}
-// 👆 ATÉ AQUI
-
-title.textContent = `Condições — ${trail}`;
-sub.textContent   = 'Preços, seguros e termos';
-trailEl.textContent = trail;
-priceEl.textContent = `Desde ${priceFrom}`;
-briefEl.textContent = brief;
+    priceEl.textContent = `Desde ${priceFrom}`;
+    briefEl.textContent = brief;
 
     const msg = encodeURIComponent(`Olá César! Quero saber as condições/preço para: ${trail}.`);
     waBtn.href = `https://wa.me/351964616199?text=${msg}`;
 
     modal.classList.add('open');
-    document.body.classList.add('modal-open'); // ❗ bloqueia scroll do body
+    document.body.classList.add('modal-open');
     setTimeout(()=> waBtn.focus(), 50);
   });
 
   function closeModal(){
     modal.classList.remove('open');
-    document.body.classList.remove('modal-open'); // ❗ volta a permitir scroll
+    document.body.classList.remove('modal-open');
   }
 
-  [close1, close2].forEach(b=> b && b.addEventListener('click', closeModal));
+  [close1, close2].forEach(b => b && b.addEventListener('click', closeModal));
 
   // clicar fora fecha
   modal.addEventListener('click', (e)=>{
-    if(e.target === modal) closeModal();
+    if (e.target === modal) closeModal();
   });
 
-  // tecla Esc fecha
+  // tecla ESC fecha
   document.addEventListener('keydown', (e)=>{
-    if(e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+    if (e.key === 'Escape' && modal.classList.contains('open')) {
+      closeModal();
+    }
   });
 })();
 </script>
+
 
 <script type="application/ld+json">
 {
@@ -3528,48 +3521,40 @@ async function checkAvailability(){
   }
 
   try {
-  const slots = await checkDaySlots(val);
+    const slots = await checkDaySlots(val);
 
-  // pega na língua atual e no dicionário
-  const lang = localStorage.getItem('hwc_lang') || 'pt';
-  const dict = (window.I18N && window.I18N[lang]) || window.I18N.pt || {};
+    const lang = localStorage.getItem('hwc_lang') || 'pt';
+    const dict = (window.I18N && window.I18N[lang]) || window.I18N.pt || {};
 
-  if (slots.allDayBusy) {
-    $avail.textContent = dict["booking.avail.unavailable"] || 'Indisponível';
-    $avail.dataset.state = 'busy';
-    $pay && ($pay.disabled = true);
-    return;
-  }
+    if (slots.allDayBusy) {
+      $avail.textContent = dict["booking.avail.unavailable"] || 'Indisponível';
+      $avail.dataset.state = 'busy';
+      $pay && ($pay.disabled = true);
+      return;
+    }
 
-  if (slots.morningFree && slots.afternoonFree) {
-    $avail.textContent = dict["booking.avail.both"] || 'Disponível: manhã e tarde';
-    $avail.dataset.state = 'ok';
-  } else if (slots.morningFree) {
-    $avail.textContent = dict["booking.avail.morning"] || 'Disponível: manhã';
-    $avail.dataset.state = 'ok';
-  } else if (slots.afternoonFree) {
-    $avail.textContent = dict["booking.avail.afternoon"] || 'Disponível: tarde';
-    $avail.dataset.state = 'ok';
-  } else {
-    $avail.textContent = dict["booking.avail.unavailable"] || 'Indisponível';
-    $avail.dataset.state = 'busy';
-  }
-} catch (err) {
-  console.error(err);
-  const lang = localStorage.getItem('hwc_lang') || 'pt';
-  const dict = (window.I18N && window.I18N[lang]) || window.I18N.pt || {};
-  $avail.textContent = dict["booking.avail.error"] || 'Não foi possível verificar';
-  $avail.dataset.state = 'pending';
-}
-
-
-    // aqui não bloqueamos o pagamento, quem decide é a validação em baixo
+    if (slots.morningFree && slots.afternoonFree) {
+      $avail.textContent = dict["booking.avail.both"] || 'Disponível: manhã e tarde';
+      $avail.dataset.state = 'ok';
+    } else if (slots.morningFree) {
+      $avail.textContent = dict["booking.avail.morning"] || 'Disponível: manhã';
+      $avail.dataset.state = 'ok';
+    } else if (slots.afternoonFree) {
+      $avail.textContent = dict["booking.avail.afternoon"] || 'Disponível: tarde';
+      $avail.dataset.state = 'ok';
+    } else {
+      $avail.textContent = dict["booking.avail.unavailable"] || 'Indisponível';
+      $avail.dataset.state = 'busy';
+    }
   } catch (err){
     console.error(err);
-    $avail.textContent = 'Não foi possível verificar';
+    const lang = localStorage.getItem('hwc_lang') || 'pt';
+    const dict = (window.I18N && window.I18N[lang]) || window.I18N.pt || {};
+    $avail.textContent = dict["booking.avail.error"] || 'Não foi possível verificar';
     $avail.dataset.state = 'pending';
   }
 }
+
 
 $date && $date.addEventListener('change', checkAvailability);
 
