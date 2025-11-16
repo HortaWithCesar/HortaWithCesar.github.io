@@ -2313,9 +2313,16 @@ a[aria-disabled="true"] {
       </div>
 
       <div>
-  <label for="country" data-i18n="booking.label.country">País</label>
-  <select id="country" name="País" required>
-    <option value="">Seleciona o teu país</option>
+ <label for="country" data-i18n="booking.label.country">País</label>
+
+<select id="country" name="País" required data-i18n-placeholder="booking.ph.country" placeholder="Seleciona o teu país">
+
+  <option value="" data-i18n="booking.ph.country">
+    Seleciona o teu país
+  </option>
+
+</select>
+
 
     <!-- EUROPA -->
     <option>🇵🇹 Portugal</option>
@@ -2842,6 +2849,7 @@ a[aria-disabled="true"] {
 
 "booking.label.name": "Nome",
 "booking.label.country": "País",
+"booking.ph.country": "Seleciona o teu país",
 "booking.label.email": "E-mail",
 "booking.label.date": "Data",
 "booking.label.people": "Número de pessoas",
@@ -3053,6 +3061,7 @@ a[aria-disabled="true"] {
 
 "booking.label.name": "Name",
 "booking.label.country": "Country",
+"booking.ph.country": "Select your country",        
 "booking.label.email": "E-mail",
 "booking.label.date": "Date",
 "booking.label.people": "Number of people",
