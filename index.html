@@ -2739,6 +2739,74 @@ a[aria-disabled="true"] {
   </div>
 </div>
 
+  <!-- 🇵🇹 / 🇬🇧 Traduções base -->
+  <script>
+    const I18N = {
+      pt: {
+        "rv.title": "Resumo da reserva",
+        "rv.label.trail": "Trilho",
+        "rv.label.people": "Nº de pessoas",
+        "rv.label.date": "Data",
+        "rv.label.period": "Período",
+        "rv.label.total": "Total estimado",
+        "rv.note.total": "Valor calculado com base no trilho e nº de pessoas. Poderá ajustar consoante logística.",
+        "rv.label.deposit": "Sinal 20%",
+        "rv.note.deposit.1": "Deduzido ao valor final.",
+        "rv.note.deposit.cancel": "Política de Cancelamento",
+        "rv.note.deposit.2": "Ao confirmar a reserva, assume que leu e concorda com as condições gerais do serviço e com a política de privacidade do site.",
+        "rv.btn.confirm": "Confirmar reserva",
+        "rv.btn.close": "Fechar"
+      },
+
+      en: {
+        "rv.title": "Reservation summary",
+        "rv.label.trail": "Trail",
+        "rv.label.people": "Number of people",
+        "rv.label.date": "Date",
+        "rv.label.period": "Time of day",
+        "rv.label.total": "Estimated total",
+        "rv.note.total": "Amount calculated based on the trail and number of people. May vary depending on logistics.",
+        "rv.label.deposit": "Deposit 20%",
+        "rv.note.deposit.1": "Deducted from the final price.",
+        "rv.note.deposit.cancel": "Cancellation Policy",
+        "rv.note.deposit.2": "By confirming the reservation, you agree to the general service conditions and the website's privacy policy.",
+        "rv.btn.confirm": "Confirm reservation",
+        "rv.btn.close": "Close"
+      }
+    };
+
+    function setLang(lang) {
+      const dict = I18N[lang] || I18N.pt;
+      document.documentElement.lang = lang;
+      localStorage.setItem('hwc_lang', lang);
+
+      // elementos de texto
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) {
+          el.textContent = dict[key];
+        }
+      });
+
+      // metas / content
+      document.querySelectorAll('[data-i18n-content]').forEach(el => {
+        const key = el.getAttribute('data-i18n-content');
+        if (dict[key]) {
+          el.setAttribute('content', dict[key]);
+        }
+      });
+
+      // botões PT / EN ativos
+      document.getElementById('btn-pt')?.classList.toggle('active', lang === 'pt');
+      document.getElementById('btn-en')?.classList.toggle('active', lang === 'en');
+    }
+
+    // aplica a língua guardada ou PT por defeito
+    const savedLang = localStorage.getItem('hwc_lang') || 'pt';
+    setLang(savedLang);
+  </script>
+
+        
   <script>
   // reveal on scroll
   const els = document.querySelectorAll('.reveal');
@@ -2749,6 +2817,7 @@ a[aria-disabled="true"] {
   },{ threshold:.2 });
   els.forEach(el=>obs.observe(el));
 </script>
+        
 <script>
   // Smooth-scroll para reservas + preencher o "Trilho"
   const reserveButtons = document.querySelectorAll('.js-reserve');
