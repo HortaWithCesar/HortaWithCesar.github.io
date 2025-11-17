@@ -4562,17 +4562,19 @@ if (subtitle) {
     // começa sempre no vídeo (índice 0)
     render(0);
 
-    // depois só roda pelas fotos (1..N-1)
-    function startLoop() {
-      let idx = 1;
-      if (items.length <= 1) return; // não há fotos, nada para rodar
+    // depois entra num loop que inclui o vídeo outra vez
+function startLoop() {
+  let idx = 1;                       // começa na primeira foto
+  if (items.length <= 1) return;
 
-      setInterval(() => {
-        render(idx);
-        idx++;
-        if (idx >= items.length) idx = 1;
-      }, 4000);
+  setInterval(() => {
+    render(idx);
+    idx++;
+    if (idx >= items.length) {
+      idx = 0;                       // 👈 volta ao 0, ou seja, ao vídeo
     }
+  }, 4000);
+}
 
     setTimeout(startLoop, 13000);
   });
