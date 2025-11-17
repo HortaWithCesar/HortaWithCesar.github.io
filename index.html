@@ -2484,11 +2484,12 @@ a[aria-disabled="true"] {
   </button>
 
   <button id="btn-open-reserve"
-          class="btn btn-ghost"
-          type="button"
-          data-i18n="booking.btn.reserve">
-    Efetuar reserva
-  </button>
+        class="btn btn-ghost btn-disabled"
+        type="button"
+        data-i18n="booking.btn.reserve">
+  Efetuar reserva
+</button>
+
 </div>
 
 </section>
@@ -3923,9 +3924,23 @@ const elSlot  = document.querySelector('#period');
   // botão "Efetuar reserva"
   const openBtn = $('#btn-open-reserve');
   if (openBtn) {
-    openBtn.disabled = !ok;
-    openBtn.classList.toggle('btn-disabled', !ok);
+
+  // estado disabled no atributo
+  openBtn.disabled = !ok;
+
+  // quando válido → botão azul (btn-primary)
+  if (ok) {
+    openBtn.classList.remove('btn-disabled', 'btn-ghost');
+    openBtn.classList.add('btn-primary');
   }
+
+  // quando inválido → botão ghost desativado
+  else {
+    openBtn.classList.remove('btn-primary');
+    openBtn.classList.add('btn-disabled', 'btn-ghost');
+  }
+}
+
 
   return { ok, hasTrail, hasPeople, hasDate, hasPeriod, hasAvail };
 }
