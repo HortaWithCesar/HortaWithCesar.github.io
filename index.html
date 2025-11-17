@@ -3488,7 +3488,33 @@ const priceFromLabel = dict["cond.price.from"];
 priceEl.textContent = `${priceFromLabel} ${priceFrom}`;
 
 // texto de detalhe
-briefEl.textContent = brief;
+briefEl.textContent = brief;    // escolhe o texto consoante o idioma
+    const lang = localStorage.getItem('hwc_lang') || 'pt';
+    let brief  = card?.dataset.brief || 'Preço base para 1 pessoa. Para grupos, pede cotação.';
+
+    if (lang === 'en' && card?.dataset.briefEn) {
+      brief = card.dataset.briefEn;
+    }
+
+    const root = window.I18N || {};
+    const dict = root[lang] || root.pt || {};
+
+    // título (mantém o nome do trilho em PT)
+    title.textContent = `${dict["cond.title"]} — ${trail}`;
+
+    // subtítulo
+    sub.textContent = dict["cond.sub"];
+
+    // nome do trilho (sem tradução)
+    trailEl.textContent = trail;
+
+    // "Desde / From"
+    const priceFromLabel = dict["cond.price.from"];
+    priceEl.textContent = `${priceFromLabel} ${priceFrom}`;
+
+    // texto de detalhe
+    briefEl.textContent = brief;
+
 
 
     const msg = encodeURIComponent(`Olá César! Quero saber as condições/preço para: ${trail}.`);
