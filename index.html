@@ -2548,7 +2548,11 @@ a[aria-disabled="true"] {
       <span>Instagram</span>
       <strong>@hortawithcesar</strong>
     </div>
-    <a class="chip" target="_blank" rel="noopener" href="https://www.instagram.com/horta.with.cesar">Abrir</a>
+    <a class="chip" target="_blank" rel="noopener" 
+   href="https://www.instagram.com/horta.with.cesar"
+   data-i18n="contact.btn.open">
+  Abrir
+</a>
   </li>
 
   <!-- Base -->
@@ -2560,7 +2564,12 @@ a[aria-disabled="true"] {
       <span data-i18n="contact.base.label">Base</span>
       <strong>Horta · Ilha do Faial, Açores</strong>
     </div>
-    <a class="chip" target="_blank" rel="noopener" href="https://maps.google.com/?q=Horta,+Faial,+Açores">Ver no mapa</a>
+    <a class="chip" target="_blank" rel="noopener" 
+   href="https://maps.google.com/?q=Horta,+Faial,+Açores"
+   data-i18n="contact.btn.map">
+  Ver no mapa
+</a>
+
   </li>
 
   <!-- Horário -->
@@ -2972,6 +2981,11 @@ a[aria-disabled="true"] {
 "booking.ph.date": "dd/mm/aaaa",
 "booking.ph.period": "Selecionar...",
 "booking.ph.notes": "Preferências, restrições, horários...",
+"cond.title": "Condições",
+"cond.sub": "Preços, seguros e termos",
+"cond.price.from": "Desde",
+"contact.btn.open": "Abrir",
+"contact.btn.map": "Ver no mapa",
 
         "rv.title": "Resumo da reserva",
         "rv.label.trail": "Trilho",
@@ -3185,6 +3199,11 @@ a[aria-disabled="true"] {
 "booking.ph.date": "dd/mm/yyyy",
 "booking.ph.period": "Select...",
 "booking.ph.notes": "Preferences, restrictions, schedule...",
+"cond.title": "Conditions",
+"cond.sub": "Prices, insurance and terms",
+"cond.price.from": "From",
+"contact.btn.open": "Open",
+"contact.btn.map": "View on map",
 
 
         "rv.title": "Reservation summary",
@@ -3338,12 +3357,26 @@ window.addEventListener('DOMContentLoaded', () => {
     if (lang === 'en' && card?.dataset.briefEn) {
       brief = card.dataset.briefEn;
     }
+const lang = localStorage.getItem('hwc_lang') || 'pt';
+const root = window.I18N || {};
+const dict = root[lang] || root.pt || {};
 
-    title.textContent   = `Condições — ${trail}`;
-    sub.textContent     = 'Preços, seguros e termos';
-    trailEl.textContent = trail;
-    priceEl.textContent = `Desde ${priceFrom}`;
-    briefEl.textContent = brief;
+// título (mantém o nome do trilho em PT)
+title.textContent = `${dict["cond.title"]} — ${trail}`;
+
+// subtítulo
+sub.textContent = dict["cond.sub"];
+
+// nome do trilho (sem tradução)
+trailEl.textContent = trail;
+
+// "Desde / From"
+const priceFromLabel = dict["cond.price.from"];
+priceEl.textContent = `${priceFromLabel} ${priceFrom}`;
+
+// texto de detalhe
+briefEl.textContent = brief;
+
 
     const msg = encodeURIComponent(`Olá César! Quero saber as condições/preço para: ${trail}.`);
     waBtn.href = `https://wa.me/351964616199?text=${msg}`;
