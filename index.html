@@ -1690,6 +1690,46 @@ a[aria-disabled="true"] {
   display: inline-flex;
   align-items: center;
 }
+/* ===== NAV: ajustes para mobile ===== */
+@media (max-width: 640px) {
+
+  /* deixa o nav partir em 2 linhas */
+  nav {
+    flex-wrap: wrap;
+    height: auto;
+    row-gap: 6px;
+  }
+
+  /* menos almofada lateral no header */
+  header .wrap {
+    padding: 6px 10px;
+  }
+
+  /* bloco da direita (links + PT/EN) pode quebrar em 2 linhas */
+  nav > div:last-child {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    column-gap: 10px;
+    row-gap: 4px;
+  }
+
+  /* links um bocadinho mais pequenos e com menos margem */
+  nav a {
+    margin-left: 10px;
+    font-size: 14px;
+  }
+
+  /* PT / EN mais compacto */
+  .lang-toggle {
+    padding: 4px 6px;
+    gap: 4px;
+  }
+
+  .lang-toggle button {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+}
 
 
   </style>
@@ -3247,7 +3287,7 @@ a[aria-disabled="true"] {
 "cond.note.price": "💬 The price per person may change depending on group size, season and logistics. For groups and partnerships, ask for a quote.",
 
 "cond.legal.title": "Legal information & conditions",
-"cond.legal.transport.not.included: "Prices do not include transport to the trail or return.",
+"cond.legal.transport.not.included": "Prices do not include transport to the trail or return.",
 "cond.legal.transport": "Please get in touch in advance to confirm availability for transport, WhatsApp or booking form both work",
 "cond.legal.equipment": "Equipment & care: wear suitable clothing and footwear for the trail; use sunscreen; bring a hat and/or rain jacket according to the forecast. We also recommend enough water, a small snack and a charged phone.",
 "cond.legal.insurance": "Insurance: activity covered by Civil Liability Insurance and Personal Accident Insurance during the tour.",
