@@ -4339,9 +4339,9 @@ document.querySelectorAll('.pill').forEach(p => {
   
 <script>
 /* ===========================================
-   MODAL DE FOTOS (City Walk + Entre Montes)
+   MODAL DE FOTOS – CITY WALK + TODOS OS TRILHOS
    =========================================== */
-(function(){
+(function () {
   const modal    = document.getElementById("photoModal");
   if (!modal) return;
 
@@ -4350,71 +4350,81 @@ document.querySelectorAll('.pill').forEach(p => {
   const nextBtn  = modal.querySelector(".photo-next");
   const prevBtn  = modal.querySelector(".photo-prev");
 
-  // --- GALERIA CITY WALK (thumbs) ---
+  let currentList = [];
+  let index = 0;
+
+  function openWithList(list, start) {
+    if (!list.length) return;
+    currentList = list;
+    index = start || 0;
+    modalImg.src = currentList[index];
+    modal.style.display = "block";
+  }
+
+  /* ---- CITY WALK (thumbs) ---- */
   const cityThumbs = Array.from(
     document.querySelectorAll(".city-thumb[data-type='img']")
   );
   const cityImgs = cityThumbs.map(t => t.dataset.src);
 
-  // --- GALERIA ENTRE MONTES (loop-items) ---
-  const entreSlider = document.getElementById("slider-entre-montes");
-  const entreImgs = entreSlider
-    ? Array.from(
-        entreSlider.querySelectorAll(".loop-items span[data-type='img']")
-      ).map(el => el.dataset.src)
-    : [];
-
-  let currentGallery = null; // "city" ou "entre"
-  let index = 0;
-
-  function openGallery(gal, start){
-    const list = gal === "city" ? cityImgs : entreImgs;
-    if (!list.length) return;
-
-    currentGallery = gal;
-    index = start || 0;
-    modalImg.src = list[index];
-    modal.style.display = "block";
-  }
-
-  // City: duplo-clique na thumb abre modal
+  // duplo clique na thumb abre em grande
   cityThumbs.forEach((thumb, i) => {
     thumb.addEventListener("dblclick", () => {
-      openGallery("city", i);
+      openWithList(cityImgs, i);
     });
   });
 
-  // Entre Montes: clique no slider abre modal (começa na 1.ª foto)
-  if (entreSlider){
-    const main = entreSlider.querySelector(".loop-main");
-    main.addEventListener("click", () => {
-      openGallery("entre", 0);
-    });
-  }
+  /* ---- TODOS OS .loop-slider (Entre Montes, Neptuno, etc.) ---- */
+  document.querySelectorAll(".loop-slider").forEach((slider) => {
+    const imgs = Array.from(
+      slider.querySelectorAll(".loop-items span[data-type='img']")
+    ).map(el => el.dataset.src);
 
-  function showNext(step){
-    const list = currentGallery === "city" ? cityImgs : entreImgs;
-    if (!list.length) return;
-    index = (index + step + list.length) % list.length;
-    modalImg.src = list[index];
+    if (!imgs.length) return;
+
+    const main = slider.querySelector(".loop-main");
+    if (!main) return;
+
+    main.addEventListener("click", () => {
+      // tenta começar na foto que está visível
+      const currentImg = main.querySelector("img");
+      let startIdx = 0;
+
+      if (currentImg) {
+        const src = currentImg.getAttribute("src");
+        const found = imgs.findIndex(s => s === src);
+        if (found >= 0) startIdx = found;
+      }
+
+      openWithList(imgs, startIdx);
+    });
+  });
+
+  /* ---- Navegação Next / Prev ---- */
+  function showNext(step) {
+    if (!currentList.length) return;
+    index = (index + step + currentList.length) % currentList.length;
+    modalImg.src = currentList[index];
   }
 
   nextBtn.onclick = () => showNext(+1);
   prevBtn.onclick = () => showNext(-1);
 
-  // fechar
+  /* ---- Fechar modal ---- */
   closeBtn.onclick = () => modal.style.display = "none";
-  modal.onclick = (e) => {
+
+  modal.addEventListener("click", (e) => {
     if (e.target === modal) modal.style.display = "none";
-  };
+  });
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape")      modal.style.display = "none";
-    if (e.key === "ArrowRight")  showNext(+1);
-    if (e.key === "ArrowLeft")   showNext(-1);
+    if (e.key === "Escape")     modal.style.display = "none";
+    if (e.key === "ArrowRight") showNext(+1);
+    if (e.key === "ArrowLeft")  showNext(-1);
   });
 })();
 </script>
+
 <script>
 (() => {
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
@@ -4594,77 +4604,6 @@ if (subtitle) {
   }
 })();
 </script>
-<script>
-/* ==========================================
-   ABRIR MODAL DE FOTOS – FUNCIONA EM TODOS
-   OS .loop-slider (Entre Montes, Neptuno, etc.)
-   ========================================== */
-
-(function () {
-  const modal = document.getElementById("photo-modal");
-  const modalImg = document.getElementById("modal-img");
-  const btnPrev = modal.querySelector(".photo-prev");
-  const btnNext = modal.querySelector(".photo-next");
-  const btnClose = modal.querySelector(".photo-close");
-
-  let currentSlider = null;
-  let currentIndex = 0;
-  let items = [];
-
-  // abrir a foto
-  function openModal(slider, index) {
-    currentSlider = slider;
-    items = Array.from(slider.querySelectorAll(".loop-items span"));
-    currentIndex = index;
-
-    const item = items[currentIndex];
-    if (!item || item.dataset.type !== "img") return;
-
-    modalImg.src = item.dataset.src;
-    modal.style.display = "block";
-  }
-
-  // fechar modal
-  btnClose.onclick = () => modal.style.display = "none";
-
-  // navegar fotos
-  btnPrev.onclick = () => {
-    if (!items.length) return;
-    currentIndex = (currentIndex - 1 + items.length) % items.length;
-    while (items[currentIndex].dataset.type !== "img") {
-      currentIndex = (currentIndex - 1 + items.length) % items.length;
-    }
-    modalImg.src = items[currentIndex].dataset.src;
-  };
-
-  btnNext.onclick = () => {
-    if (!items.length) return;
-    currentIndex = (currentIndex + 1) % items.length;
-    while (items[currentIndex].dataset.type !== "img") {
-      currentIndex = (currentIndex + 1) % items.length;
-    }
-    modalImg.src = items[currentIndex].dataset.src;
-  };
-
-  // tornar loop-main clicável — apenas imagens!
-  document.querySelectorAll(".loop-slider").forEach((slider) => {
-    const main = slider.querySelector(".loop-main");
-
-    main.addEventListener("click", () => {
-      const img = main.querySelector("img");
-      if (!img) return; // se estiver vídeo, ignora
-      const index = items.findIndex(i => i.dataset.src === img.src.replace(location.origin + '/', ''));
-
-      // fallback se não encontrar
-      const idx = index >= 0 ? index : 1;
-
-      openModal(slider, idx);
-    });
-  });
-})();
-</script>
-
-
 
 
 
