@@ -1648,24 +1648,32 @@ a[aria-disabled="true"] {
   padding:0 4px;
 }
 
-/* mobile: ligeiramente mais pequenos e mais perto da borda */
+/* MOBILE: ajustes barra fixa + botões flutuantes */
 @media (max-width:640px){
-  .floating-actions{
-    right:12px;
-    bottom:12px;
-  }
-  /* Botão Reservar — 1 tamanho abaixo */
-.fab-reserve{
-  background:#0ea5e9;
-  font-weight:700;
-  font-size:12px;
-  letter-spacing:.04em;
-  padding:0 4px;
 
-  width:48px !important;
-  height:48px !important;
+  /* mais espaço por baixo da barra fixa */
+  body{
+    padding-top: 110px; /* testa: se ainda ficar colado, sobe para 120px */
+  }
+
+  /* barra de ações flutuantes um pouco mais pequena e acima */
+  .floating-actions{
+    right: 12px;
+    bottom: 16px;
+  }
+
+  .fab-reserve{
+    background:#0ea5e9;
+    font-weight:700;
+    font-size:12px;
+    letter-spacing:.04em;
+    padding:0 8px;
+    min-width: 80px;
+    height: 44px;
+    white-space: nowrap;
+  }
 }
-}
+
 
 .trail-picker{
   margin-top:6px;
