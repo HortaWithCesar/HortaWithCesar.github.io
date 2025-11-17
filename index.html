@@ -2313,15 +2313,19 @@ a[aria-disabled="true"] {
         <input id="name" name="name" type="text" data-i18n-placeholder="booking.ph.name" placeholder="O teu nome completo">
       </div>
 
-      <div>
- <label for="country" data-i18n="booking.label.country">País</label>
-<select id="country" name="País" required class="country-picker">
-  <option value="" data-i18n="booking.ph.country">
-    Seleciona o teu país
-  </option>
-</select>
+<div>
+  <label for="country" data-i18n="booking.label.country">País</label>
 
-
+  <select id="country"
+          name="País"
+          required
+          data-i18n-placeholder="booking.ph.country"
+          placeholder="Seleciona o teu país">
+    <!-- Placeholder -->
+    <option value="" data-i18n="booking.ph.country">
+      Seleciona o teu país
+   
+    </option>
     <!-- EUROPA -->
     <option>🇵🇹 Portugal</option>
     <option>🇪🇸 Espanha</option>
