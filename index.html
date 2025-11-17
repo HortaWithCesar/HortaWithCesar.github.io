@@ -4513,8 +4513,7 @@ if (subtitle) {
   });
 })();
 </script>
-  
-<script>
+<script> 
 /* ============================
    LOOP AUTOMÁTICO – TODOS OS TRILHOS COM .loop-slider
    ============================ */
@@ -4538,11 +4537,24 @@ if (subtitle) {
 
       if (type === "video") {
         const v = document.createElement("video");
+
+        // propriedades
         v.src = src;
         v.muted = true;
         v.playsInline = true;
         v.autoplay = true;
         v.loop = false; // vídeo só no início
+
+        // atributos (alguns browsers só respeitam assim)
+        v.setAttribute("muted", "");
+        v.setAttribute("playsinline", "");
+        v.setAttribute("autoplay", "");
+
+        // tenta forçar o play quando estiver pronto
+        v.addEventListener("canplay", () => {
+          v.play().catch(() => {});
+        });
+
         main.appendChild(v);
       } else {
         const img = document.createElement("img");
@@ -4570,6 +4582,7 @@ if (subtitle) {
     setTimeout(startLoop, 13000);
   });
 })();
+
 
 </script>
 <script>
