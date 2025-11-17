@@ -3856,26 +3856,22 @@ $date && $date.addEventListener('change', checkAvailability);
     );
     btnPay.disabled = !canPay;
   }
-// Segurança: garantir que os querySelectors existam
-const elTrail = document.querySelector('#trail');
-const elPax   = document.querySelector('#people');
-const elDate  = document.querySelector('#date');
-const elSlot  = document.querySelector('#period');
 
-  // ===== 6) Listeners nos campos do formulário de cima =====
+
+    // ===== 6) Listeners nos campos do formulário de cima =====
   ['change','input'].forEach(ev=>{
-  if (elTrail && typeof elTrail.addEventListener === 'function')
-    elTrail.addEventListener(ev, refreshUI);
+    if (elTrail && typeof elTrail.addEventListener === 'function')
+      elTrail.addEventListener(ev, refreshUI);
 
-  if (elPax && typeof elPax.addEventListener === 'function')
-    elPax.addEventListener(ev, refreshUI);
+    if (elPax && typeof elPax.addEventListener === 'function')
+      elPax.addEventListener(ev, refreshUI);
 
-  if (elDate && typeof elDate.addEventListener === 'function')
-    elDate.addEventListener(ev, refreshUI);
+    if (elDate && typeof elDate.addEventListener === 'function')
+      elDate.addEventListener(ev, refreshUI);
 
-  if (elSlot && typeof elSlot.addEventListener === 'function')
-    elSlot.addEventListener(ev, refreshUI);
-});
+    if (elSlot && typeof elSlot.addEventListener === 'function')
+      elSlot.addEventListener(ev, refreshUI);
+  });
 
 
   // ===== 7) Click “Pagar sinal 20%” – aqui integras o link Revolut/checkout =====
