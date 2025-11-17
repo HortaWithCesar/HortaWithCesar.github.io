@@ -1931,7 +1931,26 @@ a[aria-disabled="true"] {
   data-brief="Ideal para fotografia. Preço base para 1 pessoa. Ponto de encontro Museu Fabrica da Baleia."
     data-brief-en="Ideal for photography. Base price for 1 person. Meeting point: Whale Factory Museum.">
         
-        <div class="trail-media">FOTO • Miradouro do Neptuno</div>
+        <div class="trail-media">
+  <div class="loop-slider" id="slider-neptuno">
+    <div class="loop-main"></div>
+
+    <!-- lista escondida com as medias (1 vídeo + 6 fotos) -->
+    <div class="loop-items">
+      <!-- vídeo primeiro -->
+      <span data-type="video" data-src="img/neptuno/neptuno-video.mp4"></span>
+
+      <!-- 6 fotos -->
+      <span data-type="img" data-src="img/neptuno/neptuno-1.jpg"></span>
+      <span data-type="img" data-src="img/neptuno/neptuno-2.jpg"></span>
+      <span data-type="img" data-src="img/neptuno/neptuno-3.jpg"></span>
+      <span data-type="img" data-src="img/neptuno/neptuno-4.jpg"></span>
+      <span data-type="img" data-src="img/neptuno/neptuno-5.jpg"></span>
+      <span data-type="img" data-src="img/neptuno/neptuno-6.jpg"></span>
+    </div>
+  </div>
+</div>
+
         <div class="trail-body">
           <h3 class="trail-title" data-i18n="trail.neptuno.title">   Miradouro do Neptuno </h3>
           <div class="trail-meta">
@@ -1975,7 +1994,23 @@ a[aria-disabled="true"] {
   data-price-from="75€ / px"
   data-brief="Acesso sujeito a condições meteorológicas. Preço ajusta com logística e grupo. Ponto de encontro a combinar"
         data-brief-en="Access subject to weather conditions. Price may change with logistics and group size. Meeting point to be arranged">
-        <div class="trail-media">FOTO • Caldeira</div>
+        <div class="trail-media">
+  <div class="loop-slider" id="slider-caldeira">
+    <div class="loop-main"></div>
+
+    <div class="loop-items">
+      <span data-type="video" data-src="img/caldeira/caldeira-video.mp4"></span>
+
+      <span data-type="img" data-src="img/caldeira/caldeira-1.jpg"></span>
+      <span data-type="img" data-src="img/caldeira/caldeira-2.jpg"></span>
+      <span data-type="img" data-src="img/caldeira/caldeira-3.jpg"></span>
+      <span data-type="img" data-src="img/caldeira/caldeira-4.jpg"></span>
+      <span data-type="img" data-src="img/caldeira/caldeira-5.jpg"></span>
+      <span data-type="img" data-src="img/caldeira/caldeira-6.jpg"></span>
+    </div>
+  </div>
+</div>
+
         <div class="trail-body">
           <h3 class="trail-title" data-i18n="trail.per.title">Caldeira — perímetro</h3>
 
@@ -4393,59 +4428,61 @@ if (subtitle) {
   
 <script>
 /* ============================
-   LOOP AUTOMÁTICO ENTRE MONTES
+   LOOP AUTOMÁTICO – TODOS OS TRILHOS COM .loop-slider
    ============================ */
-(function(){
-  const slider = document.getElementById("slider-entre-montes");
-  if (!slider) return;
+(function () {
+  const sliders = document.querySelectorAll(".loop-slider");
+  if (!sliders.length) return;
 
-  const main  = slider.querySelector(".loop-main");
-  const items = Array.from(slider.querySelectorAll(".loop-items span"));
-  if (!items.length) return;
+  sliders.forEach((slider) => {
+    const main  = slider.querySelector(".loop-main");
+    const items = Array.from(slider.querySelectorAll(".loop-items span"));
+    if (!main || !items.length) return;
 
-  function render(i){
-    const item = items[i];
-    if (!item) return;
+    function render(i) {
+      const item = items[i];
+      if (!item) return;
 
-    main.innerHTML = "";
+      main.innerHTML = "";
 
-    const type = item.dataset.type;
-    const src  = item.dataset.src;
+      const type = item.dataset.type;
+      const src  = item.dataset.src;
 
-    if (type === "video"){
-      const v = document.createElement("video");
-      v.src = src;
-      v.muted = true;
-      v.playsInline = true;
-      v.autoplay = true;
-      v.loop = false; // só queremos tocar uma vez no início
-      main.appendChild(v);
-    } else {
-      const img = document.createElement("img");
-      img.src = src;
-      img.alt = "Trilho Entre Montes";
-      main.appendChild(img);
-    }
-  }
-
-  // 1) começa no vídeo (índice 0)
-  render(0);
-
-  // 2) depois de 13s começa loop só nas fotos (índices 1..N-1, 2s cada)
-  function startLoop(){
-    let idx = 1; // começa na primeira foto
-
-    setInterval(() => {
-      render(idx);
-      idx++;
-      if (idx >= items.length) {
-        idx = 1; // volta à primeira foto, nunca volta ao vídeo
+      if (type === "video") {
+        const v = document.createElement("video");
+        v.src = src;
+        v.muted = true;
+        v.playsInline = true;
+        v.autoplay = true;
+        v.loop = false; // vídeo só no início
+        main.appendChild(v);
+      } else {
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = "Trail photo";
+        main.appendChild(img);
       }
-    }, 4000); // 4 segundos por foto
-  }
+    }
 
-  setTimeout(startLoop, 13000); // 13s para o vídeo tocar antes de começar as fotos
+    // começa sempre no vídeo (índice 0)
+    render(0);
+
+    // depois só roda pelas fotos (1..N-1)
+    function startLoop() {
+      let idx = 1;
+      if (items.length <= 1) return; // não há fotos, nada para rodar
+
+      setInterval(() => {
+        render(idx);
+        idx++;
+        if (idx >= items.length) idx = 1;
+      }, 4000);
+    }
+
+    setTimeout(startLoop, 13000);
+  });
 })();
+
 </script>
 <script>
 (function(){
