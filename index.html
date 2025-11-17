@@ -2443,7 +2443,16 @@ a[aria-disabled="true"] {
 
   <div>
     <label for="period" data-i18n="booking.label.period">Período do dia</label>
-    <select id="period" data-i18n-placeholder="booking.ph.period" placeholder="Selecionar...">
+
+<select id="period"
+        name="period"
+        class="period-picker"
+        required>
+
+  <!-- PLACEHOLDER -->
+  <option value="" disabled selected data-i18n="booking.ph.period">
+    Selecionar...
+  </option>
       <option value="Manhã" data-i18n="booking.period.morning">🌅 Manhã</option>
       <option value="Tarde" data-i18n="booking.period.afternoon">🌇 Tarde</option>
     </select>
@@ -3895,24 +3904,31 @@ const elSlot  = document.querySelector('#period');
 
   // Valida campos para desbloquear o botão “Efectuar reserva”
   function validateBooking() {
-    const f = readBookingForm();
+  const f = readBookingForm();
 
-    const hasTrail  = !!f.trail  && f.trail  !== '—';
-    const hasPeople = +f.people > 0;
-    const hasDate   = !!f.date  && f.date  !== '—';
-    const hasPeriod = !!f.period && f.period !== '—';
-    const hasAvail  = isAvailabilityOK();
+  // os campos lidos
+  const hasTrail  = !!f.trail  && f.trail  !== '' && f.trail  !== '-';
+  const hasPeople = +f.people > 0;
+  const hasDate   = !!f.date   && f.date   !== '' && f.date   !== '-';
 
-    const ok = hasTrail && hasPeople && hasDate && hasPeriod && hasAvail;
+  // ESTE É O IMPORTANTE:
+  // Se o período está vazio (placeholder "" ou "-"), NÃO deixa avançar
+  const hasPeriod = !!f.period && f.period !== '' && f.period !== '-';
 
-    const openBtn = $('#btn-open-reserve');
-    if (openBtn) {
-      openBtn.disabled = !ok;
-      openBtn.classList.toggle('btn-disabled', !ok);
-    }
+  // disponibilidade continua igual
+  const hasAvail  = isAvailabilityOK();
 
-    return { ok, hasTrail, hasPeople, hasDate, hasPeriod, hasAvail };
+  const ok = hasTrail && hasPeople && hasDate && hasPeriod && hasAvail;
+
+  // botão "Efetuar reserva"
+  const openBtn = $('#btn-open-reserve');
+  if (openBtn) {
+    openBtn.disabled = !ok;
+    openBtn.classList.toggle('btn-disabled', !ok);
   }
+
+  return { ok, hasTrail, hasPeople, hasDate, hasPeriod, hasAvail };
+}
 
   // Modal
   function openReserveModal(e) {
