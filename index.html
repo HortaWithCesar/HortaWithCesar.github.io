@@ -3236,9 +3236,13 @@ document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
       document.getElementById('btn-en')?.classList.toggle('active', lang === 'en');
     }
 
-    // aplica a língua guardada ou PT por defeito
-    const savedLang = localStorage.getItem('hwc_lang') || 'pt';
-    setLang(savedLang);
+  
+    // aplica a língua guardada ou PT por defeito, depois de a página estar toda carregada
+const savedLang = localStorage.getItem('hwc_lang') || 'pt';
+window.addEventListener('DOMContentLoaded', () => {
+  setLang(savedLang);
+});
+
   </script>
 
         
