@@ -1550,6 +1550,28 @@ a[aria-disabled="true"] {
   animation: zoomIn .3s ease;
 }
 
+    /* Desktop: linha Data/Período/Disponibilidade (esq) + Nº px (dir) */
+@media (min-width: 769px){
+  .booking-row{
+    column-gap: 18px;
+    align-items: flex-start;
+  }
+
+  /* coluna esquerda ligeiramente maior que a direita */
+  .booking-col-left{
+    max-width: 100%;
+  }
+
+  .booking-col-right{
+    max-width: 260px; /* tamanho semelhante aos campos Nome / Email */
+    justify-self: end;
+  }
+
+  .reserve-field--availability{
+    margin-top: 10px;
+  }
+}
+
 @keyframes zoomIn {
   from {transform: scale(0.8); opacity:0;}
   to   {transform: scale(1); opacity:1;}
@@ -1699,6 +1721,18 @@ a[aria-disabled="true"] {
   .floating-actions{
     right: 12px;
     bottom: 16px;
+  }
+  /* Modal de reserva em 1 coluna no mobile */
+  .booking-modal .grid-2{
+    grid-template-columns: 1fr;   /* todos os campos em coluna */
+    gap: 14px;
+  }
+
+  /* só para garantir que os campos ocupam toda a largura disponível */
+  .booking-modal #people,
+  .booking-modal #date_from,
+  .booking-modal #period{
+    width: 100%;
   }
 
   .fab-reserve{
@@ -2628,19 +2662,16 @@ a[aria-disabled="true"] {
                placeholder="nome@exemplo.com">
       </div>
 
-      <div>
-        <label for="people">Nº px</label>
-        <input id="people" name="Nº de pessoas" type="number" min="1" max="7" required
-               placeholder="1">
-      </div>
+       <div class="grid-2 booking-row">
+        <!-- Coluna ESQUERDA: data, período, disponibilidade -->
+        <div class="booking-col-left">
+          <div>
+            <label for="date_from" data-i18n="booking.label.date">Data prevista</label>
+            <input id="date_from" name="Data prevista" type="date" required>
+          </div>
 
-      <div class="grid-2" style="gap:10px">
-  <div>
-    <label for="date_from" data-i18n="booking.label.date">Data prevista</label>
-    <input id="date_from" name="Data prevista" type="date" required>
-  </div>
 
-  <div>
+  <div style="margin-top:10px">
     <label for="period" data-i18n="booking.label.period">Período do dia</label>
 
 <select id="period"
@@ -2658,14 +2689,24 @@ a[aria-disabled="true"] {
   </div>
 </div>
 
-    </div>
-<!-- Disponibilidade (debaixo da data) -->
-<div class="reserve-field">
-  <div class="availability-inline">
-    <span class="label" data-i18n="booking.label.availability">Disponibilidade</span>
-    <span id="rv-availability" class="availability-badge" data-state="pending">—</span>
-  </div>
-</div>
+<!-- Disponibilidade por baixo da data + período -->
+          <div class="reserve-field reserve-field--availability">
+            <div class="availability-inline">
+              <span class="label" data-i18n="booking.label.availability">Disponibilidade</span>
+              <span id="rv-availability" class="availability-badge" data-state="pending">—</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Coluna DIREITA: Nº de pessoas -->
+        <div class="booking-col-right">
+          <div>
+            <label for="people">Nº px</label>
+            <input id="people" name="Nº de pessoas" type="number" min="1" max="7" required
+                   placeholder="1">
+          </div>
+        </div>
+      </div>
 
 
 
