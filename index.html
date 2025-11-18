@@ -1298,21 +1298,39 @@ a[aria-disabled="true"] {
   align-items: center;
   gap: 8px;
 }
-    /* Nº de pessoas com botões +/- */
+    /* Nº px – estilo em “caixa” bonita */
 .reserve-field--pax .pax-inline{
   display: flex;
   align-items: stretch;
-  gap: 6px;
+  /* sem espaço entre botões e input, para parecer um só componente */
+  gap: 0;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #f7f9ff;
+  overflow: hidden;
 }
 
+/* botões - e + */
 .reserve-field--pax .pax-inline .btn-icon{
-  flex: 0 0 40px;
+  flex: 0 0 44px;
+  border: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
 }
 
-/* input ocupa o meio */
+/* número no meio */
 .reserve-field--pax .pax-inline input{
   flex: 1 1 auto;
   text-align: center;
+  border: 0;
+  background: transparent;
+  /* opcional: ligeira linha vertical para marcar o meio */
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
 }
 
 /* tirar as setas feias do input number */
