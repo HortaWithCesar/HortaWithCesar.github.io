@@ -1857,6 +1857,44 @@ a[aria-disabled="true"] {
     font-size: 12px;
   }
 }
+/* FIX: alinhar o contador de pax no lugar certo */
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 16px;
+}
+
+.form-row-pax {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.form-row-pax .pax-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pax-controls button {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+}
+@supports (-webkit-touch-callout: none) {
+  .modal-grid input,
+  .modal-grid select {
+    line-height: normal;
+  }
+}
+@media (min-width: 980px) {
+  .modal-grid {
+    grid-template-columns: 1fr 1fr !important;
+    justify-content: center;
+    margin: 0 auto;
+    width: 90%;
+  }
+}
 
 
   </style>
