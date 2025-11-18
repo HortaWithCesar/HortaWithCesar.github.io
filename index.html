@@ -1282,6 +1282,26 @@ a[aria-disabled="true"] {
   align-items: center;
   gap: 8px;
 }
+    /* ===== Ajuste da Disponibilidade + Nº de pessoas (desktop) ===== */
+
+@media (min-width: 769px){
+
+  /* Linha da disponibilidade + número de pessoas */
+  .booking-grid .booking-row:nth-child(4){
+    align-items: flex-start;
+  }
+
+  /* Coluna esquerda: alinhar à esquerda */
+  .booking-grid .booking-row:nth-child(4) .reserve-field--availability{
+    justify-self: start;
+  }
+
+  /* Coluna direita: Nº de pessoas colado à esquerda */
+  .booking-grid .booking-row:nth-child(4) > div:last-child{
+    justify-self: start;
+  }
+}
+
 /* ===== Específico do modal de Privacidade ===== */
 #modal-privacy .modal {
   padding: 0;                   /* header tem o seu padding próprio */
