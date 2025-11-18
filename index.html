@@ -1248,6 +1248,40 @@ a[aria-disabled="true"] {
   overflow-y: auto;             /* aparece scroll se o texto for grande */
 }
 
+* ===== Layout novo do formulário de reserva ===== */
+
+.booking-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Cada linha (desktop): 2 colunas iguais */
+.booking-grid .booking-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Linha de observações: 1 coluna a toda a largura */
+.booking-grid .booking-row.booking-row--full {
+  grid-template-columns: 1fr;
+}
+
+/* Disponibilidade mais bonita e alinhada à direita */
+.reserve-field--availability {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* Botões de disponibilidade não ficarem gigantes */
+.reserve-field--availability .availability-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
 /* ===== Específico do modal de Privacidade ===== */
 #modal-privacy .modal {
   padding: 0;                   /* header tem o seu padding próprio */
@@ -2511,14 +2545,17 @@ a[aria-disabled="true"] {
     <!-- Anti-spam -->
     <input type="text" name="_honey" style="display:none">
 
-    <div class="grid-2">
-      <!-- Trilho (bloqueado, vem do botão) -->
-      <div>
-  <label for="trail" data-i18n="booking.label.trail">Trilho</label>
- <select id="trail"
-        name="Trilho"
-        class="trail-picker"
-        required>
+  <!-- Layout novo do formulário -->
+    <div class="booking-grid">
+
+      <!-- Linha 1: Trilho + Nome -->
+      <div class="booking-row">
+        <div>
+          <label for="trail" data-i18n="booking.label.trail">Trilho</label>
+          <select id="trail"
+                  name="Trilho"
+                  class="trail-picker"
+                  required>
   <option value="" data-i18n="booking.ph.trail">
     Seleciona um trilho
   </option>
@@ -2537,7 +2574,6 @@ a[aria-disabled="true"] {
   <option value="Capelo → Capelinhos ">Capelo → Capelinhos </option>
   <option value="Miradouro da Braça">Miradouro da Braça</option>
 </select>
-
 </div>
 
 
@@ -2661,15 +2697,17 @@ a[aria-disabled="true"] {
         <input id="email" name="Email" type="email" required
                placeholder="nome@exemplo.com">
       </div>
+      </div>
 
-       <div class="grid-2 booking-row">
-        <!-- Coluna ESQUERDA: data, período, disponibilidade -->
-        <div class="booking-col-left">
-          <div>
-            <label for="date_from" data-i18n="booking.label.date">Data prevista</label>
-            <input id="date_from" name="Data prevista" type="date" required>
-          </div>
-
+      <!-- Linha 3: Data + Período do dia -->
+      <div class="booking-row">
+        <div>
+          <label for="date_from" data-i18n="booking.label.date">Data prevista</label>
+          <input id="date_from"
+                 name="Data prevista"
+                 type="date"
+                 required>
+        </div>
 
   <div style="margin-top:10px">
     <label for="period" data-i18n="booking.label.period">Período do dia</label>
@@ -2689,30 +2727,36 @@ a[aria-disabled="true"] {
   </div>
 </div>
 
-<!-- Disponibilidade por baixo da data + período -->
-          <div class="reserve-field reserve-field--availability">
-            <div class="availability-inline">
-              <span class="label" data-i18n="booking.label.availability">Disponibilidade</span>
-              <span id="rv-availability" class="availability-badge" data-state="pending">—</span>
-            </div>
+  <!-- Linha 4: Disponibilidade + Nº px -->
+      <div class="booking-row">
+        <div class="reserve-field reserve-field--availability">
+          <span data-i18n="booking.label.availability">Disponibilidade</span>
+          <div class="availability-inline">
+            <button type="button" class="btn-icon" id="rv-dec">−</button>
+            <span id="rv-availability"
+                  class="availability-badge"
+                  data-state="pending"
+                  data-i18n="booking.availability.unknown">—</span>
+            <button type="button" class="btn-icon" id="rv-inc">+</button>
           </div>
         </div>
 
-        <!-- Coluna DIREITA: Nº de pessoas -->
-        <div class="booking-col-right">
-          <div>
-            <label for="people">Nº px</label>
-            <input id="people" name="Nº de pessoas" type="number" min="1" max="7" required
-                   placeholder="1">
-          </div>
+        <div>
+          <label for="people">Nº px</label>
+          <input id="people"
+                 name="Nº de pessoas"
+                 type="number"
+                 min="1"
+                 max="7"
+                 required
+                 placeholder="1">
         </div>
       </div>
-
-
 
     <div>
       <label for="message" data-i18n="booking.label.notes">Mensagem (opcional)</label>
       <textarea id="notes" name="notes" data-i18n-placeholder="booking.ph.notes" placeholder="Preferências, restrições, horários..."></textarea>
+    </div>
     </div>
 
     <div class="booking-actions">
