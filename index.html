@@ -1342,6 +1342,10 @@ a[aria-disabled="true"] {
 .reserve-field--pax input[type="number"]{
   -moz-appearance: textfield;
 }
+/* Caixa personalizada para Nº px */
+.reserve-field--pax {
+  max-width: 260px;  /* escolhe tu, 240–300 fica top */
+}
 
     /* ===== Ajuste da Disponibilidade + Nº de pessoas (desktop) ===== */
 
@@ -1361,6 +1365,15 @@ a[aria-disabled="true"] {
   .booking-grid .booking-row:nth-child(4) > div:last-child{
     justify-self: start;
   }
+}
+/* Caixa das observações maior */
+.reserve-field--notes {
+  grid-column: span 2;   /* ocupa as duas colunas no desktop */
+}
+
+.reserve-field--notes textarea {
+  min-height: 120px;        /* opcional, só deixa mais confortável */
+  width: 100%;
 }
 
 /* ===== Específico do modal de Privacidade ===== */
@@ -2907,7 +2920,7 @@ a[aria-disabled="true"] {
   </div>
 
 
-    <div>
+    <div class="reserve-field reserve-field--notes">
       <label for="message" data-i18n="booking.label.notes">Mensagem (opcional)</label>
       <textarea id="notes" name="notes" data-i18n-placeholder="booking.ph.notes" placeholder="Preferências, restrições, horários..."></textarea>
     </div>
