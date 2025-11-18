@@ -2861,8 +2861,29 @@ a[aria-disabled="true"] {
   </div>
 </div>
 
-  <!-- Linha 4: Disponibilidade + Nº px -->
+  <!-- Linha 4: Nº px + Disponibilidade -->
 <div class="booking-row">
+  <!-- Nº de pessoas com botões +/- -->
+  <div class="reserve-field reserve-field--pax">
+    <label for="people">Nº px</label>
+    <div class="pax-inline">
+      <button type="button" class="btn-icon" id="pax-dec">−</button>
+
+      <input
+        id="people"
+        name="Nº de pessoas"
+        type="number"
+        min="1"
+        max="20"
+        step="1"
+        required
+        inputmode="numeric"
+        value="1">
+
+      <button type="button" class="btn-icon" id="pax-inc">+</button>
+    </div>
+  </div>
+
   <!-- Disponibilidade só com o “badge” -->
   <div class="reserve-field reserve-field--availability">
     <span data-i18n="booking.label.availability">Disponibilidade</span>
@@ -2873,27 +2894,6 @@ a[aria-disabled="true"] {
             data-i18n="booking.availability.unknown">—</span>
     </div>
   </div>
-
-  <!-- Nº de pessoas com botões +/- -->
-<div class="reserve-field reserve-field--pax">
-  <label for="people">Nº px</label>
-  <div class="pax-inline">
-    <button type="button" class="btn-icon" id="pax-dec">−</button>
-
-    <input
-      id="people"
-      name="Nº de pessoas"
-      type="number"
-      min="1"
-      max="20"
-      step="1"
-      required
-      inputmode="numeric"
-      value="1">
-
-    <button type="button" class="btn-icon" id="pax-inc">+</button>
-  </div>
-</div>
 
 
     <div>
