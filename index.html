@@ -1275,6 +1275,26 @@ a[aria-disabled="true"] {
   justify-content: space-between;
   gap: 12px;
 }
+/* Alinhar a label “Disponibilidade” com o badge */
+.reserve-field--availability {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+/* O “—” / Disponível / Sem vagas */
+.reserve-field--availability .availability-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+@media (min-width: 769px){
+  .reserve-field--availability{
+    max-width: 260px;
+  }
+}
 
 /* Botões de disponibilidade não ficarem gigantes */
 .reserve-field--availability .availability-inline {
