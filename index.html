@@ -1170,19 +1170,48 @@ a[aria-disabled="true"] {
 .modal-backdrop[style*="display:flex"] {
   display: flex !important;
 }
-/* MOBILE: modal de reserva adaptado à altura do ecrã */
-@media (max-width: 768px){
-  .modal-backdrop{
-    align-items:flex-start;     /* modal encostado ao topo, não ao centro */
-    padding:12px 8px;           /* menos margem para ganhar altura útil */
+/* MOBILE: layout mais bonito do modal de reserva */
+@media (max-width: 640px){
+
+  /* caixa do modal mais “app” */
+  .booking-modal{
+    padding: 10px 14px 16px;
   }
 
-  .modal.booking-modal{
-    width:100%;
-    max-height:calc(100vh - 24px);  /* nunca passa da altura do ecrã */
-    overflow-y:auto;                /* permite scroll dentro do próprio modal */
-    margin:0;
-    border-radius:16px;
+  .booking-modal .modal__header{
+    padding: 14px 16px 10px;
+    text-align: center;
+  }
+
+  /* formulário em 1 coluna */
+  .booking-modal .grid-2{
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* campos mais confortáveis para dedo */
+  .booking-modal label{
+    font-size: 13px;
+  }
+
+  .booking-modal input,
+  .booking-modal select,
+  .booking-modal textarea{
+    font-size: 15px;
+    padding: 10px 12px;
+  }
+
+  /* botões em baixo, full-width */
+  .booking-modal .booking-actions{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .booking-modal .booking-actions .btn{
+    width: 100%;
+    justify-content: center;
   }
 }
 
