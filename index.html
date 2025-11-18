@@ -1268,33 +1268,29 @@ a[aria-disabled="true"] {
   grid-template-columns: 1fr;
 }
 
-/* Disponibilidade mais bonita e alinhada à direita */
+/* Disponibilidade: label em cima, badge/caixa em baixo */
 .reserve-field--availability {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-/* Alinhar a label “Disponibilidade” com o badge */
-.reserve-field--availability {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 12px;
+  flex-direction: column;   /* fica em coluna, não em linha */
+  align-items: flex-start;  /* encostado à esquerda */
+  gap: 8px;
+  width: 100%;
 }
 
-/* O “—” / Disponível / Sem vagas */
+/* Conteúdo da disponibilidade (— / Disponível / Sem vagas) */
 .reserve-field--availability .availability-inline {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
+
+/* No desktop continua a ocupar a largura toda da coluna */
 @media (min-width: 769px){
   .reserve-field--availability{
     max-width: 100%;
   }
 }
+
 
 /* Botões de disponibilidade não ficarem gigantes */
 .reserve-field--availability .availability-inline {
