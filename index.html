@@ -1672,6 +1672,38 @@ a[aria-disabled="true"] {
     margin-top: 10px;
   }
 }
+/* ===== CORRECÇÃO FINAL: Alinhamento Disponibilidade + Nº px ===== */
+
+@media (min-width: 769px){
+
+  /* linha ao meio, duas colunas iguais */
+  .booking-row{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 32px;
+    align-items: start;
+  }
+
+  /* colunas com largura equilibrada */
+  .booking-col-left{
+    max-width: unset;
+  }
+
+  .booking-col-right{
+    max-width: unset;
+    justify-self: start;
+  }
+
+  /* caixa da disponibilidade visível e com largura mínima */
+  .reserve-field--availability{
+    min-width: 180px;
+  }
+
+  .availability-inline{
+    min-width: 60px;
+    justify-content: center;
+  }
+}
 
 @keyframes zoomIn {
   from {transform: scale(0.8); opacity:0;}
