@@ -1282,6 +1282,33 @@ a[aria-disabled="true"] {
   align-items: center;
   gap: 8px;
 }
+    /* Nº de pessoas com botões +/- */
+.reserve-field--pax .pax-inline{
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+}
+
+.reserve-field--pax .pax-inline .btn-icon{
+  flex: 0 0 40px;
+}
+
+/* input ocupa o meio */
+.reserve-field--pax .pax-inline input{
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+/* tirar as setas feias do input number */
+.reserve-field--pax input[type="number"]::-webkit-outer-spin-button,
+.reserve-field--pax input[type="number"]::-webkit-inner-spin-button{
+  -webkit-appearance: none;
+  margin: 0;
+}
+.reserve-field--pax input[type="number"]{
+  -moz-appearance: textfield;
+}
+
     /* ===== Ajuste da Disponibilidade + Nº de pessoas (desktop) ===== */
 
 @media (min-width: 769px){
@@ -2786,30 +2813,36 @@ a[aria-disabled="true"] {
 </div>
 
   <!-- Linha 4: Disponibilidade + Nº px -->
-      <div class="booking-row">
-        <div class="reserve-field reserve-field--availability">
-          <span data-i18n="booking.label.availability">Disponibilidade</span>
-          <div class="availability-inline">
-            <button type="button" class="btn-icon" id="rv-dec">−</button>
-            <span id="rv-availability"
-                  class="availability-badge"
-                  data-state="pending"
-                  data-i18n="booking.availability.unknown">—</span>
-            <button type="button" class="btn-icon" id="rv-inc">+</button>
-          </div>
-        </div>
+<div class="booking-row">
+  <!-- Disponibilidade só com o “badge” -->
+  <div class="reserve-field reserve-field--availability">
+    <span data-i18n="booking.label.availability">Disponibilidade</span>
+    <div class="availability-inline">
+      <span id="rv-availability"
+            class="availability-badge"
+            data-state="pending"
+            data-i18n="booking.availability.unknown">—</span>
+    </div>
+  </div>
 
-        <div>
-          <label for="people">Nº px</label>
-          <input id="people"
-                 name="Nº de pessoas"
-                 type="number"
-                 min="1"
-                 max="7"
-                 required
-                 placeholder="1">
-        </div>
-      </div>
+  <!-- Nº de pessoas com botões +/- -->
+  <div class="reserve-field reserve-field--pax">
+    <label for="people">Nº px</label>
+    <div class="pax-inline">
+      <button type="button" class="btn-icon" id="pax-dec">−</button>
+      <input id="people"
+             name="Nº de pessoas"
+             type="number"
+             min="1"
+             max="7"
+             required
+             inputmode="numeric"
+             placeholder="1">
+      <button type="button" class="btn-icon" id="pax-inc">+</button>
+    </div>
+  </div>
+</div>
+
 
     <div>
       <label for="message" data-i18n="booking.label.notes">Mensagem (opcional)</label>
@@ -3979,12 +4012,36 @@ $date && $date.addEventListener('change', checkAvailability);
 (() => {
   // ===== 1) Mapeia os elementos do teu formulário de cima =====
   const elTrail  = document.querySelector('#bk-trail');   // select do trilho (o teu ID)
-  const elPax    = document.querySelector('#bk-pax, #nPessoas, [name="pax"], [name="pessoas"]') 
+  const elPax    = document.querySelector('#people, #bk-pax, #nPessoas, [name="Nº de pessoas"], [name="pax"], [name="pessoas"]')
                   || { value: '' };
   const elDate   = document.querySelector('#bk-date, #date, [name="date"]') 
                   || { value: '' };
   const elSlot   = document.querySelector('#bk-slot, #periodo, [name="slot"]') 
                   || { value: '' };
+  // Controlo de Nº px (+/-)
+  const paxInput  = document.getElementById('people');
+  const btnPaxDec = document.getElementById('pax-dec');
+  const btnPaxInc = document.getElementById('pax-inc');
+
+  function clampPax(value){
+    if (!paxInput) return 1;
+    const min = parseInt(paxInput.min || '1', 10);
+    const max = parseInt(paxInput.max || '7', 10);
+    return Math.min(max, Math.max(min, value || min));
+  }
+
+  function changePax(delta){
+    if (!paxInput) return;
+    const current = parseInt(paxInput.value || paxInput.placeholder || '1', 10) || 1;
+    paxInput.value = clampPax(current + delta);
+
+    // dispara eventos para atualizar o resumo/preço
+    paxInput.dispatchEvent(new Event('input',  { bubbles: true }));
+    paxInput.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+
+  if (btnPaxDec) btnPaxDec.addEventListener('click', () => changePax(-1));
+  if (btnPaxInc) btnPaxInc.addEventListener('click', () => changePax(1));
 
   // Campos de leitura (bloco "Efectuar Reserva")
   const outTrail = document.querySelector('#rv-trail');
