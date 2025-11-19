@@ -3321,6 +3321,7 @@ a[aria-disabled="true"] {
 "booking.label.period": "Período do dia",
 "booking.label.notes": "Observações",
 "booking.label.availability": "Disponibilidade",
+"booking.availability.unknown": "—",
 "booking.ph.period": "Selecionar...",
 "booking.period.morning": "Manhã",
 "booking.period.afternoon": "Tarde",
@@ -3537,7 +3538,7 @@ a[aria-disabled="true"] {
 "booking.label.period": "Time of day",
 "booking.label.notes": "Notes",
 "booking.label.availability": "Availability",
-
+"booking.availability.unknown": "—",
 "booking.period.morning": "Morning",
 "booking.period.afternoon": "Afternoon",
 "booking.period.other": "Other",
@@ -4078,10 +4079,15 @@ async function checkDaySlots(yyyy_mm_dd){
 async function checkAvailability(){
   if (!$date || !$avail) return;
 
+  const lang = localStorage.getItem('hwc_lang') || 'pt';
+  const root = window.I18N || {};
+  const dict = root[lang] || root.pt || {};
+
   const val = $date.value;
   if (!val){
-    $avail.textContent = '—';
+    $avail.textContent = dict["booking.availability.unknown"] || '—';
     $avail.dataset.state = 'pending';
+    $avail.setAttribute('data-i18n', 'booking.availability.unknown');
     $pay && ($pay.disabled = true);
     return;
   }
@@ -4089,13 +4095,10 @@ async function checkAvailability(){
   try {
     const slots = await checkDaySlots(val);
 
-    const lang = localStorage.getItem('hwc_lang') || 'pt';
-    const root = window.I18N || {};
-    const dict = root[lang] || root.pt || {};
-
     if (slots.allDayBusy) {
       $avail.textContent = dict["booking.avail.unavailable"] || 'Indisponível';
       $avail.dataset.state = 'busy';
+      $avail.setAttribute('data-i18n', 'booking.avail.unavailable');
       $pay && ($pay.disabled = true);
       return;
     }
@@ -4103,23 +4106,25 @@ async function checkAvailability(){
     if (slots.morningFree && slots.afternoonFree) {
       $avail.textContent = dict["booking.avail.both"] || 'Disponível: manhã e tarde';
       $avail.dataset.state = 'ok';
+      $avail.setAttribute('data-i18n', 'booking.avail.both');
     } else if (slots.morningFree) {
       $avail.textContent = dict["booking.avail.morning"] || 'Disponível: manhã';
       $avail.dataset.state = 'ok';
+      $avail.setAttribute('data-i18n', 'booking.avail.morning');
     } else if (slots.afternoonFree) {
       $avail.textContent = dict["booking.avail.afternoon"] || 'Disponível: tarde';
       $avail.dataset.state = 'ok';
+      $avail.setAttribute('data-i18n', 'booking.avail.afternoon');
     } else {
       $avail.textContent = dict["booking.avail.unavailable"] || 'Indisponível';
       $avail.dataset.state = 'busy';
+      $avail.setAttribute('data-i18n', 'booking.avail.unavailable');
     }
   } catch (err){
     console.error(err);
-    const lang = localStorage.getItem('hwc_lang') || 'pt';
-    const root = window.I18N || {};
-    const dict = root[lang] || root.pt || {};
     $avail.textContent = dict["booking.avail.error"] || 'Não foi possível verificar';
     $avail.dataset.state = 'pending';
+    $avail.setAttribute('data-i18n', 'booking.avail.error');
   }
 }
 
