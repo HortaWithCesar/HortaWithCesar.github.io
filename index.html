@@ -4451,57 +4451,63 @@ $date && $date.addEventListener('change', checkAvailability);
 
   // Valida campos para desbloquear o botão “Efectuar reserva”
   function validateBooking() {
-  const f = readBookingForm();
+  // Ler directamente dos elementos (sem '—' nem truques)
+  const trailEl  = $('#trail');
+  const peopleEl = $('#people');
+  const dateEl   = $('#date_from');
+  const periodEl = $('#period');
 
-  // os campos lidos
-  const hasTrail  = !!f.trail  && f.trail  !== '' && f.trail  !== '-';
-  const hasPeople = +f.people > 0;
-  const hasDate   = !!f.date   && f.date   !== '' && f.date   !== '-';
+  const trailVal  = trailEl  ? trailEl.value  : '';
+  const peopleVal = peopleEl ? peopleEl.value : '';
+  const dateVal   = dateEl   ? dateEl.value   : '';
+  const periodVal = periodEl ? periodEl.value : '';
 
-  // ESTE É O IMPORTANTE:
-  // Se o período está vazio (placeholder "" ou "-"), NÃO deixa avançar
-  const hasPeriod = !!f.period && f.period !== '' && f.period !== '-';
-const nameEl    = $('#name');
-const emailEl   = $('#email');
-const countryEl = $('#country');
+  // campos lidos
+  const hasTrail  = trailVal.trim()  !== '';
+  const hasPeople = Number(peopleVal) > 0;
+  const hasDate   = dateVal.trim()   !== '';
+  const hasPeriod = periodVal.trim() !== '';
 
-// disponibilidade continua igual
-const hasAvail = isAvailabilityOK();
+  // novos campos obrigatórios
+  const nameEl    = $('#name');
+  const emailEl   = $('#email');
+  const countryEl = $('#country');
 
-// validar selects/campos
-const hasName    = !!(nameEl?.value || '').trim();
-const hasEmail   = !!(emailEl?.value || '').trim();
-const hasCountry = !!(countryEl?.value || '').trim();
+  // disponibilidade continua igual
+  const hasAvail = isAvailabilityOK();
 
-// FINAL: todos obrigatórios excepto observações
-const ok = hasTrail && hasPeople && hasDate &&
-           hasPeriod && hasAvail &&
-           hasName && hasEmail && hasCountry;
+  // validar selects/campos
+  const hasName    = !!(nameEl?.value    || '').trim();
+  const hasEmail   = !!(emailEl?.value   || '').trim();
+  const hasCountry = !!(countryEl?.value || '').trim();
 
+  // FINAL: todos obrigatórios excepto observações
+  const ok = hasTrail && hasPeople && hasDate &&
+             hasPeriod && hasAvail &&
+             hasName && hasEmail && hasCountry;
 
   // botão "Efetuar reserva"
   const openBtn = $('#btn-open-reserve');
   if (openBtn) {
+    // estado disabled no atributo
+    openBtn.disabled = !ok;
 
-  // estado disabled no atributo
-  openBtn.disabled = !ok;
-
-  // quando válido → botão azul (btn-primary)
-  if (ok) {
-    openBtn.classList.remove('btn-disabled', 'btn-ghost');
-    openBtn.classList.add('btn-primary');
+    // quando válido → botão azul (btn-primary)
+    if (ok) {
+      openBtn.classList.remove('btn-disabled', 'btn-ghost');
+      openBtn.classList.add('btn-primary');
+    }
+    // quando inválido → botão ghost desativado
+    else {
+      openBtn.classList.remove('btn-primary');
+      openBtn.classList.add('btn-disabled', 'btn-ghost');
+    }
   }
 
-  // quando inválido → botão ghost desativado
-  else {
-    openBtn.classList.remove('btn-primary');
-    openBtn.classList.add('btn-disabled', 'btn-ghost');
-  }
-}
-
-
+  // usado pelo openReserveModal()
   return { ok, hasTrail, hasPeople, hasDate, hasPeriod, hasAvail };
 }
+
 
   // Modal
   function openReserveModal(e) {
