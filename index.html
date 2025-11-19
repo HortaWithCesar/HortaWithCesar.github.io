@@ -2737,11 +2737,11 @@ a[aria-disabled="true"] {
 
       <div>
         <label for="name" data-i18n="booking.label.name">Nome</label>
-        <input id="name" name="name" type="text" data-i18n-placeholder="booking.ph.name" placeholder="O teu nome completo">
+        <input id="name" name="name" type="text" data-i18n-placeholder="booking.ph.name" placeholder="O teu nome completo" required>
       </div>
 
 <div>
-  <label for="country" data-i18n="booking.label.country">País</label>
+  <label for="country" data-i18n="booking.label.country" required>País</label>
 
   <select id="country"
           name="País"
@@ -2749,7 +2749,7 @@ a[aria-disabled="true"] {
           data-i18n-placeholder="booking.ph.country"
           placeholder="Seleciona o teu país">
     <!-- Placeholder -->
-    <option value="" data-i18n="booking.ph.country">
+    <option value="" data-i18n="booking.ph.country" required>
       Seleciona o teu país
    
     </option>
@@ -2853,14 +2853,14 @@ a[aria-disabled="true"] {
       <div>
         <label for="email">E-mail</label>
         <input id="email" name="Email" type="email" required
-               placeholder="nome@exemplo.com">
+               placeholder="nome@exemplo.com" required>
       </div>
       </div>
 
       <!-- Linha 3: Data + Período do dia -->
       <div class="booking-row">
         <div>
-          <label for="date_from" data-i18n="booking.label.date">Data prevista</label>
+          <label for="date_from" data-i18n="booking.label.date" required>Data prevista</label>
           <input id="date_from"
                  name="Data prevista"
                  type="date"
@@ -2868,7 +2868,7 @@ a[aria-disabled="true"] {
         </div>
 
   <div style="margin-top:10px">
-    <label for="period" data-i18n="booking.label.period">Período do dia</label>
+    <label for="period" data-i18n="booking.label.period" required>Período do dia</label>
 
 <select id="period"
         name="period"
@@ -2876,7 +2876,7 @@ a[aria-disabled="true"] {
         required>
 
   <!-- PLACEHOLDER -->
-  <option value="" disabled selected data-i18n="booking.ph.period">
+  <option value="" disabled selected data-i18n="booking.ph.period" required>
     Selecionar...
   </option>
       <option value="Manhã" data-i18n="booking.period.morning">🌅 Manhã</option>
@@ -4456,11 +4456,23 @@ $date && $date.addEventListener('change', checkAvailability);
   // ESTE É O IMPORTANTE:
   // Se o período está vazio (placeholder "" ou "-"), NÃO deixa avançar
   const hasPeriod = !!f.period && f.period !== '' && f.period !== '-';
+const nameEl    = $('#name');
+const emailEl   = $('#email');
+const countryEl = $('#country');
 
-  // disponibilidade continua igual
-  const hasAvail  = isAvailabilityOK();
+// disponibilidade continua igual
+const hasAvail = isAvailabilityOK();
 
-  const ok = hasTrail && hasPeople && hasDate && hasPeriod && hasAvail;
+// validar selects/campos
+const hasName    = !!(nameEl?.value || '').trim();
+const hasEmail   = !!(emailEl?.value || '').trim();
+const hasCountry = !!(countryEl?.value || '').trim();
+
+// FINAL: todos obrigatórios excepto observações
+const ok = hasTrail && hasPeople && hasDate &&
+           hasPeriod && hasAvail &&
+           hasName && hasEmail && hasCountry;
+
 
   // botão "Efetuar reserva"
   const openBtn = $('#btn-open-reserve');
@@ -4512,13 +4524,23 @@ $date && $date.addEventListener('change', checkAvailability);
   }
 
   // Liga eventos aos campos do formulário para revalidar
-  ['#trail', '#people', '#date_from', '#period', '#rv-availability'].forEach(sel => {
-    const el = $(sel);
-    if (!el) return;
-    ['change', 'input'].forEach(evt => {
-      el.addEventListener(evt, validateBooking);
-    });
+  [
+  '#trail',
+  '#people',
+  '#date_from',
+  '#period',
+  '#rv-availability',
+  '#name',
+  '#email',
+  '#country'
+].forEach(sel => {
+  const el = $(sel);
+  if (!el) return;
+  ['change', 'input'].forEach(evt => {
+    el.addEventListener(evt, validateBooking);
   });
+});
+
 
   // Botões abrir / fechar modal
   $('#btn-open-reserve')?.addEventListener('click', openReserveModal);
