@@ -4746,7 +4746,7 @@ document.querySelectorAll('.pill').forEach(p => {
       v.muted = true;
       v.loop = true;
       v.playsInline = true;
-      v.autoplay = true;
+      v.playsInline = true; 
       main.appendChild(v);
     } else {
       const img = document.createElement('img');
@@ -4961,28 +4961,23 @@ if (subtitle) {
       const type = item.dataset.type;
       const src  = item.dataset.src;
 
-      if (type === "video") {
+            if (type === "video") {
         const v = document.createElement("video");
 
         // propriedades
         v.src = src;
         v.muted = true;
         v.playsInline = true;
-        v.autoplay = true;
         v.loop = false; // vídeo só no início
 
         // atributos (alguns browsers só respeitam assim)
         v.setAttribute("muted", "");
         v.setAttribute("playsinline", "");
-        v.setAttribute("autoplay", "");
-
-        // tenta forçar o play quando estiver pronto
-        v.addEventListener("canplay", () => {
-          v.play().catch(() => {});
-        });
+        // sem autoplay aqui
 
         main.appendChild(v);
       } else {
+
         const img = document.createElement("img");
         img.src = src;
         img.alt = "Trail photo";
@@ -5013,6 +5008,62 @@ function startLoop() {
 
 
 </script>
+
+  <script>
+  // Controlar quando os vídeos arrancam:
+  // - Desktop: só ao passar o rato
+  // - Telemóvel/tablet: quando o bloco entra em vista
+  (function () {
+    const mains = document.querySelectorAll('.city-main, .loop-main');
+    if (!mains.length) return;
+
+    const isTouch =
+      'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    function playIn(el) {
+      const v = el.querySelector('video');
+      if (v) {
+        v.play().catch(() => {});
+      }
+    }
+
+    function pauseIn(el) {
+      const v = el.querySelector('video');
+      if (v) {
+        v.pause();
+      }
+    }
+
+    // Desktop: hover
+    mains.forEach((main) => {
+      if (!main) return;
+      if (!isTouch) {
+        main.addEventListener('mouseenter', () => playIn(main));
+        main.addEventListener('mouseleave', () => pauseIn(main));
+      }
+    });
+
+    // Telemóveis/tablets: quando entra/sai do viewport
+    if (isTouch && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            const el = entry.target;
+            if (entry.isIntersecting) {
+              playIn(el);
+            } else {
+              pauseIn(el);
+            }
+          });
+        },
+        { threshold: 0.6 } // tem de estar ~60% visível
+      );
+
+      mains.forEach((main) => io.observe(main));
+    }
+  })();
+</script>
+
 <script>
 (function(){
   const trailPicker = document.getElementById('trail');
