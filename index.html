@@ -4319,10 +4319,7 @@ $date && $date.addEventListener('change', checkAvailability);
     </footer>
   </div>
 </div>
-<!-- ===== /Modal ===== -->
 
-<script>
-(() => {
   <script>
 (() => {
   // 1) LINKS SUMUP – um por nº de pessoas
@@ -4436,80 +4433,67 @@ $date && $date.addEventListener('change', checkAvailability);
       }
     }
 
-  function validateBooking() {
-  const f = readBookingForm();
+  // Valida campos para desbloquear o botão “Efectuar reserva”
+function validateBooking() {
+  // Ler directamente dos elementos (sem '—' nem truques)
+  const trailEl  = $('#trail');
+  const peopleEl = $('#people');
+  const dateEl   = $('#date_from');
+  const periodEl = $('#period');
 
-  // MIN e MAX pax (usa os teus valores)
-  const nPeople = Number(f.people);
-  const hasPeople =
-    Number.isFinite(nPeople) &&
-    nPeople >= MIN_PAX &&
-    nPeople <= MAX_PAX;
+  const trailVal  = trailEl  ? trailEl.value  : '';
+  const peopleVal = peopleEl ? peopleEl.value : '';
+  const dateVal   = dateEl   ? dateEl.value   : '';
+  const periodVal = periodEl ? periodEl.value : '';
 
-  // Apresentar erros no HTML
-  const peopleErr = document.querySelector('#people-error');
-  if (peopleErr) {
-    if (nPeople > MAX_PAX) {
-      peopleErr.textContent = `Máximo ${MAX_PAX} pessoas.`;
-      peopleErr.style.display = 'block';
-    } else if (nPeople < MIN_PAX) {
-      peopleErr.textContent = `Mínimo ${MIN_PAX} pessoa${MIN_PAX > 1 ? 's' : ''}.`;
-      peopleErr.style.display = 'block';
-    } else {
-      peopleErr.textContent = '';
-      peopleErr.style.display = 'none';
-    }
-  }
+  // nº de pessoas (entre 1 e 7 para permitir reserva directa)
+  const peopleNum = Number(peopleVal) || 0;
 
-  // Campos
-  const hasTrail  = Boolean(f.trail && f.trail.trim() !== "");
-  const hasDate   = Boolean(f.date && f.date.trim() !== "");
-  const hasPeriod = Boolean(f.period && f.period.trim() !== "");
-  const hasAvail  = isAvailabilityOK();
+  const hasTrail  = trailVal.trim()  !== '';
+  const hasPeople = peopleNum >= 1 && peopleNum <= 7;   // <= 7 -> pode “Efetuar reserva”
+  const hasDate   = dateVal.trim()   !== '';
+  const hasPeriod = periodVal.trim() !== '';
 
-  // Novos obrigatórios
+  // novos campos obrigatórios
   const nameEl    = $('#name');
   const emailEl   = $('#email');
   const countryEl = $('#country');
 
+  // disponibilidade continua igual
+  const hasAvail = isAvailabilityOK();
+
+  // validar selects/campos
   const hasName    = !!(nameEl?.value    || '').trim();
   const hasEmail   = !!(emailEl?.value   || '').trim();
   const hasCountry = !!(countryEl?.value || '').trim();
 
-  // FINAL - botão só desbloqueia se TUDO estiver ok
-  const ok =
-    hasTrail &&
-    hasPeople &&
-    hasDate &&
-    hasPeriod &&
-    hasAvail &&
-    hasName &&
-    hasEmail &&
-    hasCountry;
+  // FINAL: todos obrigatórios excepto observações
+  const ok = hasTrail && hasPeople && hasDate &&
+             hasPeriod && hasAvail &&
+             hasName && hasEmail && hasCountry;
 
   // botão "Efetuar reserva"
   const openBtn = $('#btn-open-reserve');
   if (openBtn) {
+    // estado disabled no atributo
     openBtn.disabled = !ok;
 
+    // quando válido → botão azul (btn-primary)
     if (ok) {
       openBtn.classList.remove('btn-disabled', 'btn-ghost');
       openBtn.classList.add('btn-primary');
-    } else {
+    }
+    // quando inválido → botão ghost desativado
+    else {
       openBtn.classList.remove('btn-primary');
       openBtn.classList.add('btn-disabled', 'btn-ghost');
     }
   }
 
-  return {
-    ok,
-    hasTrail,
-    hasPeople,
-    hasDate,
-    hasPeriod,
-    hasAvail
-  };
+  // usado pelo openReserveModal()
+  return { ok, hasTrail, hasPeople, hasDate, hasPeriod, hasAvail };
 }
+
 
 
 
@@ -4538,13 +4522,12 @@ $date && $date.addEventListener('change', checkAvailability);
     }
   }
 
-  // Liga eventos aos campos do formulário para revalidar
-  [
+ // Liga eventos aos campos do formulário para revalidar
+[
   '#trail',
   '#people',
   '#date_from',
   '#period',
-  '#rv-availability',
   '#name',
   '#email',
   '#country'
@@ -4556,26 +4539,32 @@ $date && $date.addEventListener('change', checkAvailability);
   });
 });
 
+// Disponibilidade precisa de validar manualmente porque muda por JS
+const availEl = $('#rv-availability');
+if (availEl) {
+  const observer = new MutationObserver(() => validateBooking());
+  observer.observe(availEl, { childList: true, characterData: true, subtree: true });
+}
 
-  // Botões abrir / fechar modal
-  $('#btn-open-reserve')?.addEventListener('click', openReserveModal);
-  $('#rv-close')?.addEventListener('click', closeReserveModal);
-  $('#rv-close-2')?.addEventListener('click', closeReserveModal);
+// Botões abrir / fechar modal
+$('#btn-open-reserve')?.addEventListener('click', openReserveModal);
+$('#rv-close')?.addEventListener('click', closeReserveModal);
+$('#rv-close-2')?.addEventListener('click', closeReserveModal);
 
-  // Fecha ao clicar fora da caixa do modal
-  $('#rv-modal')?.addEventListener('click', ev => {
-    if (ev.target === ev.currentTarget) closeReserveModal();
-  });
+// Fecha ao clicar fora da caixa do modal
+$('#rv-modal')?.addEventListener('click', ev => {
+  if (ev.target === ev.currentTarget) closeReserveModal();
+});
 
-  // Botão "Enviar pedido" dentro do modal
-  $('#rv-send')?.addEventListener('click', () => {
-    $('#booking-form')?.requestSubmit?.();
-    closeReserveModal();
-  });
+// Botão "Enviar pedido" dentro do modal
+$('#rv-send')?.addEventListener('click', () => {
+  $('#booking-form')?.requestSubmit?.();
+  closeReserveModal();
+});
 
-  // Validação inicial ao carregar a página
-  validateBooking();
-})();
+// Validação inicial ao carregar a página
+validateBooking();
+
   
 </script>
   <script>
