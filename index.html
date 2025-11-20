@@ -1997,6 +1997,12 @@ a[aria-disabled="true"] {
     width: 90%;
   }
 }
+.error-message {
+  color: #dc2626;      /* vermelho suave */
+  font-size: 12px;
+  margin-top: 4px;
+  display: none;
+}
 
 
   </style>
@@ -2891,7 +2897,7 @@ a[aria-disabled="true"] {
 <div class="booking-row">
   <!-- Nº de pessoas com botões +/- -->
   <div class="reserve-field reserve-field--pax">
-    <label for="people">Nº px</label>
+    <label for="people">Nº pax</label>
     <div class="pax-inline">
       <button type="button" class="btn-icon" id="pax-dec">−</button>
 
@@ -2908,6 +2914,8 @@ a[aria-disabled="true"] {
 
       <button type="button" class="btn-icon" id="pax-inc">+</button>
     </div>
+    <span id="people-error" class="error-message"></span>
+  </div>
   </div>
 
   <!-- Disponibilidade só com o “badge” -->
@@ -3137,9 +3145,9 @@ a[aria-disabled="true"] {
           <li data-i18n="cond.legal.transport"><strong>Se precisares de transporte, posso tratar disso, mas o custo é diferente.</strong>Devem contactar previamente para confirmação de disponibilidade. Utilize o WhatsApp ou o formulário de reserva.</li>
           <li data-i18n="cond.legal.equipment"><strong>Equipamento & cuidados:</strong> usar <em>roupa e calçado adequados</em> ao trilho; aplicar <em>protetor solar</em>; levar <em>chapéu</em> e/ou <em>capa de chuva</em> conforme a previsão meteorológica. Recomenda-se ainda água suficiente, pequeno snack e telemóvel carregado.</li>
           <li data-i18n="cond.legal.insurance"><strong>Seguros:</strong> atividade coberta por <em>Seguro de Responsabilidade Civil</em> e <em>Seguro de Acidentes Pessoais</em> durante o passeio.</li>
-          <li data-i18n="cond.legal.payment"><strong>Reserva & Pagamento:</strong> sinal de <strong>20%</strong> no ato da reserva (deduzido ao valor final). Restante no dia do passeio, antes do início.</li>
+          <li data-i18n="cond.legal.payment"><strong>Reserva & Pagamento:</strong>Taxa de rerva</strong> no ato da reserva (deduzido ao valor final). Restante no dia do passeio, antes do início.</li>
           <li data-i18n="cond.legal.cancel.client"><strong>Cancelamentos do cliente:</strong> reembolso total até <strong>48h</strong> antes. Após esse prazo, <strong>não há reembolso</strong>.</li>
-          <li data-i18n="cond.legal.cancel.guide"><strong>Cancelamentos pelo guia/força maior:</strong> reembolso integral do sinal ou remarcação, à escolha do cliente.</li>
+          <li data-i18n="cond.legal.cancel.guide"><strong>Cancelamentos pelo guia/força maior:</strong> reembolso integral da taxa de Reserva ou remarcação, à escolha do cliente.</li>
           <li data-i18n="cond.legal.complaints"><strong>Livro de Reclamações:</strong> disponível online <a href="https://www.livroreclamacoes.pt/Inicio/" target="_blank" rel="noopener">aqui</a>.</li>
           <li data-i18n="cond.legal.rgpd"><strong>Dados pessoais (RGPD):</strong> usados apenas para gerir reservas e executar o serviço (base legal: contrato); conservação até 12 meses após o passeio; direitos: acesso/retificação/apagamento/limitação/oposição via <em>hortawithcesar@gmail.com</em>; sem cedência a terceiros salvo obrigação legal.</li>
         </ul>
@@ -3360,9 +3368,9 @@ a[aria-disabled="true"] {
 "cond.legal.transport": "Se precisares de transporte, posso tratar disso, mas o custo é diferente. Devem contactar previamente para confirmação de disponibilidade. Utilize o WhatsApp ou o formulário de reserva.",
 "cond.legal.equipment": "Equipamento & cuidados: usar roupa e calçado adequados ao trilho; aplicar protetor solar; levar chapéu e/ou capa de chuva conforme a previsão meteorológica. Recomenda-se ainda água suficiente, pequeno snack e telemóvel carregado.",
 "cond.legal.insurance": "Seguros: atividade coberta por Seguro de Responsabilidade Civil e Seguro de Acidentes Pessoais durante o passeio.",
-"cond.legal.payment": "Reserva & Pagamento: sinal de 20% no ato da reserva (deduzido ao valor final). Restante no dia do passeio, antes do início.",
+"cond.legal.payment": "Reserva & Pagamento: Taxa de Reserva no ato da reserva (deduzido ao valor final). Restante no dia do passeio, antes do início.",
 "cond.legal.cancel.client": "Cancelamentos do cliente: reembolso total até 48h antes. Após esse prazo, não há reembolso.",
-"cond.legal.cancel.guide": "Cancelamentos pelo guia/força maior: reembolso integral do sinal ou remarcação, à escolha do cliente.",
+"cond.legal.cancel.guide": "Cancelamentos pelo guia/força maior: reembolso integral da Taxa de Reserva ou remarcação, à escolha do cliente.",
 "cond.legal.complaints": "Livro de Reclamações: disponível online em www.livroreclamacoes.pt.",
 "cond.legal.rgpd": "Dados pessoais (RGPD): usados apenas para gerir reservas e executar o serviço (base legal: contrato); conservação até 12 meses após o passeio; direitos: acesso, retificação, apagamento, limitação e oposição via hortawithcesar@gmail.com; sem cedência a terceiros salvo obrigação legal.",
 
@@ -3370,9 +3378,9 @@ a[aria-disabled="true"] {
 "modal.close": "Fechar",
 "cancel.title": "Política de Cancelamento",
 
-"cancel.p1": "• O sinal de 20% é reembolsável em cancelamentos feitos até 48h antes do início do trilho.",
-"cancel.p2": "• Em cancelamentos com menos de 48h, ou em caso de não comparência, o sinal não é devolvido.",
-"cancel.p3": "• Caso o passeio seja cancelado por motivos de segurança, condições meteorológicas adversas ou outra decisão do guia, o sinal será reembolsado na totalidade ou poderá ser reagendado, conforme a tua preferência e disponibilidade.",
+"cancel.p1": "• A Taxa de Reserva é reembolsável em cancelamentos feitos até 48h antes do início do trilho.",
+"cancel.p2": "• Em cancelamentos com menos de 48h, ou em caso de não comparência, a Taxa de Reserva não é devolvida.",
+"cancel.p3": "• Caso o passeio seja cancelado por motivos de segurança, condições meteorológicas adversas ou outra decisão do guia, a Taxa de Reserva será reembolsada na totalidade ou poderá ser reagendado, conforme a tua preferência e disponibilidade.",
 "cancel.p4": "• Alterações de data e horário estão sempre sujeitas à disponibilidade do calendário.",
 
 "cancel.link": "Política de Cancelamento",
@@ -3439,7 +3447,7 @@ a[aria-disabled="true"] {
         "rv.label.period": "Período",
         "rv.label.total": "Total estimado",
         "rv.note.total": "Valor calculado com base no trilho e nº de pessoas. Poderá ajustar consoante logística.",
-        "rv.label.deposit": "Sinal 20%",
+        "rv.label.deposit": "Taxa de Reserva",
         "rv.note.deposit.1": "Deduzido ao valor final.",
         "rv.note.deposit.cancel": "Política de Cancelamento",
         "rv.note.deposit.2": "Ao confirmar a reserva, assume que leu e concorda com as condições gerais do serviço e com a política de privacidade do site.",
@@ -3577,7 +3585,7 @@ a[aria-disabled="true"] {
 "cond.legal.transport": "Please get in touch in advance to confirm availability for transport, WhatsApp or booking form both work",
 "cond.legal.equipment": "Equipment & care: wear suitable clothing and footwear for the trail; use sunscreen; bring a hat and/or rain jacket according to the forecast. We also recommend enough water, a small snack and a charged phone.",
 "cond.legal.insurance": "Insurance: activity covered by Civil Liability Insurance and Personal Accident Insurance during the tour.",
-"cond.legal.payment": "Booking & Payment: 20% deposit when booking (deducted from the final price). Remaining amount on the day of the tour, before starting.",
+"cond.legal.payment": "Booking & Payment: Reservation Fee when booking (deducted from the final price). Remaining amount on the day of the tour, before starting.",
 "cond.legal.cancel.client": "Client cancellations: full refund up to 48h before the start. After that, no refund.",
 "cond.legal.cancel.guide": "Cancellations by the guide / force majeure: full refund of the deposit or rescheduling, as you prefer.",
 "cond.legal.complaints": "Complaints Book: available online at www.livroreclamacoes.pt.",
@@ -3587,7 +3595,7 @@ a[aria-disabled="true"] {
 "modal.close": "Close",
 "cancel.title": "Cancellation Policy",
 
-"cancel.p1": "• The 20% deposit is refundable for cancellations made up to 48h before the start of the trail.",
+"cancel.p1": "• The Reservation Fee is refundable for cancellations made up to 48h before the start of the trail.",
 "cancel.p2": "• For cancellations with less than 48h notice, or in case of no-show, the deposit is not refunded.",
 "cancel.p3": "• If the tour is cancelled for safety reasons, bad weather or any decision by the guide, the deposit will be fully refunded or the tour may be rescheduled, according to your preference and availability.",
 "cancel.p4": "• Changes to date and time are always subject to calendar availability.",
@@ -3657,7 +3665,7 @@ a[aria-disabled="true"] {
         "rv.label.period": "Time of day",
         "rv.label.total": "Estimated total",
         "rv.note.total": "Amount calculated based on the trail and number of people. May vary depending on logistics.",
-        "rv.label.deposit": "Deposit 20%",
+        "rv.label.deposit": "Reservation Fee",
         "rv.note.deposit.1": "Deducted from the final price.",
         "rv.note.deposit.cancel": "Cancellation Policy",
         "rv.note.deposit.2": "By confirming the reservation, you agree to the general service conditions and the website's privacy policy.",
@@ -3926,19 +3934,30 @@ const PRICE_TABLE = {
   "Miradouro da Braça":                 { type: "perPerson", tiers: [ { max:4, price:90 }, { max:99, price:75 } ] }
 };
 
-const DEPOSIT_RATE = 0.20; // 20%
-const MIN_DEPOSIT  = 10;   // sinal mínimo
-
-function getPrice(trail, people){
+const MIN_PAX = 1;         // mínimo de pessoas para reservar
+const MAX_PAX = 7;         // máximo de possoas para reservar
+  
+function getPrice(trail, people) {
   const data = PRICE_TABLE[trail];
-  if(!data){ return { onRequest:true }; }
+  if (!data) {
+    return { onRequest: true };
+  }
 
-  // encontrar tier correta
+  // Encontrar a tier correta
   const t = data.tiers.find(x => people <= x.max) || data.tiers.at(-1);
-  const total = (data.type === "perGroup") ? t.price : (t.price * people);
-  const deposit = Math.max(MIN_DEPOSIT, +(total * DEPOSIT_RATE).toFixed(2));
-  return { total, deposit, unit: t.price, onRequest:false };
+
+  // Calcular total
+  const total = (data.type === "perGroup")
+    ? t.price
+    : (t.price * people);
+
+  return {
+    total,
+    unit: t.price,
+    onRequest: false
+  };
 }
+
 
 function eur(v){ return v == null ? "—" : v.toLocaleString('pt-PT',{style:'currency',currency:'EUR'}); }
 
@@ -4277,17 +4296,6 @@ $date && $date.addEventListener('change', checkAvailability);
   });
 
 
-  // ===== 7) Click “Pagar sinal 20%” – aqui integras o link Revolut/checkout =====
-  btnPay.addEventListener('click', () => {
-    // Podes construir a referência para o pagamento (ex.: nome+data+trilho)
-    const trailTxt = outTrail.textContent.trim();
-    const dep = outDepos.textContent.replace(' €','');
-    // TODO: integrar com Revolut Checkout ou Payment Link gerado dinamicamente.
-    // Por agora, só damos um feedback.
-    alert(`A avançar para pagamento do sinal (${dep} €) para: ${trailTxt}.`);
-    // window.location.href = 'URL_DO_CHECKOUT_REVOLUT?amount=...&reference=...';
-  });
-
   // arranque
   refreshUI();
 })();
@@ -4329,7 +4337,7 @@ $date && $date.addEventListener('change', checkAvailability);
         </div>
 
         <div class="reserve-field reserve-field--full">
-          <label data-i18n="rv.label.deposit">Sinal 20%</label>
+          <label data-i18n="rv.label.deposit">Taxa de reserva</label>
           <div id="rv-deposit-m" class="amount amount-accent">—</div>
           <small class="muted">
             <span data-i18n="rv.note.deposit.1">Deduzido ao valor final.</span>
@@ -4357,9 +4365,26 @@ $date && $date.addEventListener('change', checkAvailability);
 
 <script>
 (() => {
-  const REVOLUT_LINK_BASE = 'https://revolut.me/hortawithcesar';
+  <script>
+(() => {
+  // 1) LINKS SUMUP – um por nº de pessoas
+  //    👉 Substitui cada URL pelo link que copias da app SumUp
+  const SUMUP_LINKS = {
+  1: "https://pay.sumup.com/b2c/QQVXB7N7",
+  2: "https://pay.sumup.com/b2c/QCMFK19A",
+  3: "https://pay.sumup.com/b2c/Q5ANRCGN",
+  4: "https://pay.sumup.com/b2c/QOZBX4ER",
+  5: "https://pay.sumup.com/b2c/QRMYCHDW",
+  6: "https://pay.sumup.com/b2c/QQXYPV4S",
+  7: "https://pay.sumup.com/b2c/QJLPXET3"
+  };
+
+  // 2) Valor fixo da taxa de reserva por pessoa (em €)
+  const RES_FEE_PER_PAX = 15;
 
   const $    = (sel, ctx = document) => ctx.querySelector(sel);
+  const text = el => ((el && el.textContent) || '').trim();
+
   const text = el => ((el && el.textContent) || '').trim();
 
   // normaliza texto para comparar "disponivel" sem acentos
@@ -4396,21 +4421,23 @@ $date && $date.addEventListener('change', checkAvailability);
     // texto da badge de disponibilidade
     const availability = text($('#rv-availability')) || '—';
 
-    // calcula total e sinal usando a PRICE_TABLE
-    let totalStr = '—';
-    let depositStr = '—';
+      // calcula total usando a PRICE_TABLE
+  // e usa MIN_PAX como número mínimo de pessoas
+  let totalStr = '—';
+  let depositStr = '—';
 
-    const peopleNum = parseInt(peopleEl?.value || '0', 10);
-    if (trail && trail !== '—' && !isNaN(peopleNum) && peopleNum > 0 && PRICE_TABLE[trail]) {
-      const priceInfo = getPrice(trail, peopleNum);
-      if (!priceInfo.onRequest) {
-        totalStr   = eur(priceInfo.total);
-        depositStr = eur(priceInfo.deposit);
-      }
+  const peopleNum = parseInt(peopleEl?.value || '0', 10);
+  if (trail && trail !== '—' && !isNaN(peopleNum) && peopleNum > 0 && PRICE_TABLE[trail]) {
+    const priceInfo = getPrice(trail, peopleNum);
+    if (!priceInfo.onRequest) {
+      totalStr = eur(priceInfo.total);
+      // aqui depositStr passa a significar "mínimo de pessoas"
+      depositStr = String(MIN_PAX);
     }
-
-    return { trail, people, date, period, availability, totalStr, depositStr };
   }
+
+  return { trail, people, date, period, availability, totalStr, depositStr };
+}
 
 
   // Disponibilidade ok se tiver data-state="ok" OU texto com “dispon”
@@ -4421,7 +4448,7 @@ $date && $date.addEventListener('change', checkAvailability);
     return /dispon/i.test(norm(badge.textContent));
   }
 
-  // Atualiza resumo do modal + link Revolut
+  // Atualiza resumo do modal + link sumup
   function syncReserveSummary() {
     const f = readBookingForm();
 
@@ -4431,17 +4458,18 @@ $date && $date.addEventListener('change', checkAvailability);
     $('#rv-date').textContent   = f.date;
     $('#rv-period').textContent = f.period;
 
-    $('#rv-total-m').textContent   = f.totalStr   || '—';
+        $('#rv-total-m').textContent   = f.totalStr   || '—';
     $('#rv-deposit-m').textContent = f.depositStr || '—';
 
-    // Link do Revolut
+    // Link SumUp – taxa de reserva por nº de pessoas
     const payBtn = $('#rv-pay-20');
-    const depNum = parseMoney(f.depositStr);
     const availOK = isAvailabilityOK();
+    const peopleNum = parseInt(f.people || '0', 10);
 
     if (payBtn) {
-      if (isFinite(depNum) && depNum > 0 && availOK) {
-        const url = `${REVOLUT_LINK_BASE}?amount=${depNum.toFixed(2)}&currency=EUR`;
+      const url = SUMUP_LINKS[peopleNum];
+
+      if (availOK && url) {
         payBtn.setAttribute('href', url);
         payBtn.removeAttribute('aria-disabled');
       } else {
@@ -4449,66 +4477,82 @@ $date && $date.addEventListener('change', checkAvailability);
         payBtn.setAttribute('aria-disabled', 'true');
       }
     }
+
+  function validateBooking() {
+  const f = readBookingForm();
+
+  // MIN e MAX pax (usa os teus valores)
+  const nPeople = Number(f.people);
+  const hasPeople =
+    Number.isFinite(nPeople) &&
+    nPeople >= MIN_PAX &&
+    nPeople <= MAX_PAX;
+
+  // Apresentar erros no HTML
+  const peopleErr = document.querySelector('#people-error');
+  if (peopleErr) {
+    if (nPeople > MAX_PAX) {
+      peopleErr.textContent = `Máximo ${MAX_PAX} pessoas.`;
+      peopleErr.style.display = 'block';
+    } else if (nPeople < MIN_PAX) {
+      peopleErr.textContent = `Mínimo ${MIN_PAX} pessoa${MIN_PAX > 1 ? 's' : ''}.`;
+      peopleErr.style.display = 'block';
+    } else {
+      peopleErr.textContent = '';
+      peopleErr.style.display = 'none';
+    }
   }
 
-  // Valida campos para desbloquear o botão “Efectuar reserva”
-  function validateBooking() {
-  // Ler directamente dos elementos (sem '—' nem truques)
-  const trailEl  = $('#trail');
-  const peopleEl = $('#people');
-  const dateEl   = $('#date_from');
-  const periodEl = $('#period');
+  // Campos
+  const hasTrail  = Boolean(f.trail && f.trail.trim() !== "");
+  const hasDate   = Boolean(f.date && f.date.trim() !== "");
+  const hasPeriod = Boolean(f.period && f.period.trim() !== "");
+  const hasAvail  = isAvailabilityOK();
 
-  const trailVal  = trailEl  ? trailEl.value  : '';
-  const peopleVal = peopleEl ? peopleEl.value : '';
-  const dateVal   = dateEl   ? dateEl.value   : '';
-  const periodVal = periodEl ? periodEl.value : '';
-
-  // campos lidos
-  const hasTrail  = trailVal.trim()  !== '';
-  const hasPeople = Number(peopleVal) > 0;
-  const hasDate   = dateVal.trim()   !== '';
-  const hasPeriod = periodVal.trim() !== '';
-
-  // novos campos obrigatórios
+  // Novos obrigatórios
   const nameEl    = $('#name');
   const emailEl   = $('#email');
   const countryEl = $('#country');
 
-  // disponibilidade continua igual
-  const hasAvail = isAvailabilityOK();
-
-  // validar selects/campos
   const hasName    = !!(nameEl?.value    || '').trim();
   const hasEmail   = !!(emailEl?.value   || '').trim();
   const hasCountry = !!(countryEl?.value || '').trim();
 
-  // FINAL: todos obrigatórios excepto observações
-  const ok = hasTrail && hasPeople && hasDate &&
-             hasPeriod && hasAvail &&
-             hasName && hasEmail && hasCountry;
+  // FINAL - botão só desbloqueia se TUDO estiver ok
+  const ok =
+    hasTrail &&
+    hasPeople &&
+    hasDate &&
+    hasPeriod &&
+    hasAvail &&
+    hasName &&
+    hasEmail &&
+    hasCountry;
 
   // botão "Efetuar reserva"
   const openBtn = $('#btn-open-reserve');
   if (openBtn) {
-    // estado disabled no atributo
     openBtn.disabled = !ok;
 
-    // quando válido → botão azul (btn-primary)
     if (ok) {
       openBtn.classList.remove('btn-disabled', 'btn-ghost');
       openBtn.classList.add('btn-primary');
-    }
-    // quando inválido → botão ghost desativado
-    else {
+    } else {
       openBtn.classList.remove('btn-primary');
       openBtn.classList.add('btn-disabled', 'btn-ghost');
     }
   }
 
-  // usado pelo openReserveModal()
-  return { ok, hasTrail, hasPeople, hasDate, hasPeriod, hasAvail };
+  return {
+    ok,
+    hasTrail,
+    hasPeople,
+    hasDate,
+    hasPeriod,
+    hasAvail
+  };
 }
+
 
 
   // Modal
@@ -4619,15 +4663,15 @@ $date && $date.addEventListener('change', checkAvailability);
 
     <div class="modal__body">
       <p data-i18n="cancel.p1">
-        • O sinal de 20% é reembolsável em cancelamentos feitos até <strong>48h antes</strong> do início do trilho.
+        • A taxa de Reserva é reembolsável em cancelamentos feitos até <strong>48h antes</strong> do início do trilho.
       </p>
       <p data-i18n="cancel.p2">
         • Em cancelamentos com menos de <strong>48h</strong>, ou em caso de <strong>não comparência</strong>,
-        o sinal não é devolvido.
+        a taxa de reserva não é devolvida.
       </p>
       <p data-i18n="cancel.p3">
         • Caso o passeio seja cancelado por motivos de segurança, condições meteorológicas
-        adversas ou outra decisão do guia, o sinal será <strong>reembolsado na totalidade</strong>
+        adversas ou outra decisão do guia, a taxa de reserva será <strong>reembolsado na totalidade</strong>
         ou poderá ser reagendado, conforme a tua preferência e disponibilidade.
       </p>
       <p data-i18n="cancel.p4">
