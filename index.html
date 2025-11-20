@@ -3780,49 +3780,7 @@ window.addEventListener('DOMContentLoaded', () => {
     else header.classList.remove('scrolled');
   });
 </script>
-  <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const input  = document.getElementById('people');
-  const btnDec = document.getElementById('pax-dec');
-  const btnInc = document.getElementById('pax-inc');
 
-  if (!input || !btnDec || !btnInc) return;
-
-  const min = parseInt(input.min || '1', 10);
-  const max = parseInt(input.max || '99', 10);
-
-  function normalize() {
-    let v = parseInt(input.value, 10);
-    if (isNaN(v)) v = min;
-    if (v < min) v = min;
-    if (v > max) v = max;
-    input.value = v;
-  }
-
-  // garantir que começa com um valor válido
-  normalize();
-
-  btnInc.addEventListener('click', () => {
-    let v = parseInt(input.value, 10);
-    if (isNaN(v)) v = min;
-    if (v < max) {
-      input.value = v + 1;
-    }
-  });
-
-  btnDec.addEventListener('click', () => {
-    let v = parseInt(input.value, 10);
-    if (isNaN(v)) v = min;
-    if (v > min) {
-      input.value = v - 1;
-    }
-  });
-
-  // se o utilizador escrever à mão, também fica dentro dos limites
-  input.addEventListener('change', normalize);
-  input.addEventListener('blur', normalize);
-});
-</script>
 
   <script>
 (function(){
@@ -4172,7 +4130,7 @@ $date && $date.addEventListener('change', checkAvailability);
   function clampPax(value){
     if (!paxInput) return 1;
     const min = parseInt(paxInput.min || '1', 10);
-    const max = parseInt(paxInput.max || '7', 10);
+    const max = parseInt(paxInput.max || '20', 10);
     return Math.min(max, Math.max(min, value || min));
   }
 
