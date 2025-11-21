@@ -4288,6 +4288,11 @@ $date && $date.addEventListener('change', checkAvailability);
           <div id="rv-period" class="rv-read">—</div>
         </div>
 
+        <div class="reserve-field">
+  <label data-i18n="rv.label.availability">Disponibilidade</label>
+  <div id="rv-availability-m" class="rv-read">—</div>
+</div>
+
         <div class="reserve-field reserve-field--full">
           <label data-i18n="rv.label.total">Total estimado</label>
           <div id="rv-total-m" class="amount">—</div>
@@ -4340,7 +4345,7 @@ $date && $date.addEventListener('change', checkAvailability);
   const $    = (sel, ctx = document) => ctx.querySelector(sel);
   const text = el => ((el && el.textContent) || '').trim();
 
-  const text = el => ((el && el.textContent) || '').trim();
+  
 
   // normaliza texto para comparar "disponivel" sem acentos
   function norm(s) {
