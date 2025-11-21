@@ -4099,11 +4099,16 @@ async function checkAvailability(){
       $avail.dataset.state = 'busy';
       $avail.setAttribute('data-i18n', 'booking.avail.unavailable');
     }
-  } catch (err){
+    } catch (err){
     console.error(err);
     $avail.textContent = dict["booking.avail.error"] || 'Não foi possível verificar';
     $avail.dataset.state = 'pending';
     $avail.setAttribute('data-i18n', 'booking.avail.error');
+  }
+
+  // Sempre que a disponibilidade muda, volta a validar o formulário
+  if (typeof window.validateBooking === 'function') {
+    window.validateBooking();
   }
 }
 
@@ -4114,15 +4119,7 @@ $date && $date.addEventListener('change', checkAvailability);
 </script>
 <script>
 (() => {
-  // ===== 1) Mapeia os elementos do teu formulário de cima =====
-  const elTrail  = document.querySelector('#bk-trail');   // select do trilho (o teu ID)
-  const elPax    = document.querySelector('#people, #bk-pax, #nPessoas, [name="Nº de pessoas"], [name="pax"], [name="pessoas"]')
-                  || { value: '' };
-  const elDate   = document.querySelector('#bk-date, #date, [name="date"]') 
-                  || { value: '' };
-  const elSlot   = document.querySelector('#bk-slot, #periodo, [name="slot"]') 
-                  || { value: '' };
-  // Controlo de Nº px (+/-)
+  // Controlo de Nº pax (+/-) no formulário principal
   const paxInput  = document.getElementById('people');
   const btnPaxDec = document.getElementById('pax-dec');
   const btnPaxInc = document.getElementById('pax-inc');
@@ -4136,128 +4133,23 @@ $date && $date.addEventListener('change', checkAvailability);
 
   function changePax(delta){
     if (!paxInput) return;
-    const current = parseInt(paxInput.value || paxInput.placeholder || '1', 10) || 1;
+    const current = parseInt(
+      paxInput.value || paxInput.placeholder || '1',
+      10
+    ) || 1;
+
     paxInput.value = clampPax(current + delta);
 
-    // dispara eventos para atualizar o resumo/preço
+    // dispara eventos para o validateBooking voltar a correr
     paxInput.dispatchEvent(new Event('input',  { bubbles: true }));
     paxInput.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
   if (btnPaxDec) btnPaxDec.addEventListener('click', () => changePax(-1));
   if (btnPaxInc) btnPaxInc.addEventListener('click', () => changePax(1));
-
-  // Campos de leitura (bloco "Efectuar Reserva")
-  const outTrail = document.querySelector('#rv-trail');
-  const outPax   = document.querySelector('#rv-pax');
-  const outDate  = document.querySelector('#rv-date');
-  const outSlot  = document.querySelector('#rv-slot');
-
-  // Disponibilidade e valores
-  const outAvail = document.querySelector('#rv-availability');
-  const outTotal = document.querySelector('#rv-total');
-  const outDepos = document.querySelector('#rv-deposit');
-
-  const btnPay   = document.querySelector('#btn-pay-20');
-
-  // ===== 2) Tabela fallback (se não encontrar nos cartões) =====
-  // Ajusta conforme a tua "Tabela de preços Trilhos 2026"
-  const priceTable = {
-    'city-walk'     : 25,  // exemplo
-    'entre-montes'  : 35,
-    'neptuno'       : 30,
-    'caldeira-circ' : 45,  // Caldeira perímetro
-    'caldeira-desc' : 55   // Caldeira descida
-  };
-
-  // ===== 3) Localiza preço por pessoa a partir dos próprios cartões de trilho =====
-  function getTrailPrice(trailId){
-    if(!trailId) return null;
-    // tenta achar no DOM um card com data-trail e data-price
-    const card = document.querySelector(`[data-trail="${trailId}"]`);
-    if(card && card.dataset && card.dataset.price){
-      const p = parseFloat(card.dataset.price);
-      if(!isNaN(p)) return p;
-    }
-    // fallback
-    return priceTable[trailId] ?? null;
-  }
-
-  
-
-  // ===== 5) Calcula e atualiza UI =====
-  function refreshUI(){
-    // espelha os campos de cima
-    const trailId = (elTrail?.value || '').trim();
-    const trailTxt = elTrail?.options?.[elTrail.selectedIndex]?.text || '—';
-    const pax   = parseInt(elPax?.value || '0', 10);
-    const date  = (elDate?.value || '').trim();
-    const slot  = (elSlot?.value || '').trim();
-
-    outTrail.textContent = trailTxt || '—';
-    outPax.textContent   = pax ? String(pax) : '—';
-    outDate.textContent  = date || '—';
-    outSlot.textContent  = slot || '—';
-
-    // preço
-    const pp = getTrailPrice(trailId);
-    const total  = (pp && pax > 0) ? (pp * pax) : NaN;
-    const deposit = isNaN(total) ? NaN : total * 0.20;
-
-    outTotal.textContent = money(total);
-    outDepos.textContent = money(deposit);
-
-    // Disponibilidade — aqui liga ao teu script do Calendar se já tens a info:
-    // EXEMPLO simples: se não há data ou slot, ainda não se sabe
-    if(!date || !slot){
-      setAvailability('desconhecido');
-    } else {
-      // Se tens uma função global que já apura disponibilidade, chama-a.
-      // Ex.: window.checkSlot(date, slot) -> 'ok' | 'no'
-      if (typeof window.checkSlot === 'function'){
-        const st = window.checkSlot(date, slot); // devolve 'ok' | 'no' | 'maybe'
-        if (st === 'ok')      setAvailability(slot === 'manhã' ? 'ok-manha' : 'ok-tarde');
-        else if (st === 'no') setAvailability('indisponivel');
-        else                  setAvailability('desconhecido');
-      } else {
-        // até ligares ao Calendar, assume "desconhecido"
-        setAvailability('desconhecido');
-      }
-    }
-
-    // desbloqueia botão se tiver tudo válido
-    const canPay = (
-      !!trailId &&
-      pax > 0 &&
-      !!date &&
-      !!slot &&
-      !isNaN(total) &&
-      total > 0
-    );
-    btnPay.disabled = !canPay;
-  }
-
-
-    // ===== 6) Listeners nos campos do formulário de cima =====
-  ['change','input'].forEach(ev=>{
-    if (elTrail && typeof elTrail.addEventListener === 'function')
-      elTrail.addEventListener(ev, refreshUI);
-
-    if (elPax && typeof elPax.addEventListener === 'function')
-      elPax.addEventListener(ev, refreshUI);
-
-    if (elDate && typeof elDate.addEventListener === 'function')
-      elDate.addEventListener(ev, refreshUI);
-
-    if (elSlot && typeof elSlot.addEventListener === 'function')
-      elSlot.addEventListener(ev, refreshUI);
-  });
-
-
-  // arranque
-  refreshUI();
 })();
 </script>
+
 <!-- ===== Modal: Efectuar Reserva ===== -->
 <div id="rv-modal" class="modal-backdrop" style="display:none">
   <div class="modal box" role="dialog" aria-modal="true" aria-labelledby="rv-title">
