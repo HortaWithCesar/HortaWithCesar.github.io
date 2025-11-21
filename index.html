@@ -4400,115 +4400,65 @@ $date && $date.addEventListener('change', checkAvailability);
 }
 
 
-  // Disponibilidade ok se tiver data-state="ok" OU texto com “dispon”
+   // Disponibilidade ok se tiver data-state="ok" OU texto com “dispon”
   function isAvailabilityOK() {
     const badge = $('#rv-availability');
     if (!badge) return false;
+
+    // se o calendário já marcou como OK
     if (badge.dataset.state === 'ok') return true;
-    return /dispon/i.test(norm(badge.textContent));
+
+    // fallback: se o texto contiver "disponível"
+    return /dispon/i.test(norm(badge.textContent || ''));
   }
 
-  // Atualiza resumo do modal + link sumup
-  function syncReserveSummary() {
-    const f = readBookingForm();
-
-    // Campos do resumo
-    $('#rv-trail').textContent  = f.trail;
-    $('#rv-people').textContent = f.people;
-    $('#rv-date').textContent   = f.date;
-    $('#rv-period').textContent = f.period;
-    $('#rv-availability-m').textContent = f.availability || '—';
-    $('#rv-total-m').textContent   = f.totalStr   || '—';
-    $('#rv-deposit-m').textContent = f.depositStr || '—';
-
-      // copiar o estado (ok, busy, unknown) do badge principal
-  const availMain  = $('#rv-availability');
-  const availModal = $('#rv-availability-m');
-
-  if (availMain && availModal) {
-    availModal.dataset.state = availMain.dataset.state || 'pending';
+  // Helper para campos obrigatórios
+  function fieldNotEmpty(sel) {
+    const el = $(sel);
+    return !!(el && String(el.value || '').trim());
   }
 
-    // Link SumUp – taxa de reserva por nº de pessoas
-    const payBtn = $('#rv-pay-20');
-    const availOK = isAvailabilityOK();
-    const peopleNum = parseInt(f.people || '0', 10);
+  // Valida campos para desbloquear o botão “Efetuar reserva”
+  function validateBooking() {
+    // ler directamente do formulário principal
+    const trailVal  = $('#trail')?.value  || '';
+    const peopleVal = $('#people')?.value || '';
+    const dateVal   = $('#date_from')?.value || '';
+    const periodVal = $('#period')?.value || '';
 
-    if (payBtn) {
-      const url = SUMUP_LINKS[peopleNum];
+    const peopleNum = Number(peopleVal) || 0;
 
-      if (availOK && url) {
-        payBtn.setAttribute('href', url);
-        payBtn.removeAttribute('aria-disabled');
-      } else {
-        payBtn.removeAttribute('href');
-        payBtn.setAttribute('aria-disabled', 'true');
-      }
+    const hasTrail   = trailVal.trim()  !== '';
+    const hasDate    = dateVal.trim()   !== '';
+    const hasPeriod  = periodVal.trim() !== '';
+    const hasPeople  = peopleNum >= MIN_PAX && peopleNum <= 7; // >7 só “Enviar pedido”
+    const hasAvail   = isAvailabilityOK();
+
+    // novos obrigatórios
+    const hasName    = fieldNotEmpty('#name');
+    const hasEmail   = fieldNotEmpty('#email');
+    const hasCountry = fieldNotEmpty('#country');
+
+    // FINAL: todos obrigatórios excepto observações
+    const ok = hasTrail && hasPeople && hasDate &&
+               hasPeriod && hasAvail &&
+               hasName && hasEmail && hasCountry;
+
+    // botão "Efetuar reserva"
+    const openBtn = $('#btn-open-reserve');
+    if (openBtn) {
+      // atributo disabled
+      openBtn.disabled = !ok;
+
+      // classes visuais
+      openBtn.classList.toggle('btn-primary',  ok);
+      openBtn.classList.toggle('btn-disabled', !ok);
+      openBtn.classList.toggle('btn-ghost',    !ok);
     }
 
-  // Valida campos para desbloquear o botão “Efectuar reserva”
-function validateBooking() {
-  // Ler directamente dos elementos (sem '—' nem truques)
-  const trailEl  = $('#trail');
-  const peopleEl = $('#people');
-  const dateEl   = $('#date_from');
-  const periodEl = $('#period');
-  
-  const trailVal  = trailEl  ? trailEl.value  : '';
-  const peopleVal = peopleEl ? peopleEl.value : '';
-  const dateVal   = dateEl   ? dateEl.value   : '';
-  const periodVal = periodEl ? periodEl.value : '';
-
-  // nº de pessoas (entre 1 e 7 para permitir reserva directa)
-  const peopleNum = Number(peopleVal) || 0;
-
-  const hasTrail  = trailVal.trim()  !== '';
-  const hasPeople = peopleNum >= 1 && peopleNum <= 7;   // <= 7 -> pode “Efetuar reserva”
-  const hasDate   = dateVal.trim()   !== '';
-  const hasPeriod = periodVal.trim() !== '';
-
-  // novos campos obrigatórios
-  const nameEl    = $('#name');
-  const emailEl   = $('#email');
-  const countryEl = $('#country');
-
-  // disponibilidade continua igual
-  const hasAvail = isAvailabilityOK();
-
-  // validar selects/campos
-  const hasName    = !!(nameEl?.value    || '').trim();
-  const hasEmail   = !!(emailEl?.value   || '').trim();
-  const hasCountry = !!(countryEl?.value || '').trim();
-
-  // FINAL: todos obrigatórios excepto observações
-  const ok = hasTrail && hasPeople && hasDate &&
-             hasPeriod && hasAvail &&
-             hasName && hasEmail && hasCountry;
-
-  // botão "Efetuar reserva"
-  const openBtn = $('#btn-open-reserve');
-  if (openBtn) {
-    // estado disabled no atributo
-    openBtn.disabled = !ok;
-
-    // quando válido → botão azul (btn-primary)
-    if (ok) {
-      openBtn.classList.remove('btn-disabled', 'btn-ghost');
-      openBtn.classList.add('btn-primary');
-    }
-    // quando inválido → botão ghost desativado
-    else {
-      openBtn.classList.remove('btn-primary');
-      openBtn.classList.add('btn-disabled', 'btn-ghost');
-    }
+    // usado pelo openReserveModal()
+    return { ok, hasTrail, hasPeople, hasDate, hasPeriod, hasAvail };
   }
-
-  // usado pelo openReserveModal()
-  return { ok, hasTrail, hasPeople, hasDate, hasPeriod, hasAvail };
-}
-
-
-
 
   // Modal
   function openReserveModal(e) {
@@ -4535,29 +4485,56 @@ function validateBooking() {
     }
   }
 
- // Liga eventos aos campos do formulário para revalidar
-[
-  '#trail',
-  '#people',
-  '#date_from',
-  '#period',
-  '#name',
-  '#email',
-  '#country'
-].forEach(sel => {
-  const el = $(sel);
-  if (!el) return;
-  ['change', 'input'].forEach(evt => {
-    el.addEventListener(evt, validateBooking);
+  // Liga eventos aos campos do formulário para revalidar
+  [
+    '#trail',
+    '#people',
+    '#date_from',
+    '#period',
+    '#rv-availability',
+    '#name',
+    '#email',
+    '#country'
+  ].forEach(sel => {
+    const el = $(sel);
+    if (!el) return;
+    ['change', 'input'].forEach(evt => {
+      el.addEventListener(evt, validateBooking);
+    });
   });
-});
 
-// Disponibilidade precisa de validar manualmente porque muda por JS
-const availEl = $('#rv-availability');
-if (availEl) {
-  const observer = new MutationObserver(() => validateBooking());
-  observer.observe(availEl, { childList: true, characterData: true, subtree: true });
-}
+  // Disponibilidade: observar também mudanças de atributos (data-state)
+  const availEl = $('#rv-availability');
+  if (availEl) {
+    const observer = new MutationObserver(() => validateBooking());
+    observer.observe(availEl, {
+      childList: true,
+      characterData: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['data-state', 'data-i18n']
+    });
+  }
+
+  // Botões abrir / fechar modal
+  $('#btn-open-reserve')?.addEventListener('click', openReserveModal);
+  $('#rv-close')?.addEventListener('click', closeReserveModal);
+  $('#rv-close-2')?.addEventListener('click', closeReserveModal);
+
+  // Fecha ao clicar fora da caixa do modal
+  $('#rv-modal')?.addEventListener('click', ev => {
+    if (ev.target === ev.currentTarget) closeReserveModal();
+  });
+
+  // Botão "Enviar pedido" dentro do modal
+  $('#rv-send')?.addEventListener('click', () => {
+    $('#booking-form')?.requestSubmit?.();
+    closeReserveModal();
+  });
+
+  // Validação inicial ao carregar a página
+  validateBooking();
+
 
 // Botões abrir / fechar modal
 $('#btn-open-reserve')?.addEventListener('click', openReserveModal);
