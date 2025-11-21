@@ -4412,9 +4412,17 @@ $date && $date.addEventListener('change', checkAvailability);
     $('#rv-people').textContent = f.people;
     $('#rv-date').textContent   = f.date;
     $('#rv-period').textContent = f.period;
-
-        $('#rv-total-m').textContent   = f.totalStr   || '—';
+    $('#rv-availability-m').textContent = f.availability || '—';
+    $('#rv-total-m').textContent   = f.totalStr   || '—';
     $('#rv-deposit-m').textContent = f.depositStr || '—';
+
+      // copiar o estado (ok, busy, unknown) do badge principal
+  const availMain  = $('#rv-availability');
+  const availModal = $('#rv-availability-m');
+
+  if (availMain && availModal) {
+    availModal.dataset.state = availMain.dataset.state || 'pending';
+  }
 
     // Link SumUp – taxa de reserva por nº de pessoas
     const payBtn = $('#rv-pay-20');
@@ -4440,7 +4448,7 @@ function validateBooking() {
   const peopleEl = $('#people');
   const dateEl   = $('#date_from');
   const periodEl = $('#period');
-
+  
   const trailVal  = trailEl  ? trailEl.value  : '';
   const peopleVal = peopleEl ? peopleEl.value : '';
   const dateVal   = dateEl   ? dateEl.value   : '';
