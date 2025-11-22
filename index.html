@@ -4351,7 +4351,73 @@ $date && $date.addEventListener('change', checkAvailability);
     // usado pelo openReserveModal()
     return { ok, hasTrail, hasPeople, hasDate, hasPeriod, hasAvail };
   }
+  // Atualiza o resumo da reserva + botão de pagamento
+  function syncReserveSummary() {
+    const {
+      trail,
+      people,
+      date,
+      period,
+      availability,
+      totalStr
+    } = readBookingForm();
 
+    // Campos de texto no modal
+    const elTrail  = $('#rv-trail');
+    const elPeople = $('#rv-people');
+    const elDate   = $('#rv-date');
+    const elPeriod = $('#rv-period');
+    const elAvail  = $('#rv-availability-m');
+    const elTotal  = $('#rv-total-m');
+    const elDep    = $('#rv-deposit-m');
+    const btnPay   = $('#rv-pay-20');
+
+    if (elTrail)  elTrail.textContent  = trail  || '—';
+    if (elPeople) elPeople.textContent = people || '—';
+    if (elDate)   elDate.textContent   = date   || '—';
+    if (elPeriod) elPeriod.textContent = period || '—';
+    if (elAvail)  elAvail.textContent  = availability || '—';
+    if (elTotal)  elTotal.textContent  = totalStr;
+
+    // Cálculo da taxa de reserva
+    const peopleNum = parseInt(people || '0', 10);
+    let depositValue = NaN;
+    let sumupUrl = '';
+
+    if (
+      trail && trail !== '—' &&
+      !isNaN(peopleNum) &&
+      peopleNum >= MIN_PAX &&
+      peopleNum <= MAX_PAX &&
+      totalStr !== '—'
+    ) {
+      // nº de pessoas usado para a taxa e para o link
+      const paxForDeposit = Math.min(Math.max(peopleNum, MIN_PAX), MAX_PAX);
+
+      depositValue = paxForDeposit * RES_FEE_PER_PAX;
+      sumupUrl = SUMUP_LINKS[paxForDeposit] || '';
+    }
+
+    // Atualiza texto da taxa de reserva
+    if (elDep) {
+      elDep.textContent = Number.isFinite(depositValue)
+        ? eur(depositValue)
+        : '—';
+    }
+
+    // Atualiza botão "Confirmar reserva" com o link SumUp
+    if (btnPay) {
+      if (sumupUrl && Number.isFinite(depositValue)) {
+        btnPay.href = sumupUrl;
+        btnPay.setAttribute('aria-disabled', 'false');
+      } else {
+        btnPay.removeAttribute('href');
+        btnPay.setAttribute('aria-disabled', 'true');
+      }
+    }
+  }
+
+  
   // Modal
   function openReserveModal(e) {
     const { ok } = validateBooking();
