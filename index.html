@@ -3448,6 +3448,7 @@ a[aria-disabled="true"] {
         "rv.label.total": "Total estimado",
         "rv.note.total": "Valor calculado com base no trilho e nº de pessoas. Poderá ajustar consoante logística.",
         "rv.label.deposit": "Taxa de Reserva",
+        "rv.note.deposit.perPax": "A taxa de reserva é calculada com base no número de pessoas.",
         "rv.note.deposit.1": "Deduzido ao valor final.",
         "rv.note.deposit.cancel": "Política de Cancelamento",
         "rv.note.deposit.2": "Ao confirmar a reserva, assume que leu e concorda com as condições gerais do serviço e com a política de privacidade do site.",
@@ -3666,6 +3667,7 @@ a[aria-disabled="true"] {
         "rv.label.total": "Estimated total",
         "rv.note.total": "Amount calculated based on the trail and number of people. May vary depending on logistics.",
         "rv.label.deposit": "Reservation Fee",
+        "rv.note.deposit.perPax": "The reservation fee is calculated based on the number of people.",
         "rv.note.deposit.1": "Deducted from the final price.",
         "rv.note.deposit.cancel": "Cancellation Policy",
         "rv.note.deposit.2": "By confirming the reservation, you agree to the general service conditions and the website's privacy policy.",
@@ -4195,6 +4197,8 @@ $date && $date.addEventListener('change', checkAvailability);
           <label data-i18n="rv.label.deposit">Taxa de reserva</label>
           <div id="rv-deposit-m" class="amount amount-accent">—</div>
           <small class="muted">
+            <span data-i18n="rv.note.deposit.perPax">
+    A taxa de reserva é calculada com base no número de pessoas.</span>
             <span data-i18n="rv.note.deposit.1">Deduzido ao valor final.</span>
  <a href="#politica-cancelamento" class="link" id="open-cancel-policy" data-i18n="rv.note.deposit.cancel">
               Política de Cancelamento</a>.
