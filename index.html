@@ -2390,6 +2390,7 @@ a[aria-disabled="true"] {
        <!-- Descida à Caldeira -->
       <article class="trail-card reveal"
   data-trail="Caldeira Descida"
+  data-disabled="true"
   data-price-from="130€ /px"
   data-brief="Acesso sujeito a condições meteorológicas. Preço ajusta com logística e grupo. Guia certificado pelo Parque Natural dos Açores. Ponto de encontro a combinar"
         data-brief-en="Access subject to weather conditions. Price may change with logistics and group size. Certificated guide of Parque Natural dos Açores. Meeting point to be arranged">
@@ -3466,6 +3467,7 @@ a[aria-disabled="true"] {
 "contact.btn.open": "Abrir",
 "contact.btn.map": "Ver no mapa",
 "booking.warn.group8": "Para grupos de 8 ou mais pessoas, deve contactar primeiro através do botão 'Enviar Pedido'",
+"trail.disabled.msg": "Este trilho está temporariamente indisponível. Voltará a estar disponível assim que eu estiver certificado para a descida da Caldeira.",
 
 
         "rv.title": "Resumo da reserva",
@@ -3686,6 +3688,7 @@ a[aria-disabled="true"] {
 "contact.btn.open": "Open",
 "contact.btn.map": "View on map",
 "booking.warn.group8": "For groups of 8 or more people, please contact me first using the 'Send Request'",
+"trail.disabled.msg": "This trail is temporarily unavailable. It will be available again once I am certified to guide the Caldeira descent.",
 
 
         "rv.title": "Reservation summary",
@@ -3768,6 +3771,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
   reserveButtons.forEach(btn => {
     btn.addEventListener('click', () => {
+      // se o trilho estiver desativado, não deixa reservar
+    const card = btn.closest('.trail-card');
+    if (card?.dataset.disabled === 'true') {
+      const root = window.I18N || {};
+      const dict = root[localStorage.getItem('hwc_lang') || 'pt'] || {};
+
+alert(dict["trail.disabled.msg"] || "Este trilho está temporariamente indisponível.");
+
+      return;
+    }
       const trailName = btn.getAttribute('data-trail') || 'Trilho';
       if (trailInput) {
         trailInput.value = trailName;
