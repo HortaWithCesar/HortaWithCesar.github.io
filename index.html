@@ -4117,23 +4117,24 @@ async function checkAvailability(){
       return;
     }
 
-    if (slots.morningFree && slots.afternoonFree) {
-      $avail.textContent = dict["booking.avail.both"] || 'Disponível: manhã e tarde';
-      $avail.dataset.state = 'ok';
-      $avail.setAttribute('data-i18n', 'booking.avail.both');
-    } else if (slots.morningFree) {
-      $avail.textContent = dict["booking.avail.morning"] || 'Disponível: manhã';
-      $avail.dataset.state = 'ok';
-      $avail.setAttribute('data-i18n', 'booking.avail.morning');
-    } else if (slots.afternoonFree) {
-      $avail.textContent = dict["booking.avail.afternoon"] || 'Disponível: tarde';
-      $avail.dataset.state = 'ok';
-      $avail.setAttribute('data-i18n', 'booking.avail.afternoon');
-    } else {
-      $avail.textContent = dict["booking.avail.unavailable"] || 'Indisponível';
-      $avail.dataset.state = 'busy';
-      $avail.setAttribute('data-i18n', 'booking.avail.unavailable');
-    }
+   if (slots.morningFree && slots.afternoonFree) {
+  $avail.textContent = dict["booking.avail.both"] || 'Disponível: manhã e tarde';
+  $avail.dataset.state = 'both';
+  $avail.setAttribute('data-i18n', 'booking.avail.both');
+} else if (slots.morningFree) {
+  $avail.textContent = dict["booking.avail.morning"] || 'Disponível: manhã';
+  $avail.dataset.state = 'morning';
+  $avail.setAttribute('data-i18n', 'booking.avail.morning');
+} else if (slots.afternoonFree) {
+  $avail.textContent = dict["booking.avail.afternoon"] || 'Disponível: tarde';
+  $avail.dataset.state = 'afternoon';
+  $avail.setAttribute('data-i18n', 'booking.avail.afternoon');
+} else {
+  $avail.textContent = dict["booking.avail.unavailable"] || 'Indisponível';
+  $avail.dataset.state = 'busy';
+  $avail.setAttribute('data-i18n', 'booking.avail.unavailable');
+}
+
     } catch (err){
     console.error(err);
     $avail.textContent = dict["booking.avail.error"] || 'Não foi possível verificar';
@@ -4350,17 +4351,31 @@ $date && $date.addEventListener('change', checkAvailability);
 }
 
 
-   // Disponibilidade ok se tiver data-state="ok" OU texto com “dispon”
-  function isAvailabilityOK() {
-    const badge = $('#rv-availability');
-    if (!badge) return false;
+  // Disponibilidade ok se for compatível com o período escolhido
+function isAvailabilityOK(periodVal) {
+  const badge = $('#rv-availability');
+  if (!badge) return false;
 
-    // se o calendário já marcou como OK
-    if (badge.dataset.state === 'ok') return true;
+  const state = badge.dataset.state || '';
+  const p = norm(periodVal || ''); // "Manhã" / "Tarde" / "Morning" / "Afternoon"
 
-    // fallback: se o texto contiver "disponível"
-    return /dispon/i.test(norm(badge.textContent || ''));
-  }
+  // nada escolhido ou erro/pending → não deixa
+  if (!state || state === 'pending') return false;
+  if (state === 'busy') return false;
+
+  // se dia todo livre → qualquer período serve
+  if (state === 'both' || state === 'ok') return true;
+
+  // normalizar período
+  const isMorning   = /manh|morn/.test(p);
+  const isAfternoon = /tard|after/.test(p);
+
+  if (state === 'morning')   return isMorning;
+  if (state === 'afternoon') return isAfternoon;
+
+  // fallback antigo: se o texto tiver "dispon"
+  return /dispon/i.test(norm(badge.textContent || ''));
+}
 
   // Helper para campos obrigatórios
   function fieldNotEmpty(sel) {
@@ -4382,7 +4397,8 @@ $date && $date.addEventListener('change', checkAvailability);
     const hasDate    = dateVal.trim()   !== '';
     const hasPeriod  = periodVal.trim() !== '';
     const hasPeople  = peopleNum >= MIN_PAX && peopleNum <= 7; // >7 só “Enviar pedido”
-    const hasAvail   = isAvailabilityOK();
+    const hasAvail   = isAvailabilityOK(periodVal);
+
 
     // novos obrigatórios
     const hasName    = fieldNotEmpty('#name');
