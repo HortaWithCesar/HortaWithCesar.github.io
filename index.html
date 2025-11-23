@@ -2009,6 +2009,14 @@ a[aria-disabled="true"] {
   color: #b66b00;
   margin-top: 6px;
 }
+.modal-backdrop.open{
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding:6vh 16px;
+}
 
 
   </style>
@@ -3859,7 +3867,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
     modal.classList.add('open');
     document.body.classList.add('modal-open');
-    setTimeout(()=> waBtn.focus(), 50);
+   
+    // força abrir no topo no iPhone
+    modal.scrollTop = 0;
+    const inner = modal.querySelector('.modal');
+    if (inner) inner.scrollTop = 0;
   });
 
   function closeModal(){
