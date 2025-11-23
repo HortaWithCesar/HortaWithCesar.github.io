@@ -2004,6 +2004,12 @@ a[aria-disabled="true"] {
   display: none;
 }
 
+    .group-warning {
+  font-size: 0.9rem;
+  color: #b66b00;
+  margin-top: 6px;
+}
+
 
   </style>
 </head>
@@ -2917,6 +2923,14 @@ a[aria-disabled="true"] {
     <span id="people-error" class="error-message"></span>
   </div>
   </div>
+      
+<p id="group-warning"
+   class="group-warning"
+   style="display:none;">
+  <span data-i18n="booking.warn.group8">
+    Para grupos de 8 ou mais pessoas, deve contactar primeiro através do botão "Enviar pedido".
+  </span>
+</p>
 
   <!-- Disponibilidade só com o “badge” -->
   <div class="reserve-field reserve-field--availability">
@@ -3443,6 +3457,8 @@ a[aria-disabled="true"] {
 "cond.price.from": "Desde",
 "contact.btn.open": "Abrir",
 "contact.btn.map": "Ver no mapa",
+"booking.warn.group8": "Para grupos de 8 ou mais pessoas, deve contactar primeiro através do botão "Enviar Pedido"",
+
 
         "rv.title": "Resumo da reserva",
         "rv.label.trail": "Trilho",
@@ -3661,6 +3677,7 @@ a[aria-disabled="true"] {
 "cond.price.from": "From",
 "contact.btn.open": "Open",
 "contact.btn.map": "View on map",
+"booking.warn.group8": "For groups of 8 or more people, please contact me first using the "Send Request"",
 
 
         "rv.title": "Reservation summary",
@@ -4136,23 +4153,44 @@ $date && $date.addEventListener('change', checkAvailability);
     const max = parseInt(paxInput.max || '20', 10);
     return Math.min(max, Math.max(min, value || min));
   }
+    function updateGroupWarning(pax) {
+    const warn = document.getElementById('group-warning');
+    if (!warn) return;
+    warn.style.display = pax >= 8 ? 'block' : 'none';
+  }
 
   function changePax(delta){
-    if (!paxInput) return;
-    const current = parseInt(
-      paxInput.value || paxInput.placeholder || '1',
-      10
-    ) || 1;
+  if (!paxInput) return;
 
-    paxInput.value = clampPax(current + delta);
+  const current = parseInt(
+    paxInput.value || paxInput.placeholder || '1',
+    10
+  ) || 1;
 
-    // dispara eventos para o validateBooking voltar a correr
-    paxInput.dispatchEvent(new Event('input',  { bubbles: true }));
-    paxInput.dispatchEvent(new Event('change', { bubbles: true }));
-  }
+  const next = clampPax(current + delta);
+  paxInput.value = next;
+
+  updateGroupWarning(next);
+
+  // dispara eventos para o validateBooking voltar a correr
+  paxInput.dispatchEvent(new Event('input', { bubbles: true }));
+  paxInput.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
 
   if (btnPaxDec) btnPaxDec.addEventListener('click', () => changePax(-1));
   if (btnPaxInc) btnPaxInc.addEventListener('click', () => changePax(1));
+  if (paxInput) { paxInput.addEventListener('input', () => {
+  const v = parseInt(paxInput.value || paxInput.placeholder || '1', 10) || 1;
+    updateGroupWarning(v);
+    validateBooking();
+  });
+
+  // Estado inicial
+  const start = parseInt(paxInput.value || paxInput.placeholder || '1', 10) || 1;
+  updateGroupWarning(start);
+}
+
 })();
 </script>
 
