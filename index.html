@@ -4362,7 +4362,18 @@ $date && $date.addEventListener('change', checkAvailability);
 
   return { trail, people, date, period, availability, totalStr, depositStr };
 }
+// Lista de trilhos temporariamente desativados (vindo dos cards com data-disabled="true")
+const DISABLED_TRAILS = new Set(
+  Array.from(document.querySelectorAll('.trail-card[data-disabled="true"]'))
+    .map(card => (card.dataset.trail || '').toLowerCase().trim())
+);
 
+// Helper para verificar se um nome de trilho está desativado
+function isTrailDisabledByName(name) {
+  if (!name) return false;
+  const n = name.toLowerCase().trim();
+  return DISABLED_TRAILS.has(n);
+}
 
   // Disponibilidade ok se for compatível com o período escolhido
 function isAvailabilityOK(periodVal) {
@@ -4396,48 +4407,48 @@ function isAvailabilityOK(periodVal) {
     return !!(el && String(el.value || '').trim());
   }
 
-  // Valida campos para desbloquear o botão “Efetuar reserva”
-  function validateBooking() {
-    // ler directamente do formulário principal
-    const trailVal  = $('#trail')?.value  || '';
-    const peopleVal = $('#people')?.value || '';
-    const dateVal   = $('#date_from')?.value || '';
-    const periodVal = $('#period')?.value || '';
+// Valida campos para desbloquear o botão "Efetuar reserva"
+function validateBooking() {
+  // ler directamente do formulário principal
+  const trailVal  = $('#trail')?.value || '';
+  const peopleVal = $('#people')?.value || '';
+  const dateVal   = $('#date_from')?.value || '';
+  const periodVal = $('#period')?.value || '';
 
-    const peopleNum = Number(peopleVal) || 0;
+  const peopleNum     = Number(peopleVal) || 0;
+  const trailDisabled = isTrailDisabledByName(trailVal);
 
-    const hasTrail   = trailVal.trim()  !== '';
-    const hasDate    = dateVal.trim()   !== '';
-    const hasPeriod  = periodVal.trim() !== '';
-    const hasPeople  = peopleNum >= MIN_PAX && peopleNum <= 7; // >7 só “Enviar pedido”
-    const hasAvail   = isAvailabilityOK(periodVal);
+  const hasTrail  = trailVal.trim() !== '' && !trailDisabled;
+  const hasDate   = dateVal.trim()   !== '';
+  const hasPeriod = periodVal.trim() !== '';
+  const hasPeople = peopleNum >= MIN_PAX && peopleNum <= 7; // >7 só “Enviar pedido”
+  const hasAvail  = isAvailabilityOK(periodVal);
 
+  // novos obrigatórios
+  const hasName    = fieldNotEmpty('#name');
+  const hasEmail   = fieldNotEmpty('#email');
+  const hasCountry = fieldNotEmpty('#country');
 
-    // novos obrigatórios
-    const hasName    = fieldNotEmpty('#name');
-    const hasEmail   = fieldNotEmpty('#email');
-    const hasCountry = fieldNotEmpty('#country');
+  // FINAL: todos obrigatórios excepto observações
+  const ok = hasTrail && hasPeople && hasDate &&
+             hasPeriod && hasAvail &&
+             hasName && hasEmail && hasCountry;
 
-    // FINAL: todos obrigatórios excepto observações
-    const ok = hasTrail && hasPeople && hasDate &&
-               hasPeriod && hasAvail &&
-               hasName && hasEmail && hasCountry;
+  // botão "Efetuar reserva"
+  const openBtn = $('#btn-open-reserve');
+  if (openBtn) {
+    openBtn.disabled = !ok;
 
-    // botão "Efetuar reserva"
-    const openBtn = $('#btn-open-reserve');
-    if (openBtn) {
-      // atributo disabled
-      openBtn.disabled = !ok;
-
-      // classes visuais
-      openBtn.classList.toggle('btn-primary',  ok);
-      openBtn.classList.toggle('btn-disabled', !ok);
-      openBtn.classList.toggle('btn-ghost',    !ok);
-    }
-
-    // usado pelo openReserveModal()
-    return { ok, hasTrail, hasPeople, hasDate, hasPeriod, hasAvail };
+    // classes visuais
+    openBtn.classList.toggle('btn-primary',  ok);
+    openBtn.classList.toggle('btn-disabled', !ok);
+    openBtn.classList.toggle('btn-ghost',    !ok);
   }
+
+  // usado pelo openReserveModal()
+  return { ok, hasTrail, hasPeople, hasDate, hasPeriod, hasAvail };
+}
+
   // Atualiza o resumo da reserva + botão de pagamento
   function syncReserveSummary() {
     const {
