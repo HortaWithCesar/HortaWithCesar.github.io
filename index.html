@@ -2935,6 +2935,10 @@ a[aria-disabled="true"] {
       <textarea id="notes" name="notes" data-i18n-placeholder="booking.ph.notes" placeholder="Preferências, restrições, horários..."></textarea>
     </div>
     </div>
+<div style="display:none;">
+  <label>HP</label>
+  <input type="text" name="hp_field" id="hp_field">
+</div>
 
     <div class="booking-actions">
   <button id="btn-send"
@@ -4509,7 +4513,14 @@ $('#rv-modal')?.addEventListener('click', ev => {
 });
 
 // Botão "Enviar pedido" dentro do modal
-$('#rv-send')?.addEventListener('click', () => {
+$('#rv-send')?.addEventListener('click', (e) => {
+  // — HONEYPOT ANTI-BOT —
+  const hp = document.getElementById('hp_field')?.value ?? "";
+  if (hp.trim() !== "") {
+    console.warn("BOT DETECTADO — submissão bloqueada.");
+    e.preventDefault();
+    return;
+  }
   $('#booking-form')?.requestSubmit?.();
   closeReserveModal();
 });
