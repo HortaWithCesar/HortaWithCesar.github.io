@@ -4140,12 +4140,11 @@ async function checkAvailability(){
     $avail.setAttribute('data-i18n', 'booking.availability.unknown');
     $pay && ($pay.disabled = true);
     return;
-  
-  // estado "loading" enquanto consulta o calendário
+    }
   $avail.textContent = dict["booking.avail.loading"] || "A verificar...";
   $avail.dataset.state = "pending";
   $avail.setAttribute("data-i18n", "booking.avail.loading");
-    }
+  if (typeof window.validateBooking === 'function') window.validateBooking();
   
   try {
     const slots = await checkDaySlots(val);
