@@ -3486,6 +3486,7 @@ a[aria-disabled="true"] {
 "booking.warn.group8": "Para grupos de 8 ou mais pessoas, deve contactar primeiro através do botão 'Enviar Pedido'",
 "trail.disabled.msg": "Este trilho está temporariamente indisponível. Voltará a estar disponível assim que eu estiver certificado para a descida da Caldeira.",
 "trail.unavailable": "Temporariamente indisponível.",
+"booking.avail.loading: “A verificar…”,
 
 
         "rv.title": "Resumo da reserva",
@@ -3708,6 +3709,7 @@ a[aria-disabled="true"] {
 "booking.warn.group8": "For groups of 8 or more people, please contact me first using the 'Send Request'",
 "trail.disabled.msg": "This trail is temporarily unavailable. It will be available again once I am certified to guide the Caldeira descent.",
 "trail.unavailable": "Temporarily unavailable.",
+"booking.avail.loading: “Checking…”,
 
 
         "rv.title": "Reservation summary",
@@ -4137,7 +4139,11 @@ async function checkAvailability(){
     $pay && ($pay.disabled = true);
     return;
   }
-
+  // estado "loading" enquanto consulta o calendário
+  $avail.textContent = dict["booking.avail.loading"] || "A verificar...";
+  $avail.dataset.state = "pending";
+  $avail.setAttribute("data-i18n", "booking.avail.loading");
+  
   try {
     const slots = await checkDaySlots(val);
 
