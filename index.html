@@ -2965,7 +2965,7 @@ a[aria-disabled="true"] {
       <span id="rv-availability"
             class="availability-badge"
             data-state="pending"
-            data-i18n="booking.availability.unknown">—</span>
+            data-i18n="booking.availability.unknown">Selecione uma data</span>
     </div>
   </div>
 
@@ -3375,7 +3375,7 @@ a[aria-disabled="true"] {
 "booking.label.period": "Período do dia",
 "booking.label.notes": "Observações",
 "booking.label.availability": "Disponibilidade",
-"booking.availability.unknown": "—",
+"booking.availability.unknown": "Selecione uma data",
 "booking.ph.period": "Selecionar...",
 "booking.period.morning": "Manhã",
 "booking.period.afternoon": "Tarde",
@@ -3599,7 +3599,7 @@ a[aria-disabled="true"] {
 "booking.label.period": "Time of day",
 "booking.label.notes": "Notes",
 "booking.label.availability": "Availability",
-"booking.availability.unknown": "—",
+"booking.availability.unknown": "Select a day",
 "booking.period.morning": "Morning",
 "booking.period.afternoon": "Afternoon",
 "booking.period.other": "Other",
@@ -4097,7 +4097,7 @@ async function checkAvailability() {
   const val = $date.value;
 
   if (!val) {
-    $avail.textContent = dict["booking.availability.unknown"] || '—';
+    $avail.textContent = dict["booking.availability.unknown"] || 'Selecione uma data';
     $avail.dataset.state = 'pending';
     $avail.setAttribute('data-i18n', 'booking.availability.unknown');
     $pay && ($pay.disabled = true);
@@ -4149,7 +4149,7 @@ async function checkAvailability() {
       return;
     }
 
-    $avail.textContent = dict["booking.availability.unknown"] || '—';
+    $avail.textContent = dict["booking.availability.unknown"] || 'Select a day';
     $avail.dataset.state = 'pending';
     $pay && ($pay.disabled = true);
     if (typeof window.validateBooking === 'function') window.validateBooking();
@@ -5177,7 +5177,7 @@ async function checkAvailability() {
   const val = $date.value;
 
   if (!val) {
-    $avail.textContent = dict["booking.availability.unknown"] || '—';
+    $avail.textContent = dict["booking.availability.unknown"] || 'Selecione uma data';
     $avail.dataset.state = 'pending';
     $avail.setAttribute('data-i18n', 'booking.availability.unknown');
     if ($pay) $pay.disabled = true;
@@ -5230,7 +5230,7 @@ async function checkAvailability() {
     }
 
     // fallback
-    $avail.textContent = dict["booking.availability.unknown"] || '—';
+    $avail.textContent = dict["booking.availability.unknown"] || 'Select a day';
     $avail.dataset.state = 'pending';
     if ($pay) $pay.disabled = true;
 
