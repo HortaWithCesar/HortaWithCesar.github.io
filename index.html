@@ -4001,33 +4001,23 @@ function eur(v){ return v == null ? "—" : v.toLocaleString('pt-PT',{style:'cur
 
 <script>
 /* ===== Disponibilidade por blocos (manhã/tarde) via Google Calendar ===== */
-/* Requer: calendário público (livre/ocupado) + API key restrita ao teu domínio */
 
-const GCAL_ID  = 'hortawithcesar@gmail.com';        // teu calendário
-const GCAL_KEY = 'AIzaSyBJ79Q2R7X7tpzr8XnY3VCBcu6i45Cujc8'; // <-- substitui pela nova chave
+const GCAL_ID  = 'hortawithcesar@gmail.com';
+const GCAL_KEY = 'AIzaSyBJ79Q2R7X7tpzr8XnY3VCBcu6i45Cujc8';
 
-// elementos já existentes no teu formulário
-const $date  = document.getElementById('bk-date') || document.getElementById('date_from') || document.getElementById('date');
-const $avail = document.getElementById('rv-availability');   // <— novo ID
-const $pay   = document.getElementById('bk-pay');            // podes deixar assim mesmo, não faz mal
+const MORNING   = { hStart: 8,  hEnd: 12 };
+const AFTERNOON = { hStart: 14, hEnd: 18 };
 
-// (ajusta aqui os teus horários de trabalho se quiseres)
-const MORNING = { hStart: 8,  hEnd: 12 };  // 08:00–12:00
-const AFTERNOON = { hStart: 14, hEnd: 18 }; // 14:00–18:00
-
-function ymd(d){ const p=n=>String(n).padStart(2,'0'); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`; }
 function toISOAt(d, h=0, m=0, s=0){
   const x = new Date(d.getFullYear(), d.getMonth(), d.getDate(), h, m, s);
   return x.toISOString();
 }
 
-// verifica sobreposição entre [a1,a2) e [b1,b2)
 function overlaps(aStart, aEnd, bStart, bEnd){
   return aStart < bEnd && bStart < aEnd;
 }
 
 async function fetchDayEvents(yyyy_mm_dd){
-  // janela do dia: [00:00, 24:00) hora local
   const [Y,M,D] = yyyy_mm_dd.split('-').map(Number);
   const day = new Date(Y, M-1, D);
   const timeMin = toISOAt(day, 0, 0, 0);
@@ -4050,51 +4040,7 @@ async function fetchDayEvents(yyyy_mm_dd){
 async function checkDaySlots(yyyy_mm_dd){
   const events = await fetchDayEvents(yyyy_mm_dd);
 
-  // intervalos do dia alvo
   const [Y,M,D] = yyyy_mm_dd.split('-').map(Number);
-  const day = new Date(Y, M-1, D);
-  const morningStart = new Date(Y, M-1, D, MORNING.hStart, 0, 0);
-  const morningEnd   = new Date(Y, M-1, D, MORNING.hEnd,   0, 0);
-  const afternoonStart = new Date(Y, M-1, D, AFTERNOON.hStart, 0, 0);
-  const afternoonEnd   = new Date(Y, M-1, D, AFTERNOON.hEnd,   0, 0);
-
-  let morningBusy = false;
-  let afternoonBusy = false;
-  let allDayBusy = false;
-
-  for(const ev of events){
-    const sISO = ev.start?.dateTime || ev.start?.date;
-    const eISO = ev.end?.dateTime   || ev.end?.date;
-    if(!sISO || !eISO) continue;
-
-    // all-day: start/end em formato 'YYYY-MM-DD'
-    const isAllDay = (ev.start?.date && ev.end?.date);
-    if(isAllDay){
-      allDayBusy = true; break; // o dia todo indisponível
-    }
-
-    const s = new Date(sISO);
-    const e = new Date(eISO);
-
-    if(overlaps(s, e, morningStart, morningEnd))   morningBusy = true;
-    if(overlaps(s, e, afternoonStart, afternoonEnd)) afternoonBusy = true;
-
-    if(morningBusy && afternoonBusy) break;
-  }
-
-  return {
-    morningFree: !morningBusy && !allDayBusy,
-    afternoonFree: !afternoonBusy && !allDayBusy,
-    allDayBusy
-  };
-}
-
-// devolve { morningFree, afternoonFree, allDayBusy }
-async function checkDaySlots(yyyy_mm_dd){
-  const events = await fetchDayEvents(yyyy_mm_dd);
-
-  const [Y,M,D] = yyyy_mm_dd.split('-').map(Number);
-  const day = new Date(Y, M-1, D);
   const morningStart   = new Date(Y, M-1, D, MORNING.hStart,   0, 0);
   const morningEnd     = new Date(Y, M-1, D, MORNING.hEnd,     0, 0);
   const afternoonStart = new Date(Y, M-1, D, AFTERNOON.hStart, 0, 0);
@@ -4110,10 +4056,7 @@ async function checkDaySlots(yyyy_mm_dd){
     if(!sISO || !eISO) continue;
 
     const isAllDay = (ev.start?.date && ev.end?.date);
-    if(isAllDay){
-      allDayBusy = true;
-      break;
-    }
+    if(isAllDay){ allDayBusy = true; break; }
 
     const s = new Date(sISO);
     const e = new Date(eISO);
@@ -4158,6 +4101,7 @@ async function checkAvailability() {
     $avail.dataset.state = 'pending';
     $avail.setAttribute('data-i18n', 'booking.availability.unknown');
     $pay && ($pay.disabled = true);
+    if (typeof window.validateBooking === 'function') window.validateBooking();
     return;
   }
 
@@ -4174,6 +4118,7 @@ async function checkAvailability() {
       $avail.dataset.state = 'busy';
       $avail.setAttribute('data-i18n', 'booking.avail.unavailable');
       $pay && ($pay.disabled = true);
+      if (typeof window.validateBooking === 'function') window.validateBooking();
       return;
     }
 
@@ -4182,6 +4127,7 @@ async function checkAvailability() {
       $avail.dataset.state = 'both';
       $avail.setAttribute('data-i18n', 'booking.avail.both');
       $pay && ($pay.disabled = false);
+      if (typeof window.validateBooking === 'function') window.validateBooking();
       return;
     }
 
@@ -4190,6 +4136,7 @@ async function checkAvailability() {
       $avail.dataset.state = 'morning';
       $avail.setAttribute('data-i18n', 'booking.avail.morning');
       $pay && ($pay.disabled = false);
+      if (typeof window.validateBooking === 'function') window.validateBooking();
       return;
     }
 
@@ -4198,13 +4145,14 @@ async function checkAvailability() {
       $avail.dataset.state = 'afternoon';
       $avail.setAttribute('data-i18n', 'booking.avail.afternoon');
       $pay && ($pay.disabled = false);
+      if (typeof window.validateBooking === 'function') window.validateBooking();
       return;
     }
 
-    // fallback se vier um objeto estranho
     $avail.textContent = dict["booking.availability.unknown"] || '—';
     $avail.dataset.state = 'pending';
     $pay && ($pay.disabled = true);
+    if (typeof window.validateBooking === 'function') window.validateBooking();
 
   } catch (err) {
     console.error('[checkAvailability] erro:', err);
@@ -4212,15 +4160,13 @@ async function checkAvailability() {
     $avail.dataset.state = 'error';
     $avail.setAttribute('data-i18n', 'booking.avail.error');
     $pay && ($pay.disabled = true);
+    if (typeof window.validateBooking === 'function') window.validateBooking();
   }
 }
 
-  // Sempre que a disponibilidade muda, volta a validar o formulário
-  if (typeof window.validateBooking === 'function') {
-    window.validateBooking();
-  }
-}
-
+// listeners (input + change) - funciona mesmo com modal dinâmico
+document.addEventListener('input',  (e) => { if (e.target?.id === 'date_from') checkAvailability(); });
+document.addEventListener('change', (e) => { if (e.target?.id === 'date_from') checkAvailability(); });
 </script>
 <script>
 (() => {
