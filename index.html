@@ -3929,6 +3929,12 @@ alert(dict["trail.disabled.msg"] || "Este trilho está temporariamente indispon�
     }
   });
 })();
+    document.addEventListener('input', (e) => {
+  if (e.target && e.target.id === 'date_from') checkAvailability();
+});
+document.addEventListener('change', (e) => {
+  if (e.target && e.target.id === 'date_from') checkAvailability();
+});
 </script>
 
 
@@ -4126,24 +4132,45 @@ async function checkDaySlots(yyyy_mm_dd){
 }
 
 // === Atualiza badge de disponibilidade ===
-async function checkAvailability(){
+async function checkAvailability() {
+  // Re-apanha os elementos SEMPRE que a função corre (modal friendly)
+  const $date  =
+    document.getElementById('bk-date') ||
+    document.getElementById('date_from') ||
+    document.getElementById('date');
+
+  const $avail = document.getElementById('rv-availability');
+
+  // Botão pagar/confirmar (usa os teus IDs possíveis)
+  const $pay =
+    document.getElementById('bk-pay') ||
+    document.getElementById('pay') ||
+    document.querySelector('[data-pay-btn]');
+
+  // Se ainda não existe no DOM, não há nada a fazer
   if (!$date || !$avail) return;
 
+  // i18n (mantive a tua estrutura)
   const lang = localStorage.getItem('hwc_lang') || 'pt';
   const root = window.I18N || {};
   const dict = root[lang] || root.pt || {};
 
   const val = $date.value;
-  if (!val){
+
+  // Sem data -> estado neutro (mostra algo SEMPRE)
+  if (!val) {
     $avail.textContent = dict["booking.availability.unknown"] || '—';
     $avail.dataset.state = 'pending';
     $avail.setAttribute('data-i18n', 'booking.availability.unknown');
     $pay && ($pay.disabled = true);
     return;
-    }
+  }
+
+  // A verificar...
   $avail.textContent = dict["booking.avail.loading"] || "A verificar...";
   $avail.dataset.state = "pending";
   $avail.setAttribute("data-i18n", "booking.avail.loading");
+
   if (typeof window.validateBooking === 'function') window.validateBooking();
   
   try {
