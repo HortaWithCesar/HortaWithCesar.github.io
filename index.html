@@ -4133,31 +4133,26 @@ async function checkDaySlots(yyyy_mm_dd){
 
 // === Atualiza badge de disponibilidade ===
 async function checkAvailability() {
-  // Re-apanha os elementos SEMPRE que a função corre (modal friendly)
-  const $date  =
+  const $date =
     document.getElementById('bk-date') ||
     document.getElementById('date_from') ||
     document.getElementById('date');
 
   const $avail = document.getElementById('rv-availability');
 
-  // Botão pagar/confirmar (usa os teus IDs possíveis)
   const $pay =
     document.getElementById('bk-pay') ||
     document.getElementById('pay') ||
     document.querySelector('[data-pay-btn]');
 
-  // Se ainda não existe no DOM, não há nada a fazer
   if (!$date || !$avail) return;
 
-  // i18n (mantive a tua estrutura)
   const lang = localStorage.getItem('hwc_lang') || 'pt';
   const root = window.I18N || {};
-  const dict = root[lang] || root.pt || {};
+  const dict = (root[lang] || root.pt || {});
 
   const val = $date.value;
 
-  // Sem data -> estado neutro (mostra algo SEMPRE)
   if (!val) {
     $avail.textContent = dict["booking.availability.unknown"] || '—';
     $avail.dataset.state = 'pending';
@@ -4166,13 +4161,11 @@ async function checkAvailability() {
     return;
   }
 
-  // A verificar...
   $avail.textContent = dict["booking.avail.loading"] || "A verificar...";
   $avail.dataset.state = "pending";
   $avail.setAttribute("data-i18n", "booking.avail.loading");
-
   if (typeof window.validateBooking === 'function') window.validateBooking();
-  
+
   try {
     const slots = await checkDaySlots(val);
 
@@ -4184,40 +4177,49 @@ async function checkAvailability() {
       return;
     }
 
-   if (slots.morningFree && slots.afternoonFree) {
-  $avail.textContent = dict["booking.avail.both"] || 'Disponível: manhã e tarde';
-  $avail.dataset.state = 'both';
-  $avail.setAttribute('data-i18n', 'booking.avail.both');
-} else if (slots.morningFree) {
-  $avail.textContent = dict["booking.avail.morning"] || 'Disponível: manhã';
-  $avail.dataset.state = 'morning';
-  $avail.setAttribute('data-i18n', 'booking.avail.morning');
-} else if (slots.afternoonFree) {
-  $avail.textContent = dict["booking.avail.afternoon"] || 'Disponível: tarde';
-  $avail.dataset.state = 'afternoon';
-  $avail.setAttribute('data-i18n', 'booking.avail.afternoon');
-} else {
-  $avail.textContent = dict["booking.avail.unavailable"] || 'Indisponível';
-  $avail.dataset.state = 'busy';
-  $avail.setAttribute('data-i18n', 'booking.avail.unavailable');
-}
+    if (slots.morningFree && slots.afternoonFree) {
+      $avail.textContent = dict["booking.avail.both"] || 'Disponível: manhã e tarde';
+      $avail.dataset.state = 'both';
+      $avail.setAttribute('data-i18n', 'booking.avail.both');
+      $pay && ($pay.disabled = false);
+      return;
+    }
 
-    } catch (err){
-    console.error(err);
-    $avail.textContent = dict["booking.avail.error"] || 'Não foi possível verificar';
+    if (slots.morningFree) {
+      $avail.textContent = dict["booking.avail.morning"] || 'Disponível: manhã';
+      $avail.dataset.state = 'morning';
+      $avail.setAttribute('data-i18n', 'booking.avail.morning');
+      $pay && ($pay.disabled = false);
+      return;
+    }
+
+    if (slots.afternoonFree) {
+      $avail.textContent = dict["booking.avail.afternoon"] || 'Disponível: tarde';
+      $avail.dataset.state = 'afternoon';
+      $avail.setAttribute('data-i18n', 'booking.avail.afternoon');
+      $pay && ($pay.disabled = false);
+      return;
+    }
+
+    // fallback se vier um objeto estranho
+    $avail.textContent = dict["booking.availability.unknown"] || '—';
     $avail.dataset.state = 'pending';
+    $pay && ($pay.disabled = true);
+
+  } catch (err) {
+    console.error('[checkAvailability] erro:', err);
+    $avail.textContent = dict["booking.avail.error"] || 'Erro ao verificar';
+    $avail.dataset.state = 'error';
     $avail.setAttribute('data-i18n', 'booking.avail.error');
+    $pay && ($pay.disabled = true);
   }
+}
 
   // Sempre que a disponibilidade muda, volta a validar o formulário
   if (typeof window.validateBooking === 'function') {
     window.validateBooking();
   }
 }
-
-
-
-$date && $date.addEventListener('change', checkAvailability);
 
 </script>
 <script>
