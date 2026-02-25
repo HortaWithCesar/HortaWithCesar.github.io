@@ -5206,7 +5206,112 @@ function startLoop() {
 })();
 </script>
 
+<script>
+/* ===== Disponibilidade por blocos (manhã/tarde) ===== */
 
+async function checkAvailability() {
+  const $date =
+    document.getElementById('bk-date') ||
+    document.getElementById('date_from') ||
+    document.getElementById('date');
+
+  const $avail = document.getElementById('rv-availability');
+
+  const $pay =
+    document.getElementById('bk-pay') ||
+    document.getElementById('pay') ||
+    document.querySelector('[data-pay-btn]');
+
+  if (!$date || !$avail) return;
+
+  const lang = localStorage.getItem('hwc_lang') || 'pt';
+  const root = window.I18N || {};
+  const dict = (root[lang] || root.pt || {});
+
+  const val = $date.value;
+
+  if (!val) {
+    $avail.textContent = dict["booking.availability.unknown"] || '—';
+    $avail.dataset.state = 'pending';
+    $avail.setAttribute('data-i18n', 'booking.availability.unknown');
+    if ($pay) $pay.disabled = true;
+    if (typeof window.validateBooking === 'function') window.validateBooking();
+    return;
+  }
+
+  $avail.textContent = dict["booking.avail.loading"] || "A verificar...";
+  $avail.dataset.state = "pending";
+  $avail.setAttribute("data-i18n", "booking.avail.loading");
+  if (typeof window.validateBooking === 'function') window.validateBooking();
+
+  try {
+    const slots = await checkDaySlots(val);
+
+    if (slots.allDayBusy) {
+      $avail.textContent = dict["booking.avail.unavailable"] || 'Indisponível';
+      $avail.dataset.state = 'busy';
+      $avail.setAttribute('data-i18n', 'booking.avail.unavailable');
+      if ($pay) $pay.disabled = true;
+      if (typeof window.validateBooking === 'function') window.validateBooking();
+      return;
+    }
+
+    if (slots.morningFree && slots.afternoonFree) {
+      $avail.textContent = dict["booking.avail.both"] || 'Disponível: manhã e tarde';
+      $avail.dataset.state = 'both';
+      $avail.setAttribute('data-i18n', 'booking.avail.both');
+      if ($pay) $pay.disabled = false;
+      if (typeof window.validateBooking === 'function') window.validateBooking();
+      return;
+    }
+
+    if (slots.morningFree) {
+      $avail.textContent = dict["booking.avail.morning"] || 'Disponível: manhã';
+      $avail.dataset.state = 'morning';
+      $avail.setAttribute('data-i18n', 'booking.avail.morning');
+      if ($pay) $pay.disabled = false;
+      if (typeof window.validateBooking === 'function') window.validateBooking();
+      return;
+    }
+
+    if (slots.afternoonFree) {
+      $avail.textContent = dict["booking.avail.afternoon"] || 'Disponível: tarde';
+      $avail.dataset.state = 'afternoon';
+      $avail.setAttribute('data-i18n', 'booking.avail.afternoon');
+      if ($pay) $pay.disabled = false;
+      if (typeof window.validateBooking === 'function') window.validateBooking();
+      return;
+    }
+
+    // fallback
+    $avail.textContent = dict["booking.availability.unknown"] || '—';
+    $avail.dataset.state = 'pending';
+    if ($pay) $pay.disabled = true;
+
+  } catch (err) {
+    console.error('[checkAvailability] erro:', err);
+    $avail.textContent = dict["booking.avail.error"] || 'Erro ao verificar';
+    $avail.dataset.state = 'error';
+    $avail.setAttribute('data-i18n', 'booking.avail.error');
+    if ($pay) $pay.disabled = true;
+  }
+
+  if (typeof window.validateBooking === 'function') window.validateBooking();
+}
+
+// listeners (input + change)
+// listeners (input + change)
+document.addEventListener('input', (e) => {
+  if (e.target?.id === 'date_from') checkAvailability();
+});
+document.addEventListener('change', (e) => {
+  if (e.target?.id === 'date_from') checkAvailability();
+});
+
+// corre uma vez ao abrir o modal/página (não custa)
+checkAvailability();
+  setTimeout(checkAvailability, 0);
+</script>
 
 </body>
 </html>
