@@ -1920,7 +1920,27 @@ a[aria-disabled="true"] {
   outline: 3px solid rgba(14,165,233,.35);
   outline-offset: 3px;
 }
+/* ===== Floating WhatsApp: versão marca (verde) ===== */
+.floating-actions .fab-whatsapp{
+  background:#25D366;
+  border:none;
+  box-shadow: 0 10px 26px rgba(37,99,235,.12), 0 10px 22px rgba(34,197,94,.25);
+}
 
+.floating-actions .fab-whatsapp:hover{
+  background:#1ebe5b;
+}
+
+/* ícone bem centrado e sem “quadrados” */
+.floating-actions .fab-whatsapp img{
+  width:30px;
+  height:30px;
+  display:block;
+  object-fit:contain;
+  border-radius:0;      /* tira arredondado falso */
+  filter: brightness(0) invert(1); /* força branco se o teu ícone for verde */
+}
+    
 /* MOBILE: ajustes barra fixa + botões flutuantes */
 @media (max-width:640px){
 
