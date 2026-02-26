@@ -5264,9 +5264,9 @@ document.addEventListener('change', (e) => {
 checkAvailability();
   setTimeout(checkAvailability, 0);
 </script>
+  
 <script>
 (function(){
-
   function renderTrailPrices(){
     const lang = localStorage.getItem('hwc_lang') || 'pt';
     const isEN = lang === 'en';
@@ -5275,32 +5275,40 @@ checkAvailability();
     const perLabel  = isEN ? "person" : "pessoa";
 
     document.querySelectorAll('.trail-card').forEach(card=>{
-      const price = card.dataset.price;
-      if(!price) return;
+      // aceita data-price-from OU data-price (caso uses mais tarde)
+      const raw = card.dataset.priceFrom ?? card.dataset.price;
+      if(!raw) return;
+
+      // raw pode ser "40", "90", "30€ /px" etc. → vamos tirar só o número
+      const num = String(raw).match(/\d+([.,]\d+)?/);
+      if(!num) return;
+
+      const price = num[0].replace(',', '.');
 
       const body  = card.querySelector('.trail-body');
       const title = body?.querySelector('.trail-title');
       if(!body || !title) return;
 
-      if(body.querySelector('.trail-price')) return;
+      // se já existe, atualiza (para trocar PT/EN)
+      let p = body.querySelector('.trail-price');
+      if(!p){
+        p = document.createElement('p');
+        p.className = 'trail-price';
+        title.insertAdjacentElement('afterend', p);
+      }
 
-      const p = document.createElement('p');
-      p.className = 'trail-price';
       p.innerHTML = `
         <span class="trail-price__label">${fromLabel}</span>
         <span class="trail-price__value">${price}€ / ${perLabel}</span>
       `;
 
-      title.insertAdjacentElement('afterend', p);
-
-      // também atualiza para o modal
+      // mantém o modal coerente
       card.dataset.priceFrom = `${price}€ / ${perLabel}`;
     });
   }
 
   document.addEventListener('DOMContentLoaded', renderTrailPrices);
   window.renderTrailPrices = renderTrailPrices;
-
 })();
 </script>
 </body>
