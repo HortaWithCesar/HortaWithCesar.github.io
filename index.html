@@ -1940,6 +1940,25 @@ a[aria-disabled="true"] {
   border-radius:0;      /* tira arredondado falso */
   filter: brightness(0) invert(1); /* força branco se o teu ícone for verde */
 }
+    /* FAB WhatsApp: ícone branco sem quadrado (mask) */
+.floating-actions .fab-whatsapp{
+  background:#25D366;
+  border:none;
+}
+
+.floating-actions .fab-whatsapp img{
+  display:none; /* escondemos a imagem normal */
+}
+
+.floating-actions .fab-whatsapp::before{
+  content:"";
+  width:30px;
+  height:30px;
+  background:#fff;
+
+  -webkit-mask: url("whatsapp-icon.jpg") center / contain no-repeat;
+  mask: url("whatsapp-icon.jpg") center / contain no-repeat;
+}
     
 /* MOBILE: ajustes barra fixa + botões flutuantes */
 @media (max-width:640px){
