@@ -390,6 +390,29 @@ header.scrolled{
   display:inline-block; background:#fff; border:1px solid var(--line);
   border-radius:999px; padding:6px 10px; font-size:14px
 }
+    /* preço por baixo do título do trilho */
+.trail-price{
+  margin: 10px 0 0;
+  text-align: center;
+  font-weight: 800;
+  font-size: 18px;
+  color: #0f172a;
+}
+
+.trail-price__label{
+  font-weight: 600;
+  opacity: .75;
+  margin-right: 6px;
+}
+
+.trail-price__value{
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(2,6,23,.10);
+  background: rgba(14,165,233,.08);
+}
+    
 .btn{ appearance:none; border:0; border-radius:999px; padding:10px 14px; font-weight:700; cursor:pointer }
 .btn-primary{ background:var(--brand); color:#fff }
 .btn-outline{ background:#fff; border:2px solid var(--brand); color:var(--brand) }
@@ -409,26 +432,6 @@ header.scrolled{
 
 .btn-whatsapp:hover {
   background-color: #1ebe5b;
-  transform: translateY(-2px);
-}
-
-/* Botão Ver Condições - azul com fundo branco */
-.btn-conditions {
-  color: #007bff;
-  background-color: #fff;
-  border: 2px solid #007bff;
-  padding: 12px 24px;
-  border-radius: 50px;
-  font-weight: 700;
-  font-size: 16px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  display: inline-block;
-}
-
-.btn-conditions:hover {
-  background-color: #007bff;
-  color: #fff;
   transform: translateY(-2px);
 }
 
@@ -2113,7 +2116,7 @@ a[aria-disabled="true"] {
     <!-- CITY WALK HORTA -->
 <article class="trail-card trail-card-featured reveal"
   data-trail="City Walk • Horta a pé"
-  data-price-from="30€ /px"
+  data-price-from="30"
   data-brief="Ideal para conhecer a cidade da Horta. Preço base para 1 pessoa. Ponto de encontro Pousada de Santa Cruz."
   data-brief-en="Ideal for discovering the city of Horta. Base price for 1 person. Meeting point: Pousada de Santa Cruz.">
         <div class="trail-media">
@@ -2219,7 +2222,7 @@ a[aria-disabled="true"] {
       <!-- ENTRE MONTES -->
       <article class="trail-card reveal"
   data-trail="Entre Montes (Horta)"
-  data-price-from="40€ / px"
+  data-price-from="40"
   data-brief="Ideal para Natureza e História. Preço base para 1 pessoa. Ponto de encontro Peter Cafe Sport."
     data-brief-en="Ideal for Nature and History lovers. Base price for 1 person. Meeting point: Peter Café Sport.">
           <div class="trail-media">
@@ -2284,7 +2287,7 @@ a[aria-disabled="true"] {
       <!-- MIRADOURO DO NEPTUNO -->
       <article class="trail-card reveal"
   data-trail="Miradouro do Neptuno"
-  data-price-from="35€ / px"
+  data-price-from="35"
   data-brief="Ideal para fotografia. Preço base para 1 pessoa. Ponto de encontro Museu Fabrica da Baleia."
     data-brief-en="Ideal for photography. Base price for 1 person. Meeting point: Whale Factory Museum.">
         
@@ -2348,7 +2351,7 @@ a[aria-disabled="true"] {
       <!-- CALDEIRA (perímetro) -->
       <article class="trail-card reveal"
   data-trail="Caldeira — perímetro"
-  data-price-from="75€ / px"
+  data-price-from="75"
   data-brief="Acesso sujeito a condições meteorológicas. Preço ajusta com logística e grupo. Ponto de encontro a combinar"
         data-brief-en="Access subject to weather conditions. Price may change with logistics and group size. Meeting point to be arranged">
         <div class="trail-media">
@@ -2407,7 +2410,7 @@ a[aria-disabled="true"] {
       <article class="trail-card reveal"
   data-trail="Caldeira Descida"
   data-disabled="true"
-  data-price-from="130€ /px"
+  data-price-from="130"
   data-brief="Acesso sujeito a condições meteorológicas. Preço ajusta com logística e grupo. Guia certificado pelo Parque Natural dos Açores. Ponto de encontro a combinar"
         data-brief-en="Access subject to weather conditions. Price may change with logistics and group size. Certificated guide of Parque Natural dos Açores. Meeting point to be arranged">
         <div class="trail-media">
@@ -2467,7 +2470,7 @@ a[aria-disabled="true"] {
       <!-- ROCHA DA FAJÃ -->
 <article class="trail-card reveal"
   data-trail="Rocha da Fajã"
-  data-price-from="90€ /px"
+  data-price-from="90"
   data-brief="Acesso sujeito a condições meteorológicas. Preço ajusta com logística e grupo. Ponto de encontro a combinar"
   data-brief-en="Access subject to weather conditions. Price may change with logistics and group size. Meeting point to be arranged">
   <div class="trail-media">
@@ -2526,7 +2529,7 @@ a[aria-disabled="true"] {
       <!-- FAROL DA RIBEIRINHA -->
 <article class="trail-card reveal"
   data-trail="Farol da Ribeirinha"
-  data-price-from="90€ /px"
+  data-price-from="90"
   data-brief="Acesso sujeito a condições meteorológicas. Preço ajusta com logística e grupo. Ponto de encontro a combinar."
   data-brief-en="Access subject to weather conditions. Price may change with logistics and group size. Meeting point to be arranged">
   <div class="trail-media">FOTO • Farol da Ribeirinha</div>
@@ -2564,7 +2567,7 @@ a[aria-disabled="true"] {
       <!-- LEVADAS AO CABEÇO DOS TRINTA -->
 <article class="trail-card reveal"
   data-trail="Levadas ao Cabeço dos Trinta"
-  data-price-from="150€ /px"
+  data-price-from="150"
   data-brief="Acesso sujeito a condições meteorológicas. Preço ajusta com logística e grupo. Ponto de encontro a combinar"
   data-brief-en="Access subject to weather conditions. Price may change with logistics and group size. Meeting point to be arranged">
   <div class="trail-media">FOTO • Levadas ao Cabeço dos Trinta</div>
@@ -2604,7 +2607,7 @@ a[aria-disabled="true"] {
       <!-- CAPELO → CAPELINHOS -->
 <article class="trail-card reveal"
   data-trail="Capelo → Capelinhos "
-  data-price-from="100€ /px "
+  data-price-from="100"
   data-brief="Acesso sujeito a condições meteorológicas. Preço ajusta com logística e grupo. Ponto de encontro a combinar"
   data-brief-en="Access subject to weather conditions. Price may change with logistics and group size. Meeting point to be arranged">
   <div class="trail-media">
@@ -2662,7 +2665,7 @@ a[aria-disabled="true"] {
       <!-- MIRADOURO DA BRAÇA -->
 <article class="trail-card reveal"
   data-trail="Miradouro da Braça"
-  data-price-from="90€ / px"
+  data-price-from="90"
   data-brief="Acesso sujeito a condições meteorológicas. Preço ajusta com logística e grupo. Ponto de encontro a combinar"
   data-brief-en="Access subject to weather conditions. Price may change with logistics and group size. Meeting point to be arranged">
   <div class="trail-media">
@@ -3748,6 +3751,9 @@ document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
   const key = el.getAttribute('data-i18n-placeholder');
   if (dict[key]) el.setAttribute('placeholder', dict[key]);
 });
+        if (typeof window.renderTrailPrices === 'function') {
+  window.renderTrailPrices();
+}
 
       });
 
@@ -5258,6 +5264,44 @@ document.addEventListener('change', (e) => {
 checkAvailability();
   setTimeout(checkAvailability, 0);
 </script>
+<script>
+(function(){
 
+  function renderTrailPrices(){
+    const lang = localStorage.getItem('hwc_lang') || 'pt';
+    const isEN = lang === 'en';
+
+    const fromLabel = isEN ? "From" : "Desde";
+    const perLabel  = isEN ? "person" : "pessoa";
+
+    document.querySelectorAll('.trail-card').forEach(card=>{
+      const price = card.dataset.price;
+      if(!price) return;
+
+      const body  = card.querySelector('.trail-body');
+      const title = body?.querySelector('.trail-title');
+      if(!body || !title) return;
+
+      if(body.querySelector('.trail-price')) return;
+
+      const p = document.createElement('p');
+      p.className = 'trail-price';
+      p.innerHTML = `
+        <span class="trail-price__label">${fromLabel}</span>
+        <span class="trail-price__value">${price}€ / ${perLabel}</span>
+      `;
+
+      title.insertAdjacentElement('afterend', p);
+
+      // também atualiza para o modal
+      card.dataset.priceFrom = `${price}€ / ${perLabel}`;
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', renderTrailPrices);
+  window.renderTrailPrices = renderTrailPrices;
+
+})();
+</script>
 </body>
 </html>
