@@ -334,24 +334,6 @@ header.scrolled{
   text-align: center;
 }
 
-/* força todos os botões a ter a mesma altura e alinhamento */
-.trail-actions a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 48px;
-}
-
-/* corrige o WhatsApp (ícone redondo) para alinhar no meio */
-.trail-actions .btn-whatsapp,
-.trail-actions .brand-round {
-  width: 46px;
-  height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-}
 
 /* pequeno efeito premium opcional */
 .trail-actions a:hover {
@@ -413,56 +395,119 @@ header.scrolled{
   background: rgba(14,165,233,.08);
 }
     
-.btn{ appearance:none; border:0; border-radius:999px; padding:10px 14px; font-weight:700; cursor:pointer }
-.btn-primary{ background:var(--brand); color:#fff }
-.btn-outline{ background:#fff; border:2px solid var(--brand); color:var(--brand) }
-/* Botão WhatsApp - cor oficial */
-.btn-whatsapp {
-  background-color: #25D366;
-  color: #fff;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 50px;
-  font-weight: 700;
-  font-size: 16px;
-  text-decoration: none;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  display: inline-block;
+/* ===== CTA buttons (Trail cards) ===== */
+.trail-actions{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  align-items:center;
+  margin-top: 10px;
+  flex-wrap: wrap;
 }
 
-.btn-whatsapp:hover {
-  background-color: #1ebe5b;
-  transform: translateY(-2px);
+/* base */
+.btn{
+  appearance:none;
+  border:0;
+  border-radius:999px;
+  padding:12px 18px;
+  font-weight:800;
+  font-size:16px;
+  line-height:1;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  text-decoration:none;
+  user-select:none;
+
+  /* visual polish */
+  box-shadow: 0 8px 18px rgba(2,6,23,.08);
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
 }
 
-/* Efeito hover geral */
-.trail-actions a:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+.btn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(2,6,23,.12);
+}
+.btn:active{
+  transform: translateY(0px) scale(.98);
+  box-shadow: 0 6px 14px rgba(2,6,23,.10);
 }
 
-/* Reservar (azul sólido) */
-.btn-reservar {
-  background: #0ea5e9;
-  color: #fff;
-  border: none;
+/* focus (acessibilidade + “feel” premium) */
+.btn:focus-visible{
+  outline: 3px solid rgba(14,165,233,.35);
+  outline-offset: 3px;
 }
 
-/* WhatsApp (verde app) */
-.btn-whatsapp {
-  background: #25D366;
-  color: #fff;
-  border: none;
+/* primary (Reservar) */
+.btn-primary{
+  color:#fff;
+  background: linear-gradient(135deg, #0ea5e9, #2563eb);
 }
 
-/* Ver condições (borda azul, fundo branco) */
-.btn-conditions {
-  background: #fff;
-  color: #0ea5e9;
-  border: 2px solid #0ea5e9;
+/* secondary outline (Ver condições) */
+.btn-conditions{
+  background:#fff;
+  color:#0ea5e9;
+  border: 2px solid rgba(14,165,233,.55);
+  box-shadow: none; /* fica mais “leve” que o primary */
+}
+.btn-conditions:hover{
+  border-color: rgba(14,165,233,.9);
+  background: rgba(14,165,233,.06);
 }
 
+/* WhatsApp button (ícone) */
+.btn-wa,
+.btn-whatsapp,
+.wa-icon{
+  width:48px;
+  height:48px;
+  border-radius:999px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#fff;
+  border:1px solid rgba(2,6,23,.10);
+  box-shadow: 0 8px 18px rgba(2,6,23,.08);
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+  padding:0;
+  text-decoration:none;
+}
 
+.btn-wa:hover,
+.btn-whatsapp:hover,
+.wa-icon:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(2,6,23,.12);
+  background: rgba(34,197,94,.06);
+}
+
+.btn-wa:active,
+.btn-whatsapp:active,
+.wa-icon:active{
+  transform: translateY(0px) scale(.98);
+}
+
+.btn-wa:focus-visible,
+.btn-whatsapp:focus-visible,
+.wa-icon:focus-visible{
+  outline: 3px solid rgba(34,197,94,.30);
+  outline-offset: 3px;
+}
+
+/* tamanho do ícone */
+.btn-wa img,
+.btn-whatsapp img,
+.wa-icon img{
+  width:26px;
+  height:26px;
+  display:block;
+}
+    
 /* animação de entrada */
 .reveal{ opacity:0; transform: translateY(14px); }
 .reveal.in{ opacity:1; transform:none; transition: all .55s ease }
@@ -800,35 +845,6 @@ body.modal-open{ overflow:hidden; }
   display: block;
 }
 
-
-/* ===== Ajuste final do logótipo oficial do WhatsApp ===== */
-
-/* versão usada nos trilhos e contactos */
-.brand-round, .btn-whatsapp {
-  width:46px;            /* tamanho fixo mais pequeno */
-  height:46px;
-  border-radius:50%;
-  display:inline-grid;
-  place-items:center;
-  background:#fff;
-  border:1px solid rgba(2,6,23,.08);
-  overflow:hidden;
-  box-shadow:0 6px 14px rgba(2,6,23,.06);
-  transition:transform .2s ease, filter .2s ease;
-  padding:0 !important;
-}
-.brand-round:hover, .btn-whatsapp:hover {
-  transform:translateY(-1px);
-  filter:brightness(1.05);
-}
-
-/* imagem do logotipo */
-.brand-round img, .btn-whatsapp img {
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  display:block;
-}
 
 /* modal: ícone + texto */
 .brand-stack {
