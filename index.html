@@ -2349,7 +2349,25 @@ a[aria-disabled="true"] {
     flex-shrink:0;
   }
 }
+@media (max-width:768px){
 
+  /* Links adaptam-se ao tamanho do ecrã */
+  .header-right .main-nav a{
+    font-size: clamp(11px, 3.2vw, 14px);
+  }
+
+  /* Espaçamento também adapta */
+  .header-right .main-nav{
+    gap: clamp(8px, 2.5vw, 14px);
+  }
+
+  /* PT/EN encolhe proporcionalmente */
+  .lang-toggle button{
+    font-size: clamp(11px, 3vw, 14px);
+    padding: clamp(4px, 1.5vw, 8px) clamp(8px, 2.5vw, 14px);
+  }
+
+}
   </style>
 </head>
 <body>
