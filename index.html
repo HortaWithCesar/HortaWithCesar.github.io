@@ -94,6 +94,41 @@ body{
   background: var(--bg);
   padding-top: var(--header-h);
 }
+
+    /* ===== Language Toggle (pill style original) ===== */
+.lang-toggle{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px;
+  border-radius:999px;
+  background:#f1f5f9;
+  border:1px solid rgba(2,6,23,.08);
+  box-shadow:0 6px 18px rgba(2,6,23,.06);
+}
+
+.lang-toggle button{
+  appearance:none;
+  border:0;
+  cursor:pointer;
+  padding:10px 16px;
+  border-radius:999px;
+  font-weight:800;
+  font-size:14px;
+  background:transparent;
+  color:#0f172a;
+  transition:all .15s ease;
+}
+
+.lang-toggle button:hover{
+  background:rgba(14,165,233,.10);
+}
+
+.lang-toggle button.active{
+  background:#0ea5e9;
+  color:#fff;
+  box-shadow:0 10px 22px rgba(14,165,233,.25);
+}
 /* ===== Layout do header (limpo e consistente) ===== */
 .header-inner{
   display:flex;
@@ -117,36 +152,6 @@ body{
   flex:1;
 }
 
-.lang-switch{ flex-shrink:0; }
-
-/* MOBILE: header vira 2 linhas -> aumenta o padding-top do body */
-@media (max-width:768px){
-  :root{ --header-h: 118px; } /* altura real aproximada em mobile com menu em 2 linhas */
-
-  .header-inner{
-    flex-wrap:wrap;
-    min-height: var(--header-h);
-    padding:10px 0;
-  }
-
-  .main-nav{
-    width:100%;
-    order:3;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:16px;
-    margin-top:8px;
-  }
-
-  .lang-switch{
-    margin-left:auto;
-  }
-}
-    nav a{color:var(--fg);text-decoration:none;margin-left:18px;font-weight:600}
-    nav a:hover{color:var(--brand)}
-    .lang-toggle{display:inline-flex;gap:6px;background:var(--card);border:1px solid var(--line);padding:6px;border-radius:999px}
-    .lang-toggle button{border:0;background:transparent;padding:6px 10px;border-radius:999px;font-weight:700;cursor:pointer}
-    .lang-toggle button.active{background:var(--brand);color:#fff}
 
     .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center;padding:56px 0}
     .hero .media{min-height:260px;border:2px dashed var(--line);border-radius:16px;display:grid;place-items:center;font-weight:700;color:var(--muted)}
@@ -689,6 +694,46 @@ select {
   }
 }
 
+    /* MOBILE clean: header 1 linha, sem virar “2 linhas” */
+@media (max-width: 768px){
+
+  /* garante que a barra não cresce demais */
+  header .wrap{
+    padding-inline: 12px;
+  }
+
+  .header-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    min-height:72px;     /* altura real e estável */
+    padding:10px 0;
+    flex-wrap:nowrap;    /* IMPORTANTE: não deixar quebrar em 2 linhas */
+  }
+
+  /* menu em linha, mas mais compacto */
+  .main-nav{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    flex:1;              /* ocupa o meio */
+    flex-wrap:nowrap;
+  }
+
+  /* se faltar espaço, deixa o texto menor antes de quebrar layout */
+  .main-nav a{
+    font-size:16px;
+    white-space:nowrap;
+  }
+
+  /* switch de língua encostado à direita */
+  .lang-switch{
+    margin-left:0;
+    flex:0 0 auto;
+  }
+}
  /* ===== MODAL “VER CONDIÇÕES” (fix) ===== */
 .modal-backdrop{
   position:fixed; inset:0;
