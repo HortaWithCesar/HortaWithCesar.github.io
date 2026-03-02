@@ -296,75 +296,155 @@ header.scrolled{
 }
 
 .tours-head{
-  display:flex; align-items:center; justify-content:space-between; gap:18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
   margin-bottom: 18px;
 }
-.tours-head h2{ margin:0 }
-.scroll-cue{
-  appearance:none; border:0; border-radius:999px; padding:10px 14px;
-  background:var(--brand); color:#fff; font-weight:700; cursor:pointer;
-  display:inline-flex; align-items:center; gap:8px;
-  box-shadow:0 6px 18px rgba(2,132,199,.25);
-}
-.scroll-cue:hover{ transform:translateY(1px); }
+.tours-head h2{ margin:0; }
 
 .tours-grid{
-  display:grid; gap:18px;
+  display:grid;
+  gap:18px;
   grid-template-columns: repeat(12, 1fr);
 }
+
+/* card base */
 .trail-card{
   grid-column: span 6;
-  background:var(--card); 
-  border:1px solid var(--line);
-  border-radius:16px; 
-  overflow:hidden; 
-  display:grid; 
-  grid-template-rows: 180px auto;
-  transition: box-shadow .2s ease;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+
+  display: grid;
+  grid-template-rows: auto 1fr;
+  transition: box-shadow .2s ease, transform .2s ease;
+}
+.trail-card:hover{
+  box-shadow: 0 14px 28px rgba(2,6,23,.08);
+  transform: translateY(-1px);
 }
 
-/* override só para o primeiro card (City Walk) */
-.trail-card-featured{
-  grid-template-rows: auto auto;  /* aqui já não é fixo */
+/* media (slider/foto/video) */
+.trail-media{
+  width:100%;
 }
 
-    /* Estilo especial para o primeiro card destacado */
-.trail-card-featured {
-  grid-template-columns: 1fr; /* foto e texto empilhados, não lado a lado */
+/* corpo do card (tudo alinhado) */
+.trail-body{
+  padding: 28px;
+  display: grid;
+  gap: 12px;
+  justify-items: center;     /* isto é o que te estava a faltar */
   text-align: center;
 }
 
-
-/* pequeno efeito premium opcional */
-.trail-actions a:hover {
-  transform: translateY(-2px);
-  transition: transform 0.2s ease;
+.trail-title{
+  margin:0;
+  font-size: clamp(18px, 2.6vw, 22px);
 }
 
-
-/* Opcional: ligeiramente mais largo e com sombra suave */
-.trail-card-featured {
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
-  padding: 28px;
-}
-.trail-card-featured p {
-  max-width: 80%;
-  margin: 0 auto;
-  line-height: 1.6;
+/* linha de preço (From / Desde + pill) */
+.trail-price-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap: 10px;
+  margin-top: 2px;
 }
 
-.trail-card:hover{ box-shadow: 0 14px 28px rgba(2,6,23,.08) }
+.trail-price-label{
+  color: var(--muted);
+  font-weight: 700;
+}
 
-.trail-media{
-  background:#eef6ff; display:grid; place-items:center; font-weight:700; color:var(--muted);
+.trail-price-pill{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(14,165,233,.10);
+  border: 1px solid rgba(14,165,233,.20);
+  font-weight: 900;
+}
+
+/* pills */
+.trail-meta{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap: 8px;
+}
+.pill{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:14px;
+}
+
+/* botões no card */
+.trail-actions{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap: 12px;
+  flex-wrap:wrap;
+  margin-top: 6px;
+}
+
+/* base dos botões */
+.trail-actions .btn,
+.trail-actions a{
+  height: 46px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+}
+
+/* WhatsApp redondo no meio */
+.trail-actions .btn-whatsapp,
+.trail-actions .wa-icon{
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  overflow:hidden;
+  padding:0 !important;
+}
+
+/* imagem do WhatsApp */
+.trail-actions .btn-whatsapp img,
+.trail-actions .wa-icon img{
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  display:block;
+}
+
+/* featured: só “span” total na grelha, sem padding extra */
+.trail-card-featured{
+  grid-column: span 12;
+}
+
+/* ===== responsive ===== */
+@media (max-width: 900px){
+  .trail-card{ grid-column: span 12; }
+  .trail-body{ padding: 22px; }
+}
+
+@media (max-width: 480px){
+  .trail-body{ padding: 18px; }
+  .trail-actions{ gap: 10px; }
 }
     /* Ajuste para header fixo em ecrãs mais pequenos */
-@media (max-width: 768px){
-  body{
-    padding-top: 72px;   /* sobe um bocadinho o conteúdo para não ficar por baixo da barra */
-  }
-}
-
+    
 .trail-body{
   padding:36px;
   display:grid;
@@ -405,6 +485,19 @@ header.scrolled{
   border: 1px solid rgba(2,6,23,.10);
   background: rgba(14,165,233,.08);
 }
+    /* ===== HEADER mobile estável ===== */
+header, .site-header, .topbar, .navbar{
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 10000;
+  box-sizing: border-box;
+  transform: none !important;
+}
+
+html, body{ overflow-x: hidden; }
     
 /* ===== CTA buttons (Trail cards) ===== */
 .trail-actions{
@@ -1581,19 +1674,6 @@ a[aria-disabled="true"] {
   color: #8a3a1a !important;
   border: 1px solid #f0b0a0 !important;
 }
-/* foto/vídeo do City Walk ocupa a caixa toda */
-.trail-card-featured .trail-media{
-  padding: 18px;
-}
-
-.city-slider{
-  display:flex;
-  flex-direction:column;
-  width:100%;
-  .city-main {
-  margin-bottom: 10px; /* aumenta espaço abaixo do vídeo */
-}
-}
 
 /* Altura do slider mais baixa para não tapar info */
 .city-main{
@@ -1794,12 +1874,7 @@ a[aria-disabled="true"] {
 .photo-close:hover {
   color: #0ea5e9;
 }
-/* Sobe o bloco inteiro da imagem + thumbs */
-/* Sobe um bocadinho o vídeo+thumbs, mas sem tapar o título */
-.trail-card-featured .trail-media{
-  margin-top: 0px;   /* sobe só um pouco o bloco inteiro */
-  margin-bottom: 0px; /* espaço normal antes do título */
-}
+
 /* ===== Slider em loop para outros trilhos (ex: Entre Montes) ===== */
 
 .loop-slider{
