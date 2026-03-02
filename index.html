@@ -2295,6 +2295,60 @@ a[aria-disabled="true"] {
   /* PT/EN não encolhe nem vai para baixo */
   .lang-switch{ flex-shrink: 0; }
 }
+    /* ===== DESKTOP ===== */
+.header-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.header-right{
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+
+/* ===== MOBILE: 2 linhas ===== */
+@media (max-width:768px){
+
+  :root{ --header-h: 118px; }
+
+  .header-inner{
+    flex-wrap:wrap;
+    row-gap:8px;
+  }
+
+  /* linha 1 */
+  .header-left{
+    flex:0 0 auto;
+  }
+
+  /* linha 2 ocupa largura toda */
+  .header-right{
+    flex:0 0 100%;
+    width:100%;
+    justify-content:space-between;
+  }
+
+  /* menu numa única linha */
+  .header-right .main-nav{
+    display:flex;
+    gap:14px;
+    flex-wrap:nowrap;
+    white-space:nowrap;
+    overflow-x:auto;  /* se não couber, desliza */
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .header-right .main-nav a{
+    white-space:nowrap;
+  }
+
+  .lang-switch{
+    flex-shrink:0;
+  }
+}
 
   </style>
 </head>
@@ -2302,27 +2356,32 @@ a[aria-disabled="true"] {
   <header>
   <div class="wrap header-inner">
 
-    <!-- Logo + localização -->
-    <div class="brand">
-      <img src="logotipo1.png" alt="Horta with César logo">
-      <span class="small" data-i18n="header.location">Faial • Açores</span>
+    <!-- 1ª linha (mobile): logo + localização -->
+    <div class="header-left">
+      <div class="brand">
+        <img src="logotipo1.png" alt="Horta with César logo">
+        <span class="small" data-i18n="header.location">Faial • Açores</span>
+      </div>
     </div>
 
-    <!-- Menu -->
-    <nav class="main-nav">
-      <a href="#about" data-i18n="nav.about">Sobre mim</a>
-      <a href="#tours" data-i18n="nav.tours">Trilhos</a>
-      <a href="#booking" data-i18n="nav.booking" class="js-open-booking">Reservas</a>
-      <a href="#contact" data-i18n="nav.contact">Contactos</a>
-    </nav>
+    <!-- 2ª linha (mobile): menu + idioma -->
+    <div class="header-right">
 
-    <!-- Idioma -->
-    <div class="lang-switch" role="group" aria-label="Language switcher">
-  <div class="lang-toggle">
-    <button id="btn-pt" class="active" onclick="setLang('pt')">PT</button>
-    <button id="btn-en" onclick="setLang('en')">EN</button>
-  </div>
-</div>
+      <nav class="main-nav">
+        <a href="#about" data-i18n="nav.about">Sobre mim</a>
+        <a href="#tours" data-i18n="nav.tours">Trilhos</a>
+        <a href="#booking" data-i18n="nav.booking" class="js-open-booking">Reservas</a>
+        <a href="#contact" data-i18n="nav.contact">Contactos</a>
+      </nav>
+
+      <div class="lang-switch" role="group" aria-label="Language switcher">
+        <div class="lang-toggle">
+          <button id="btn-pt" class="active" onclick="setLang('pt')">PT</button>
+          <button id="btn-en" onclick="setLang('en')">EN</button>
+        </div>
+      </div>
+
+    </div>
 
   </div>
 </header>
