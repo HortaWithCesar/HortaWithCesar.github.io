@@ -2368,6 +2368,53 @@ a[aria-disabled="true"] {
   }
 
 }
+@media (max-width:768px){
+
+  /* Header mais fino */
+  :root{
+    --header-h: 76px;
+  }
+
+  .header-inner{
+    padding-block: 4px;
+    row-gap: 4px;
+  }
+
+  /* Logo mais pequeno e alinhado */
+  .brand img{
+    height: 28px;
+  }
+
+  .brand .small{
+    font-size: 12px;
+  }
+
+  /* Menu mais compacto */
+  .header-right .main-nav a{
+    font-size: 13px;
+  }
+
+  .header-right .main-nav{
+    gap: 10px;
+  }
+
+  /* Pill mais discreto */
+  .lang-toggle{
+    padding: 3px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  }
+
+  .lang-toggle button{
+    padding: 5px 9px;
+    font-size: 12px;
+  }
+
+}
+    header{
+  backdrop-filter: blur(8px);
+  background: rgba(255,255,255,.85);
+}
+    
   </style>
 </head>
 <body>
