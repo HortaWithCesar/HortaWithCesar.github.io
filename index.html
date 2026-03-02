@@ -94,7 +94,54 @@ body{
   background: var(--bg);
   padding-top: var(--header-h);
 }
+/* ===== Layout do header (limpo e consistente) ===== */
+.header-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  min-height: var(--header-h);
+}
 
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.brand img{ height:52px; display:block; }
+
+.main-nav{
+  display:flex;
+  gap:22px;
+  justify-content:center;
+  flex:1;
+}
+
+.lang-switch{ flex-shrink:0; }
+
+/* MOBILE: header vira 2 linhas -> aumenta o padding-top do body */
+@media (max-width:768px){
+  :root{ --header-h: 118px; } /* altura real aproximada em mobile com menu em 2 linhas */
+
+  .header-inner{
+    flex-wrap:wrap;
+    min-height: var(--header-h);
+    padding:10px 0;
+  }
+
+  .main-nav{
+    width:100%;
+    order:3;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:16px;
+    margin-top:8px;
+  }
+
+  .lang-switch{
+    margin-left:auto;
+  }
+}
     nav a{color:var(--fg);text-decoration:none;margin-left:18px;font-weight:600}
     nav a:hover{color:var(--brand)}
     .lang-toggle{display:inline-flex;gap:6px;background:var(--card);border:1px solid var(--line);padding:6px;border-radius:999px}
@@ -2173,27 +2220,30 @@ a[aria-disabled="true"] {
 </head>
 <body>
   <header>
-    <div class="wrap">
-      <nav>
-        <div style="display:flex;align-items:center;gap:12px">
-          <img src="logotipo1.png" alt="Horta with César logo" style="height:52px;margin-top:0" />
-          <span class="small" data-i18n="header.location">Faial • Açores</span>
+  <div class="wrap header-inner">
 
-        </div>
-        <div style="display:flex;align-items:center;gap:14px">
-          <a href="#about" data-i18n="nav.about">Sobre mim</a>
-          <a href="#tours" data-i18n="nav.tours">Trilhos</a>
-          <a href="#booking" data-i18n="nav.booking" class="js-open-booking">Reservas</a>
-          <a href="#contact" data-i18n="nav.contact">Contactos</a>
-          <div class="lang-toggle" role="group" aria-label="Language switcher">
-            <button id="btn-pt" class="active" onclick="setLang('pt')">PT</button>
-            <button id="btn-en" onclick="setLang('en')">EN</button>
-          </div>
-        </div>
-      </nav>
+    <!-- Logo + localização -->
+    <div class="brand">
+      <img src="logotipo1.png" alt="Horta with César logo">
+      <span class="small" data-i18n="header.location">Faial • Açores</span>
     </div>
-  </header>
 
+    <!-- Menu -->
+    <nav class="main-nav">
+      <a href="#about" data-i18n="nav.about">Sobre mim</a>
+      <a href="#tours" data-i18n="nav.tours">Trilhos</a>
+      <a href="#booking" data-i18n="nav.booking" class="js-open-booking">Reservas</a>
+      <a href="#contact" data-i18n="nav.contact">Contactos</a>
+    </nav>
+
+    <!-- Idioma -->
+    <div class="lang-switch" role="group" aria-label="Language switcher">
+      <button id="btn-pt" class="active" onclick="setLang('pt')">PT</button>
+      <button id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+
+  </div>
+</header>
   <section class="wrap about" id="about">
        <div class="accent" aria-hidden="true">
     <!-- folha abstrata minimal (SVG) -->
