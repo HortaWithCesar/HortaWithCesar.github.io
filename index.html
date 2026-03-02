@@ -47,7 +47,7 @@ header .wrap {
 }
 
 /* ===== HEADER FIXO ===== */
-header{
+  header{
   position: fixed;
   top: 0;
   left: 0;
@@ -73,16 +73,24 @@ header.scrolled{
 
 
     :root{
-      --bg:#ffffff; --fg:#0f172a; --muted:#475569; --brand:#0ea5e9; --brand2:#10b981;
-      --card:#f8fafc; --line:#e2e8f0;
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body {
-  margin: 0;
+  --bg:#ffffff;
+  --fg:#0f172a;
+  --muted:#475569;
+  --brand:#0ea5e9;
+  --brand2:#10b981;
+  --card:#f8fafc;
+  --line:#e2e8f0;
+  --header-h: 72px; /* fallback */
+}
+    *{ box-sizing:border-box }
+html{ scroll-behavior:smooth }
+
+body{
+  margin:0;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
   color: var(--fg);
   background: var(--bg);
+  padding-top: var(--header-h);
 }
 
     nav a{color:var(--fg);text-decoration:none;margin-left:18px;font-weight:600}
@@ -484,19 +492,7 @@ header.scrolled{
   border: 1px solid rgba(2,6,23,.10);
   background: rgba(14,165,233,.08);
 }
-    /* ===== HEADER mobile estável ===== */
-header, .site-header, .topbar, .navbar{
-  position: sticky;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  z-index: 10000;
-  box-sizing: border-box;
-  transform: none !important;
-}
-
-html, body{ overflow-x: hidden; }
+    
     
 /* ===== CTA buttons (Trail cards) ===== */
 .trail-actions{
@@ -5502,6 +5498,21 @@ checkAvailability();
     }
   });
 
+})();
+</script>
+  <script>
+(function(){
+  const header = document.querySelector('header');
+  if(!header) return;
+
+  function syncHeaderHeight(){
+    const h = Math.ceil(header.getBoundingClientRect().height);
+    document.documentElement.style.setProperty('--header-h', h + 'px');
+  }
+
+  window.addEventListener('load', syncHeaderHeight, { once:true });
+  window.addEventListener('resize', syncHeaderHeight);
+  syncHeaderHeight();
 })();
 </script>
   
