@@ -80,7 +80,6 @@ header.scrolled{
     html{scroll-behavior:smooth}
     body {
   margin: 0;
-  padding-top: 80px; /* sobe de 70 → 110px, para compensar a altura real */
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
   color: var(--fg);
   background: var(--bg);
@@ -2008,11 +2007,6 @@ a[aria-disabled="true"] {
     
 /* MOBILE: ajustes barra fixa + botões flutuantes */
 @media (max-width:640px){
-
-  /* mais espaço por baixo da barra fixa */
-  body{
-    padding-top: 110px; /* testa: se ainda ficar colado, sobe para 120px */
-  }
 
   /* barra de ações flutuantes um pouco mais pequena e acima */
   .floating-actions{
