@@ -2241,6 +2241,60 @@ a[aria-disabled="true"] {
   opacity: 0.85;
 }
 
+    /* MOBILE: header em 2 linhas.
+   Linha 1: brand (logo + Faial)
+   Linha 2: menu + idiomas numa linha sem quebrar */
+@media (max-width: 768px){
+
+  :root{ --header-h: 118px; } /* ajusta se ainda cortar (110–130) */
+
+  /* o nav/header passa a empilhar 2 linhas */
+  header nav{
+    flex-wrap: wrap;
+    align-items: center;
+    row-gap: 6px;
+    height: auto;
+  }
+
+  /* 1ª linha = lado esquerdo (logo + Faial) */
+  header nav > div:first-child{
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* 2ª linha = bloco da direita (links + PT/EN) ocupa a largura toda */
+  header nav > div:last-child{
+    flex: 0 0 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    min-width: 0; /* importante para não cortar */
+  }
+
+  /* menu numa só linha (sem quebrar) */
+  header nav > div:last-child .main-nav{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    overflow-x: auto;              /* se não couber, faz scroll em vez de quebrar */
+    -webkit-overflow-scrolling: touch;
+    min-width: 0;
+  }
+
+  /* garante que os links não partem */
+  header nav > div:last-child .main-nav a{
+    white-space: nowrap;
+  }
+
+  /* PT/EN não encolhe nem vai para baixo */
+  .lang-switch{ flex-shrink: 0; }
+}
 
   </style>
 </head>
