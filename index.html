@@ -151,7 +151,15 @@ body{
   justify-content:center;
   flex:1;
 }
-
+/* Links do menu (corrige azul + sublinhado do browser) */
+.main-nav a{
+  color: var(--fg);
+  text-decoration: none;
+  font-weight: 600;
+}
+.main-nav a:hover{
+  color: var(--brand);
+}
 
     .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center;padding:56px 0}
     .hero .media{min-height:260px;border:2px dashed var(--line);border-radius:16px;display:grid;place-items:center;font-weight:700;color:var(--muted)}
@@ -2094,7 +2102,19 @@ a[aria-disabled="true"] {
   outline: 3px solid rgba(14,165,233,.35);
   outline-offset: 3px;
 }
-    
+ @media (max-width: 640px){
+  nav{
+    flex-wrap: wrap;
+    height: auto;
+    row-gap: 6px;
+  }
+  nav > div:last-child{
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    column-gap: 10px;
+    row-gap: 6px;
+  }
+}   
 /* MOBILE: ajustes barra fixa + botões flutuantes */
 @media (max-width:640px){
 
@@ -2146,46 +2166,7 @@ a[aria-disabled="true"] {
   display: inline-flex;
   align-items: center;
 }
-/* ===== NAV: ajustes para mobile ===== */
-@media (max-width: 640px) {
 
-  /* deixa o nav partir em 2 linhas */
-  nav {
-    flex-wrap: wrap;
-    height: auto;
-    row-gap: 6px;
-  }
-
-  /* menos almofada lateral no header */
-  header .wrap {
-    padding: 6px 10px;
-  }
-
-  /* bloco da direita (links + PT/EN) pode quebrar em 2 linhas */
-  nav > div:last-child {
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    column-gap: 10px;
-    row-gap: 4px;
-  }
-
-  /* links um bocadinho mais pequenos e com menos margem */
-  nav a {
-    margin-left: 10px;
-    font-size: 14px;
-  }
-
-  /* PT / EN mais compacto */
-  .lang-toggle {
-    padding: 4px 6px;
-    gap: 4px;
-  }
-
-  .lang-toggle button {
-    padding: 4px 8px;
-    font-size: 12px;
-  }
-}
 /* FIX: alinhar o contador de pax no lugar certo */
 .modal-grid {
   display: grid;
@@ -2283,9 +2264,11 @@ a[aria-disabled="true"] {
 
     <!-- Idioma -->
     <div class="lang-switch" role="group" aria-label="Language switcher">
-      <button id="btn-pt" class="active" onclick="setLang('pt')">PT</button>
-      <button id="btn-en" onclick="setLang('en')">EN</button>
-    </div>
+  <div class="lang-toggle">
+    <button id="btn-pt" class="active" onclick="setLang('pt')">PT</button>
+    <button id="btn-en" onclick="setLang('en')">EN</button>
+  </div>
+</div>
 
   </div>
 </header>
