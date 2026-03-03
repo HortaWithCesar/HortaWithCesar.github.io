@@ -2,7 +2,7 @@
 <html lang="pt">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title data-i18n="head.title">Horta with César-Walking tours & Trilhos no Faial, Açores</title>
   <meta name="description"
       content="Walking tours e trilhos no Faial com guia local. City tour Horta, Entre Montes, Caldeira e mais. Reserve já!"
@@ -2520,6 +2520,21 @@ a[aria-disabled="true"] {
 .hero-mini__price strong{
   font-weight:800;
 }  
+   /* iOS Safari fixes (notch + cortes laterais) */
+@supports (-webkit-touch-callout: none){
+  html, body{ overflow-x:hidden; }
+
+  header, .hero-mini{
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* iOS: vh mais estável */
+  .hero-mini{
+    height: min(48vh, 420px);
+    height: min(48svh, 420px);
+  }
+}
   </style>
 </head>
 <body>
