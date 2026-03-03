@@ -2535,6 +2535,7 @@ a[aria-disabled="true"] {
     height: min(48svh, 420px);
   }
 }
+ 
   </style>
 </head>
 <body>
@@ -3242,7 +3243,7 @@ a[aria-disabled="true"] {
       data-i18n="trail.btn.reserve">
     Reservar
   </button>
-
+    
   <!-- Botão WhatsApp: mensagem direta com o nome do trilho -->
   <a class="btn-whatsapp wa-icon" target="_blank" rel="noopener noreferrer"
      href="https://wa.me/351964616199">
@@ -4943,7 +4944,13 @@ const DISABLED_TRAILS = new Set(
   Array.from(document.querySelectorAll('.trail-card[data-disabled="true"]'))
     .map(card => (card.dataset.trail || '').toLowerCase().trim())
 );
+const hiddenTrails = ["Farol da Ribeirinha", "Levadas ao Cabeço dos Trinta"];
 
+document.querySelectorAll(".trail-card").forEach(card => {
+  if(hiddenTrails.includes(card.dataset.trail)){
+    card.style.display = "none";
+  }
+});
 // Helper para verificar se um nome de trilho está desativado
 function isTrailDisabledByName(name) {
   if (!name) return false;
@@ -5945,6 +5952,7 @@ checkAvailability();
   window.addEventListener('resize', syncHeaderHeight);
   syncHeaderHeight();
 })();
+    
 </script>
   
 </body>
