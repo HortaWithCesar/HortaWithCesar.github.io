@@ -2414,6 +2414,95 @@ a[aria-disabled="true"] {
   backdrop-filter: blur(8px);
   background: rgba(255,255,255,.85);
 }
+/* HERO MINI (discreto, 1/3 de ecrã) */
+.hero-mini{
+  position:relative;
+  height: min(36vh, 320px);           /* ~1/3, com teto */
+  min-height: 220px;                  /* para não ficar anão */
+  display:flex;
+  align-items:center;
+  background: url('Pico c hortencias11.jpg') center/cover no-repeat;
+  border-bottom: 1px solid var(--line);
+}
+
+.hero-mini::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(
+    to right,
+    rgba(2,6,23,.55),
+    rgba(2,6,23,.25) 55%,
+    rgba(2,6,23,.05)
+  );
+}
+
+.hero-mini__inner{
+  position:relative;
+  z-index:1;
+  height:100%;
+  display:flex;
+  align-items:center;
+}
+
+.hero-mini__copy{
+  max-width: 680px;
+  color:#fff;
+}
+
+.hero-mini__kicker{
+  margin:0 0 10px;
+  font-size:12px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  opacity:.9;
+}
+
+.hero-mini__title{
+  margin:0;
+  font-size: clamp(26px, 4.2vw, 44px);
+  line-height:1.05;
+  letter-spacing:.06em;
+  text-shadow: 0 10px 25px rgba(0,0,0,.35);
+}
+
+.hero-mini__sub{
+  margin: 12px 0 0;
+  font-size: clamp(14px, 2.2vw, 18px);
+  opacity:.95;
+  text-shadow: 0 10px 25px rgba(0,0,0,.35);
+}
+
+.hero-mini__cta{
+  margin-top: 16px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.14);
+  border: 1px solid rgba(255,255,255,.30);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color:#fff;
+  text-decoration:none;
+  font-weight:800;
+  font-size: 13px;
+}
+
+.hero-mini__cta:hover{ background: rgba(255,255,255,.20); }
+
+/* para o click em "Trilhos" não ficar escondido pelo header fixo */
+#tours{ scroll-margin-top: calc(var(--header-h) + 12px); }
+    @media (max-width:768px){
+  .hero-mini{
+    height: min(32vh, 260px);
+    min-height: 190px;
+  }
+  .hero-mini::before{
+    background: linear-gradient(to bottom, rgba(2,6,23,.45), rgba(2,6,23,.30));
+  }
+}
     
   </style>
 </head>
@@ -2450,6 +2539,19 @@ a[aria-disabled="true"] {
 
   </div>
 </header>
+<section class="hero-mini" aria-label="Intro">
+  <div class="wrap">
+    <div class="hero-mini__inner">
+      <div class="hero-mini__copy">
+        <p class="hero-mini__kicker">Faial • Azores</p>
+        <h1 class="hero-mini__title">Discover the Real Azores</h1>
+        <p class="hero-mini__sub">Private tours with a certified local guide</p>
+
+        <a class="hero-mini__cta" href="#tours">Explore trails ↓</a>
+      </div>
+    </div>
+  </div>
+</section>
   <section class="wrap about" id="about">
        <div class="accent" aria-hidden="true">
     <!-- folha abstrata minimal (SVG) -->
