@@ -2536,7 +2536,18 @@ a[aria-disabled="true"] {
     height: min(48svh, 420px);
   }
 }
- 
+ /* Alinhar o título do About com a grelha (.wrap) */
+#about h2,
+#about .section-title,
+#about .about-title{
+  margin-left: 0 !important;
+  max-width: none !important;
+}
+
+/* Mantém só o texto (parágrafos) mais estreito e centrado, se quiseres */
+#about p{
+  max-width: 80ch;
+}
   </style>
 </head>
 <body>
