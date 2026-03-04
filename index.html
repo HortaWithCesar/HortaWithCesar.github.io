@@ -172,22 +172,18 @@ body{
 
     section{padding:40px 0;border-top:1px solid var(--line)}
     h2{font-size:clamp(22px,3vw,32px);margin:0 0 16px}
-    /* Sobre mim: largura própria, sem grelha */
-.about{
-  display:block;           /* sai da grid de 2 colunas */
-  max-width:1000px;        /* mais largo que antes, mas só aqui */
-  margin:40px auto;        /* centra a secção e dá respiro */
-  line-height:1.65;
-  font-size:18px;
+   .about{
+  position: relative;
+  overflow-x: clip;
 }
-    /* Alinhar About com a mesma largura da .wrap */
-.about{
-  max-width: none !important;
-  margin: 40px 0 !important;
-}
-/* controla o comprimento das linhas para ficar legível */
-.about p{max-width:80ch}
 
+@supports not (overflow: clip){
+  .about{ overflow-x: hidden; }
+}
+
+#about p{
+  max-width: 80ch;
+}
 /* garante que a imagem flutuante não “empurra” o rodapé */
 .about::after{content:"";display:block;clear:both}
 
@@ -2649,8 +2645,9 @@ a[aria-disabled="true"] {
       <path d="M170 400c95-18 190-18 285 0" stroke="#16a34a" stroke-opacity=".15" stroke-width="2" />
     </svg>
   </div>
-<div>
-    <h2 data-i18n="about.title">Sobre mim</h2>
+    
+  <div class="wrap">
+  <h2 data-i18n="about.title">Sobre mim</h2>
 
     <div class="photo-float">
       <img src="foto-perfil.jpg" alt="Foto de César, guia local no Faial">
