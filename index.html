@@ -2778,7 +2778,7 @@ a[aria-disabled="true"] {
   class="btn-whatsapp wa-icon"
   target="_blank"
   rel="noopener noreferrer"
-    href="https://wa.me/351964616199">
+    href="https://wa.me/351964616199" onclick="fbq('track','Contact');>
     <img src="whatsapp-logo.png" alt="WhatsApp">
 </a>
 
@@ -3350,6 +3350,7 @@ a[aria-disabled="true"] {
   <option value="Capelo → Capelinhos ">Capelo → Capelinhos </option>
   <option value="Miradouro da Braça">Miradouro da Braça</option>
 </select>
+        <input type="hidden" id="trailInput" name="Trilho" value="">
 </div>
 
 
@@ -3569,6 +3570,7 @@ a[aria-disabled="true"] {
   <button id="btn-open-reserve"
         class="btn btn-ghost btn-disabled"
         type="button"
+        onclick="fbq('track','Lead');"
         data-i18n="booking.btn.reserve">
   Efetuar reserva
 </button>
@@ -5539,15 +5541,26 @@ document.querySelectorAll('.pill').forEach(p => {
   bookingSection.classList.remove('wrap', 'about');
   bookingSection.classList.add('modal', 'booking-modal');
 
-  function openBooking(trailName = '') {
-    // novo campo oficial
-    const trailPicker = document.getElementById('trail');
+ function openBooking(trailName = '') {
+  const trailPicker = document.getElementById('trail');
+  const trailInput  = document.getElementById('trailInput');
 
-    // preencher o select
-    if (trailPicker) {
-        trailPicker.value = trailName || '';
-    }
+  // preencher o select
+  if (trailPicker) {
+      trailPicker.value = trailName || '';
+  }
 
+  // copiar para o campo que vai no formulário
+  if (trailInput && trailPicker) {
+      trailInput.value = trailPicker.value;
+  }
+}
+  const trailPicker = document.getElementById('trail');
+const trailInput  = document.getElementById('trailInput');
+
+trailPicker?.addEventListener('change', () => {
+  if (trailInput) trailInput.value = trailPicker.value;
+});
     // texto animado do topo (i18n)
 if (subtitle) {
   const lang = localStorage.getItem('hwc_lang') || 'pt';
@@ -5586,6 +5599,7 @@ if (subtitle) {
   document.querySelectorAll('.js-open-booking').forEach(btn => {
     btn.addEventListener('click', (ev) => {
       ev.preventDefault();
+      if (window.fbq) fbq('track', 'Lead');
       openBooking('');
     });
   });
@@ -5595,6 +5609,17 @@ if (subtitle) {
     btn.addEventListener('click', (ev) => {
       ev.preventDefault();
       const trailName = btn.getAttribute('data-trail') || '';
+       // ViewContent: viu um trilho específico
+    if (window.fbq) {
+      fbq('track', 'ViewContent', {
+        content_name: trailName,
+        content_category: 'Trail',
+        content_type: 'tour'
+      });
+
+      // Lead: abriu intenção de reserva
+      fbq('track', 'Lead');
+    }
       openBooking(trailName);
     });
   });
@@ -5723,48 +5748,6 @@ function startLoop() {
       mains.forEach((main) => io.observe(main));
     }
   })();
-</script>
-
-<script>
-(function(){
-  const trailPicker = document.getElementById('trail');
-
-
-  if (!trailInput || !trailPicker) return;
-
-  // 1) quando o utilizador escolhe no select → copiar para o input
-  trailPicker.addEventListener('change', () => {
-    trailInput.value = trailPicker.value;
-  });
-
-  // 2) integrar com a função openBooking se já a tens
-  //    (se não tiveres, ignora esta parte)
-  const originalOpen = window.openBooking;
-  if (typeof originalOpen === 'function') {
-    window.openBooking = function(trailName){
-      // chama a função original
-      originalOpen(trailName);
-
-      // sincroniza select com o trilho vindo do botão
-      if (trailName) {
-        let matched = false;
-        Array.from(trailPicker.options).forEach(opt => {
-          if (opt.value.trim() === trailName.trim()) {
-            trailPicker.value = opt.value;
-            matched = true;
-          }
-        });
-        if (!matched) {
-          trailPicker.value = '';
-        }
-      } else {
-        // chamado a partir do botão fixo / barra → limpa tudo
-        trailPicker.value = '';
-        trailInput.value  = '';
-      }
-    };
-  }
-})();
 </script>
 
 <script>
