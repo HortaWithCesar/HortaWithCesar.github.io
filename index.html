@@ -5529,63 +5529,61 @@ document.querySelectorAll('.pill').forEach(p => {
 
   const bookingModal   = $('#booking-modal');
   const bookingSection = $('#booking');
-  const trailInput     = $('#trail');
   const subtitle       = $('#booking-subtitle');
 
   if (!bookingModal || !bookingSection) return;
 
-  // 1) Mover a secção #booking para dentro do backdrop → deixa de ocupar espaço na página
+  // 1) Mover a secção #booking para dentro do backdrop (modal)
   bookingModal.appendChild(bookingSection);
 
-  // 2) Dar-lhe estilos de modal
+  // 2) Dar-lhe estilos de modal (evita ocupar espaço na página)
   bookingSection.classList.remove('wrap', 'about');
   bookingSection.classList.add('modal', 'booking-modal');
 
- function openBooking(trailName = '') {
+  // refs do formulário
   const trailPicker = document.getElementById('trail');
   const trailInput  = document.getElementById('trailInput');
 
-  // preencher o select
-  if (trailPicker) {
-      trailPicker.value = trailName || '';
+  function setSubtitle(trailName = '') {
+    if (!subtitle) return;
+
+    const lang = localStorage.getItem('hwc_lang') || 'pt';
+    const root = window.I18N || {};
+    const dict = root[lang] || root.pt || {};
+
+    if (trailName) {
+      const prefix = dict["booking.subtitle.prefix"] || "Estás a reservar o trilho:";
+      subtitle.textContent = `${prefix} ${trailName}`;
+    } else {
+      subtitle.textContent = dict["booking.subtitle.noTrail"] || "Seleciona um trilho abaixo.";
+    }
   }
 
-  // copiar para o campo que vai no formulário
-  if (trailInput && trailPicker) {
-      trailInput.value = trailPicker.value;
-  }
-}
-  const trailPicker = document.getElementById('trail');
-const trailInput  = document.getElementById('trailInput');
+  function openBooking(trailName = '') {
+    // preencher o select
+    if (trailPicker) trailPicker.value = trailName || '';
 
-trailPicker?.addEventListener('change', () => {
-  if (trailInput) trailInput.value = trailPicker.value;
-});
-    // texto animado do topo (i18n)
-if (subtitle) {
-  const lang = localStorage.getItem('hwc_lang') || 'pt';
-  const root = window.I18N || {};              // ← seguro
-  const dict = root[lang] || root.pt || {};    // ← se não houver, fica {}
+    // copiar para o campo hidden que vai no formulário
+    if (trailInput && trailPicker) trailInput.value = trailPicker.value;
 
-  if (trailName) {
-    const prefix = dict["booking.subtitle.prefix"] || "Estás a reservar o trilho:";
-    subtitle.textContent = `${prefix} ${trailName}`;
-  } else {
-    subtitle.textContent = dict["booking.subtitle.noTrail"] || "Seleciona um trilho abaixo.";
-  }
-}
+    // atualizar subtítulo
+    setSubtitle(trailName);
 
-
-
+    // abrir modal
     bookingModal.style.display = "flex";
     document.body.classList.add("modal-open");
-}
-
+  }
 
   function closeBooking() {
     bookingModal.style.display = 'none';
     document.body.classList.remove('modal-open');
   }
+
+  // atualizar hidden quando o utilizador muda no select
+  trailPicker?.addEventListener('change', () => {
+    if (trailInput) trailInput.value = trailPicker.value;
+    setSubtitle(trailPicker.value || '');
+  });
 
   // Botão X do modal
   $('#booking-close')?.addEventListener('click', closeBooking);
@@ -5599,32 +5597,38 @@ if (subtitle) {
   document.querySelectorAll('.js-open-booking').forEach(btn => {
     btn.addEventListener('click', (ev) => {
       ev.preventDefault();
+
+      // Lead: abriu intenção de reserva
       if (window.fbq) fbq('track', 'Lead');
+
       openBooking('');
     });
   });
 
-  // Botões "Reservar" dos cartões de trilho (já tens a classe js-reserve)
+  // Botões "Reservar" dos cartões de trilho
   document.querySelectorAll('.js-reserve').forEach(btn => {
     btn.addEventListener('click', (ev) => {
       ev.preventDefault();
-      const trailName = btn.getAttribute('data-trail') || '';
-       // ViewContent: viu um trilho específico
-    if (window.fbq) {
-      fbq('track', 'ViewContent', {
-        content_name: trailName,
-        content_category: 'Trail',
-        content_type: 'tour'
-      });
 
-      // Lead: abriu intenção de reserva
-      fbq('track', 'Lead');
-    }
+      const trailName = btn.getAttribute('data-trail') || '';
+
+      // ViewContent + Lead
+      if (window.fbq) {
+        fbq('track', 'ViewContent', {
+          content_name: trailName,
+          content_category: 'Trail',
+          content_type: 'tour'
+        });
+        fbq('track', 'Lead');
+      }
+
       openBooking(trailName);
     });
   });
+
 })();
 </script>
+  
 <script> 
 /* ============================
    LOOP AUTOMÁTICO – TODOS OS TRILHOS COM .loop-slider
