@@ -3293,7 +3293,10 @@ a[aria-disabled="true"] {
     </div>
   </div>
 </section>
-<section id="booking" class="wrap about" aria-label="Efetuar Reserva">
+  
+<div id="booking-modal" class="modal-backdrop" style="display:none;">
+  <section id="booking" class="modal booking-modal" aria-label="Efetuar Reserva">
+
   <header class="modal__header">
     <h2 class="h3" style="margin-bottom:4px" data-i18n="booking.title">Efetuar reserva</h2>
     <button type="button" class="close-x" id="booking-close" aria-label="Fechar">×</button>
@@ -3303,8 +3306,7 @@ a[aria-disabled="true"] {
   </header>
 
 
-    <form
-    id="booking-form"
+    <form id="booking-form"
     action="https://formsubmit.co/bbffe6da37eb86996e4af484b8e084f4"
     method="POST"
     class="reserve-form"
@@ -3328,10 +3330,7 @@ a[aria-disabled="true"] {
       <div class="booking-row">
         <div>
           <label for="trail" data-i18n="booking.label.trail">Trilho</label>
-          <select id="trail"
-                  name="Trilho"
-                  class="trail-picker"
-                  required>
+          
   <option value="" data-i18n="booking.ph.trail">
     Seleciona um trilho
   </option>
@@ -3570,7 +3569,7 @@ a[aria-disabled="true"] {
   <button id="btn-open-reserve"
         class="btn btn-ghost btn-disabled"
         type="button"
-        onclick="fbq('track','Lead');"
+        onclick="window.fbq && fbq('track','Lead');"
         data-i18n="booking.btn.reserve">
   Efetuar reserva
 </button>
@@ -5533,12 +5532,6 @@ document.querySelectorAll('.pill').forEach(p => {
 
   if (!bookingModal || !bookingSection) return;
 
-  // 1) Mover a secção #booking para dentro do backdrop (modal)
-  bookingModal.appendChild(bookingSection);
-
-  // 2) Dar-lhe estilos de modal (evita ocupar espaço na página)
-  bookingSection.classList.remove('wrap', 'about');
-  bookingSection.classList.add('modal', 'booking-modal');
 
   // refs do formulário
   const trailPicker = document.getElementById('trail');
