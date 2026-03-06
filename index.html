@@ -3301,10 +3301,8 @@ a[aria-disabled="true"] {
     <h2 class="h3" style="margin-bottom:4px" data-i18n="booking.title">Efetuar reserva</h2>
     <button type="button" class="close-x" id="booking-close" aria-label="Fechar">×</button>
     <p class="small" id="booking-subtitle" style="margin-top:4px;color:var(--muted)" data-i18n="booking.subtitle">
-      Preenche o pedido abaixo. O trilho selecionado aparece em “Trilho”.
-    </p>
+      Preenche o pedido abaixo. O trilho selecionado aparece em “Trilho”. </p>
   </header>
-
 
     <form id="booking-form"
     action="https://formsubmit.co/bbffe6da37eb86996e4af484b8e084f4"
@@ -3312,7 +3310,6 @@ a[aria-disabled="true"] {
     class="reserve-form"
     autocomplete="on"
     novalidate>
-
 
     <!-- ⚙️ FormSubmit opções -->
     <input type="hidden" name="_subject" value="Nova reserva - Horta with César">
@@ -3327,22 +3324,16 @@ a[aria-disabled="true"] {
     <div class="booking-grid">
 
       <!-- Linha 1: Trilho + Nome -->
-      <div class="booking-row">
-        <div>
+      <div class="booking-row"> <div>
           <label for="trail" data-i18n="booking.label.trail">Trilho</label>
-          
-  <option value="" data-i18n="booking.ph.trail">
-    Seleciona um trilho
-  </option>
-
-
+          <select id="trail" name="Trilho" class="trail-picker" required>
+  <option value="" data-i18n="booking.ph.trail"> Seleciona um trilho </option>
+        
   <option value="City Walk • Horta a pé">City Walk • Horta a pé</option>
   <option value="Entre Montes (Horta)">Entre Montes (Horta)</option>
   <option value="Miradouro do Neptuno">Miradouro do Neptuno</option>
   <option value="Caldeira — perímetro">Caldeira — perímetro</option>
-  <option value="Caldeira Descida • Santuário da fauna local">
-    Caldeira Descida • Santuário da fauna local
-  </option>
+  <option value="Caldeira Descida • Santuário da fauna local"> Caldeira Descida • Santuário da fauna local</option>
   <option value="Rocha da Fajã">Rocha da Fajã</option>
   <option value="Farol da Ribeirinha">Farol da Ribeirinha</option>
   <option value="Levadas ao Cabeço dos Trinta">Levadas ao Cabeço dos Trinta</option>
@@ -3570,19 +3561,11 @@ a[aria-disabled="true"] {
         class="btn btn-ghost btn-disabled"
         type="button"
         onclick="window.fbq && fbq('track','Lead');"
-        data-i18n="booking.btn.reserve">
-  Efetuar reserva
-</button>
-
-</div>
-
-</section>
-
-
-  </form>
-</section>
-<!-- Backdrop do modal de reserva (o JS vai mover a secção #booking para aqui) -->
-<div id="booking-modal" class="modal-backdrop" style="display:none;"></div>
+        data-i18n="booking.btn.reserve"> Efetuar reserva </button>
+</div>      
+</form>     
+</section>  
+</div>      
 
 
   <!-- (conteúdo igual ao protótipo anterior) -->
