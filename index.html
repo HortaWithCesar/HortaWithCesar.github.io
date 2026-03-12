@@ -4456,6 +4456,15 @@ alert(dict["trail.disabled.msg"] || "Este trilho está temporariamente indispon�
     const card      = btn.closest('.trail-card');
     const trail     = card?.dataset.trail     || 'Trilho';
     const priceFrom = card?.dataset.priceFrom || 'sob consulta';
+     
+    // Evento Meta Pixel: utilizador viu condições do trilho
+  if (window.fbq) {
+    fbq('track', 'ViewContent', {
+      content_name: trail,
+      content_category: 'Trail',
+      content_type: 'tour'
+        });
+}
 
     // idioma atual
     const lang = localStorage.getItem('hwc_lang') || 'pt';
@@ -5588,14 +5597,13 @@ document.querySelectorAll('.pill').forEach(p => {
 
       const trailName = btn.getAttribute('data-trail') || '';
 
-      // ViewContent + Lead
+      //  Lead
       if (window.fbq) {
-        fbq('track', 'ViewContent', {
+        fbq('track', 'Lead', {
           content_name: trailName,
           content_category: 'Trail',
           content_type: 'tour'
         });
-        fbq('track', 'Lead');
       }
 
       openBooking(trailName);
