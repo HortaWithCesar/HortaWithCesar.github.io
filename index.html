@@ -203,6 +203,7 @@ body{
   text-align: justify;
   line-height: 1.65;
   hyphens: auto;
+  letter-spacing: 0.2px;
 }
 /* garante que a imagem flutuante não “empurra” o rodapé */
 .about::after{content:"";display:block;clear:both}
@@ -342,6 +343,16 @@ body{
   width:min(460px,38vw);
   opacity:.12;        /* 0.10 mais suave | 0.16 mais visível */
   filter:drop-shadow(0 8px 18px rgba(0,0,0,.05));
+}
+    #about h2{
+  margin-bottom: 18px;
+  letter-spacing: .4px;
+}
+    .about-subtitle{
+  font-size:14px;
+  color:var(--muted);
+  margin-bottom:16px;
+  font-weight:500;
 }
 /* Foto flutuante à direita + halo suave */
 .photo-float{
@@ -2660,6 +2671,8 @@ a[aria-disabled="true"] {
     
   <div class="wrap">
   <h2 data-i18n="about.title">Sobre mim</h2>
+    
+    <p class="about-subtitle" data-i18n="about.subtitle"> Guia local certificado do Faial • Experiências autênticas nos Açores </p>
 
     <div class="photo-float">
       <img src="foto-perfil.jpg" alt="Foto de César, guia local no Faial">
@@ -4058,6 +4071,7 @@ a[aria-disabled="true"] {
 "hero.price.text": "Garanta a sua reserva desde",
 "hero.price.person": "por pessoa",
 "hero.cta": "Explorar trilhos ↓",
+"about.subtitle": "Guia local certificado do Faial • Experiências autênticas nos Açores",
 
 
         "rv.title": "Resumo da reserva",
@@ -4287,6 +4301,8 @@ a[aria-disabled="true"] {
 "hero.price.text": "Secure your reservation from",
 "hero.price.person": "per person",
 "hero.cta": "Explore trails ↓",
+"about.subtitle": "Certified local guide from Faial • Authentic Azores experiences",
+
 
 
         "rv.title": "Reservation summary",
