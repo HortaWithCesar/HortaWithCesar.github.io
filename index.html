@@ -5777,6 +5777,101 @@ validateBooking();
   });
 })();
 </script>
+  
+   <div class="review-modal" id="reviewModal" aria-hidden="true">
+  <div class="review-modal__backdrop" data-close-review-modal></div>
+
+  <div class="review-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="reviewModalTitle">
+    <button type="button" class="review-modal__close" data-close-review-modal aria-label="Close">
+      ✕
+    </button>
+
+    <div class="review-modal__head">
+      <h2 id="reviewModalTitle" data-i18n="reviewForm.title">Share your experience</h2>
+      <p data-i18n="reviewForm.lead">
+        Your feedback helps Horta with César grow. You can also upload up to 2 photos.
+      </p>
+    </div>
+
+    <form class="review-form"
+      action="https://formsubmit.co/bbffe6da37eb86996e4af484b8e084f4"
+      method="POST"
+      enctype="multipart/form-data">
+
+  <input type="hidden" name="_subject" value="Nova review - Horta with César">
+  <input type="hidden" name="_template" value="box">
+  <input type="hidden" name="_captcha" value="false">
+  <input type="hidden" name="_next" value="https://hortawithcesar.com/#reviews">
+  <input type="hidden" name="form_type" value="review">
+
+  <input type="text" name="_honey" style="display:none">
+
+      <div class="review-form__grid">
+        <div class="field">
+          <label for="reviewName" data-i18n="reviewForm.name">Your name</label>
+          <input id="reviewName" name="name" type="text" required>
+        </div>
+
+        <div class="field">
+          <label for="reviewCountry" data-i18n="reviewForm.country">Country</label>
+          <input id="reviewCountry" name="country" type="text">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="reviewEmail" data-i18n="reviewForm.email">Email</label>
+        <input id="reviewEmail" name="email" type="email" required>
+      </div>
+
+      <div class="field">
+        <label for="reviewRating" data-i18n="reviewForm.rating">Rating</label>
+        <select id="reviewRating" name="rating" required>
+          <option value="5">★★★★★ – 5</option>
+          <option value="4">★★★★ – 4</option>
+          <option value="3">★★★ – 3</option>
+          <option value="2">★★ – 2</option>
+          <option value="1">★ – 1</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="reviewMessage" data-i18n="reviewForm.message">Your feedback</label>
+        <textarea id="reviewMessage" name="message" rows="6" required></textarea>
+      </div>
+
+      <div class="field">
+        <label for="reviewPhotos" data-i18n="reviewForm.photos">Upload up to 2 photos</label>
+        <input id="reviewPhotos"
+               name="photos"
+               type="file"
+               accept="image/*"
+               multiple>
+        <small class="field-help" data-i18n="reviewForm.photosHelp">
+          Please select a maximum of 2 images.
+        </small>
+      </div>
+
+      <div class="field field-checkbox">
+        <label>
+          <input type="checkbox" name="consent" required>
+          <span data-i18n="reviewForm.consent">
+            I allow Horta with César to use my review and photos on the website and social media.
+          </span>
+        </label>
+      </div>
+
+      <div class="review-form__actions">
+        <button type="button" class="btn btn-ghost" data-close-review-modal data-i18n="reviewForm.cancel">
+          Cancel
+        </button>
+
+        <button type="submit" class="btn btn-primary" data-i18n="reviewForm.submit">
+          Send review
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
 
   <script>
   (function () {
@@ -6522,100 +6617,7 @@ checkAvailability();
     
 </script>
 
-  <div class="review-modal" id="reviewModal" aria-hidden="true">
-  <div class="review-modal__backdrop" data-close-review-modal></div>
-
-  <div class="review-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="reviewModalTitle">
-    <button type="button" class="review-modal__close" data-close-review-modal aria-label="Close">
-      ✕
-    </button>
-
-    <div class="review-modal__head">
-      <h2 id="reviewModalTitle" data-i18n="reviewForm.title">Share your experience</h2>
-      <p data-i18n="reviewForm.lead">
-        Your feedback helps Horta with César grow. You can also upload up to 2 photos.
-      </p>
-    </div>
-
-    <form class="review-form"
-      action="https://formsubmit.co/bbffe6da37eb86996e4af484b8e084f4"
-      method="POST"
-      enctype="multipart/form-data">
-
-  <input type="hidden" name="_subject" value="Nova review - Horta with César">
-  <input type="hidden" name="_template" value="box">
-  <input type="hidden" name="_captcha" value="false">
-  <input type="hidden" name="_next" value="https://hortawithcesar.com/#reviews">
-  <input type="hidden" name="form_type" value="review">
-
-  <input type="text" name="_honey" style="display:none">
-
-      <div class="review-form__grid">
-        <div class="field">
-          <label for="reviewName" data-i18n="reviewForm.name">Your name</label>
-          <input id="reviewName" name="name" type="text" required>
-        </div>
-
-        <div class="field">
-          <label for="reviewCountry" data-i18n="reviewForm.country">Country</label>
-          <input id="reviewCountry" name="country" type="text">
-        </div>
-      </div>
-
-      <div class="field">
-        <label for="reviewEmail" data-i18n="reviewForm.email">Email</label>
-        <input id="reviewEmail" name="email" type="email" required>
-      </div>
-
-      <div class="field">
-        <label for="reviewRating" data-i18n="reviewForm.rating">Rating</label>
-        <select id="reviewRating" name="rating" required>
-          <option value="5">★★★★★ – 5</option>
-          <option value="4">★★★★ – 4</option>
-          <option value="3">★★★ – 3</option>
-          <option value="2">★★ – 2</option>
-          <option value="1">★ – 1</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="reviewMessage" data-i18n="reviewForm.message">Your feedback</label>
-        <textarea id="reviewMessage" name="message" rows="6" required></textarea>
-      </div>
-
-      <div class="field">
-        <label for="reviewPhotos" data-i18n="reviewForm.photos">Upload up to 2 photos</label>
-        <input id="reviewPhotos"
-               name="photos"
-               type="file"
-               accept="image/*"
-               multiple>
-        <small class="field-help" data-i18n="reviewForm.photosHelp">
-          Please select a maximum of 2 images.
-        </small>
-      </div>
-
-      <div class="field field-checkbox">
-        <label>
-          <input type="checkbox" name="consent" required>
-          <span data-i18n="reviewForm.consent">
-            I allow Horta with César to use my review and photos on the website and social media.
-          </span>
-        </label>
-      </div>
-
-      <div class="review-form__actions">
-        <button type="button" class="btn btn-ghost" data-close-review-modal data-i18n="reviewForm.cancel">
-          Cancel
-        </button>
-
-        <button type="submit" class="btn btn-primary" data-i18n="reviewForm.submit">
-          Send review
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
+ 
 
 </body>
 </html>
