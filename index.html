@@ -2763,54 +2763,70 @@ a[aria-disabled="true"] {
 
 .review-modal__dialog{
   position: relative;
-  width: min(680px, calc(100% - 24px));
+  width: min(980px, calc(100% - 24px));
   max-height: calc(100vh - 32px);
   overflow: auto;
   margin: 16px auto;
   background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 24px;
-  box-shadow: 0 20px 60px rgba(2,6,23,.25);
-  padding: 24px;
+  border: 1px solid rgba(2,6,23,.08);
+  border-radius: 28px;
+  box-shadow: 0 24px 80px rgba(2,6,23,.28);
 }
 
 .review-modal__close{
   position: absolute;
   top: 14px;
   right: 14px;
-  width: 40px;
-  height: 40px;
-  border: 0;
-  border-radius: 999px;
-  background: #f3f4f6;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(2,6,23,.08);
+  border-radius: 18px;
+  background: #fff;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 28px;
+  line-height: 1;
+  box-shadow: 0 8px 20px rgba(2,6,23,.08);
+  z-index: 2;
 }
 
-.review-modal__head{
-  margin-bottom: 18px;
-  padding-right: 44px;
+.review-modal__hero{
+  padding: 42px 28px 18px;
+  text-align: center;
+  background: linear-gradient(90deg, #dff1ff 0%, #eaf7ef 100%);
+  border-radius: 28px 28px 0 0;
 }
 
-.review-modal__head h2{
-  margin: 0 0 8px;
+.review-modal__hero h2{
+  margin: 0 0 10px;
+  font-size: clamp(34px, 5vw, 56px);
+  line-height: 1.02;
 }
 
-.review-modal__head p{
+.review-modal__hero p{
   margin: 0;
   color: var(--muted);
-  line-height: 1.65;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.review-modal__accent{
+  width: 160px;
+  height: 4px;
+  border-radius: 999px;
+  margin: 14px auto 0;
+  background: linear-gradient(90deg, #66c7ee 0%, #7be0b4 100%);
 }
 
 .review-form{
   display: grid;
-  gap: 16px;
+  gap: 18px;
+  padding: 26px 28px 28px;
 }
 
 .review-form__grid{
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 18px;
 }
 
 .field{
@@ -2820,22 +2836,30 @@ a[aria-disabled="true"] {
 
 .field label{
   font-weight: 700;
+  font-size: 15px;
 }
 
 .field input,
-.field select,
 .field textarea{
   width: 100%;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 12px 14px;
+  border: 1px solid #d6deea;
+  border-radius: 18px;
+  padding: 14px 16px;
   font: inherit;
   background: #fff;
+  transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+.field input:focus,
+.field textarea:focus{
+  outline: none;
+  border-color: #111827;
+  box-shadow: 0 0 0 3px rgba(102,199,238,.18);
 }
 
 .field textarea{
   resize: vertical;
-  min-height: 130px;
+  min-height: 160px;
 }
 
 .field-help{
@@ -2847,7 +2871,7 @@ a[aria-disabled="true"] {
 .field-checkbox label{
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 12px;
   font-weight: 400;
   color: var(--muted);
 }
@@ -2857,11 +2881,73 @@ a[aria-disabled="true"] {
   margin-top: 3px;
 }
 
+/* rating */
+.rating-picker{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid #d6deea;
+  border-radius: 16px;
+  background: #fff;
+  width: fit-content;
+}
+
+.rating-star{
+  border: 0;
+  background: transparent;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  color: #d6deea;
+  padding: 0;
+  transition: transform .15s ease, color .15s ease;
+}
+
+.rating-star:hover{
+  transform: scale(1.08);
+}
+
+.rating-star.is-active{
+  color: #f4b400;
+}
+
+.rating-value{
+  margin-left: 6px;
+  font-weight: 700;
+  color: var(--fg);
+  font-size: 14px;
+}
+
+/* photos */
+.review-photo-list{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.review-photo-item{
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--muted);
+  background: #f8fafc;
+}
+
 .review-form__actions{
   display: flex;
   justify-content: flex-end;
   gap: 12px;
   margin-top: 4px;
+}
+
+#reviewSubmitBtn[disabled]{
+  opacity: .55;
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none;
 }
 
 body.modal-open{
@@ -2870,8 +2956,18 @@ body.modal-open{
 
 @media (max-width: 700px){
   .review-modal__dialog{
+    width: min(100%, calc(100% - 12px));
+    margin: 6px auto;
+    border-radius: 22px;
+  }
+
+  .review-modal__hero{
+    padding: 30px 18px 16px;
+    border-radius: 22px 22px 0 0;
+  }
+
+  .review-form{
     padding: 18px;
-    border-radius: 20px;
   }
 
   .review-form__grid{
@@ -2887,6 +2983,7 @@ body.modal-open{
     justify-content: center;
   }
 }
+
 .review-icon{
   display:flex;
   align-items:center;
@@ -4523,17 +4620,18 @@ body.modal-open{
 "reviews.tripadvisor.button": "Ver no Tripadvisor",
 "reviews.google.button": "Ver no Google",
 "reviewForm.title": "Partilha a tua experiência",
-"reviewForm.lead": "O teu feedback ajuda o Horta with César a crescer. Também podes enviar até 2 fotos.",
+"reviewForm.lead": "O teu feedback ajuda o Horta with César a crescer. Também podes adicionar até 2 fotos.",
 "reviewForm.name": "O teu nome",
 "reviewForm.country": "País",
 "reviewForm.email": "Email",
-"reviewForm.rating": "Avaliação",
+"reviewForm.rating": "Avaliação geral",
 "reviewForm.message": "O teu feedback",
-"reviewForm.photos": "Carregar até 2 fotos",
-"reviewForm.photosHelp": "Seleciona no máximo 2 imagens.",
-"reviewForm.consent": "Autorizo o Horta with César a utilizar a minha avaliação e fotos no website e nas redes sociais.",
+"reviewForm.photos": "Adicionar até 2 fotos",
+"reviewForm.photosHelp": "Podes partilhar até 2 imagens da experiência.",
+"reviewForm.consent": "Autorizo a publicação da minha avaliação e fotos no website e redes sociais.",
 "reviewForm.cancel": "Cancelar",
-"reviewForm.submit": "Enviar avaliação",
+"reviewForm.submit": "Enviar feedback",
+
 
 
 
@@ -4785,17 +4883,18 @@ body.modal-open{
 "reviews.tripadvisor.button": "View on Tripadvisor",
 "reviews.google.button": "View on Google",
 "reviewForm.title": "Share your experience",
-"reviewForm.lead": "Your feedback helps Horta with César grow. You can also upload up to 2 photos.",
+"reviewForm.lead": "Your feedback helps Horta with César grow. You can also add up to 2 photos.",
 "reviewForm.name": "Your name",
 "reviewForm.country": "Country",
 "reviewForm.email": "Email",
-"reviewForm.rating": "Rating",
+"reviewForm.rating": "Overall rating",
 "reviewForm.message": "Your feedback",
-"reviewForm.photos": "Upload up to 2 photos",
-"reviewForm.photosHelp": "Please select a maximum of 2 images.",
-"reviewForm.consent": "I allow Horta with César to use my review and photos on the website and social media.",
+"reviewForm.photos": "Add up to 2 photos",
+"reviewForm.photosHelp": "You can share up to 2 images from the experience.",
+"reviewForm.consent": "I allow my review and photos to be published on the website and social media.",
 "reviewForm.cancel": "Cancel",
-"reviewForm.submit": "Send review",
+"reviewForm.submit": "Send feedback",
+
 
 
 
@@ -5778,120 +5877,177 @@ validateBooking();
 })();
 </script>
   
-   <div class="review-modal" id="reviewModal" aria-hidden="true">
+  <div class="review-modal" id="reviewModal" aria-hidden="true">
   <div class="review-modal__backdrop" data-close-review-modal></div>
 
   <div class="review-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="reviewModalTitle">
-    <button type="button" class="review-modal__close" data-close-review-modal aria-label="Close">
-      ✕
-    </button>
+    <button type="button" class="review-modal__close" data-close-review-modal aria-label="Close">×</button>
 
-    <div class="review-modal__head">
+    <div class="review-modal__hero">
       <h2 id="reviewModalTitle" data-i18n="reviewForm.title">Share your experience</h2>
       <p data-i18n="reviewForm.lead">
         Your feedback helps Horta with César grow. You can also upload up to 2 photos.
       </p>
+      <div class="review-modal__accent"></div>
     </div>
 
-    <form class="review-form"
-      action="https://formsubmit.co/bbffe6da37eb86996e4af484b8e084f4"
-      method="POST"
-      enctype="multipart/form-data">
+    <form id="review-form"
+          class="review-form"
+          action="https://formsubmit.co/bbffe6da37eb86996e4af484b8e084f4"
+          method="POST"
+          enctype="multipart/form-data"
+          novalidate>
 
-  <input type="hidden" name="_subject" value="Nova review - Horta with César">
-  <input type="hidden" name="_template" value="box">
-  <input type="hidden" name="_captcha" value="false">
-  <input type="hidden" name="_next" value="https://hortawithcesar.com/#reviews">
-  <input type="hidden" name="form_type" value="review">
-
-  <input type="text" name="_honey" style="display:none">
+      <input type="hidden" name="_subject" value="Nova review - Horta with César">
+      <input type="hidden" name="_template" value="box">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="https://hortawithcesar.com/#reviews">
+      <input type="hidden" name="form_type" value="review">
+      <input type="text" name="_honey" style="display:none">
 
       <div class="review-form__grid">
         <div class="field">
           <label for="reviewName" data-i18n="reviewForm.name">Your name</label>
-          <input id="reviewName" name="name" type="text" required>
+          <input id="reviewName" name="name" type="text" placeholder="Your full name" required>
         </div>
 
         <div class="field">
           <label for="reviewCountry" data-i18n="reviewForm.country">Country</label>
-          <input id="reviewCountry" name="country" type="text">
+          <input id="reviewCountry" name="country" type="text" placeholder="Portugal" required>
         </div>
       </div>
 
       <div class="field">
         <label for="reviewEmail" data-i18n="reviewForm.email">Email</label>
-        <input id="reviewEmail" name="email" type="email" required>
+        <input id="reviewEmail" name="email" type="email" placeholder="name@email.com" required>
       </div>
 
       <div class="field">
-        <label for="reviewRating" data-i18n="reviewForm.rating">Rating</label>
-        <select id="reviewRating" name="rating" required>
-          <option value="5">★★★★★ – 5</option>
-          <option value="4">★★★★ – 4</option>
-          <option value="3">★★★ – 3</option>
-          <option value="2">★★ – 2</option>
-          <option value="1">★ – 1</option>
-        </select>
+        <label data-i18n="reviewForm.rating">Overall rating</label>
+
+        <div class="rating-picker" role="radiogroup" aria-label="Rating">
+          <button type="button" class="rating-star is-active" data-rating="1" aria-label="1 star">★</button>
+          <button type="button" class="rating-star is-active" data-rating="2" aria-label="2 stars">★</button>
+          <button type="button" class="rating-star is-active" data-rating="3" aria-label="3 stars">★</button>
+          <button type="button" class="rating-star is-active" data-rating="4" aria-label="4 stars">★</button>
+          <button type="button" class="rating-star is-active" data-rating="5" aria-label="5 stars">★</button>
+          <span class="rating-value">5/5</span>
+        </div>
+
+        <input type="hidden" id="reviewRating" name="rating" value="5" required>
       </div>
 
       <div class="field">
         <label for="reviewMessage" data-i18n="reviewForm.message">Your feedback</label>
-        <textarea id="reviewMessage" name="message" rows="6" required></textarea>
+        <textarea id="reviewMessage" name="message" rows="6" placeholder="Tell us a little about your experience..." required></textarea>
       </div>
 
       <div class="field">
-        <label for="reviewPhotos" data-i18n="reviewForm.photos">Upload up to 2 photos</label>
+        <label for="reviewPhotos" data-i18n="reviewForm.photos">Add up to 2 photos</label>
         <input id="reviewPhotos"
                name="photos"
                type="file"
                accept="image/*"
                multiple>
         <small class="field-help" data-i18n="reviewForm.photosHelp">
-          Please select a maximum of 2 images.
+          You can share up to 2 images from the experience.
         </small>
+        <div id="reviewPhotoList" class="review-photo-list"></div>
       </div>
 
       <div class="field field-checkbox">
         <label>
-          <input type="checkbox" name="consent" required>
+          <input id="reviewConsent" type="checkbox" name="consent" required>
           <span data-i18n="reviewForm.consent">
-            I allow Horta with César to use my review and photos on the website and social media.
+            I allow my review and photos to be published on the website and social media.
           </span>
         </label>
       </div>
 
       <div class="review-form__actions">
-        <button type="button" class="btn btn-ghost" data-close-review-modal data-i18n="reviewForm.cancel">
+        <button type="button"
+                class="btn btn-ghost review-cancel-btn"
+                data-close-review-modal
+                data-i18n="reviewForm.cancel">
           Cancel
         </button>
 
-        <button type="submit" class="btn btn-primary" data-i18n="reviewForm.submit">
-          Send review
+        <button type="submit"
+                id="reviewSubmitBtn"
+                class="btn btn-primary"
+                disabled
+                aria-disabled="true"
+                data-i18n="reviewForm.submit">
+          Send feedback
         </button>
       </div>
     </form>
   </div>
 </div>
 
-  <script>
+
+ <script>
   (function () {
     const modal = document.getElementById('reviewModal');
     if (!modal) return;
 
     const openButtons = document.querySelectorAll('[data-open-review-modal]');
     const closeButtons = modal.querySelectorAll('[data-close-review-modal]');
+    const form = document.getElementById('review-form');
     const photoInput = document.getElementById('reviewPhotos');
+    const photoList = document.getElementById('reviewPhotoList');
+    const submitBtn = document.getElementById('reviewSubmitBtn');
+
+    const requiredFields = [
+      document.getElementById('reviewName'),
+      document.getElementById('reviewCountry'),
+      document.getElementById('reviewEmail'),
+      document.getElementById('reviewMessage'),
+      document.getElementById('reviewConsent')
+    ];
+
+    const ratingInput = document.getElementById('reviewRating');
+    const ratingStars = modal.querySelectorAll('.rating-star');
+    const ratingValue = modal.querySelector('.rating-value');
 
     function openModal() {
       modal.classList.add('is-open');
       modal.setAttribute('aria-hidden', 'false');
       document.body.classList.add('modal-open');
+      validateReviewForm();
     }
 
     function closeModal() {
       modal.classList.remove('is-open');
       modal.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('modal-open');
+    }
+
+    function setRating(value) {
+      ratingInput.value = value;
+      ratingStars.forEach(star => {
+        const starValue = Number(star.dataset.rating);
+        star.classList.toggle('is-active', starValue <= value);
+      });
+      if (ratingValue) ratingValue.textContent = `${value}/5`;
+      validateReviewForm();
+    }
+
+    function validateReviewForm() {
+      const allFilled = requiredFields.every(field => {
+        if (!field) return true;
+        if (field.type === 'checkbox') return field.checked;
+        return field.value.trim() !== '';
+      });
+
+      const emailField = document.getElementById('reviewEmail');
+      const emailValid = emailField && emailField.value.trim() !== '' && emailField.checkValidity();
+      const ratingValid = ratingInput && ratingInput.value.trim() !== '';
+
+      const isValid = allFilled && emailValid && ratingValid;
+
+      submitBtn.disabled = !isValid;
+      submitBtn.setAttribute('aria-disabled', String(!isValid));
     }
 
     openButtons.forEach(btn => {
@@ -5908,16 +6064,53 @@ validateBooking();
       }
     });
 
+    ratingStars.forEach(star => {
+      star.addEventListener('click', () => {
+        setRating(Number(star.dataset.rating));
+      });
+    });
+
+    requiredFields.forEach(field => {
+      if (!field) return;
+      field.addEventListener('input', validateReviewForm);
+      field.addEventListener('change', validateReviewForm);
+    });
+
     if (photoInput) {
       photoInput.addEventListener('change', function () {
         if (this.files.length > 2) {
           alert('Please select a maximum of 2 photos.');
           this.value = '';
+          if (photoList) photoList.innerHTML = '';
+          return;
+        }
+
+        if (photoList) {
+          photoList.innerHTML = '';
+          Array.from(this.files).forEach(file => {
+            const item = document.createElement('div');
+            item.className = 'review-photo-item';
+            item.textContent = file.name;
+            photoList.appendChild(item);
+          });
         }
       });
     }
+
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        validateReviewForm();
+        if (submitBtn.disabled) {
+          e.preventDefault();
+        }
+      });
+    }
+
+    setRating(5);
+    validateReviewForm();
   })();
 </script>
+
 
 
 <!-- ===== Modal: Política de Cancelamento ===== -->
