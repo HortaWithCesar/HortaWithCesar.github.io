@@ -2632,6 +2632,92 @@ a[aria-disabled="true"] {
 @supports not (overflow: clip){
   .about{ overflow-x: hidden; }
 }
+
+/* REVIEWS SECTION */
+
+.reviews{
+  padding:70px 0;
+  background:#f8fbfd;
+  border-top:1px solid var(--line);
+}
+
+.reviews-head{
+  text-align:center;
+  max-width:700px;
+  margin:auto;
+  margin-bottom:40px;
+}
+
+.reviews-head h2{
+  margin-bottom:10px;
+}
+
+.reviews-lead{
+  color:var(--muted);
+  line-height:1.6;
+}
+
+.reviews-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+.review-card{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:24px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.04);
+  display:flex;
+  flex-direction:column;
+}
+
+.review-highlight{
+  border:2px solid var(--brand);
+}
+
+.review-top{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-bottom:15px;
+}
+
+.review-icon{
+  font-size:22px;
+}
+
+.review-source{
+  font-size:13px;
+  color:var(--muted);
+}
+
+.review-score{
+  margin:10px 0;
+}
+
+.review-score strong{
+  font-size:18px;
+}
+
+.review-text{
+  color:var(--muted);
+  margin-bottom:18px;
+  line-height:1.6;
+}
+
+.review-btn{
+  margin-top:auto;
+  width:100%;
+  text-align:center;
+}
+
+@media (max-width:900px){
+  .reviews-grid{
+    grid-template-columns:1fr;
+  }
+}
   </style>
 </head>
 <body>
@@ -3355,6 +3441,104 @@ a[aria-disabled="true"] {
 
   </div>
 </article>
+    </div>
+  </div>
+</section>
+
+<section id="reviews" class="reviews">
+  <div class="wrap">
+
+    <div class="reviews-head">
+      <h2>Reviews & Feedback</h2>
+      <p class="reviews-lead">
+        Honest feedback from travellers helps small local projects grow.
+        Reviews from the first guests will appear here.
+      </p>
+    </div>
+
+    <div class="reviews-grid">
+
+      <!-- TRIPADVISOR -->
+      <article class="review-card">
+        <div class="review-top">
+          <div class="review-icon">🧭</div>
+          <div>
+            <h3>Tripadvisor</h3>
+            <p class="review-source">Travel platform reviews</p>
+          </div>
+        </div>
+
+        <div class="review-score">
+          <strong>★★★★★</strong>
+          <span>1 review</span>
+        </div>
+
+        <p class="review-text">
+          Independent travellers share their experiences on Tripadvisor.
+        </p>
+
+        <a class="btn btn-ghost review-btn"
+           target="_blank"
+           rel="noopener noreferrer"
+           href="https://www.tripadvisor.pt/Attraction_Review-g189126-d34028421-Reviews-Horta_with_Cesar-Horta_Faial_Island_Azores.html">
+           View on Tripadvisor
+        </a>
+      </article>
+
+
+      <!-- GOOGLE -->
+      <article class="review-card">
+        <div class="review-top">
+          <div class="review-icon">⭐</div>
+          <div>
+            <h3>Google Reviews</h3>
+            <p class="review-source">Google Maps ratings</p>
+          </div>
+        </div>
+
+        <div class="review-score">
+          <strong>Coming soon</strong>
+        </div>
+
+        <p class="review-text">
+          Reviews will appear here once the Google Business profile validation is complete.
+        </p>
+
+        <a class="btn btn-ghost review-btn"
+           target="_blank"
+           rel="noopener noreferrer"
+           href="GOOGLE_LINK_AQUI">
+           View on Google
+        </a>
+      </article>
+
+
+      <!-- DIRECT FEEDBACK -->
+      <article class="review-card review-highlight">
+
+        <div class="review-top">
+          <div class="review-icon">💬</div>
+          <div>
+            <h3>Guest Feedback</h3>
+            <p class="review-source">Reviews shared directly here</p>
+          </div>
+        </div>
+
+        <div class="review-score">
+          <strong>Be one of the first guests</strong>
+        </div>
+
+        <p class="review-text">
+          After the first tours, honest guest feedback will be displayed here.
+        </p>
+
+        <button class="btn btn-primary"
+        onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">
+          Book your experience
+        </button>
+
+      </article>
+
     </div>
   </div>
 </section>
@@ -4121,6 +4305,24 @@ a[aria-disabled="true"] {
 "hero.price.person": "por pessoa",
 "hero.cta": "Explorar trilhos ↓",
 "about.subtitle": "Guia local certificado do Faial • Experiências autênticas nos Açores",
+"reviews.title": "Reviews & Feedback",
+"reviews.lead": "Este projeto está apenas a começar. As primeiras reviews dos clientes irão aparecer aqui em breve.",
+"reviews.comingsoon": "Brevemente",
+
+"reviews.google.title": "Google Reviews",
+"reviews.google.platform": "Perfil Google Business",
+"reviews.google.text": "No futuro, os clientes poderão partilhar aqui publicamente a sua experiência no Google.",
+"reviews.google.button": "Sê um dos primeiros clientes",
+
+"reviews.direct.title": "Feedback dos Clientes",
+"reviews.direct.platform": "Reviews partilhadas diretamente no site",
+"reviews.direct.text": "Comentários curtos e honestos dos clientes serão apresentados aqui após os primeiros passeios.",
+"reviews.direct.button": "Reservar experiência",
+
+"reviews.tripadvisor.title": "Tripadvisor",
+"reviews.tripadvisor.platform": "Reviews em plataforma de viagens",
+"reviews.tripadvisor.text": "As opiniões de viajantes independentes também poderão ser destacadas aqui no futuro.",
+"reviews.tripadvisor.button": "Planear passeio",
 
 
         "rv.title": "Resumo da reserva",
@@ -4351,6 +4553,24 @@ a[aria-disabled="true"] {
 "hero.price.person": "per person",
 "hero.cta": "Explore trails ↓",
 "about.subtitle": "Certified local guide from Faial • Authentic Azores experiences",
+"reviews.title": "Reviews & Feedback",
+"reviews.lead": "This project is just beginning. The first guest reviews will appear here soon.",
+"reviews.comingsoon": "Coming soon",
+
+"reviews.google.title": "Google Reviews",
+"reviews.google.platform": "Google Business Profile",
+"reviews.google.text": "Future guests will be able to share their experience publicly on Google.",
+"reviews.google.button": "Be one of the first guests",
+
+"reviews.direct.title": "Guest Feedback",
+"reviews.direct.platform": "Reviews shared directly on this site",
+"reviews.direct.text": "Short and honest guest feedback will be featured here after the first tours.",
+"reviews.direct.button": "Book your experience",
+
+"reviews.tripadvisor.title": "Tripadvisor",
+"reviews.tripadvisor.platform": "Travel platform reviews",
+"reviews.tripadvisor.text": "Reviews from independent travellers can also be highlighted here in the future.",
+"reviews.tripadvisor.button": "Plan your tour",
 
 
 
