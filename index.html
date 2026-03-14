@@ -2718,6 +2718,192 @@ a[aria-disabled="true"] {
     grid-template-columns:1fr;
   }
 }
+.stars{
+  color:#00aa6c; /* verde Tripadvisor */
+  letter-spacing:2px;
+}
+
+.review-count{
+  margin-left:6px;
+  color:var(--muted);
+  font-size:14px;
+}
+.review-card:first-child .review-btn{
+  background:#00aa6c;
+  color:white;
+  border:none;
+}
+
+.review-card:first-child .review-btn:hover{
+  background:#008f5a;
+}
+.reviews-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:28px;
+}
+/* ===== REVIEW MODAL ===== */
+.review-modal{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+}
+
+.review-modal.is-open{
+  display: block;
+}
+
+.review-modal__backdrop{
+  position: absolute;
+  inset: 0;
+  background: rgba(2,6,23,.58);
+  backdrop-filter: blur(3px);
+}
+
+.review-modal__dialog{
+  position: relative;
+  width: min(680px, calc(100% - 24px));
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+  margin: 16px auto;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(2,6,23,.25);
+  padding: 24px;
+}
+
+.review-modal__close{
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 999px;
+  background: #f3f4f6;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.review-modal__head{
+  margin-bottom: 18px;
+  padding-right: 44px;
+}
+
+.review-modal__head h2{
+  margin: 0 0 8px;
+}
+
+.review-modal__head p{
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.review-form{
+  display: grid;
+  gap: 16px;
+}
+
+.review-form__grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.field{
+  display: grid;
+  gap: 8px;
+}
+
+.field label{
+  font-weight: 700;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font: inherit;
+  background: #fff;
+}
+
+.field textarea{
+  resize: vertical;
+  min-height: 130px;
+}
+
+.field-help{
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.field-checkbox label{
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.field-checkbox input{
+  width: auto;
+  margin-top: 3px;
+}
+
+.review-form__actions{
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+body.modal-open{
+  overflow: hidden;
+}
+
+@media (max-width: 700px){
+  .review-modal__dialog{
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .review-form__grid{
+    grid-template-columns: 1fr;
+  }
+
+  .review-form__actions{
+    flex-direction: column-reverse;
+  }
+
+  .review-form__actions .btn{
+    width: 100%;
+    justify-content: center;
+  }
+}
+.review-icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:36px;
+  height:36px;
+}
+.tripadvisor-btn{
+  background:#00aa6c;
+  color:white;
+}
+
+.tripadvisor-btn:hover{
+  background:#008f5a;
+}
+
+
   </style>
 </head>
 <body>
@@ -3449,10 +3635,9 @@ a[aria-disabled="true"] {
   <div class="wrap">
 
     <div class="reviews-head">
-      <h2>Reviews & Feedback</h2>
-      <p class="reviews-lead">
-        Honest feedback from travellers helps small local projects grow.
-        Reviews from the first guests will appear here.
+      <h2 data-i18n="reviews.title">Reviews & Feedback</h2>
+      <p class="reviews-lead" data-i18n="reviews.lead">
+        This project is just beginning. The first guest reviews will appear here soon.
       </p>
     </div>
 
@@ -3461,87 +3646,102 @@ a[aria-disabled="true"] {
       <!-- TRIPADVISOR -->
       <article class="review-card">
         <div class="review-top">
-          <div class="review-icon">🧭</div>
+          <div class="review-icon">
+  <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true">
+    <circle cx="16" cy="16" r="16" fill="#00aa6c"/>
+    <circle cx="11" cy="16" r="5" fill="#fff"/>
+    <circle cx="21" cy="16" r="5" fill="#fff"/>
+    <circle cx="11" cy="16" r="2.3" fill="#000"/>
+    <circle cx="21" cy="16" r="2.3" fill="#000"/>
+  </svg>
+</div>
+
           <div>
-            <h3>Tripadvisor</h3>
-            <p class="review-source">Travel platform reviews</p>
+            <h3 data-i18n="reviews.tripadvisor.title">Tripadvisor</h3>
+            <p class="review-source" data-i18n="reviews.tripadvisor.platform">Travel platform reviews</p>
           </div>
         </div>
 
         <div class="review-score">
-          <strong>★★★★★</strong>
-          <span>1 review</span>
+          <span class="stars">★★★★★</span>
+          <span class="review-count" data-i18n="reviews.tripadvisor.count">1 review on Tripadvisor</span>
         </div>
 
-        <p class="review-text">
-          Independent travellers share their experiences on Tripadvisor.
+        <p class="review-text" data-i18n="reviews.tripadvisor.text">
+          Reviews from independent travellers can also be highlighted here in the future.
         </p>
 
-        <a class="btn btn-ghost review-btn"
+        <a class="btn btn-ghost review-btn tripadvisor-btn"
            target="_blank"
            rel="noopener noreferrer"
-           href="https://www.tripadvisor.pt/Attraction_Review-g189126-d34028421-Reviews-Horta_with_Cesar-Horta_Faial_Island_Azores.html">
+           href="https://www.tripadvisor.pt/Attraction_Review-g189126-d34028421-Reviews-Horta_with_Cesar-Horta_Faial_Island_Azores.html"
+           data-i18n="reviews.tripadvisor.button">
            View on Tripadvisor
         </a>
       </article>
 
-
       <!-- GOOGLE -->
       <article class="review-card">
         <div class="review-top">
-          <div class="review-icon">⭐</div>
+          <div class="review-icon">
+  <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
+    <path fill="#4285F4" d="M21.35 11.1H12v2.98h5.38c-.23 1.25-.92 2.3-1.96 3.02v2.5h3.17c1.86-1.71 2.76-4.23 2.76-7.1 0-.61-.06-1.2-.17-1.77z"/>
+    <path fill="#34A853" d="M12 22c2.7 0 4.97-.9 6.63-2.44l-3.17-2.5c-.88.6-2 .96-3.46.96-2.66 0-4.92-1.8-5.73-4.22H3.01v2.65A9.99 9.99 0 0012 22z"/>
+    <path fill="#FBBC05" d="M6.27 13.8A5.99 5.99 0 016 12c0-.62.1-1.22.27-1.8V7.55H3.01A9.99 9.99 0 002 12c0 1.64.39 3.2 1.01 4.45l3.26-2.65z"/>
+    <path fill="#EA4335" d="M12 6.04c1.47 0 2.78.5 3.82 1.48l2.87-2.87C16.96 3.05 14.69 2 12 2A9.99 9.99 0 003.01 7.55l3.26 2.65C7.08 7.84 9.34 6.04 12 6.04z"/>
+  </svg>
+</div>
+
           <div>
-            <h3>Google Reviews</h3>
-            <p class="review-source">Google Maps ratings</p>
+            <h3 data-i18n="reviews.google.title">Google Reviews</h3>
+            <p class="review-source" data-i18n="reviews.google.platform">Google Business Profile</p>
           </div>
         </div>
 
         <div class="review-score">
-          <strong>Coming soon</strong>
+          <strong data-i18n="reviews.google.status">Google profile</strong>
         </div>
 
-        <p class="review-text">
-          Reviews will appear here once the Google Business profile validation is complete.
+        <p class="review-text" data-i18n="reviews.google.text">
+          Future guests will be able to share their experience publicly on Google.
         </p>
 
         <a class="btn btn-ghost review-btn"
            target="_blank"
            rel="noopener noreferrer"
-           href="GOOGLE_LINK_AQUI">
+           href="GOOGLE_LINK_AQUI"
+           data-i18n="reviews.google.button">
            View on Google
         </a>
       </article>
 
-
       <!-- DIRECT FEEDBACK -->
       <article class="review-card review-highlight">
-
         <div class="review-top">
-          <div class="review-icon">💬</div>
+          <div class="review-icon">🧭</div>
           <div>
-            <h3>Guest Feedback</h3>
-            <p class="review-source">Reviews shared directly here</p>
+            <h3 data-i18n="reviews.direct.title">Guest Feedback</h3>
+            <p class="review-source" data-i18n="reviews.direct.platform">Reviews shared directly on this site</p>
           </div>
         </div>
 
         <div class="review-score">
-          <strong>Be one of the first guests</strong>
+          <strong data-i18n="reviews.direct.status">Be one of the first guests</strong>
         </div>
 
-        <p class="review-text">
-          After the first tours, honest guest feedback will be displayed here.
-        </p>
-
-        <button class="btn btn-primary"
-        onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">
-          Book your experience
-        </button>
+<button type="button"
+        class="btn btn-primary review-btn"
+        data-open-review-modal
+        data-i18n="reviews.direct.button">
+  Leave your review
+</button>
 
       </article>
 
     </div>
   </div>
 </section>
+
   
 <div id="booking-modal" class="modal-backdrop" style="display:none;">
   <section id="booking" class="modal booking-modal" aria-label="Efetuar Reserva">
@@ -4308,21 +4508,34 @@ a[aria-disabled="true"] {
 "reviews.title": "Reviews & Feedback",
 "reviews.lead": "Este projeto está apenas a começar. As primeiras reviews dos clientes irão aparecer aqui em breve.",
 "reviews.comingsoon": "Brevemente",
-
 "reviews.google.title": "Google Reviews",
 "reviews.google.platform": "Perfil Google Business",
 "reviews.google.text": "No futuro, os clientes poderão partilhar aqui publicamente a sua experiência no Google.",
-"reviews.google.button": "Sê um dos primeiros clientes",
-
 "reviews.direct.title": "Feedback dos Clientes",
 "reviews.direct.platform": "Reviews partilhadas diretamente no site",
-"reviews.direct.text": "Comentários curtos e honestos dos clientes serão apresentados aqui após os primeiros passeios.",
-"reviews.direct.button": "Reservar experiência",
-
+"reviews.direct.button": "Comente a sua experiência",
 "reviews.tripadvisor.title": "Tripadvisor",
 "reviews.tripadvisor.platform": "Reviews em plataforma de viagens",
 "reviews.tripadvisor.text": "As opiniões de viajantes independentes também poderão ser destacadas aqui no futuro.",
-"reviews.tripadvisor.button": "Planear passeio",
+"reviews.tripadvisor.count": "review no Tripadvisor",
+"reviews.google.status": "Perfil Google",
+"reviews.direct.status": "Sê um dos primeiros clientes",
+"reviews.tripadvisor.button": "Ver no Tripadvisor",
+"reviews.google.button": "Ver no Google",
+"reviewForm.title": "Partilha a tua experiência",
+"reviewForm.lead": "O teu feedback ajuda o Horta with César a crescer. Também podes enviar até 2 fotos.",
+"reviewForm.name": "O teu nome",
+"reviewForm.country": "País",
+"reviewForm.email": "Email",
+"reviewForm.rating": "Avaliação",
+"reviewForm.message": "O teu feedback",
+"reviewForm.photos": "Carregar até 2 fotos",
+"reviewForm.photosHelp": "Seleciona no máximo 2 imagens.",
+"reviewForm.consent": "Autorizo o Horta with César a utilizar a minha avaliação e fotos no website e nas redes sociais.",
+"reviewForm.cancel": "Cancelar",
+"reviewForm.submit": "Enviar avaliação",
+
+
 
 
         "rv.title": "Resumo da reserva",
@@ -4560,17 +4773,31 @@ a[aria-disabled="true"] {
 "reviews.google.title": "Google Reviews",
 "reviews.google.platform": "Google Business Profile",
 "reviews.google.text": "Future guests will be able to share their experience publicly on Google.",
-"reviews.google.button": "Be one of the first guests",
-
 "reviews.direct.title": "Guest Feedback",
 "reviews.direct.platform": "Reviews shared directly on this site",
-"reviews.direct.text": "Short and honest guest feedback will be featured here after the first tours.",
-"reviews.direct.button": "Book your experience",
-
+"reviews.direct.button": "Leave your review",
 "reviews.tripadvisor.title": "Tripadvisor",
 "reviews.tripadvisor.platform": "Travel platform reviews",
 "reviews.tripadvisor.text": "Reviews from independent travellers can also be highlighted here in the future.",
-"reviews.tripadvisor.button": "Plan your tour",
+"reviews.tripadvisor.count": "review on Tripadvisor",
+"reviews.google.status": "Google profile",
+"reviews.direct.status": "Be one of the first guests",
+"reviews.tripadvisor.button": "View on Tripadvisor",
+"reviews.google.button": "View on Google",
+"reviewForm.title": "Share your experience",
+"reviewForm.lead": "Your feedback helps Horta with César grow. You can also upload up to 2 photos.",
+"reviewForm.name": "Your name",
+"reviewForm.country": "Country",
+"reviewForm.email": "Email",
+"reviewForm.rating": "Rating",
+"reviewForm.message": "Your feedback",
+"reviewForm.photos": "Upload up to 2 photos",
+"reviewForm.photosHelp": "Please select a maximum of 2 images.",
+"reviewForm.consent": "I allow Horta with César to use my review and photos on the website and social media.",
+"reviewForm.cancel": "Cancel",
+"reviewForm.submit": "Send review",
+
+
 
 
 
@@ -5551,6 +5778,53 @@ validateBooking();
 })();
 </script>
 
+  <script>
+  (function () {
+    const modal = document.getElementById('reviewModal');
+    if (!modal) return;
+
+    const openButtons = document.querySelectorAll('[data-open-review-modal]');
+    const closeButtons = modal.querySelectorAll('[data-close-review-modal]');
+    const photoInput = document.getElementById('reviewPhotos');
+
+    function openModal() {
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('modal-open');
+    }
+
+    function closeModal() {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('modal-open');
+    }
+
+    openButtons.forEach(btn => {
+      btn.addEventListener('click', openModal);
+    });
+
+    closeButtons.forEach(btn => {
+      btn.addEventListener('click', closeModal);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+        closeModal();
+      }
+    });
+
+    if (photoInput) {
+      photoInput.addEventListener('change', function () {
+        if (this.files.length > 2) {
+          alert('Please select a maximum of 2 photos.');
+          this.value = '';
+        }
+      });
+    }
+  })();
+</script>
+
+
 <!-- ===== Modal: Política de Cancelamento ===== -->
 <section id="modal-cancel-policy" class="modal-backdrop" style="display:none;">
   <div class="modal modal-policy">
@@ -6247,6 +6521,101 @@ checkAvailability();
 })();
     
 </script>
-  
+
+  <div class="review-modal" id="reviewModal" aria-hidden="true">
+  <div class="review-modal__backdrop" data-close-review-modal></div>
+
+  <div class="review-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="reviewModalTitle">
+    <button type="button" class="review-modal__close" data-close-review-modal aria-label="Close">
+      ✕
+    </button>
+
+    <div class="review-modal__head">
+      <h2 id="reviewModalTitle" data-i18n="reviewForm.title">Share your experience</h2>
+      <p data-i18n="reviewForm.lead">
+        Your feedback helps Horta with César grow. You can also upload up to 2 photos.
+      </p>
+    </div>
+
+    <form class="review-form"
+      action="https://formsubmit.co/bbffe6da37eb86996e4af484b8e084f4"
+      method="POST"
+      enctype="multipart/form-data">
+
+  <input type="hidden" name="_subject" value="Nova review - Horta with César">
+  <input type="hidden" name="_template" value="box">
+  <input type="hidden" name="_captcha" value="false">
+  <input type="hidden" name="_next" value="https://hortawithcesar.com/#reviews">
+  <input type="hidden" name="form_type" value="review">
+
+  <input type="text" name="_honey" style="display:none">
+
+      <div class="review-form__grid">
+        <div class="field">
+          <label for="reviewName" data-i18n="reviewForm.name">Your name</label>
+          <input id="reviewName" name="name" type="text" required>
+        </div>
+
+        <div class="field">
+          <label for="reviewCountry" data-i18n="reviewForm.country">Country</label>
+          <input id="reviewCountry" name="country" type="text">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="reviewEmail" data-i18n="reviewForm.email">Email</label>
+        <input id="reviewEmail" name="email" type="email" required>
+      </div>
+
+      <div class="field">
+        <label for="reviewRating" data-i18n="reviewForm.rating">Rating</label>
+        <select id="reviewRating" name="rating" required>
+          <option value="5">★★★★★ – 5</option>
+          <option value="4">★★★★ – 4</option>
+          <option value="3">★★★ – 3</option>
+          <option value="2">★★ – 2</option>
+          <option value="1">★ – 1</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="reviewMessage" data-i18n="reviewForm.message">Your feedback</label>
+        <textarea id="reviewMessage" name="message" rows="6" required></textarea>
+      </div>
+
+      <div class="field">
+        <label for="reviewPhotos" data-i18n="reviewForm.photos">Upload up to 2 photos</label>
+        <input id="reviewPhotos"
+               name="photos"
+               type="file"
+               accept="image/*"
+               multiple>
+        <small class="field-help" data-i18n="reviewForm.photosHelp">
+          Please select a maximum of 2 images.
+        </small>
+      </div>
+
+      <div class="field field-checkbox">
+        <label>
+          <input type="checkbox" name="consent" required>
+          <span data-i18n="reviewForm.consent">
+            I allow Horta with César to use my review and photos on the website and social media.
+          </span>
+        </label>
+      </div>
+
+      <div class="review-form__actions">
+        <button type="button" class="btn btn-ghost" data-close-review-modal data-i18n="reviewForm.cancel">
+          Cancel
+        </button>
+
+        <button type="submit" class="btn btn-primary" data-i18n="reviewForm.submit">
+          Send review
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
 </body>
 </html>
