@@ -2681,6 +2681,7 @@ a[aria-disabled="true"] {
   flex-direction:column;
   text-align:center;
   align-items:center;
+  justify-content:flex-start;
 }
 
 .review-highlight{
@@ -2688,8 +2689,8 @@ a[aria-disabled="true"] {
 }
 
 .review-top{
-  display:flex;
-  align-items:center;
+   display:flex;
+  align-items:flex-start;
   justify-content:flex-start;
   gap:12px;
   margin-bottom:18px;
@@ -2706,6 +2707,7 @@ a[aria-disabled="true"] {
 
 
 .review-source{
+  margin:4px 0 0;
   font-size:13px;
   color:var(--muted);
 }
@@ -2794,6 +2796,7 @@ a[aria-disabled="true"] {
 
 .review-top-direct h3{
   margin:0;
+  line-height:1.2;
 }
 
 .review-top-direct .review-source{
@@ -3307,11 +3310,17 @@ body.guest-review-open{
   background:#00aa6c;
   color:white;
 }
-.review-score,
+.review-score{
+  margin: 10px 0 16px;
+  width: 100%;
+  text-align: center;
+}
+
 .review-icon svg{
-  width:40px;
-  height:40px;
-  display:block;
+  width: 40px;
+  height: 40px;
+  display: block;
+  flex-shrink: 0;
 }
 .review-icon-tripadvisor svg{
   display:block;
