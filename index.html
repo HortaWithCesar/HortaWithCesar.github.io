@@ -2649,8 +2649,9 @@ a[aria-disabled="true"] {
 }
 
 .reviews-head h2{
-  margin-bottom:10px;
+  font-size:clamp(28px,6vw,40px);
 }
+
 
 .reviews-lead{
   color:var(--muted);
@@ -2659,9 +2660,10 @@ a[aria-disabled="true"] {
 
 .reviews-grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:20px;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:24px;
 }
+
 
 .review-card{
   background:white;
