@@ -2689,20 +2689,19 @@ a[aria-disabled="true"] {
 }
 
 .review-top{
-   display:flex;
-  align-items:flex-start;
-  justify-content:flex-start;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   gap:12px;
-  margin-bottom:18px;
-  text-align:left;
-  width:100%;
+  width:fit-content;
+  margin:0 auto 18px;
 }
 
 .review-top > div:last-child{
   display:flex;
   flex-direction:column;
-  align-items:flex-start;
-  gap:4px;
+  align-items:center;
+  text-align:center;
 }
 
 
@@ -2710,6 +2709,7 @@ a[aria-disabled="true"] {
   margin:4px 0 0;
   font-size:13px;
   color:var(--muted);
+  text-align:center;
 }
 
 .review-score{
@@ -2795,8 +2795,9 @@ a[aria-disabled="true"] {
 }
 
 .review-top-direct h3{
-  margin:0;
+  margin:6px 0 0;
   line-height:1.2;
+  text-align:center;
 }
 
 .review-top-direct .review-source{
