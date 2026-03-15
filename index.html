@@ -2720,9 +2720,11 @@ a[aria-disabled="true"] {
 
 .review-text{
   color:var(--muted);
-  margin-bottom:18px;
+  margin:0 auto 18px;
   line-height:1.6;
-  text-align:center;
+  text-align:left;
+  max-width:32ch;
+  width:100%;
 }
 
 .review-btn{
@@ -2739,8 +2741,9 @@ a[aria-disabled="true"] {
   }
 }
 .stars{
-  color:#00aa6c; /* verde Tripadvisor */
-  letter-spacing:2px;
+  color:#00aa6c;
+  letter-spacing:3px;
+  font-size:18px;
 }
 
 .review-count{
@@ -3302,10 +3305,6 @@ body.guest-review-open{
   color:white;
 }
 .review-score,
-.review-text{
-  width:100%;
-  text-align:left;
-}
 .review-icon svg{
   width:40px;
   height:40px;
@@ -3313,8 +3312,8 @@ body.guest-review-open{
 }
 .review-icon-tripadvisor svg{
   display:block;
-  width:42px;
-  height:42px;
+  width:44px;
+  height:44px;
   filter:drop-shadow(0 1px 2px rgba(0,0,0,.08));
 }
 .tripadvisor-btn:hover{
