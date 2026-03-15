@@ -3291,13 +3291,6 @@ body.guest-review-open{
   cursor: pointer;
 }
 
-.guest-review-preview__stars{
-  color: #f4b400;
-  font-size: 18px;
-  letter-spacing: 2px;
-  margin-bottom: 10px;
-}
-
 .guest-review-preview__text{
   margin: 0 auto 12px;
   max-width: 28ch;
@@ -3499,6 +3492,9 @@ body.guest-review-open{
   color:#fff !important;
   border:none !important;
   box-shadow:0 10px 24px rgba(66,133,244,.18);
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .google-btn:hover{
@@ -4262,6 +4258,7 @@ body.guest-review-open{
 
       <!-- TRIPADVISOR -->
       <article class="review-card">
+        <div class="review-top">
         <div class="review-icon review-icon-tripadvisor" aria-hidden="true">
   <svg viewBox="0 0 64 64" width="28" height="28">
     <circle cx="32" cy="32" r="30" fill="#00aa6c"/>
