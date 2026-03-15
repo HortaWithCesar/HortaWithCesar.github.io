@@ -2695,14 +2695,12 @@ a[aria-disabled="true"] {
   justify-content:center;
   text-align:center;
 }
-.review-top div{
+.review-top > div:last-child{
   display:flex;
   flex-direction:column;
   align-items:center;
 }
-.review-icon{
-  font-size:22px;
-}
+
 
 .review-source{
   font-size:13px;
@@ -2775,7 +2773,97 @@ a[aria-disabled="true"] {
     overflow-x: hidden;
   }
 }
+.review-top-direct{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  text-align:center;
+  margin-bottom:18px;
+}
 
+.review-top-direct h3{
+  margin:0;
+}
+
+.review-top-direct .review-source{
+  margin:0;
+}
+
+.guest-review-top-stars{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:5px;
+  opacity:1;
+}
+
+.guest-review-top-stars svg{
+  width:20px;
+  height:20px;
+  fill:#f4b400;
+  filter:drop-shadow(0 1px 1px rgba(0,0,0,.06));
+}
+
+.guest-review-preview{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:10px;
+  cursor:pointer;
+}
+
+.guest-review-preview__text{
+  margin:0 auto;
+  max-width:26ch;
+  line-height:1.7;
+  font-style:italic;
+  color:var(--fg);
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+
+.guest-review-preview__stars{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:5px;
+  margin:0;
+}
+
+.guest-review-preview__stars svg{
+  width:22px;
+  height:22px;
+  fill:#f4b400;
+  filter:drop-shadow(0 1px 1px rgba(0,0,0,.08));
+}
+
+.guest-review-preview__meta{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  margin:0;
+  color:var(--muted);
+  font-size:14px;
+}
+
+.review-link{
+  border:0;
+  background:transparent;
+  color:var(--brand);
+  font-weight:700;
+  cursor:pointer;
+  text-decoration:underline;
+  text-underline-offset:3px;
+  padding:0;
+}
 /* ===== REVIEW MODAL ===== */
 .review-modal{
   position: fixed;
@@ -3022,8 +3110,9 @@ body.modal-open{
   display:flex;
   align-items:center;
   justify-content:center;
-  width:36px;
-  height:36px;
+  width:42px;
+  height:42px;
+  object-fit:contain;
 }
 /* GUEST REVIEW PREVIEW */
 .guest-review-preview{
@@ -4356,19 +4445,20 @@ body.guest-review-open{
      <!-- DIRECT FEEDBACK -->
 <article class="review-card review-highlight">
 
-  <div class="review-top">
-  <h3 data-i18n="reviews.direct.title">Guest Feedback</h3>
-  <div class="guest-review-top-stars" aria-hidden="true">
-    <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
-    <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
-    <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
-    <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
-    <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
-  </div>
-    <div>
-      <p class="review-source" data-i18n="reviews.direct.platform">
-        Reviews shared directly on this site </p>
+  <div class="review-top review-top-direct">
+    <h3 data-i18n="reviews.direct.title">Guest Feedback</h3>
+
+    <div class="guest-review-top-stars" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
     </div>
+
+    <p class="review-source" data-i18n="reviews.direct.platform">
+      Reviews shared directly on this site
+    </p>
   </div>
 
   <div class="review-slider" id="guestReviewSlider">
@@ -4381,17 +4471,17 @@ body.guest-review-open{
              data-review-author="Marco"
              data-review-country="Italy">
 
-          <div class="guest-review-preview__stars" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
-  </div>
-
           <p class="guest-review-preview__text" data-i18n="guestReviewX.preview">
             César was an excellent guide. Friendly, knowledgeable and passionate about Faial...
           </p>
+
+          <div class="guest-review-preview__stars" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+          </div>
 
           <div class="guest-review-preview__meta">
             <strong>Marco</strong>
@@ -4414,16 +4504,17 @@ body.guest-review-open{
              data-review-author="Ccamacho"
              data-review-country="Portugal">
 
-<div class="guest-review-preview__stars" aria-hidden="true">
-<svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
-<svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
-<svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
-<svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
-<svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
-</div>
           <p class="guest-review-preview__text" data-i18n="guestReview1.preview">
             Há dois anos visitei a Horta com a minha família e tivemos uma experiência inesquecível...
           </p>
+
+          <div class="guest-review-preview__stars" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+          </div>
 
           <div class="guest-review-preview__meta">
             <strong>Ccamacho</strong>
@@ -4445,17 +4536,17 @@ body.guest-review-open{
              data-review-author="Marco"
              data-review-country="Italy">
 
-          <div class="guest-review-preview__stars" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
-    </div>
-
           <p class="guest-review-preview__text" data-i18n="guestReview2.preview">
             César was an excellent guide. Friendly, knowledgeable and passionate about Faial...
           </p>
+
+          <div class="guest-review-preview__stars" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+          </div>
 
           <div class="guest-review-preview__meta">
             <strong>Marco</strong>
