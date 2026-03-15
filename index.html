@@ -3021,10 +3021,16 @@ body.modal-open{
 }
 
 .guest-review-preview__stars{
-  color: #f4b400;
-  font-size: 18px;
-  letter-spacing: 2px;
-  margin-bottom: 10px;
+  display:flex;
+  justify-content:center;
+  gap:4px;
+  margin-bottom:10px;
+}
+
+.guest-review-preview__stars svg{
+  width:18px;
+  height:18px;
+  fill:#f4b400;
 }
 
 .guest-review-preview__text{
@@ -3172,17 +3178,6 @@ body.guest-review-open{
     border-radius: 20px;
   }
 
-  .guest-review-modal__author{
-    font-size: 21px;
-  }
-
-  .guest-review-modal__text{
-    font-size: 17px;
-  }
-
-  .guest-review-modal__photos{
-    grid-template-columns: 1fr;
-  }
 }
     
 .tripadvisor-btn{
@@ -3471,18 +3466,6 @@ body.guest-review-open{
   .guest-review-modal__dialog{
     padding: 20px;
     border-radius: 20px;
-  }
-
-  .guest-review-modal__author{
-    font-size: 21px;
-  }
-
-  .guest-review-modal__text{
-    font-size: 17px;
-  }
-
-  .guest-review-modal__photos{
-    grid-template-columns: 1fr;
   }
 }
 
@@ -4313,27 +4296,32 @@ body.guest-review-open{
         </a>
       </article>
 
-      <!-- DIRECT FEEDBACK -->
-      <article class="review-card review-highlight">
+     <!-- DIRECT FEEDBACK -->
+<article class="review-card review-highlight">
 
-  <div class="review-icon">
-  <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
-    <path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z" fill="#f4b400"/>
+  <div class="review-top">
+    <div class="review-icon">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/>
   </svg>
-     <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
-    <path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z" fill="#f4b400"/>
-  </svg>
-     <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
-    <path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z" fill="#f4b400"/>
-  </svg>
-     <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
-    <path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z" fill="#f4b400"/>
-  </svg>
-     <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
-    <path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z" fill="#f4b400"/>
-  </svg>
-</div>
 
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/>
+  </svg>
+
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/>
+  </svg>
+
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/>
+  </svg>
+
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/>
+  </svg>
+
+    </div>
     <div>
       <h3 data-i18n="reviews.direct.title">Guest Feedback</h3>
       <p class="review-source" data-i18n="reviews.direct.platform">
@@ -4343,67 +4331,94 @@ body.guest-review-open{
   </div>
 
   <div class="review-slider" id="guestReviewSlider">
-   <div class="review-track">
+    <div class="review-track">
 
-     <!-- REVIEW exemplo desativado
-      <div class="guest-review-preview"
-           data-review-key="guestReviewX"
-           data-review-author="Marco"
-           data-review-country="Italy">
+      <!-- REVIEW exemplo desativado
+      <div class="review-item">
+        <div class="guest-review-preview"
+             data-review-key="guestReviewX"
+             data-review-author="Marco"
+             data-review-country="Italy">
 
-        <div class="guest-review-preview__stars" data-i18n="guestReviewX.stars">★★★★★</div>
+          <div class="guest-review-preview__stars" data-i18n="guestReviewX.stars">★★★★★</div>
 
-        <p class="guest-review-preview__text" data-i18n="guestReviewX.preview">
-          O César foi um guia excelente. Simpático, conhecedor e apaixonado pelo Faial...
-        </p>
+          <p class="guest-review-preview__text" data-i18n="guestReviewX.preview">
+            César was an excellent guide. Friendly, knowledgeable and passionate about Faial...
+          </p>
 
-        <div class="guest-review-preview__meta">
-          <strong>Marco</strong>
-          <span class="review-country">Italy</span>
+          <div class="guest-review-preview__meta">
+            <strong>Marco</strong>
+            <span class="review-country">Italy</span>
+          </div>
+
+          <button type="button"
+                  class="review-link"
+                  data-i18n="guestReviewX.button">
+            Read review
+          </button>
         </div>
-
-        <button type="button"
-                class="review-link"
-                data-i18n="guestReviewX.button">
-          Ler feedback
-        </button>
       </div>
+      -->
+
+      <!-- REVIEW 1 -->
+      <div class="review-item">
+        <div class="guest-review-preview"
+             data-review-key="guestReview1"
+             data-review-author="Ccamacho"
+             data-review-country="Portugal">
+
+          <div class="guest-review-preview__stars" data-i18n="guestReview1.stars">★★★★★</div>
+
+          <p class="guest-review-preview__text" data-i18n="guestReview1.preview">
+            Há dois anos visitei a Horta com a minha família e tivemos uma experiência inesquecível...
+          </p>
+
+          <div class="guest-review-preview__meta">
+            <strong>Ccamacho</strong>
+            <span class="review-country">Portugal</span>
+          </div>
+
+          <button type="button"
+                  class="review-link"
+                  data-i18n="guestReview1.button">
+            Ler feedback
+          </button>
+        </div>
+      </div>
+
+      <!-- REVIEW 2
+      <div class="review-item">
+        <div class="guest-review-preview"
+             data-review-key="guestReview2"
+             data-review-author="Marco"
+             data-review-country="Italy">
+
+          <div class="guest-review-preview__stars" data-i18n="guestReview2.stars">★★★★★</div>
+
+          <p class="guest-review-preview__text" data-i18n="guestReview2.preview">
+            César was an excellent guide. Friendly, knowledgeable and passionate about Faial...
+          </p>
+
+          <div class="guest-review-preview__meta">
+            <strong>Marco</strong>
+            <span class="review-country">Italy</span>
+          </div>
+
+          <button type="button"
+                  class="review-link"
+                  data-i18n="guestReview2.button">
+            Read review
+          </button>
+        </div>
+      </div>
+      -->
+
     </div>
 
-    !-- REVIEW 1 -->
-    <div class="guest-review-preview"
-           data-review-key="guestReview1"
-           data-review-author="Ccamacho"
-           data-review-country="Portugal">
-
-        <div class="guest-review-preview__stars" data-i18n="guestReview1.stars">★★★★★</div>
-
-        <p class="guest-review-preview__text" data-i18n="guestReview1.preview">
-          Há dois anos visitei a Horta com a minha família e tivemos uma experiência inesquecível...
-        </p>
-
-        <div class="guest-review-preview__meta">
-          <strong>Ccamacho</strong>
-          <span class="review-country">Portugal</span>
-        </div>
-
-        <button type="button"
-        class="review-link"
-        data-i18n="guestReview1.button">
-  Ler feedback
-</button>
-      </div>
-    </div>
-!-- REVIEW 2 -->
-
-
-    
+    <button type="button" class="review-arrow review-arrow-prev" aria-label="Previous review">‹</button>
+    <button type="button" class="review-arrow review-arrow-next" aria-label="Next review">›</button>
   </div>
 
-  <button type="button" class="review-arrow review-arrow-prev" aria-label="Previous review">‹</button>
-  <button type="button" class="review-arrow review-arrow-next" aria-label="Next review">›</button>
-</div>
-    
   <button type="button"
           class="btn btn-primary review-btn"
           data-open-review-modal
