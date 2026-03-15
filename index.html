@@ -2745,11 +2745,7 @@ a[aria-disabled="true"] {
 .review-card:first-child .review-btn:hover{
   background:#008f5a;
 }
-.reviews-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:28px;
-}
+
 .review-card{
   min-width: 0;
   width: 100%;
@@ -3025,6 +3021,9 @@ body.modal-open{
 
 .tripadvisor-btn:hover{
   background:#008f5a;
+}
+.review-thanks-overlay[hidden]{
+  display: none !important;
 }
 .review-thanks-overlay{
   position: absolute;
@@ -6912,33 +6911,61 @@ checkAvailability();
     
 </script>
 <script>
-(function(){
+(function () {
   const params = new URLSearchParams(window.location.search);
   const thanks = document.getElementById('review-thanks');
-  if(!thanks) return;
+  const reviewsSection = document.getElementById('reviews');
+
+  if (!thanks) return;
 
   const closeBtns = thanks.querySelectorAll('[data-close-review-thanks]');
 
-  function closeThanks(){
-    thanks.hidden = true;
+  function cleanReviewUrl() {
+    const url = new URL(window.location.href);
+    url.searchParams.delete('review');
+    url.hash = 'reviews';
+    window.history.replaceState({}, '', url.toString());
   }
 
-  if(params.get('review') === 'sent'){
-    thanks.hidden = false;
+  function closeThanks() {
+    thanks.hidden = true;
+    cleanReviewUrl();
 
-    setTimeout(() => {
-      document.getElementById('reviews')?.scrollIntoView({
+    if (reviewsSection) {
+      reviewsSection.scrollIntoView({
         behavior: 'smooth',
         block: 'start'
       });
+    }
+  }
+
+  if (params.get('review') === 'sent') {
+    thanks.hidden = false;
+
+    setTimeout(() => {
+      if (reviewsSection) {
+        reviewsSection.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
     }, 120);
+  } else {
+    thanks.hidden = true;
   }
 
   closeBtns.forEach(btn => {
     btn.addEventListener('click', closeThanks);
   });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !thanks.hidden) {
+      closeThanks();
+    }
+  });
 })();
 </script>
+
 
 
  
