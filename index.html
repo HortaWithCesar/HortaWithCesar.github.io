@@ -3026,6 +3026,33 @@ body.modal-open{
 .tripadvisor-btn:hover{
   background:#008f5a;
 }
+.review-thanks{
+  margin:30px auto;
+  max-width:640px;
+}
+
+.review-thanks-box{
+  background:linear-gradient(135deg,#e0f2ff,#ffffff);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:26px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.review-thanks-icon{
+  font-size:32px;
+  margin-bottom:10px;
+}
+
+.review-thanks-box h3{
+  margin:0 0 8px;
+}
+
+.review-thanks-box p{
+  margin:0;
+  color:var(--muted);
+}
 
 
   </style>
@@ -3764,6 +3791,15 @@ body.modal-open{
         This project is just beginning. The first guest reviews will appear here soon.
       </p>
     </div>
+<div id="review-thanks" class="review-thanks" hidden>
+  <div class="review-thanks-box">
+    <div class="review-thanks-icon" aria-hidden="true">⭐</div>
+    <h3 data-i18n="reviewThanks.title">Thank you for your feedback❤️</h3>
+    <p data-i18n="reviewThanks.text">
+      Your review helps Horta with César grow and helps future travellers discover authentic experiences on Faial.
+    </p>
+  </div>
+</div>
 
     <div class="reviews-grid">
 
@@ -4658,6 +4694,9 @@ body.modal-open{
 "reviewForm.consent": "Autorizo a publicação da minha avaliação e fotos no website e redes sociais.",
 "reviewForm.cancel": "Cancelar",
 "reviewForm.submit": "Enviar feedback",
+"reviewThanks.title": "Obrigado pelo teu feedback❤️",
+"reviewThanks.text": "A tua avaliação ajuda o Horta with César a crescer e ajuda futuros viajantes a descobrir experiências autênticas no Faial.",
+
 
 
 
@@ -4921,11 +4960,8 @@ body.modal-open{
 "reviewForm.consent": "I allow my review and photos to be published on the website and social media.",
 "reviewForm.cancel": "Cancel",
 "reviewForm.submit": "Send feedback",
-
-
-
-
-
+"reviewThanks.title": "Thank you for your feedback❤️",
+"reviewThanks.text": "Your review helps Horta with César grow and helps future travellers discover authentic experiences on Faial.",
 
         "rv.title": "Reservation summary",
         "rv.label.trail": "Trail",
@@ -5928,7 +5964,7 @@ validateBooking();
       <input type="hidden" name="_subject" value="Nova review - Horta with César">
       <input type="hidden" name="_template" value="box">
       <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="https://hortawithcesar.com/#reviews">
+      <input type="hidden" name="_next" value="https://hortawithcesar.com/?review=sent#reviews">
       <input type="hidden" name="form_type" value="review">
       <input type="text" name="_honey" style="display:none">
 
@@ -6835,6 +6871,26 @@ checkAvailability();
   syncHeaderHeight();
 })();
     
+</script>
+<script>
+
+(function(){
+
+  const params = new URLSearchParams(window.location.search);
+
+  if(params.get("review") === "sent"){
+
+    const thanks = document.getElementById("review-thanks");
+
+    if(thanks){
+      thanks.hidden = false;
+      thanks.scrollIntoView({behavior:"smooth", block:"center"});
+    }
+
+  }
+
+})();
+
 </script>
 
  
