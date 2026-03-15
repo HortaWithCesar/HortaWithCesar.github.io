@@ -800,6 +800,11 @@ select {
     padding:10px 0;
     flex-wrap:nowrap;    /* IMPORTANTE: não deixar quebrar em 2 linhas */
   }
+@media (max-width: 768px){
+  .reviews-grid{
+    grid-template-columns: 1fr !important;
+  }
+}
 
   /* menu em linha, mas mais compacto */
   .main-nav{
@@ -2660,9 +2665,10 @@ a[aria-disabled="true"] {
 
 .reviews-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:24px;
 }
+
 
 
 .review-card{
@@ -2744,6 +2750,25 @@ a[aria-disabled="true"] {
   grid-template-columns:repeat(3,1fr);
   gap:28px;
 }
+.review-card{
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+.reviews,
+.reviews .wrap{
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+@supports not (overflow: clip){
+  .reviews,
+  .reviews .wrap{
+    overflow-x: hidden;
+  }
+}
+
 /* ===== REVIEW MODAL ===== */
 .review-modal{
   position: fixed;
