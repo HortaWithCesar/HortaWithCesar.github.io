@@ -2639,11 +2639,11 @@ a[aria-disabled="true"] {
 }
 
 /* REVIEWS SECTION */
-
 .reviews{
   padding:70px 0;
   background:#f8fbfd;
   border-top:1px solid var(--line);
+  position:relative;
 }
 
 .reviews-head{
@@ -3026,33 +3026,67 @@ body.modal-open{
 .tripadvisor-btn:hover{
   background:#008f5a;
 }
-.review-thanks{
-  margin:30px auto;
-  max-width:640px;
+.review-thanks-overlay{
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 20px;
 }
 
-.review-thanks-box{
-  background:linear-gradient(135deg,#e0f2ff,#ffffff);
-  border:1px solid var(--line);
-  border-radius:20px;
-  padding:26px;
-  text-align:center;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
+.review-thanks-backdrop{
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,.55);
+  backdrop-filter: blur(2px);
+  border-radius: 24px;
+}
+
+.review-thanks-modal{
+  position: relative;
+  z-index: 1;
+  width: min(720px, 100%);
+  background: linear-gradient(135deg, #e8f5ff 0%, #ffffff 55%, #edfdf4 100%);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 26px;
+  text-align: center;
+  box-shadow: 0 12px 28px rgba(2,6,23,.10);
+}
+
+.review-thanks-close{
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 1;
+  box-shadow: 0 6px 16px rgba(2,6,23,.08);
 }
 
 .review-thanks-icon{
-  font-size:32px;
-  margin-bottom:10px;
+  font-size: 32px;
+  line-height: 1;
+  margin-bottom: 10px;
 }
 
-.review-thanks-box h3{
-  margin:0 0 8px;
+.review-thanks-modal h3{
+  margin: 0 0 8px;
+  font-size: clamp(22px, 4vw, 30px);
 }
 
-.review-thanks-box p{
-  margin:0;
-  color:var(--muted);
+.review-thanks-modal p{
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
 }
+
 
 
   </style>
@@ -3791,15 +3825,20 @@ body.modal-open{
         This project is just beginning. The first guest reviews will appear here soon.
       </p>
     </div>
-<div id="review-thanks" class="review-thanks" hidden>
-  <div class="review-thanks-box">
+<div id="review-thanks" class="review-thanks-overlay" hidden>
+  <div class="review-thanks-backdrop" data-close-review-thanks></div>
+
+  <div class="review-thanks-modal" role="dialog" aria-modal="true" aria-labelledby="reviewThanksTitle">
+    <button type="button" class="review-thanks-close" data-close-review-thanks aria-label="Close">×</button>
+
     <div class="review-thanks-icon" aria-hidden="true">⭐</div>
-    <h3 data-i18n="reviewThanks.title">Thank you for your feedback❤️</h3>
+    <h3 id="reviewThanksTitle" data-i18n="reviewThanks.title">Thank you for your feedback!</h3>
     <p data-i18n="reviewThanks.text">
       Your review helps Horta with César grow and helps future travellers discover authentic experiences on Faial.
     </p>
   </div>
 </div>
+
 
     <div class="reviews-grid">
 
@@ -6873,25 +6912,34 @@ checkAvailability();
     
 </script>
 <script>
-
 (function(){
-
   const params = new URLSearchParams(window.location.search);
+  const thanks = document.getElementById('review-thanks');
+  if(!thanks) return;
 
-  if(params.get("review") === "sent"){
+  const closeBtns = thanks.querySelectorAll('[data-close-review-thanks]');
 
-    const thanks = document.getElementById("review-thanks");
-
-    if(thanks){
-      thanks.hidden = false;
-      thanks.scrollIntoView({behavior:"smooth", block:"center"});
-    }
-
+  function closeThanks(){
+    thanks.hidden = true;
   }
 
-})();
+  if(params.get('review') === 'sent'){
+    thanks.hidden = false;
 
+    setTimeout(() => {
+      document.getElementById('reviews')?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }, 120);
+  }
+
+  closeBtns.forEach(btn => {
+    btn.addEventListener('click', closeThanks);
+  });
+})();
 </script>
+
 
  
 
