@@ -3014,6 +3014,177 @@ body.modal-open{
   width:36px;
   height:36px;
 }
+/* GUEST REVIEW PREVIEW */
+.guest-review-preview{
+  margin: 10px 0 18px;
+  text-align: center;
+}
+
+.guest-review-preview__stars{
+  color: #f4b400;
+  font-size: 18px;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.guest-review-preview__text{
+  margin: 0 auto 12px;
+  max-width: 28ch;
+  line-height: 1.7;
+  font-style: italic;
+  color: var(--fg);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.guest-review-preview__meta{
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.guest-review-preview__meta strong{
+  color: var(--fg);
+}
+
+.review-link{
+  border: 0;
+  background: transparent;
+  color: var(--brand);
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* GUEST REVIEW MODAL */
+.guest-review-modal[hidden]{
+  display: none !important;
+}
+
+.guest-review-modal{
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+
+.guest-review-modal__backdrop{
+  position: absolute;
+  inset: 0;
+  background: rgba(2,6,23,.55);
+  backdrop-filter: blur(3px);
+}
+
+.guest-review-modal__dialog{
+  position: relative;
+  z-index: 1;
+  width: min(760px, 100%);
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: 0 24px 80px rgba(2,6,23,.22);
+  padding: 26px;
+}
+
+.guest-review-modal__close{
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 999px;
+  background: #f8fafc;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.guest-review-modal__stars{
+  color: #f4b400;
+  font-size: 20px;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.guest-review-modal__author{
+  margin: 0 0 14px;
+  text-align: center;
+  font-size: 24px;
+}
+
+.guest-review-modal__country{
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.guest-review-modal__text{
+  margin: 0 auto;
+  max-width: 42ch;
+  line-height: 1.8;
+  font-size: 18px;
+  text-align: center;
+  font-style: italic;
+  color: var(--fg);
+}
+
+.guest-review-modal__photos{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.guest-review-modal__photos[hidden]{
+  display: none !important;
+}
+
+.guest-review-modal__photos img{
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+}
+
+body.guest-review-open{
+  overflow: hidden;
+}
+
+@media (max-width: 700px){
+  .guest-review-modal__dialog{
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .guest-review-modal__author{
+    font-size: 21px;
+  }
+
+  .guest-review-modal__text{
+    font-size: 17px;
+  }
+
+  .guest-review-modal__photos{
+    grid-template-columns: 1fr;
+  }
+}
+    
 .tripadvisor-btn{
   background:#00aa6c;
   color:white;
@@ -3085,103 +3256,234 @@ body.modal-open{
   color: var(--muted);
   line-height: 1.65;
 }
-/* REVIEW SLIDER */
 
+/* PREVIEW / SLIDER */
 .review-slider{
-  position:relative;
-  overflow:hidden;
-  margin:10px 0 18px;
-  min-height: 260px;
-  display:flex;
-  align-items:center;
+  position: relative;
+  overflow: hidden;
+  margin: 10px 0 18px;
+  min-height: 215px;
 }
 
-
 .review-track{
-  display:flex;
-  transition:transform .6s ease;
+  display: flex;
+  transition: transform .6s ease;
 }
 
 .review-item{
-  min-width:100%;
-  text-align:center;
+  min-width: 100%;
+  box-sizing: border-box;
 }
 
-.review-stars{
-  color:#f4b400;
-  font-size:18px;
-  letter-spacing:2px;
-  margin-bottom:10px;
+.guest-review-preview{
+  text-align: center;
+  cursor: pointer;
 }
 
-.review-message{
-  font-style:italic;
-  line-height:1.7;
-  margin-bottom:12px;
+.guest-review-preview__stars{
+  color: #f4b400;
+  font-size: 18px;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
 }
 
-.review-author{
-  font-weight:700;
-  font-size:14px;
-  color:var(--muted);
+.guest-review-preview__text{
+  margin: 0 auto 12px;
+  max-width: 28ch;
+  line-height: 1.7;
+  font-style: italic;
+  color: var(--fg);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.guest-review-preview__meta{
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.guest-review-preview__meta strong{
+  color: var(--fg);
+}
+
+.review-country{
+  opacity: .75;
+}
+
+.review-link{
+  border: 0;
+  background: transparent;
+  color: var(--brand);
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /* SETAS */
-
 .review-arrow{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  width:36px;
-  height:36px;
-  border-radius:50%;
-  border:0;
-  background:rgba(255,255,255,.92);
-  box-shadow:0 4px 10px rgba(0,0,0,.08);
-  cursor:pointer;
-  font-size:22px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  opacity:.18;
-  transition:opacity .25s ease, transform .2s ease;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(255,255,255,.85);
+  box-shadow: 0 4px 10px rgba(0,0,0,.08);
+  cursor: pointer;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: .18;
+  transition: opacity .25s ease, transform .2s ease;
 }
 
+.review-arrow-prev{ left: -6px; }
+.review-arrow-next{ right: -6px; }
+
 .review-slider:hover .review-arrow{
-  opacity:.85;
+  opacity: .85;
 }
 
 .review-arrow:hover{
-  transform:translateY(-50%) scale(1.06);
+  transform: translateY(-50%) scale(1.06);
 }
 
 @media (max-width:700px){
   .review-arrow{
-    opacity:.42;
+    opacity: .42;
   }
 }
 
-.review-item{
-  min-width:100%;
-  text-align:center;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  min-height: 230px;
+/* MODAL */
+.guest-review-modal[hidden]{
+  display: none !important;
 }
 
-.review-message{
-  max-width: 34ch;
-  margin: 0 auto 14px;
-  line-height: 1.75;
-  font-style: italic;
-  font-size: 18px;
-  text-wrap: pretty;
+.guest-review-modal{
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  display: grid;
+  place-items: center;
+  padding: 16px;
 }
 
-.review-author{
+.guest-review-modal__backdrop{
+  position: absolute;
+  inset: 0;
+  background: rgba(2,6,23,.55);
+  backdrop-filter: blur(3px);
+}
+
+.guest-review-modal__dialog{
+  position: relative;
+  z-index: 1;
+  width: min(760px, 100%);
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: 0 24px 80px rgba(2,6,23,.22);
+  padding: 26px;
+}
+
+.guest-review-modal__close{
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 999px;
+  background: #f8fafc;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.guest-review-modal__stars{
+  color: #f4b400;
+  font-size: 20px;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.guest-review-modal__author{
+  margin: 0 0 14px;
+  text-align: center;
+  font-size: 24px;
+}
+
+.guest-review-modal__country{
+  display: block;
   margin-top: 4px;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.guest-review-modal__text{
+  margin: 0 auto;
+  max-width: 42ch;
+  line-height: 1.8;
+  font-size: 18px;
+  text-align: center;
+  font-style: italic;
+  color: var(--fg);
+}
+
+.guest-review-modal__photos{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.guest-review-modal__photos[hidden]{
+  display: none !important;
+}
+
+.guest-review-modal__photos img{
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+}
+
+body.guest-review-open{
+  overflow: hidden;
+}
+
+@media (max-width: 700px){
+  .guest-review-modal__dialog{
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .guest-review-modal__author{
+    font-size: 21px;
+  }
+
+  .guest-review-modal__text{
+    font-size: 17px;
+  }
+
+  .guest-review-modal__photos{
+    grid-template-columns: 1fr;
+  }
 }
 
 
@@ -4018,6 +4320,18 @@ body.modal-open{
   <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
     <path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z" fill="#f4b400"/>
   </svg>
+     <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
+    <path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z" fill="#f4b400"/>
+  </svg>
+     <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
+    <path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z" fill="#f4b400"/>
+  </svg>
+     <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
+    <path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z" fill="#f4b400"/>
+  </svg>
+     <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
+    <path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z" fill="#f4b400"/>
+  </svg>
 </div>
 
     <div>
@@ -4029,48 +4343,67 @@ body.modal-open{
   </div>
 
   <div class="review-slider" id="guestReviewSlider">
-
-    <div class="review-track">
+   <div class="review-track">
 
      <!-- REVIEW exemplo desativado
-<div class="review-item">
-  <div class="review-stars">★★★★★</div>
-  <p class="review-message">
-    César was an excellent guide. Friendly, knowledgeable and passionate about Faial.
-  </p>
-  <div class="review-author">Marco · Italy</div>
-</div>
--->
+      <div class="guest-review-preview"
+           data-review-key="guestReviewX"
+           data-review-author="Marco"
+           data-review-country="Italy">
 
-      <!-- REVIEW 1 -->
-      <div class="review-item">
-        <div class="review-stars">★★★★★</div>
+        <div class="guest-review-preview__stars" data-i18n="guestReviewX.stars">★★★★★</div>
 
-        <p class="review-message">
-          Há dois anos visitei a Horta com a minha família e tivemos uma experiência inesquecível com o César. 
-          O passeio é feito com todo o cuidado, e o seu conhecimento profundo da ilha transforma cada momento numa verdadeira descoberta. 
-          Aprendemos histórias e curiosidades que nenhum guia turístico mostra. 
-          Recomendo a todos que queiram conhecer a Horta de forma autêntica — uma experiência que vale cada minuto!
+        <p class="guest-review-preview__text" data-i18n="guestReviewX.preview">
+          O César foi um guia excelente. Simpático, conhecedor e apaixonado pelo Faial...
         </p>
 
-        <div class="review-author">
-          Ccamacho · Portugal
+        <div class="guest-review-preview__meta">
+          <strong>Marco</strong>
+          <span class="review-country">Italy</span>
         </div>
-      </div>
 
+        <button type="button"
+                class="review-link"
+                data-i18n="guestReviewX.button">
+          Ler feedback
+        </button>
+      </div>
     </div>
 
-    <!-- SETAS -->
-    <button class="review-arrow review-arrow-prev" aria-label="Previous review">
-      ‹
-    </button>
+    !-- REVIEW 1 -->
+    <div class="guest-review-preview"
+           data-review-key="guestReview1"
+           data-review-author="Ccamacho"
+           data-review-country="Portugal">
 
-    <button class="review-arrow review-arrow-next" aria-label="Next review">
-      ›
-    </button>
+        <div class="guest-review-preview__stars" data-i18n="guestReview1.stars">★★★★★</div>
 
+        <p class="guest-review-preview__text" data-i18n="guestReview1.preview">
+          Há dois anos visitei a Horta com a minha família e tivemos uma experiência inesquecível...
+        </p>
+
+        <div class="guest-review-preview__meta">
+          <strong>Ccamacho</strong>
+          <span class="review-country">Portugal</span>
+        </div>
+
+        <button type="button"
+        class="review-link"
+        data-i18n="guestReview1.button">
+  Ler feedback
+</button>
+      </div>
+    </div>
+!-- REVIEW 2 -->
+
+
+    
   </div>
 
+  <button type="button" class="review-arrow review-arrow-prev" aria-label="Previous review">‹</button>
+  <button type="button" class="review-arrow review-arrow-next" aria-label="Next review">›</button>
+</div>
+    
   <button type="button"
           class="btn btn-primary review-btn"
           data-open-review-modal
@@ -4879,7 +5212,9 @@ body.modal-open{
 "reviewForm.submit": "Enviar feedback",
 "reviewThanks.title": "Obrigado pelo teu feedback❤️",
 "reviewThanks.text": "A tua avaliação ajuda o Horta with César a crescer e ajuda futuros viajantes a descobrir experiências autênticas no Faial.",
-
+"guestReview1.preview": "Há dois anos visitei a Horta com a minha família e tivemos uma experiência inesquecível...",
+"guestReview1.text": "Há dois anos visitei a Horta com a minha família e tivemos uma experiência inesquecível com o César. O passeio é feito com todo o cuidado, e o seu conhecimento profundo da ilha transforma cada momento numa verdadeira descoberta. Aprendemos histórias e curiosidades que nenhum guia turístico mostra. Recomendo a todos que queiram conhecer a Horta de forma autêntica — uma experiência que vale cada minuto!",
+"guestReview1.button": "Ler feedback",
 
 
 
@@ -5145,6 +5480,9 @@ body.modal-open{
 "reviewForm.submit": "Send feedback",
 "reviewThanks.title": "Thank you for your feedback❤️",
 "reviewThanks.text": "Your review helps Horta with César grow and helps future travellers discover authentic experiences on Faial.",
+"guestReview1.preview": "Two years ago I visited Horta with my family and had an unforgettable experience...",
+"guestReview1.text": "Two years ago I visited Horta with my family and we had an unforgettable experience with César. The tour is done with great care, and his deep knowledge of the island transforms every moment into a true discovery. We learned stories and curiosities that no tourist guide shows. I recommend it to everyone who wants to discover Horta in an authentic way — an experience worth every minute!",
+"guestReview1.button": "Read review",
 
         "rv.title": "Reservation summary",
         "rv.label.trail": "Trail",
@@ -7110,110 +7448,178 @@ checkAvailability();
   });
 })();
 </script>
+<div class="guest-review-modal" id="guestReviewModal" hidden>
+  <div class="guest-review-modal__backdrop" data-close-guest-review></div>
+
+  <div class="guest-review-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="guestReviewAuthor">
+    <button type="button"
+            class="guest-review-modal__close"
+            data-close-guest-review
+            aria-label="Close">×</button>
+
+    <div class="guest-review-modal__stars" id="guestReviewStars">★★★★★</div>
+
+    <h3 class="guest-review-modal__author">
+      <span id="guestReviewAuthor"></span>
+      <span class="guest-review-modal__country" id="guestReviewCountry"></span>
+    </h3>
+
+    <p class="guest-review-modal__text" id="guestReviewText"></p>
+
+    <div class="guest-review-modal__photos" id="guestReviewPhotos" hidden></div>
+  </div>
+</div>
 <script>
 (function(){
+  const slider = document.getElementById('guestReviewSlider');
+  const modal = document.getElementById('guestReviewModal');
 
-const slider = document.getElementById("guestReviewSlider");
-if(!slider) return;
+  if(!slider || !modal) return;
 
-const track = slider.querySelector(".review-track");
-const slides = slider.querySelectorAll(".review-item");
-const prevBtn = slider.querySelector(".review-arrow-prev");
-const nextBtn = slider.querySelector(".review-arrow-next");
+  const track = slider.querySelector('.review-track');
+  const slides = slider.querySelectorAll('.review-item');
+  const prevBtn = slider.querySelector('.review-arrow-prev');
+  const nextBtn = slider.querySelector('.review-arrow-next');
 
-let index = 0;
-let interval;
+  const authorEl = document.getElementById('guestReviewAuthor');
+  const countryEl = document.getElementById('guestReviewCountry');
+  const starsEl = document.getElementById('guestReviewStars');
+  const textEl = document.getElementById('guestReviewText');
+  const photosEl = document.getElementById('guestReviewPhotos');
 
+  let index = 0;
+  let interval;
 
-/* mover slider */
-
-function updateSlider(){
-  track.style.transform = "translateX(-" + (index * 100) + "%)";
-}
-
-
-/* próxima review */
-
-function next(){
-
-  index++;
-
-  if(index >= slides.length){
-    index = 0;
+  function getCurrentLang(){
+    return document.documentElement.lang?.toLowerCase().startsWith('pt') ? 'pt' : 'en';
   }
 
-  updateSlider();
-
-}
-
-
-/* review anterior */
-
-function prev(){
-
-  index--;
-
-  if(index < 0){
-    index = slides.length - 1;
+  function getI18nValue(key){
+    const lang = getCurrentLang();
+    if (typeof I18N !== 'undefined' && I18N[lang] && I18N[lang][key] !== undefined) {
+      return I18N[lang][key];
+    }
+    return '';
   }
 
+  function updateSlider(){
+    track.style.transform = `translateX(-${index * 100}%)`;
+  }
+
+  function next(){
+    index = (index + 1) % slides.length;
+    updateSlider();
+  }
+
+  function prev(){
+    index = (index - 1 + slides.length) % slides.length;
+    updateSlider();
+  }
+
+  function start(){
+    if(slides.length <= 1) return;
+    interval = setInterval(next, 8000);
+  }
+
+  function stop(){
+    clearInterval(interval);
+  }
+
+  function restart(){
+    stop();
+    start();
+  }
+
+  function openGuestReview(reviewKey, author, country){
+    authorEl.textContent = author || '';
+    countryEl.textContent = country || '';
+    starsEl.textContent = getI18nValue(`${reviewKey}.stars`) || '★★★★★';
+    textEl.textContent = getI18nValue(`${reviewKey}.text`);
+
+    const photo1 = getI18nValue(`${reviewKey}.photo1`);
+    const photo2 = getI18nValue(`${reviewKey}.photo2`);
+
+    photosEl.innerHTML = '';
+
+    const validPhotos = [photo1, photo2].filter(src => src && src.trim() !== '');
+    if(validPhotos.length){
+      photosEl.hidden = false;
+      validPhotos.forEach((src, i) => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `Guest review photo ${i + 1}`;
+        photosEl.appendChild(img);
+      });
+    } else {
+      photosEl.hidden = true;
+    }
+
+    modal.hidden = false;
+    document.body.classList.add('guest-review-open');
+  }
+
+  function closeGuestReview(){
+    modal.hidden = true;
+    document.body.classList.remove('guest-review-open');
+  }
+
+  if(nextBtn){
+    nextBtn.addEventListener('click', () => {
+      next();
+      restart();
+    });
+  }
+
+  if(prevBtn){
+    prevBtn.addEventListener('click', () => {
+      prev();
+      restart();
+    });
+  }
+
+  slider.addEventListener('mouseenter', stop);
+  slider.addEventListener('mouseleave', start);
+
+  slider.querySelectorAll('.guest-review-preview').forEach(preview => {
+    preview.addEventListener('click', (e) => {
+      const reviewKey = preview.dataset.reviewKey;
+      const author = preview.dataset.reviewAuthor;
+      const country = preview.dataset.reviewCountry;
+
+      if(reviewKey){
+        openGuestReview(reviewKey, author, country);
+      }
+    });
+
+    const button = preview.querySelector('.review-link');
+    if(button){
+      button.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const reviewKey = preview.dataset.reviewKey;
+        const author = preview.dataset.reviewAuthor;
+        const country = preview.dataset.reviewCountry;
+
+        if(reviewKey){
+          openGuestReview(reviewKey, author, country);
+        }
+      });
+    }
+  });
+
+  modal.querySelectorAll('[data-close-guest-review]').forEach(btn => {
+    btn.addEventListener('click', closeGuestReview);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape' && !modal.hidden){
+      closeGuestReview();
+    }
+  });
+
   updateSlider();
-
-}
-
-
-/* autoplay */
-
-function start(){
-
-  if(slides.length <= 1) return;
-
-  interval = setInterval(next, 8000);
-
-}
-
-
-function stop(){
-  clearInterval(interval);
-}
-
-
-function restart(){
-  stop();
   start();
-}
-
-
-/* eventos das setas */
-
-if(nextBtn){
-  nextBtn.addEventListener("click", ()=>{
-    next();
-    restart();
-  });
-}
-
-if(prevBtn){
-  prevBtn.addEventListener("click", ()=>{
-    prev();
-    restart();
-  });
-}
-
-
-/* pausa quando o rato entra */
-
-slider.addEventListener("mouseenter", stop);
-slider.addEventListener("mouseleave", start);
-
-
-/* iniciar */
-
-start();
-
 })();
 </script>
-
 
 
 
