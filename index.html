@@ -3085,6 +3085,81 @@ body.modal-open{
   color: var(--muted);
   line-height: 1.65;
 }
+/* REVIEW SLIDER */
+
+.review-slider{
+  position:relative;
+  overflow:hidden;
+  margin:10px 0 18px;
+}
+
+.review-track{
+  display:flex;
+  transition:transform .6s ease;
+}
+
+.review-item{
+  min-width:100%;
+  text-align:center;
+}
+
+.review-stars{
+  color:#f4b400;
+  font-size:18px;
+  letter-spacing:2px;
+  margin-bottom:10px;
+}
+
+.review-message{
+  font-style:italic;
+  line-height:1.7;
+  margin-bottom:12px;
+}
+
+.review-author{
+  font-weight:700;
+  font-size:14px;
+  color:var(--muted);
+}
+
+/* SETAS */
+
+.review-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  border:0;
+  background:rgba(255,255,255,.85);
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+  cursor:pointer;
+  font-size:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  transition:opacity .25s ease;
+}
+
+.review-arrow-prev{
+  left:-6px;
+}
+
+.review-arrow-next{
+  right:-6px;
+}
+
+.review-slider:hover .review-arrow{
+  opacity:1;
+}
+
+@media (max-width:700px){
+  .review-arrow{
+    opacity:.35;
+  }
+}
 
 
 
@@ -3915,26 +3990,75 @@ body.modal-open{
 
       <!-- DIRECT FEEDBACK -->
       <article class="review-card review-highlight">
-        <div class="review-top">
-          <div class="review-icon">🧭</div>
-          <div>
-            <h3 data-i18n="reviews.direct.title">Guest Feedback</h3>
-            <p class="review-source" data-i18n="reviews.direct.platform">Reviews shared directly on this site</p>
-          </div>
+
+  <div class="review-top">
+    <div class="review-icon">
+      ⭐
+    </div>
+    <div>
+      <h3 data-i18n="reviews.direct.title">Guest Feedback</h3>
+      <p class="review-source" data-i18n="reviews.direct.platform">
+        Reviews shared directly on this site
+      </p>
+    </div>
+  </div>
+
+  <div class="review-slider" id="guestReviewSlider">
+
+    <div class="review-track">
+
+      <!-- REVIEW exemplo desativado -->
+      <//div class="review-item">
+        <//div class="review-stars">★★★★★<//div>
+
+        <//p class="review-message">
+          César was an excellent guide. Friendly, knowledgeable and passionate about Faial.
+        <//p>
+
+        <//div class="review-author">
+          Marco · Italy
+        <//div>
+      <//div>
+
+
+      <!-- REVIEW 1 -->
+      <div class="review-item">
+        <div class="review-stars">★★★★★</div>
+
+        <p class="review-message">
+          Há dois anos visitei a Horta com a minha família e tivemos uma experiência inesquecível com o César. 
+          O passeio é feito com todo o cuidado, e o seu conhecimento profundo da ilha transforma cada momento numa verdadeira descoberta. 
+          Aprendemos histórias e curiosidades que nenhum guia turístico mostra. 
+          Recomendo a todos que queiram conhecer a Horta de forma autêntica — uma experiência que vale cada minuto!
+        </p>
+
+        <div class="review-author">
+          Ccamacho · Portugal
         </div>
+      </div>
 
-        <div class="review-score">
-          <strong data-i18n="reviews.direct.status">Be one of the first guests</strong>
-        </div>
+    </div>
 
-<button type="button"
-        class="btn btn-primary review-btn"
-        data-open-review-modal
-        data-i18n="reviews.direct.button">
-  Leave your review
-</button>
+    <!-- SETAS -->
+    <button class="review-arrow review-arrow-prev" aria-label="Previous review">
+      ‹
+    </button>
 
-      </article>
+    <button class="review-arrow review-arrow-next" aria-label="Next review">
+      ›
+    </button>
+
+  </div>
+
+  <button type="button"
+          class="btn btn-primary review-btn"
+          data-open-review-modal
+          data-i18n="reviews.direct.button">
+    Leave your review
+  </button>
+
+</article>
+
 
     </div>
   </div>
@@ -6965,6 +7089,110 @@ checkAvailability();
   });
 })();
 </script>
+<script>
+(function(){
+
+const slider = document.getElementById("guestReviewSlider");
+if(!slider) return;
+
+const track = slider.querySelector(".review-track");
+const slides = slider.querySelectorAll(".review-item");
+const prevBtn = slider.querySelector(".review-arrow-prev");
+const nextBtn = slider.querySelector(".review-arrow-next");
+
+let index = 0;
+let interval;
+
+
+/* mover slider */
+
+function updateSlider(){
+  track.style.transform = "translateX(-" + (index * 100) + "%)";
+}
+
+
+/* próxima review */
+
+function next(){
+
+  index++;
+
+  if(index >= slides.length){
+    index = 0;
+  }
+
+  updateSlider();
+
+}
+
+
+/* review anterior */
+
+function prev(){
+
+  index--;
+
+  if(index < 0){
+    index = slides.length - 1;
+  }
+
+  updateSlider();
+
+}
+
+
+/* autoplay */
+
+function start(){
+
+  if(slides.length <= 1) return;
+
+  interval = setInterval(next, 8000);
+
+}
+
+
+function stop(){
+  clearInterval(interval);
+}
+
+
+function restart(){
+  stop();
+  start();
+}
+
+
+/* eventos das setas */
+
+if(nextBtn){
+  nextBtn.addEventListener("click", ()=>{
+    next();
+    restart();
+  });
+}
+
+if(prevBtn){
+  prevBtn.addEventListener("click", ()=>{
+    prev();
+    restart();
+  });
+}
+
+
+/* pausa quando o rato entra */
+
+slider.addEventListener("mouseenter", stop);
+slider.addEventListener("mouseleave", start);
+
+
+/* iniciar */
+
+start();
+
+})();
+</script>
+
 
 
 
