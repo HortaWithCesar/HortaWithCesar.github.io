@@ -7830,18 +7830,77 @@ checkAvailability();
 })();
 </script>
 <script>
-  document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
+function trackLead(trailName = '') {
+  if (window.fbq) {
+    fbq('track', 'Lead', {
+      content_name: trailName,
+      content_category: 'Trail',
+      content_type: 'tour'
+    });
+  }
+
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'generate_lead', {
+      event_category: 'booking',
+      event_label: trailName || 'generic'
+    });
+  }
+}
+
+function trackWhatsapp(label = '') {
+  if (window.fbq) {
+    fbq('track', 'Contact');
+  }
+
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'whatsapp_click', {
+      event_category: 'contact',
+      event_label: label || 'whatsapp'
+    });
+  }
+}
+
+// RESERVAR
+document.querySelectorAll('.js-reserve').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const trailName = btn.getAttribute('data-trail') || '';
+    trackLead(trailName);
+  });
+});
+
+// MENU RESERVAS
+document.querySelectorAll('.js-open-booking').forEach(btn => {
+  btn.addEventListener('click', () => {
+    trackLead('open_booking');
+  });
+});
+
+// WHATSAPP
+document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
   link.addEventListener('click', () => {
     let label = 'whatsapp';
 
     const card = link.closest('.trail-card');
     if (card?.dataset?.trail) {
       label = `whatsapp_${card.dataset.trail}`;
-    } else if (link.classList.contains('fab-whatsapp')) {
-      label = 'whatsapp_floating';
     }
 
     trackWhatsapp(label);
+  });
+});
+
+// CONDIÇÕES
+document.querySelectorAll('.btn-conditions').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (typeof gtag !== 'undefined') {
+      const card = btn.closest('.trail-card');
+      const trailName = card?.dataset?.trail || 'conditions';
+
+      gtag('event', 'view_conditions', {
+        event_category: 'engagement',
+        event_label: trailName
+      });
+    }
   });
 });
 </script>
