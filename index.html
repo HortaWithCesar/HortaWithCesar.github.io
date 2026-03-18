@@ -3647,6 +3647,29 @@ body.guest-review-open{
 #capelo-capelinhos{
   scroll-margin-top: 140px;
 }
+.social-row {
+  display: flex;
+  gap: 12px;
+}
+
+.social-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  text-decoration: none;
+  color: var(--fg);
+  transition: 0.2s;
+}
+
+.social-box:hover {
+  border-color: var(--brand);
+  transform: translateY(-2px);
+}
   </style>
 </head>
 <body>
@@ -4966,20 +4989,34 @@ body.guest-review-open{
     </div>
   </li>
 
-  <!-- Instagram -->
-  <li>
-    <i class="ico brand"><img src="instagram-logo.png" alt="Instagram"></i>
+  <!-- Instagram + Faceook -->
+ <li class="contact-row social-row">
+
+  <a href="https://www.instagram.com/horta.with.cesar" target="_blank" 
+    onclick="if(typeof gtag!=='undefined'){gtag('event','instagram_click');}" 
+    rel="noopener" class="social-box">
+    <i class="ico brand">
+      <img src="instagram-logo.png" alt="Instagram">
+    </i>
     <div class="label">
       <span>Instagram</span>
-      <strong>@hortawithcesar</strong>
+      <strong>@horta.with.cesar</strong>
     </div>
-    <a class="chip" target="_blank" rel="noopener" 
-   href="https://www.instagram.com/horta.with.cesar"
-   data-i18n="contact.btn.open">
-  Abrir
-</a>
-  </li>
+  </a>
 
+  <a href="https://www.facebook.com/profile.php?id=61587748543433" target="_blank" 
+    onclick="if(typeof gtag!=='undefined'){gtag('event','facebook_click');}"
+    rel="noopener" class="social-box">
+    <i class="ico brand">
+      <img src="img/facebook.svg" alt="Facebook">
+    </i>
+    <div class="label">
+      <span>Facebook</span>
+      <strong>Horta with César</strong>
+    </div>
+  </a>
+
+</li>
   <!-- Base -->
   <li>
     <i class="ico ico--map" aria-hidden="true">
