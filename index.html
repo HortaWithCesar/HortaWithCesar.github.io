@@ -3647,44 +3647,47 @@ body.guest-review-open{
 #capelo-capelinhos{
   scroll-margin-top: 140px;
 }
-.social-row {
-  display: flex;
-  gap: 12px;
+.social-row{
+  display:flex;
+  gap:12px;
+  align-items:stretch;
 }
 
-.social-box {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--card);
-  text-decoration: none;
-  color: var(--fg);
-  transition: 0.2s;
+.social-box{
+  flex:1 1 0;
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px 16px;
 }
 
-.social-box:hover {
-  border-color: var(--brand);
-  transform: translateY(-2px);
-}
-.social-row {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap; /* 👈 IMPORTANTE */
+.social-box .ico{
+  flex:0 0 48px;
+  width:48px;
+  height:48px;
+  display:grid;
+  place-items:center;
 }
 
-.social-box {
-  flex: 1 1 48%; /* 👈 cada um ocupa ~metade */
-  min-width: 160px; /* 👈 evita cortar */
+.social-box .ico img{
+  max-width:28px;
+  max-height:28px;
+  width:auto;
+  height:auto;
+  display:block;
 }
-.social-box img {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
+
+.social-box .label{
+  min-width:0;
 }
+@media (max-width: 768px){
+  .social-row{
+    flex-direction:column;
+  }
+}
+
+    
     
   </style>
 </head>
