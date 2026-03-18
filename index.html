@@ -4667,7 +4667,7 @@ body.guest-review-open{
     method="POST"
     class="reserve-form"
     autocomplete="on"
-    novalidate>
+    
 
     <!-- ⚙️ FormSubmit opções -->
     <input type="hidden" name="_subject" value="Nova reserva - Horta with César">
@@ -6623,27 +6623,7 @@ function validateBooking() {
     });
   }
 
-  // Botões abrir / fechar modal
-  $('#btn-open-reserve')?.addEventListener('click', openReserveModal);
-  $('#rv-close')?.addEventListener('click', closeReserveModal);
-  $('#rv-close-2')?.addEventListener('click', closeReserveModal);
-
-  // Fecha ao clicar fora da caixa do modal
-  $('#rv-modal')?.addEventListener('click', ev => {
-    if (ev.target === ev.currentTarget) closeReserveModal();
-  });
-
-  // Botão "Enviar pedido" dentro do modal
-  $('#rv-send')?.addEventListener('click', () => {
-    $('#booking-form')?.requestSubmit?.();
-    closeReserveModal();
-  });
-
-  // Validação inicial ao carregar a página
-  validateBooking();
-
-
-// Botões abrir / fechar modal
+ // Botões abrir / fechar modal
 $('#btn-open-reserve')?.addEventListener('click', openReserveModal);
 $('#rv-close')?.addEventListener('click', closeReserveModal);
 $('#rv-close-2')?.addEventListener('click', closeReserveModal);
@@ -6653,24 +6633,38 @@ $('#rv-modal')?.addEventListener('click', ev => {
   if (ev.target === ev.currentTarget) closeReserveModal();
 });
 
-// Botão "Enviar pedido" dentro do modal
-$('#rv-send')?.addEventListener('click', (e) => {
-  // — HONEYPOT ANTI-BOT —
+const bookingForm = $('#booking-form');
+const sendBtn = $('#btn-send');
+
+function updateSendButton() {
+  if (!bookingForm || !sendBtn) return;
+  const valid = bookingForm.checkValidity();
+  sendBtn.disabled = !valid;
+  sendBtn.setAttribute('aria-disabled', String(!valid));
+}
+
+['input', 'change'].forEach(evt => {
+  bookingForm?.addEventListener(evt, updateSendButton);
+});
+
+bookingForm?.addEventListener('submit', (e) => {
   const hp = document.getElementById('hp_field')?.value ?? "";
   if (hp.trim() !== "") {
     console.warn("BOT DETECTADO — submissão bloqueada.");
     e.preventDefault();
     return;
   }
-  $('#booking-form')?.requestSubmit?.();
-  closeReserveModal();
+
+  if (!bookingForm.checkValidity()) {
+    e.preventDefault();
+    bookingForm.reportValidity();
+    return;
+  }
 });
 
-// Validação inicial ao carregar a página
+updateSendButton();
 validateBooking();
-
-})();
-</script>
+  
   <script>
 (() => {
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
