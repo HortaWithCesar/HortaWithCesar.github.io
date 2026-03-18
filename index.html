@@ -3670,6 +3670,22 @@ body.guest-review-open{
   border-color: var(--brand);
   transform: translateY(-2px);
 }
+.social-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap; /* 👈 IMPORTANTE */
+}
+
+.social-box {
+  flex: 1 1 48%; /* 👈 cada um ocupa ~metade */
+  min-width: 160px; /* 👈 evita cortar */
+}
+.social-box img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+    
   </style>
 </head>
 <body>
