@@ -944,6 +944,12 @@ body.modal-open{ overflow:hidden; }
   display:grid; grid-template-columns:28px 110px 1fr; align-items:center; gap:10px;
   padding:10px; border:1px solid var(--line); border-radius:12px; background:#f9fbfd;
 }
+.contact-list li.social-row{
+  display:flex;              /* 👈 mata o grid */
+  grid-template-columns:none;
+  gap:12px;
+  align-items:stretch;
+}
 .contact-list .chip{
   justify-self:start; display:inline-block; padding:6px 10px; border-radius:999px;
   border:1.5px solid #0ea5e9; color:#0ea5e9; text-decoration:none; font-weight:700;
