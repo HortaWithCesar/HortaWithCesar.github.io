@@ -521,7 +521,9 @@ body{
   border: 1px solid rgba(14,165,233,.20);
   font-weight: 900;
 }
-
+ .trail-card[hidden]{
+  display:none !important;
+}   
 /* pills */
 .trail-meta{
   display:flex;
@@ -3777,7 +3779,7 @@ body.guest-review-open{
     margin-left:0;
   }
 }
-    
+
   </style>
 </head>
 <body>
@@ -4314,10 +4316,12 @@ body.guest-review-open{
 </article>
       <!-- FAROL DA RIBEIRINHA -->
 <article class="trail-card reveal"
-  data-trail="Farol da Ribeirinha"
+  data-trail="Farol da Ribeirinha" 
+
   data-price-from="90"
   data-brief="Acesso sujeito a condições meteorológicas. Preço ajusta com logística e grupo. Ponto de encontro a combinar."
-  data-brief-en="Access subject to weather conditions. Price may change with logistics and group size. Meeting point to be arranged">
+  data-brief-en="Access subject to weather conditions. Price may change with logistics and group size. Meeting point to be arranged"
+  hidden>
   <div class="trail-media">FOTO • Farol da Ribeirinha</div>
   <div class="trail-body">
     <h3 class="trail-title" data-i18n="trail.farol.title">Farol da Ribeirinha</h3>
@@ -4357,7 +4361,8 @@ body.guest-review-open{
   data-trail="Levadas ao Cabeço dos Trinta"
   data-price-from="150"
   data-brief="Acesso sujeito a condições meteorológicas. Preço ajusta com logística e grupo. Ponto de encontro a combinar"
-  data-brief-en="Access subject to weather conditions. Price may change with logistics and group size. Meeting point to be arranged">
+  data-brief-en="Access subject to weather conditions. Price may change with logistics and group size. Meeting point to be arranged"
+  hidden>
   <div class="trail-media">FOTO • Levadas ao Cabeço dos Trinta</div>
   <div class="trail-body">
     <h3 class="trail-title" data-i18n="trail.levada.title">Levadas ao Cabeço dos Trinta</h3>
@@ -4824,8 +4829,8 @@ body.guest-review-open{
   <option value="Caldeira — perímetro">Caldeira — perímetro</option>
   <option value="Caldeira Descida • Santuário da fauna local"> Caldeira Descida • Santuário da fauna local</option>
   <option value="Rocha da Fajã">Rocha da Fajã</option>
-  <option value="Farol da Ribeirinha">Farol da Ribeirinha</option>
-  <option value="Levadas ao Cabeço dos Trinta">Levadas ao Cabeço dos Trinta</option>
+  <option value="Farol da Ribeirinha" hidden>Farol da Ribeirinha</option>
+  <option value="Levadas ao Cabeço dos Trinta" hidden>Levadas ao Cabeço dos Trinta</option>
   <option value="Capelo → Capelinhos ">Capelo → Capelinhos </option>
   <option value="Miradouro da Braça">Miradouro da Braça</option>
 </select>
@@ -6560,13 +6565,7 @@ const DISABLED_TRAILS = new Set(
   Array.from(document.querySelectorAll('.trail-card[data-disabled="true"]'))
     .map(card => (card.dataset.trail || '').toLowerCase().trim())
 );
-const hiddenTrails = ["Farol da Ribeirinha", "Levadas ao Cabeço dos Trinta"];
 
-document.querySelectorAll(".trail-card").forEach(card => {
-  if(hiddenTrails.includes(card.dataset.trail)){
-    card.style.display = "none";
-  }
-});
 // Helper para verificar se um nome de trilho está desativado
 function isTrailDisabledByName(name) {
   if (!name) return false;
