@@ -3677,24 +3677,25 @@ body.guest-review-open{
 }
 
 .social-box .ico img{
-  max-width:28px;
-  max-height:28px;
-  width:auto;
-  height:auto;
+  width:28px;
+  height:28px;
+  object-fit:contain;
   display:block;
+}
+
+.social-box .ico img.icon-instagram{
+  width:32px;
+  height:32px;
 }
 
 .social-box .label{
   min-width:0;
 }
+
 @media (max-width: 768px){
   .social-row{
     flex-direction:column;
   }
-}
-.icon-instagram{
-  width: 32px;
-  height: 32px;
 }
     
     
