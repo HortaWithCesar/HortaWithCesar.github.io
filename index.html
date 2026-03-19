@@ -3779,7 +3779,64 @@ body.guest-review-open{
     margin-left:0;
   }
 }
+/* ===== REDES MOBILE FIX ===== */
+@media (max-width:768px){
 
+  /* layout 2 colunas iguais */
+  .contact-list li.social-row{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:10px;
+    align-items:stretch;
+  }
+
+  /* remove a linha vertical no mobile */
+  .social-row::after{
+    display:none;
+  }
+
+  /* caixas */
+  .social-box{
+    padding:12px;
+    gap:10px;
+    display:flex;
+    align-items:center;
+  }
+
+  /* ícone */
+  .social-box .ico{
+    width:42px;
+    height:42px;
+    flex:0 0 42px;
+  }
+
+  /* facebook */
+  .social-box .ico img{
+    width:24px;
+    height:24px;
+  }
+
+  /* instagram ligeiramente maior */
+  .social-box .ico img.icon-instagram{
+    width:32px;
+    height:32px;
+  }
+
+  /* texto */
+  .social-box .label{
+    min-width:0;
+  }
+
+  .social-box .label strong{
+    font-size:14px;
+    line-height:1.1;
+    word-break:break-word;
+  }
+
+  .social-box .label span{
+    font-size:11px;
+  }
+}
   </style>
 </head>
 <body>
