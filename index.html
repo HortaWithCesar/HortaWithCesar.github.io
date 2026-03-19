@@ -784,8 +784,6 @@ select {
   }
 }
 
-    /* MOBILE clean: header 1 linha, sem virar “2 linhas” */
-@media (max-width: 768px){
 
   /* garante que a barra não cresce demais */
   header .wrap{
@@ -2329,12 +2327,7 @@ a[aria-disabled="true"] {
   opacity: 0.85;
 }
 
-    /* MOBILE: header em 2 linhas.
-   Linha 1: brand (logo + Faial)
-   Linha 2: menu + idiomas numa linha sem quebrar */
-@media (max-width: 768px){
-
-  :root{ --header-h: 118px; } /* ajusta se ainda cortar (110–130) */
+   
 
   /* o nav/header passa a empilhar 2 linhas */
   header nav{
@@ -2397,10 +2390,6 @@ a[aria-disabled="true"] {
   gap:16px;
 }
 
-/* ===== MOBILE: 2 linhas ===== */
-@media (max-width:768px){
-
-  :root{ --header-h: 118px; }
 
   .header-inner{
     flex-wrap:wrap;
@@ -2437,68 +2426,8 @@ a[aria-disabled="true"] {
     flex-shrink:0;
   }
 }
-@media (max-width:768px){
 
-  /* Links adaptam-se ao tamanho do ecrã */
-  .header-right .main-nav a{
-    font-size: clamp(11px, 3.2vw, 14px);
-  }
-
-  /* Espaçamento também adapta */
-  .header-right .main-nav{
-    gap: clamp(8px, 2.5vw, 14px);
-  }
-
-  /* PT/EN encolhe proporcionalmente */
-  .lang-toggle button{
-    font-size: clamp(11px, 3vw, 14px);
-    padding: clamp(4px, 1.5vw, 8px) clamp(8px, 2.5vw, 14px);
-  }
-
-}
-@media (max-width:768px){
-
-  /* Header mais fino */
-  :root{
-    --header-h: 76px;
-  }
-
-  .header-inner{
-    padding-block: 4px;
-    row-gap: 4px;
-  }
-
-  /* Logo mais pequeno e alinhado */
-  .brand img{
-    height: 28px;
-  }
-
-  .brand .small{
-    font-size: 12px;
-  }
-
-  /* Menu mais compacto */
-  .header-right .main-nav a{
-    font-size: 13px;
-  }
-
-  .header-right .main-nav{
-    gap: 10px;
-  }
-
-  /* Pill mais discreto */
-  .lang-toggle{
-    padding: 3px;
-    box-shadow: 0 4px 12px rgba(0,0,0,.08);
-  }
-
-  .lang-toggle button{
-    padding: 5px 9px;
-    font-size: 12px;
-  }
-
-}
-    header{
+header{
   backdrop-filter: blur(8px);
   background: rgba(255,255,255,.85);
 }
@@ -3795,7 +3724,85 @@ body.guest-review-open{
   font-size:16px;
   font-weight:800;
 }
+/* ===== MOBILE HEADER FIX FINAL ===== */
+@media (max-width: 768px){
 
+  :root{
+    --header-h: 96px;
+  }
+
+  header .wrap{
+    padding-inline: 12px;
+  }
+
+  .header-inner{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    row-gap:8px;
+    padding-block:8px;
+    min-height:auto;
+  }
+
+  .header-left{
+    flex:0 0 auto;
+    min-width:0;
+  }
+
+  .header-right{
+    flex:0 0 100%;
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    min-width:0;
+  }
+
+  .header-right .main-nav{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:nowrap;
+    min-width:0;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+
+  .header-right .main-nav::-webkit-scrollbar{
+    display:none;
+  }
+
+  .header-right .main-nav a{
+    white-space:nowrap;
+    font-size:clamp(12px, 3.2vw, 14px);
+    flex:0 0 auto;
+  }
+
+  .lang-switch{
+    flex:0 0 auto;
+    margin-left:8px;
+  }
+
+  .lang-toggle{
+    padding:3px;
+  }
+
+  .lang-toggle button{
+    padding:6px 10px;
+    font-size:12px;
+  }
+
+  .brand img{
+    height:28px;
+  }
+
+  .brand .small{
+    font-size:12px;
+    white-space:nowrap;
+  }
+}
     
   </style>
 </head>
