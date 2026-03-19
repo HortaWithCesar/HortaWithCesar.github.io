@@ -785,48 +785,6 @@ select {
 }
 
 
-  /* garante que a barra não cresce demais */
-  header .wrap{
-    padding-inline: 12px;
-  }
-
-  .header-inner{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    min-height:72px;     /* altura real e estável */
-    padding:10px 0;
-    flex-wrap:nowrap;    /* IMPORTANTE: não deixar quebrar em 2 linhas */
-  }
-@media (max-width: 768px){
-  .reviews-grid{
-    grid-template-columns: 1fr !important;
-  }
-}
-
-  /* menu em linha, mas mais compacto */
-  .main-nav{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:14px;
-    flex:1;              /* ocupa o meio */
-    flex-wrap:nowrap;
-  }
-
-  /* se faltar espaço, deixa o texto menor antes de quebrar layout */
-  .main-nav a{
-    font-size:16px;
-    white-space:nowrap;
-  }
-
-  /* switch de língua encostado à direita */
-  .lang-switch{
-    margin-left:0;
-    flex:0 0 auto;
-  }
-}
  /* ===== MODAL “VER CONDIÇÕES” (fix) ===== */
 .modal-backdrop{
   position:fixed; inset:0;
@@ -2376,57 +2334,7 @@ a[aria-disabled="true"] {
   /* PT/EN não encolhe nem vai para baixo */
   .lang-switch{ flex-shrink: 0; }
 }
-    /* ===== DESKTOP ===== */
-.header-inner{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
-}
-
-.header-right{
-  display:flex;
-  align-items:center;
-  gap:16px;
-}
-
-
-  .header-inner{
-    flex-wrap:wrap;
-    row-gap:8px;
-  }
-
-  /* linha 1 */
-  .header-left{
-    flex:0 0 auto;
-  }
-
-  /* linha 2 ocupa largura toda */
-  .header-right{
-    flex:0 0 100%;
-    width:100%;
-    justify-content:space-between;
-  }
-
-  /* menu numa única linha */
-  .header-right .main-nav{
-    display:flex;
-    gap:14px;
-    flex-wrap:nowrap;
-    white-space:nowrap;
-    overflow-x:auto;  /* se não couber, desliza */
-    -webkit-overflow-scrolling:touch;
-  }
-
-  .header-right .main-nav a{
-    white-space:nowrap;
-  }
-
-  .lang-switch{
-    flex-shrink:0;
-  }
-}
-
+    
 header{
   backdrop-filter: blur(8px);
   background: rgba(255,255,255,.85);
@@ -2599,7 +2507,11 @@ header{
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:24px;
 }
-
+@media (max-width: 768px){
+  .reviews-grid{
+    grid-template-columns: 1fr !important;
+  }
+}
 
 
 .review-card{
@@ -3801,6 +3713,68 @@ body.guest-review-open{
   .brand .small{
     font-size:12px;
     white-space:nowrap;
+  }
+}
+ @media (min-width: 769px){
+  :root{
+    --header-h: 72px;
+  }
+
+  header .wrap{
+    padding: 8px 18px;
+  }
+
+  .header-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    min-height:72px;
+    padding:0;
+    flex-wrap:nowrap;
+  }
+
+  .header-left{
+    flex:0 0 auto;
+  }
+
+  .header-right{
+    flex:1 1 auto;
+    width:auto;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:16px;
+    min-width:0;
+  }
+
+  .header-right .main-nav{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:22px;
+    flex:1 1 auto;
+    flex-wrap:nowrap;
+    overflow:visible;
+  }
+
+  .header-right .main-nav a{
+    white-space:nowrap;
+    font-size:14px;
+  }
+
+  .brand img{
+    height:52px;
+  }
+
+  .brand .small{
+    font-size:14px;
+    white-space:nowrap;
+  }
+
+  .lang-switch{
+    flex:0 0 auto;
+    margin-left:0;
   }
 }
     
