@@ -2506,7 +2506,7 @@ header{
 
 .reviews-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  grid-template-columns: repeat(3, minmax(0,1fr));
   gap:24px;
 }
 @media (max-width: 768px){
@@ -2619,8 +2619,8 @@ header{
 }
 .reviews,
 .reviews .wrap{
-  width: 100%;
-  max-width: 100%;
+  width: min(1320px, calc(100% - 40px));
+  margin-inline: auto;
   overflow-x: clip;
 }
 
