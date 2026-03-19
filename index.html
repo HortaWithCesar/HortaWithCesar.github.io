@@ -2723,6 +2723,23 @@ header{
   text-underline-offset:3px;
   padding:0;
 }
+.review-card.tripadvisor{
+  border:2px solid rgba(0, 175, 135, 0.35); /* verde Tripadvisor */
+}
+.review-card.google{
+  border:2px solid transparent;
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(90deg, #4285F4, #34A853, #FBBC05, #EA4335) border-box;
+}
+.review-card.tripadvisor:hover{
+  border-color: rgba(0,175,135,0.6);
+}
+
+.review-card.google:hover{
+  filter: brightness(1.05);
+}
+    
 /* ===== REVIEW MODAL ===== */
 .review-modal{
   position: fixed;
