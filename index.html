@@ -3694,89 +3694,55 @@ body.guest-review-open{
     flex-direction:column;
   }
 }
-/* ===== CONTACTOS: aumentar apenas ícones ===== */
+/* ===== CONTACTOS (gmail + whatsapp corrigidos) ===== */
 
-/* caixa do ícone dos contactos normais */
+/* caixa do ícone */
 .contact-list .ico{
   width:50px;
   height:50px;
-  border-radius:12px;
-  display:grid;
-  place-items:center;
-  background:linear-gradient(135deg, rgba(14,165,233,.12), rgba(16,185,129,.12));
-  border:1px solid rgba(2,6,23,.06);
 }
 
-/* telefone / base / horário */
+/* svg (telefone, base, horário) */
 .contact-list .ico svg{
   width:24px;
   height:24px;
-  color:#0ea5e9;
-  display:block;
 }
 
-/* gmail / whatsapp */
+/* imagens (gmail + whatsapp) */
 .contact-list .ico img{
-  width:30px;
-  height:30px;
+  width:34px;
+  height:34px;
   object-fit:contain;
   display:block;
 }
 
-/* ===== REDES: reduzir a secção cerca de 20% ===== */
 
-.social-row{
-  display:flex;
-  gap:10px;
-  align-items:stretch;
-}
+/* ===== REDES ===== */
 
+/* caixa menor (como queres) */
 .social-box{
-  flex:1 1 0;
-  min-width:0;
-  display:flex;
-  align-items:center;
+  padding:10px 12px;
   gap:10px;
-  padding:10px 12px;   /* antes 14px 16px */
-  text-decoration:none;
-  color:inherit;
 }
 
-/* caixa do ícone nas redes */
+/* caixa do ícone */
 .social-box .ico{
-  flex:0 0 40px;
   width:40px;
   height:40px;
   display:grid;
   place-items:center;
-  border-radius:12px;
 }
 
-/* Facebook */
+/* facebook (mantém normal) */
 .social-box .ico img{
   width:24px;
   height:24px;
-  object-fit:contain;
-  display:block;
 }
 
-/* Instagram maior e centrado dentro da caixa */
+/* instagram (maior dentro da caixa) */
 .social-box .ico img.icon-instagram{
   width:36px;
   height:36px;
-  object-fit:contain;
-  display:block;
-}
-
-/* texto das redes um pouco mais compacto */
-.social-box .label span{
-  font-size:11px;
-  line-height:1.05;
-}
-
-.social-box .label strong{
-  font-size:0.92rem;
-  line-height:1.1;
 }
     
   </style>
