@@ -4023,7 +4023,24 @@ body.guest-review-open{
     grid-template-columns:repeat(3, 1fr);
   }
 }
+/* FIX: botões flutuantes sempre clicáveis sobre o About */
+.floating-actions,
+.floating-actions .fab{
+  pointer-events: auto;
+  z-index: 2147483647;
+}
 
+/* o glow decorativo da foto não pode apanhar toques */
+.photo-float::before{
+  pointer-events: none;
+}
+
+/* por segurança, o grafismo decorativo do about nunca apanha toques */
+#about .accent,
+#about .accent::before,
+#about .accent svg{
+  pointer-events: none;
+}
 
     
   </style>
