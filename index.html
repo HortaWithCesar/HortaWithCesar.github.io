@@ -3535,6 +3535,16 @@ body.guest-review-open{
 @media (max-width:768px){
   .contact-list li.social-row{
     flex-direction:column;
+    position:relative;
+  }
+  .contact-list li.social-row::after{
+    content:"";
+    position:absolute;
+    top:15%;
+    bottom:15%;
+    left:50%;
+    width:1px;
+    background:rgba(2,6,23,.08);
   }
 }
 /* ===== CONTACTOS (gmail + whatsapp corrigidos) ===== */
@@ -3830,8 +3840,11 @@ body.guest-review-open{
   .social-box .label strong{
     font-size:14px;
     line-height:1.1;
-    word-break:break-word;
+    word-break: normal;
   }
+  .social-box .label strong .break{
+  display:block;
+}
 
   .social-box .label span{
     font-size:11px;
@@ -5150,7 +5163,7 @@ body.guest-review-open{
     </i>
     <div class="label">
       <span>Instagram</span>
-      <strong>@horta.with.cesar</strong>
+      <strong> @horta.with <span class="break"></span>.cesar</strong>
     </div>
   </a>
 
