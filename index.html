@@ -891,7 +891,7 @@ body.modal-open{ overflow:hidden; }
 /* ===== CONTACTOS ===== */
 .contact{ padding:60px 0 }
 .contact-grid{
-  display:grid; grid-template-columns:1.1fr .9fr; gap:24px; align-items:start;
+  display:grid; grid-template-columns:1.1fr .9fr; gap:24px; align-items:stretch;;
 }
 .contact-card{
   background:#fff; border:1px solid var(--line); border-radius:16px; padding:18px;
@@ -3844,6 +3844,7 @@ body.guest-review-open{
   background:#ffffff;
   border:1px solid rgba(2,6,23,.08);
   box-shadow:0 20px 45px rgba(2,6,23,.12);
+  height:100%;
 }
 
 .contact-slider__main{
@@ -3903,7 +3904,7 @@ body.guest-review-open{
 
 .contact-slider__title{
   margin:12px 0 6px;
-  font-size:clamp(24px, 3vw, 34px);
+  font-size:clamp(16px, 2vw, 22px);
   line-height:1.05;
   text-shadow:0 10px 22px rgba(0,0,0,.25);
 }
@@ -3965,6 +3966,8 @@ body.guest-review-open{
   transition:transform .15s ease, box-shadow .15s ease, outline-color .15s ease;
   outline:2px solid transparent;
   outline-offset:2px;
+  width:60px;
+  height:44px;
 }
 
 .contact-slider__thumb:hover{
@@ -4021,6 +4024,7 @@ body.guest-review-open{
 
   .contact-slider__thumbs{
     grid-template-columns:repeat(3, 1fr);
+    gap:8px;
   }
 }
 /* FIX: botões flutuantes sempre clicáveis sobre o About */
@@ -5471,7 +5475,6 @@ body.guest-review-open{
       </button>
 
       <div class="contact-slider__overlay">
-        <span class="contact-slider__tag">Faial • Açores</span>
         <h3 class="contact-slider__title">Horta with César</h3>
         <p class="contact-slider__caption" id="contactSliderCaption">
           Trilhos, paisagens e momentos autênticos no Faial
@@ -5483,7 +5486,7 @@ body.guest-review-open{
       <button class="contact-slider__thumb is-active"
               type="button"
               data-src="img/contact-slider/contact-1.jpg"
-              data-caption="..."
+              data-caption="Trilhos, paisagens e momentos autênticos no Faial"
               data-alt="Horta with César no Faial">
         <img src="img/contact-slider/contact-1.jpg" alt="">
       </button>
@@ -5491,32 +5494,32 @@ body.guest-review-open{
       <button class="contact-slider__thumb"
               type="button"
               data-src="img/contact-slider/contact-2.jpg"
-              data-caption="...."
-              data-alt="Vista panorâmica no Faial">
+              data-caption="Trilhos, paisagens e momentos autênticos no Faial"
+              data-alt="Trilhos, paisagens e momentos autênticos no Faial">
         <img src="img/contact-slider/contact-2.jpg" alt="">
       </button>
 
       <button class="contact-slider__thumb"
               type="button"
               data-src="img/contact-slider/contact-3.jpg"
-              data-caption="..."
-              data-alt="Experiência guiada no Faial">
+              data-caption="Trilhos, paisagens e momentos autênticos no Faial"
+              data-alt="Trilhos, paisagens e momentos autênticos no Faial">
         <img src="img/contact-slider/contact-3.jpg" alt="">
       </button>
 
       <button class="contact-slider__thumb"
               type="button"
               data-src="img/contact-slider/contact-4.jpg"
-              data-caption="Natureza vulcânica e mar sempre por perto"
-              data-alt="...">
+              data-caption="Trilhos, paisagens e momentos autênticos no Faial"
+              data-alt="Trilhos, paisagens e momentos autênticos no Faial">
         <img src="img/contact-slider/contact-4.jpg" alt="">
       </button>
       
       <button class="contact-slider__thumb"
               type="button"
               data-src="img/contact-slider/contact-5.jpg"
-              data-caption="Natureza vulcânica e mar sempre por perto"
-              data-alt="...">
+              data-caption="Trilhos, paisagens e momentos autênticos no Faial"
+              data-alt="Trilhos, paisagens e momentos autênticos no Faial">
         <img src="img/contact-slider/contact-5.jpg" alt="">
       </button>
       
