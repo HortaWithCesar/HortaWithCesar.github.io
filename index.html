@@ -1075,6 +1075,68 @@ body.modal-open{ overflow:hidden; }
       border:1px solid rgba(2,6,23,.06); }
 .ico svg{ width:18px; height:18px; display:block; color:#0ea5e9; }
 
+.contact-business{
+  grid-column: 2;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:22px 24px;
+  box-shadow:0 12px 28px rgba(2,6,23,.06);
+  text-align:left;
+  margin-top:18px;
+}
+
+.contact-business h3{
+  margin:0 0 10px;
+  font-size:24px;
+  line-height:1.25;
+  color:var(--fg);
+}
+
+.contact-business p{
+  margin:0 0 12px;
+  line-height:1.7;
+  color:var(--muted);
+}
+
+.contact-business strong{
+  color:var(--fg);
+}
+
+.contact-business .footer-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:14px;
+}
+
+.contact-business .footer-tags span{
+  display:inline-flex;
+  align-items:center;
+  padding:7px 12px;
+  border-radius:999px;
+  background:#f5faff;
+  border:1px solid #dbeafe;
+  color:#0f172a;
+  font-size:13px;
+  font-weight:600;
+}
+
+@media (max-width:980px){
+  .contact-business{
+    grid-column: 1;
+    margin-top:0;
+  }
+
+  .contact-business{
+    text-align:center;
+  }
+
+  .contact-business .footer-tags{
+    justify-content:center;
+  }
+}
+    
 /* específicas */
 .ico--wa{ background:#25D36622; }      .ico--wa svg{ color:#25D366; }
 .ico--ig{ background:#c1358422; }      .ico--ig svg{ color:#c13584; }
@@ -5583,9 +5645,29 @@ footer .wrap{
               data-alt="Trilhos, paisagens e momentos autênticos no Faial">
         <img src="img/contact-slider/contact-5.jpg" alt="">
       </button>
-      
     </div>
   </section>
+
+  <div class="contact-business">
+  <h3 data-i18n="footer.business.title">Serviços para parceiros e empresas</h3>
+
+  <p data-i18n="footer.business.text1">
+    Além dos trilhos e walking tours, também presto <strong>serviços privados de guia local</strong> no Faial para agências, operadores turísticos, hóspedes individuais e pequenos grupos.
+  </p>
+
+  <p data-i18n="footer.business.text2">
+    Disponível para <strong>guia condutor</strong>, <strong>shore excursions</strong>, <strong>bus tours</strong>, acompanhamento de grupos e experiências personalizadas, sempre com foco numa abordagem local, autêntica e profissional.
+  </p>
+
+  <div class="footer-tags">
+    <span>Private Guide</span>
+    <span>Driver Guide</span>
+    <span>Shore Excursions</span>
+    <span>Bus Tours</span>
+    <span>Groups & Agencies</span>
+  </div>
+</div>
+  
 </div>
 
     
@@ -5618,26 +5700,6 @@ footer .wrap{
       <div class="footer-brand">
         <img src="logotipo1.png" alt="Horta with César logo" />
         <div class="small">© <span id="year"></span> Horta with César · Faial, Açores — PT/EN</div>
-      </div>
-
-      <div class="footer-business">
-        <h3 data-i18n="footer.business.title">Serviços para parceiros e empresas</h3>
-
-        <p data-i18n="footer.business.text1">
-          Além dos trilhos e walking tours, também presto <strong>serviços privados de guia local</strong> no Faial para agências, operadores turísticos, hóspedes individuais e pequenos grupos.
-        </p>
-
-        <p data-i18n="footer.business.text2">
-          Disponível para <strong>guia condutor</strong>, <strong>shore excursions</strong>, <strong>bus tours</strong>, acompanhamento de grupos e experiências personalizadas, sempre com foco numa abordagem local, autêntica e profissional.
-        </p>
-
-        <div class="footer-tags">
-          <span>Private Guide</span>
-          <span>Driver Guide</span>
-          <span>Shore Excursions</span>
-          <span>Bus Tours</span>
-          <span>Groups & Agencies</span>
-        </div>
       </div>
 
     </div>
