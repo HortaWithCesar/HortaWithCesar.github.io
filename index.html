@@ -276,22 +276,47 @@ body{
     textarea{min-height:110px}
     .map{min-height:220px;border:2px dashed var(--line);border-radius:12px;display:grid;place-items:center;color:var(--muted);font-weight:700}
 
-    footer{padding:32px 0;color:var(--muted);text-align:center;border-top:1px solid var(--line)}
-    footer img{height:40px;display:block;margin:0 auto 10px}
-    .small{font-size:12px;color:var(--muted)}
-
-    @media (max-width:900px){
-      .hero{grid-template-columns:1fr}
-      .about{grid-template-columns:1fr}
-      .tour-card{grid-template-columns:1fr}
-      .gallery{grid-template-columns:repeat(2,1fr)}
-    }
-   
-/* Garante que o conteúdo geral fica acima do fundo */
-.wrap,
-footer{
+   footer{
   position: relative;
   z-index: 1;
+  padding: 32px 0;
+  color: var(--muted);
+  text-align: center;
+  border-top: 1px solid var(--line);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+footer img{
+  height: 40px;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+footer a{
+  text-align: center;
+}
+
+.small{
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Garante que o conteúdo geral fica acima do fundo */
+.wrap{
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 900px){
+  .hero{ grid-template-columns: 1fr; }
+  .about{ grid-template-columns: 1fr; }
+  .tour-card{ grid-template-columns: 1fr; }
+  .gallery{ grid-template-columns: repeat(2, 1fr); }
 }
 
 /* ===== ABOUT ===== */
