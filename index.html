@@ -277,46 +277,99 @@ body{
     .map{min-height:220px;border:2px dashed var(--line);border-radius:12px;display:grid;place-items:center;color:var(--muted);font-weight:700}
 
    footer{
-  position: relative;
-  z-index: 1;
-  padding: 32px 0;
-  color: var(--muted);
-  text-align: center;
-  border-top: 1px solid var(--line);
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
+  padding:40px 0 24px;
+  color:var(--muted);
+  border-top:1px solid var(--line);
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
 }
 
-footer img{
-  height: 40px;
-  display: block;
-  margin: 0 auto 10px;
+.footer-inner{
+  display:grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap:28px;
+  align-items:center;
 }
 
-footer a{
-  text-align: center;
+.footer-brand{
+  text-align:center;
 }
 
-.small{
-  font-size: 12px;
-  color: var(--muted);
+.footer-brand img{
+  height:120px;
+  display:block;
+  margin:0 auto 12px;
 }
 
-/* Garante que o conteúdo geral fica acima do fundo */
-.wrap{
-  position: relative;
-  z-index: 1;
+.footer-brand .small{
+  font-size:14px;
+  color:var(--muted);
+}
+
+.footer-business{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:22px 24px;
+  box-shadow:0 12px 28px rgba(2,6,23,.06);
+  text-align:left;
+}
+
+.footer-business h3{
+  margin:0 0 10px;
+  font-size:20px;
+  color:var(--fg);
+}
+
+.footer-business p{
+  margin:0 0 10px;
+  line-height:1.65;
+  color:var(--muted);
+}
+
+.footer-business strong{
+  color:var(--fg);
+}
+
+.footer-business .footer-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:14px;
+}
+
+.footer-business .footer-tags span{
+  display:inline-flex;
+  align-items:center;
+  padding:7px 12px;
+  border-radius:999px;
+  background:#f5faff;
+  border:1px solid #dbeafe;
+  color:#0f172a;
+  font-size:13px;
+  font-weight:600;
+}
+
+.footer-links{
+  margin-top:18px;
+  text-align:center;
+}
+
+.footer-links .small{
+  font-size:13px;
 }
 
 @media (max-width: 900px){
-  .hero{ grid-template-columns: 1fr; }
-  .about{ grid-template-columns: 1fr; }
-  .tour-card{ grid-template-columns: 1fr; }
-  .gallery{ grid-template-columns: repeat(2, 1fr); }
+  .footer-inner{
+    grid-template-columns:1fr;
+  }
+
+  .footer-business{
+    text-align:center;
+  }
+
+  .footer-business .footer-tags{
+    justify-content:center;
+  }
 }
 
 /* ===== ABOUT ===== */
@@ -5558,19 +5611,44 @@ footer .wrap{
 </button>
 </div>
 
-  <footer>
-    <div class="wrap">
-      <img src="logotipo1.png" alt="Horta with César logo" style="height:130px;margin-top:15px" />
-      <div class="small">© <span id="year"></span> Horta with César · Faial, Açores — PT/EN</div>
+ <footer>
+  <div class="wrap">
+    <div class="footer-inner">
+
+      <div class="footer-brand">
+        <img src="logotipo1.png" alt="Horta with César logo" />
+        <div class="small">© <span id="year"></span> Horta with César · Faial, Açores — PT/EN</div>
+      </div>
+
+      <div class="footer-business">
+        <h3 data-i18n="footer.business.title">Serviços para parceiros e empresas</h3>
+
+        <p data-i18n="footer.business.text1">
+          Além dos trilhos e walking tours, também presto <strong>serviços privados de guia local</strong> no Faial para agências, operadores turísticos, hóspedes individuais e pequenos grupos.
+        </p>
+
+        <p data-i18n="footer.business.text2">
+          Disponível para <strong>guia condutor</strong>, <strong>shore excursions</strong>, <strong>bus tours</strong>, acompanhamento de grupos e experiências personalizadas, sempre com foco numa abordagem local, autêntica e profissional.
+        </p>
+
+        <div class="footer-tags">
+          <span>Private Guide</span>
+          <span>Driver Guide</span>
+          <span>Shore Excursions</span>
+          <span>Bus Tours</span>
+          <span>Groups & Agencies</span>
+        </div>
+      </div>
+
     </div>
-    <div class="small">
-<a href="https://www.livroreclamacoes.pt/inicio" class="link" target="_blank" data-i18n="footer.complaints">Livro de Reclamações</a> ·
-<a href="#" class="link js-open-cancel" data-i18n="footer.cancel">Política de Cancelamento</a> ·
-<a href="#" class="link js-open-privacy" data-i18n="footer.privacy">Política de Privacidade</a>
 
-</div>
-
-  </footer>
+    <div class="footer-links small">
+      <a href="https://www.livroreclamacoes.pt/inicio" class="link" target="_blank" data-i18n="footer.complaints">Livro de Reclamações</a> ·
+      <a href="#" class="link js-open-cancel" data-i18n="footer.cancel">Política de Cancelamento</a> ·
+      <a href="#" class="link js-open-privacy" data-i18n="footer.privacy">Política de Privacidade</a>
+    </div>
+  </div>
+</footer>
 
   <!-- 🔽 MODAL “VER CONDIÇÕES” -->
 <div class="modal-backdrop" id="cond-modal">
@@ -5953,8 +6031,11 @@ footer .wrap{
 "guestReview3.button": "Ler feedback",
 "contact.whatsapp.cta": "Falar no WhatsApp",
 "reviews.google.review-quote-1": "Fiz um trilho com o César na ilha do Faial e foi uma experiência absolutamente inesquecível. Desde o primeiro momento...",
-"reviews.google.readReview": "Ler feedback",        
-        "rv.title": "Resumo da reserva",
+"reviews.google.readReview": "Ler feedback", 
+"footer.business.title": "Serviços para parceiros e empresas",       
+"footer.business.text1": "Além dos trilhos e walking tours, também presto serviços privados de guia local no Faial para agências, operadores turísticos, hóspedes individuais e pequenos grupos.",
+"footer.business.text2": "Disponível para guia condutor, shore excursions, bus tours, acompanhamento de grupos e experiências personalizadas, sempre com foco numa abordagem local, autêntica e profissional.",        
+"rv.title": "Resumo da reserva",
         "rv.label.trail": "Trilho",
         "rv.label.people": "Nº de pessoas",
         "rv.label.date": "Data",
@@ -6225,7 +6306,10 @@ footer .wrap{
 "guestReview3.button": "Read review",
 "contact.whatsapp.cta": "Message on WhatsApp",
 "reviews.google.review-quote-1": "I took a trail with César on the island of Faial and it was an absolutely unforgettable experience. From the first...",
-"reviews.google.readReview": "View full Feedback",    
+"reviews.google.readReview": "View full Feedback", 
+"footer.business.title": "Services for partners and companies",
+"footer.business.text1": "In addition to hiking trails and walking tours, I also provide private local guiding services on Faial for agencies, tour operators, individual guests and small groups.",
+"footer.business.text2": "Available for driver-guide services, shore excursions, bus tours, group hosting and tailor-made experiences, always with a local, authentic and professional approach.",        
         "rv.title": "Reservation summary",
         "rv.label.trail": "Trail",
         "rv.label.people": "Number of people",
