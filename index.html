@@ -2372,8 +2372,8 @@ header{
 #tours{ scroll-margin-top: calc(var(--header-h) + 12px); }
     @media (max-width:768px){
   .hero-mini{
-    height: min(32vh, 260px);
-    min-height: 190px;
+    height: min(36vh, 300px);
+    min-height: 230px;
   }
   .hero-mini::before{
     background: linear-gradient(to bottom, rgba(2,6,23,.45), rgba(2,6,23,.30));
@@ -4048,24 +4048,50 @@ body.guest-review-open{
 }
 
 }
-/* FIX: botões flutuantes sempre clicáveis sobre o About */
-.floating-actions,
+    
+/* ===== FIX FINAL FLOATING BUTTONS VS ABOUT ===== */
+.floating-actions{
+  position: fixed !important;
+  right: 12px;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+  z-index: 2147483647 !important;
+  pointer-events: auto !important;
+  isolation: isolate;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
 .floating-actions .fab{
-  pointer-events: auto;
-  z-index: 2147483647;
+  position: relative;
+  z-index: 1;
+  pointer-events: auto !important;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
-/* o glow decorativo da foto não pode apanhar toques */
-.photo-float::before{
-  pointer-events: none;
-}
-
-/* por segurança, o grafismo decorativo do about nunca apanha toques */
+/* nada decorativo do about pode apanhar toques nem sobrepor-se */
 #about .accent,
 #about .accent::before,
-#about .accent svg{
-  pointer-events: none;
+#about .accent svg,
+.photo-float::before{
+  pointer-events: none !important;
 }
+
+/* garante que a foto não sobe acima dos floating buttons */
+.photo-float,
+.photo-float img{
+  position: relative;
+  z-index: 1 !important;
+}
+
+/* o conteúdo do about mantém-se normal, mas abaixo dos floating buttons */
+#about,
+#about > *,
+#about .wrap{
+  position: relative;
+  z-index: 2;
+}
+
 
     
   </style>
