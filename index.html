@@ -5015,33 +5015,37 @@ footer .wrap{
     <div class="reviews-grid">
 
       <!-- TRIPADVISOR -->
-      <article class="review-card review-card-tripadvisor">
-        <div class="review-top">
-        <div class="review-icon review-icon-tripadvisor" aria-hidden="true">
-  <svg viewBox="0 0 64 64" width="28" height="28">
-    <circle cx="32" cy="32" r="30" fill="#00aa6c"/>
-    <circle cx="21.5" cy="32" r="11.2" fill="#fff"/>
-    <circle cx="42.5" cy="32" r="11.2" fill="#fff"/>
-    <circle cx="21.5" cy="32" r="5.1" fill="#000"/>
-    <circle cx="42.5" cy="32" r="5.1" fill="#000"/>
-    <circle cx="14.2" cy="20.5" r="2.3" fill="#fff"/>
-    <circle cx="49.8" cy="20.5" r="2.3" fill="#fff"/>
-    <path d="M10 28c3.4-6.9 10.2-11.3 17.8-11.3h8.4c7.6 0 14.4 4.4 17.8 11.3" fill="none" stroke="#00aa6c" stroke-width="0"/>
-  </svg>
-</div>
+<article class="review-card review-card-tripadvisor">
+  <div class="review-top">
+    <div class="review-icon review-icon-tripadvisor" aria-hidden="true">
+      <svg viewBox="0 0 64 64" width="28" height="28">
+        <circle cx="32" cy="32" r="30" fill="#00aa6c"/>
+        <circle cx="21.5" cy="32" r="11.2" fill="#fff"/>
+        <circle cx="42.5" cy="32" r="11.2" fill="#fff"/>
+        <circle cx="21.5" cy="32" r="5.1" fill="#000"/>
+        <circle cx="42.5" cy="32" r="5.1" fill="#000"/>
+        <circle cx="14.2" cy="20.5" r="2.3" fill="#fff"/>
+        <circle cx="49.8" cy="20.5" r="2.3" fill="#fff"/>
+      </svg>
+    </div>
 
-          <div>
-            <h3 data-i18n="reviews.tripadvisor.title">Tripadvisor</h3>
-            <p class="review-source" data-i18n="reviews.tripadvisor.platform">Baseado em reviews reais no Tripadvisor</p>
-          </div>
-        </div>
+    <div>
+      <h3 data-i18n="reviews.tripadvisor.title">Tripadvisor</h3>
+      <p class="review-source" data-i18n="reviews.tripadvisor.platform">
+        Baseado em reviews reais no Tripadvisor
+      </p>
+    </div>
+  </div>
 
-       <!--Review Tripadvisor 1---->
-        <button class="review-nav prev">‹</button>
-        
-        <div class="review-item-tripadvisor">
-  <div class="guest-review-preview-tripadvisor">
-             
+  <!-- Slider Tripadvisor -->
+  <div class="tripadvisor-reviews-wrapper">
+    <button type="button" class="tripadvisor-review-nav prev" aria-label="Review anterior">‹</button>
+
+    <div class="tripadvisor-reviews-slider">
+
+      <!-- Review Tripadvisor 1 -->
+      <div class="review-item-tripadvisor active">
+        <div class="guest-review-preview-tripadvisor">
           <p class="guest-review-preview-tripadvisor__text" data-i18n="guestReviewTripadvisor1">
             O César é um apaixonado pela área do turismo e vibra com a natureza! Recomendo muito os serviços dele, tem um inglês perfeito e tudo para teres muito sucesso neste novo projecto! ...
           </p>
@@ -5058,11 +5062,12 @@ footer .wrap{
             <strong>Tânia S.</strong>
             <span class="review-country">Açores</span>
           </div>
-          
-                 <!--Review 2-->
-       <div class="review-item-tripadvisor">
-  <div class="guest-review-preview-tripadvisor">
-             
+        </div>
+      </div>
+
+      <!-- Review Tripadvisor 2 -->
+      <div class="review-item-tripadvisor">
+        <div class="guest-review-preview-tripadvisor">
           <p class="guest-review-preview-tripadvisor__text" data-i18n="guestReviewTripadvisor2">
             Um dos destaques da nossa visita a Faial! César é um excelente guia – conhecedor, apaixonado pela ilha e sempre de ótimo humor. Sua energia positiva e senso de humor tornam toda a experiência ainda mais agradável. ...
           </p>
@@ -5080,21 +5085,43 @@ footer .wrap{
             <span class="review-country">UK</span>
           </div>
         </div>
-                        <!--Review 3-->
-
-         
-        <button class="review-nav next">›</button>  
       </div>
 
-        <a class="btn btn-ghost review-btn tripadvisor-btn"
-           target="_blank"
-           rel="noopener noreferrer"
-           href="https://www.tripadvisor.pt/Attraction_Review-g189126-d34028421-Reviews-Horta_with_Cesar-Horta_Faial_Island_Azores.html"
-           data-i18n="reviews.tripadvisor.button">
-           View on Tripadvisor
-        </a>
-      </article>
+      <!-- Review Tripadvisor 3 -->
+      <!div class="review-item-tripadvisor">
+        <!div class="guest-review-preview-tripadvisor">
+          <!p class="guest-review-preview-tripadvisor__text" data-i18n="guestReviewTripadvisor3">
+            Amazing experience in Faial! César is friendly, knowledgeable and made the whole tour feel authentic and relaxed...
+          </p>
 
+          <!div class="guest-review-preview__stars" aria-hidden="true">
+            <!svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+            <!svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+            <!svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+            <!svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+            <!svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.3 6 20.3l1.3-6.7-5-4.6 6.8-.8L12 2z"/></svg>
+          </div>
+
+          <!div class="guest-review-preview-tripadvisor__meta">
+            <!strong>Guest</strong>
+            <!span class="review-country">Tripadvisor</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <button type="button" class="tripadvisor-review-nav next" aria-label="Review seguinte">›</button>
+  </div>
+
+  <a class="btn btn-ghost review-btn tripadvisor-btn"
+     target="_blank"
+     rel="noopener noreferrer"
+     href="https://www.tripadvisor.pt/Attraction_Review-g189126-d34028421-Reviews-Horta_with_Cesar-Horta_Faial_Island_Azores.html"
+     data-i18n="reviews.tripadvisor.button">
+     View on Tripadvisor
+  </a>
+</article>
       <!-- GOOGLE -->
       <article class="review-card review-card-google">
         <div class="review-top">
