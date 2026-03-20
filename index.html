@@ -4153,9 +4153,27 @@ footer .wrap{
   margin: 0 auto;
   text-align: center;
 }
-/* container das reviews Tripadvisor */
+/* container geral */
+.tripadvisor-reviews-wrapper{
+  position:relative;
+  display:flex;
+  align-items:center;
+}
+
+/* slider */
+.tripadvisor-reviews-slider{
+  width:100%;
+  overflow:hidden;
+}
+
+/* cada review */
 .review-item-tripadvisor{
+  display:none;
   margin-top:16px;
+}
+
+.review-item-tripadvisor.active{
+  display:block;
 }
 
 /* card preview */
@@ -4194,7 +4212,7 @@ footer .wrap{
   fill:#00aa6c; /* VERDE TRIPADVISOR */
 }
 
-/* meta (nome + país) */
+/* meta */
 .guest-review-preview-tripadvisor__meta{
   display:flex;
   align-items:center;
@@ -4208,9 +4226,31 @@ footer .wrap{
   font-weight:600;
 }
 
-/* separação entre reviews */
-.review-item-tripadvisor + .review-item-tripadvisor{
-  margin-top:14px;
+/* setas */
+.tripadvisor-review-nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:#00aa6c;
+  color:#fff;
+  border:none;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  font-size:18px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:2;
+}
+
+.tripadvisor-review-nav.prev{
+  left:-10px;
+}
+
+.tripadvisor-review-nav.next{
+  right:-10px;
 }
     
   </style>
@@ -4997,12 +5037,11 @@ footer .wrap{
         </div>
 
        <!--Review Tripadvisor 1---->
+        <button class="review-nav prev">‹</button>
+        
         <div class="review-item-tripadvisor">
   <div class="guest-review-preview-tripadvisor">
-             data-review-key="guestReviewTripadvisor1"
-             data-review-author="Tânia S."
-             data-review-country="Açores">
-
+             
           <p class="guest-review-preview-tripadvisor__text" data-i18n="guestReviewTripadvisor1">
             O César é um apaixonado pela área do turismo e vibra com a natureza! Recomendo muito os serviços dele, tem um inglês perfeito e tudo para teres muito sucesso neste novo projecto! ...
           </p>
@@ -5023,10 +5062,7 @@ footer .wrap{
                  <!--Review 2-->
        <div class="review-item-tripadvisor">
   <div class="guest-review-preview-tripadvisor">
-             data-review-key="guestReviewTripadvisor2"
-             data-review-author="Simon F"
-             data-review-country="UK">
-
+             
           <p class="guest-review-preview-tripadvisor__text" data-i18n="guestReviewTripadvisor2">
             Um dos destaques da nossa visita a Faial! César é um excelente guia – conhecedor, apaixonado pela ilha e sempre de ótimo humor. Sua energia positiva e senso de humor tornam toda a experiência ainda mais agradável. ...
           </p>
@@ -5043,11 +5079,11 @@ footer .wrap{
             <strong>Simon F</strong>
             <span class="review-country">UK</span>
           </div>
-
-          
         </div>
+                        <!--Review 3-->
 
-          
+         
+        <button class="review-nav next">›</button>  
       </div>
 
         <a class="btn btn-ghost review-btn tripadvisor-btn"
@@ -8729,8 +8765,57 @@ document.querySelectorAll('.btn-conditions').forEach(btn => {
   startAutoPlay();
 })();
 </script>
+        
+<script>
+const cards = document.querySelectorAll('.review-item-tripadvisor');
+let current = 0;
+let interval;
 
- 
+function showCard(index){
+  cards.forEach(c => c.classList.remove('active'));
+  cards[index].classList.add('active');
+}
+
+function nextCard(){
+  current = (current + 1) % cards.length;
+  showCard(current);
+}
+
+function prevCard(){
+  current = (current - 1 + cards.length) % cards.length;
+  showCard(current);
+}
+
+function startAuto(){
+  interval = setInterval(nextCard, 7000);
+}
+
+function resetAuto(){
+  clearInterval(interval);
+  startAuto();
+}
+
+/* botões */
+document.querySelector('.tripadvisor-review-nav.next').onclick = () => {
+  nextCard();
+  resetAuto();
+};
+
+document.querySelector('.tripadvisor-review-nav.prev').onclick = () => {
+  prevCard();
+  resetAuto();
+};
+
+/* pause hover */
+const slider = document.querySelector('.tripadvisor-reviews-slider');
+
+slider.addEventListener('mouseenter', () => clearInterval(interval));
+slider.addEventListener('mouseleave', startAuto);
+
+/* init */
+showCard(current);
+startAuto();
+ </script>
 
 </body>
 </html>
