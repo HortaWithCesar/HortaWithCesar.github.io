@@ -7084,7 +7084,7 @@ document.addEventListener('change', (e) => { if (e.target?.id === 'date_from') c
   if (paxInput) { paxInput.addEventListener('input', () => {
   const v = parseInt(paxInput.value || paxInput.placeholder || '1', 10) || 1;
     updateGroupWarning(v);
-    validateBooking();
+   window.validateBooking?.();
   });
 
   // Estado inicial
@@ -7323,7 +7323,8 @@ function validateBooking() {
   // usado pelo openReserveModal()
   return { ok, hasTrail, hasPeople, hasDate, hasPeriod, hasAvail };
 }
-
+window.validateBooking = validateBooking;
+  
   // Atualiza o resumo da reserva + botão de pagamento
   function syncReserveSummary() {
     const {
