@@ -7494,6 +7494,78 @@ validateBooking();
 
 <script>
 (() => {
+  const bookingForm = document.querySelector('#booking-form');
+  const rvPayBtn = document.querySelector('#rv-pay-20');
+
+  function getBookingTrackingData() {
+    const trail = document.querySelector('#trail')?.value || '';
+    const people = parseInt(document.querySelector('#people')?.value || '0', 10) || 0;
+    const date = document.querySelector('#date_from')?.value || '';
+    const period = document.querySelector('#period')?.value || '';
+
+    return { trail, people, date, period };
+  }
+
+  // ENVIAR PEDIDO
+  bookingForm?.addEventListener('submit', () => {
+    const hp = document.getElementById('hp_field')?.value ?? '';
+    if (hp.trim() !== '') return;
+    if (!bookingForm.checkValidity()) return;
+
+    const { trail, people, date, period } = getBookingTrackingData();
+
+    if (window.fbq) {
+      fbq('track', 'Lead', {
+        content_name: trail || 'booking_request',
+        content_category: 'booking_request',
+        num_items: people || 0
+      });
+    }
+
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'submit_booking_request', {
+        event_category: 'booking',
+        event_label: `${trail || 'booking_request'} | ${date} | ${period}`,
+        value: people || 1
+      });
+    }
+  });
+
+  // CONFIRMAR RESERVA / SUMUP
+  rvPayBtn?.addEventListener('click', (e) => {
+    const isDisabled =
+      rvPayBtn.getAttribute('aria-disabled') === 'true' || !rvPayBtn.href;
+
+    if (isDisabled) {
+      e.preventDefault();
+      return;
+    }
+
+    const { trail, people, date, period } = getBookingTrackingData();
+
+    if (window.fbq) {
+      fbq('track', 'AddPaymentInfo', {
+        content_name: trail || 'sumup_payment',
+        content_category: 'Trail',
+        content_type: 'tour',
+        num_items: people || 0
+      });
+    }
+
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'add_payment_info', {
+        event_category: 'booking',
+        event_label: `${trail || 'sumup_payment'} | ${date} | ${period}`,
+        value: people || 1,
+        payment_type: 'SumUp'
+      });
+    }
+  });
+})();
+</script>
+  
+<script>
+(() => {
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
   const cancelModal   = $('#modal-cancel-policy');
   const openCancel    = $('#open-cancel-policy');   // link dentro do modal de reserva
