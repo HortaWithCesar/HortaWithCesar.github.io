@@ -7393,21 +7393,24 @@ window.validateBooking = validateBooking;
 
   
   // Modal
-  function openReserveModal(e) {
-    const { ok } = validateBooking();
-    if (!ok) {
-      e?.preventDefault?.();
-      return;
-    }
+function openReserveModal(e) {
+  const state = validateBooking();
+  console.log('RESERVE STATE:', state);
+  console.log('AVAIL STATE:', document.querySelector('#rv-availability')?.dataset?.state);
 
-    syncReserveSummary();
-
-    const modal = $('#rv-modal');
-    if (modal) {
-      modal.style.display = 'flex';
-      document.body.classList.add('modal-open');
-    }
+  if (!state.ok) {
+    e?.preventDefault?.();
+    return;
   }
+
+  syncReserveSummary();
+
+  const modal = $('#rv-modal');
+  if (modal) {
+    modal.style.display = 'flex';
+    document.body.classList.add('modal-open');
+  }
+}
 
   function closeReserveModal() {
     const modal = $('#rv-modal');
