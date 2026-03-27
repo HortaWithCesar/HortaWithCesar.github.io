@@ -7486,11 +7486,13 @@ bookingForm?.addEventListener('submit', (e) => {
     return;
   }
 });
-
 updateSendButton();
 validateBooking();
 
-  <script>
+})();
+</script>
+
+<script>
 (() => {
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
   const cancelModal   = $('#modal-cancel-policy');
