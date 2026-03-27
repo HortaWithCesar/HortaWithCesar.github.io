@@ -7394,11 +7394,8 @@ window.validateBooking = validateBooking;
   
   // Modal
 function openReserveModal(e) {
-  const state = validateBooking();
-  console.log('RESERVE STATE:', state);
-  console.log('AVAIL STATE:', document.querySelector('#rv-availability')?.dataset?.state);
-
-  if (!state.ok) {
+  const { ok } = validateBooking();
+  if (!ok) {
     e?.preventDefault?.();
     return;
   }
@@ -7488,62 +7485,10 @@ bookingForm?.addEventListener('submit', (e) => {
     bookingForm.reportValidity();
     return;
   }
-  // 🔥 TRACKING (SÓ AQUI — depois de validar tudo)
-  const { trail, people } = getBookingTrackingData();
-
-  // META
-  if (window.fbq) {
-    fbq('track', 'Lead', {
-      content_name: trail || 'booking_request',
-      content_category: 'booking_request',
-      num_items: people || 0
-    });
-  }
-
-  // GOOGLE
-  if (typeof gtag !== 'undefined') {
-    gtag('event', 'submit_booking_request', {
-      event_category: 'booking',
-      event_label: trail || 'booking_request',
-      value: people || 1
-    });
-  }
-});
-  const rvPayBtn = $('#rv-pay-20');
-
-rvPayBtn?.addEventListener('click', (e) => {
-  const { trail, people } = getBookingTrackingData();
-
-  const isDisabled =
-    rvPayBtn.getAttribute('aria-disabled') === 'true' || !rvPayBtn.href;
-
-  if (isDisabled) {
-    e.preventDefault();
-    return;
-  }
-
-  if (window.fbq) {
-    fbq('track', 'AddPaymentInfo', {
-      content_name: trail || 'sumup_payment',
-      content_category: 'Trail',
-      content_type: 'tour',
-      num_items: people || 0
-    });
-  }
-
-  if (typeof gtag !== 'undefined') {
-    gtag('event', 'add_payment_info', {
-      event_category: 'booking',
-      event_label: trail || 'sumup_payment',
-      value: people || 1,
-      payment_type: 'SumUp'
-    });
-  }
 });
 
 updateSendButton();
-window.validateBooking?.();
- </script> 
+validateBooking();
 
   <script>
 (() => {
