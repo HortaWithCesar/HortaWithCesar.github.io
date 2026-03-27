@@ -7536,16 +7536,15 @@ rvPayBtn?.addEventListener('click', (e) => {
       payment_type: 'SumUp'
     });
   }
-  updateSendButton();
-validateBooking();
 });
+
+updateSendButton();
+window.validateBooking?.();
  </script> 
 
-  
   <script>
 (() => {
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
-
   const cancelModal   = $('#modal-cancel-policy');
   const openCancel    = $('#open-cancel-policy');   // link dentro do modal de reserva
   const closeCancel   = $('#cancel-modal-close');
