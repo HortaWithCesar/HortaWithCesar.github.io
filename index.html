@@ -7484,11 +7484,62 @@ bookingForm?.addEventListener('submit', (e) => {
     bookingForm.reportValidity();
     return;
   }
+  // 🔥 TRACKING (SÓ AQUI — depois de validar tudo)
+  const { trail, people } = getBookingTrackingData();
+
+  // META
+  if (window.fbq) {
+    fbq('track', 'Lead', {
+      content_name: trail || 'booking_request',
+      content_category: 'booking_request',
+      num_items: people || 0
+    });
+  }
+
+  // GOOGLE
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'submit_booking_request', {
+      event_category: 'booking',
+      event_label: trail || 'booking_request',
+      value: people || 1
+    });
+  }
+});
+  const rvPayBtn = $('#rv-pay-20');
+
+rvPayBtn?.addEventListener('click', (e) => {
+  const { trail, people } = getBookingTrackingData();
+
+  const isDisabled =
+    rvPayBtn.getAttribute('aria-disabled') === 'true' || !rvPayBtn.href;
+
+  if (isDisabled) {
+    e.preventDefault();
+    return;
+  }
+
+  if (window.fbq) {
+    fbq('track', 'AddPaymentInfo', {
+      content_name: trail || 'sumup_payment',
+      content_category: 'Trail',
+      content_type: 'tour',
+      num_items: people || 0
+    });
+  }
+
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'add_payment_info', {
+      event_category: 'booking',
+      event_label: trail || 'sumup_payment',
+      value: people || 1,
+      payment_type: 'SumUp'
+    });
+  }
 });
 
 updateSendButton();
 validateBooking();
-  
+ </script> 
   <script>
 (() => {
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
@@ -8073,14 +8124,10 @@ document.querySelectorAll('.pill').forEach(p => {
     if (ev.target === bookingModal) closeBooking();
   });
 
-  // Botão flutuante "Reservar" (abre sem trilho definido)
+    // Botão flutuante "Reservar" (abre sem trilho definido)
   document.querySelectorAll('.js-open-booking').forEach(btn => {
     btn.addEventListener('click', (ev) => {
       ev.preventDefault();
-
-      // Lead: abriu intenção de reserva
-      if (window.fbq) fbq('track', 'Lead');
-
       openBooking('');
     });
   });
@@ -8091,21 +8138,9 @@ document.querySelectorAll('.pill').forEach(p => {
       ev.preventDefault();
 
       const trailName = btn.getAttribute('data-trail') || '';
-
-      //  Lead
-      if (window.fbq) {
-        fbq('track', 'Lead', {
-          content_name: trailName,
-          content_category: 'Trail',
-          content_type: 'tour'
-        });
-      }
-
       openBooking(trailName);
     });
   });
-
-})();
 </script>
   
 <script> 
@@ -8681,6 +8716,7 @@ checkAvailability();
   start();
 })();
 </script>
+  
 <script>
 function trackLead(trailName = '') {
   if (window.fbq) {
