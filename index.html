@@ -2427,8 +2427,16 @@ header{
   font-size: 16px;
 }
 
-.hero-mini__cta:hover{ background: rgba(255,255,255,.20); }
-
+.hero-mini__cta:hover{ background: rgba(255,255,255,.20); 
+      }
+.hero-mini__trust{
+  display:block;
+  margin-top:6px;
+  font-size:13px;
+  font-weight:700;
+  color: rgba(255,255,255,.92);
+  text-shadow: 0 8px 20px rgba(0,0,0,.20);
+}
 
    @media (max-width:768px){
   .hero-mini{
@@ -2451,15 +2459,20 @@ header{
     flex-direction: column;
     align-items: flex-start;
   }
-
+     
+  .hero-mini__kicker{
+  margin: -6px 0 8px;
+}
+     
   .hero-mini__title{
     font-size: clamp(24px, 8vw, 40px);
     line-height: 1.02;
+    margin: 0 0 18px;
   }
 
   .hero-mini__sub{
     font-size: 16px;
-    margin-top: 10px;
+    margin-top: 0px;
   }
 
   .hero-mini__price{
@@ -2468,13 +2481,11 @@ header{
   }
 
   .hero-mini__trust{
-    font-size: 12px;
-    margin-top: 8px;
+ .hero-mini__trust{
+  font-size:12px;
+  margin-top:6px;
   }
-
-  .hero-mini__actions{
-    margin-top: 16px;
-  }
+  
 }
  
    /* iOS Safari fixes (notch + cortes laterais) */
@@ -2494,6 +2505,7 @@ header{
   .hero-mini__actions{
   flex-direction: column;
   align-items: flex-start;
+  margin-top: 16px;
 }
 
 .hero-mini__cta{
@@ -4434,10 +4446,17 @@ footer .wrap{
 
 <p class="hero-mini__price">
   <span data-i18n="hero.price.text">
-    Secure your reservation from </span> <strong>30€</strong>
-  <span data-i18n="hero.price.person"> per person </span> </p>
-        
-<p class="hero-mini__trust" data-i18n="hero.trust"> Free cancellation up to 48h</p>
+    Secure your reservation from
+  </span>
+  <strong>30€</strong>
+  <span data-i18n="hero.price.person">
+    per person
+  </span><br>
+
+  <span class="hero-mini__trust" data-i18n="hero.trust">
+    Free cancellation up to 48h
+  </span>
+</p>
         
 <div class="hero-mini__actions">
   <a class="hero-mini__cta hero-mini__cta--secondary" href="#tours" data-i18n="hero.cta">
