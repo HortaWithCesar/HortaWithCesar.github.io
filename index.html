@@ -2517,14 +2517,14 @@ header{
 
   .hero-mini__actions{
     flex-direction:column;
-    align-items:flex-start;
-    margin-top:auto;
-    padding-top:18px;
+   align-items:flex-start;
+   margin-top:0;
+   align-self:end;
   }
   .hero-mini__copy{
-  display:flex;
-  flex-direction:column;
-  min-height:100%;
+  display:grid;
+  grid-template-rows:auto auto auto auto 1fr auto;
+  min-height:420px;
   }
 }
 
