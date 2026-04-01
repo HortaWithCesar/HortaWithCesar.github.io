@@ -4205,8 +4205,22 @@ body.guest-review-open{
   z-index: 2147483647 !important;
   pointer-events: auto !important;
   isolation: isolate;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
+
+  transform: translateY(12px) translateZ(0);
+  -webkit-transform: translateY(12px) translateZ(0);
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: opacity .22s ease, transform .22s ease, visibility .22s ease;
+}
+
+.floating-actions.is-visible{
+  opacity: 1;
+  visibility: visible;
+
+  transform: translateY(0) translateZ(0);
+  -webkit-transform: translateY(0) translateZ(0);
 }
 
 .floating-actions .fab{
@@ -9038,6 +9052,24 @@ slider.addEventListener('mouseleave', startAuto);
 showCard(current);
 startAuto();
  </script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const floatingActions = document.querySelector('.floating-actions');
+  const heroMini = document.querySelector('.hero-mini');
 
+  if (!floatingActions || !heroMini) return;
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      floatingActions.classList.toggle('is-visible', !entry.isIntersecting);
+    },
+    {
+      threshold: 0.2
+    }
+  );
+
+  observer.observe(heroMini);
+});
+</script>
 </body>
 </html>
