@@ -2459,10 +2459,14 @@ header{
   transform:translateY(-1px);
 }
 
-.hero-mini__cta--primary{
-  background: linear-gradient(135deg, #0ea5e9, #2563eb);
+.hero-mini__cta--book{
+  background: linear-gradient(135deg, #25D366, #16a34a);
   color:#fff;
-  box-shadow:0 12px 28px rgba(37,99,235,.30);
+  box-shadow: 0 12px 28px rgba(22,163,74,.30);
+}
+    .hero-mini__cta--book:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px rgba(22,163,74,.35);
 }
 
 .hero-mini__cta--secondary{
@@ -4459,8 +4463,12 @@ footer .wrap{
   <a class="hero-mini__cta hero-mini__cta--secondary" href="#tours" data-i18n="hero.cta">
     Explore trails ↓ </a>
 
-  <a class="hero-mini__cta hero-mini__cta--primary js-open-booking" href="#booking" data-i18n="hero.cta.book">
-    Book now </a>
+  <a class="hero-mini__cta hero-mini__cta--book"
+  target="_blank"
+  rel="noopener noreferrer"
+  href="https://wa.me/351964616199?text=Hi!%20I’m%20planning%20my%20trip%20to%20Faial%20and%20would%20like%20some%20help."
+  data-i18n="hero.cta.book.whatsapp" > 
+    Planning what to do in Faial? Talk to me </a>
 </div>
       </div>
     </div>
@@ -6340,12 +6348,12 @@ footer .wrap{
 "trail.unavailable": "Temporariamente indisponível.",
 "hero.kicker": "Faial • Açores",
 "hero.title": "Descubra verdadeiramente os Açores",
-"hero.subtitle": "Passeios a pé privados com um guia local que transforma o Faial em histórias simples, curiosas e envolventes.",
+"hero.subtitle": "Passeios a pé com um guia local que transforma o Faial em histórias simples, curiosas e envolventes.",
 "hero.price.text": "Garanta a sua reserva desde",
 "hero.price.person": "por pessoa",
 "hero.trust": "Cancelamento Grátis até 48h",        
 "hero.cta": "Explorar trilhos ↓",
-"hero.cta.book": "Reserve já",        
+"hero.cta.book.whatsapp": "A planear o que fazer no Faial? Fala comigo",        
 "about.subtitle": "Guia local certificado do Faial • Experiências autênticas nos Açores",
 "reviews.title": "Reviews & Feedback",
 "reviews.lead": "Este projeto está apenas a começar. As primeiras reviews dos clientes irão aparecer aqui em breve.",
@@ -6619,7 +6627,7 @@ footer .wrap{
 "hero.price.person": "per person",
 "hero.trust": "Free cancellation up to 48h",
 "hero.cta": "Explore trails ↓",
-"hero.cta.book": "Book now",        
+"hero.cta.book.whatsapp": "Planning what to do in Faial? Talk to me",        
 "about.subtitle": "Certified local guide from Faial • Authentic Azores experiences",
 "reviews.title": "Reviews & Feedback",
 "reviews.lead": "This project is just beginning. The first guest reviews will appear here soon.",
@@ -8908,6 +8916,12 @@ document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
     const card = link.closest('.trail-card');
     if (card?.dataset?.trail) {
       label = `whatsapp_${card.dataset.trail}`;
+    } else if (link.closest('.hero-mini')) {
+      label = 'whatsapp_hero';
+    } else if (link.closest('.floating-actions')) {
+      label = 'whatsapp_floating';
+    } else if (link.closest('#contact')) {
+      label = 'whatsapp_contact';
     }
 
     trackWhatsapp(label);
