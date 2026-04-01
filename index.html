@@ -2463,6 +2463,7 @@ header{
   background: linear-gradient(135deg, #25D366, #16a34a);
   color:#fff;
   box-shadow: 0 12px 28px rgba(22,163,74,.30);
+  white-space: nowrap;
 }
     .hero-mini__cta--book:hover{
   transform: translateY(-1px);
@@ -2526,6 +2527,11 @@ header{
    margin-top:0;
    align-self:end;
   }
+  .hero-mini__actions .hero-mini__cta--book{
+    width: auto;
+    max-width: 100%;
+  }
+  
   .hero-mini__copy{
   display:grid;
   grid-template-rows:auto auto 1fr auto auto auto;
@@ -2549,14 +2555,19 @@ header{
 
   .hero-mini__actions{
     flex-direction:column;
-    align-items:flex-start;
-    margin-top:16px;
+  align-items:flex-start;
+  margin-top:0;
+  align-self:end;
   }
-
+  
   .hero-mini__cta{
     width:auto;
     justify-content:center;
   }
+  .hero-mini__cta--book{
+  width:auto;
+  justify-content:center;
+}
 }
 
 /* Mantém só o texto (parágrafos) mais estreito e centrado, se quiseres */
