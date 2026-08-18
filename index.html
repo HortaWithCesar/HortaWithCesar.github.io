@@ -3975,14 +3975,29 @@ body.guest-review-open{
   }
 }
 .google-review-preview{
-  text-align:center;
-  margin-top:12px;
+  text-align:left;
+  border-top:1px solid rgba(148,163,184,.28);
+  padding-top:12px;
 }
 
-.review-stars{
+.google-review-preview:first-child{
+  border-top:0;
+  padding-top:0;
+}
+
+.google-reviews-list{
+  width:100%;
+  display:grid;
+  gap:12px;
+  margin:8px 0 18px;
+}
+
+.google-review-preview .review-stars{
+  justify-content:flex-start;
   color:#fbbf24;
-  font-size:18px;
-  margin-bottom:10px;
+  font-size:15px;
+  letter-spacing:1px;
+  margin:0 0 6px;
 }
 
 .review-quote{
@@ -3992,13 +4007,33 @@ body.guest-review-open{
   line-height:1.5;
 }
 
+.google-review-quote{
+  margin:0 0 8px;
+  line-height:1.55;
+  font-style:italic;
+  color:#334155;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+
 .review-author{
   font-size:14px;
   color:#475569;
+  margin:0;
 }
 
 .review-author strong{
   color:#0f172a;
+}
+
+.google-review-preview .review-author{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
 }
 
 .review-link{
@@ -5304,32 +5339,57 @@ footer .wrap{
           </div>
         </div>
         
-  <!------ /*Reviews Google Preview*/------>
+        <!-- Google reviews preview -->
         
-<div class="google-review-preview-1">
-  <blockquote class="review-quote-1" data-i18n="reviews.google.review-quote-1" >
-    I took a trail with César on the island of Faial and it was an absolutely unforgettable experience. From the first...
-  </blockquote>
-<div class="review-stars">★★★★★</div>
-  <p class="review-author">
-    <strong>Nadine Brum</strong>
-    <span>Portugal</span>
-  </p>
-   
-  <a 
-    href="https://www.google.pt/search?q=horta+with+c%C3%A9sar&sca_esv=b2010e30be87c2d7&sxsrf=ANbL-n7-JxVCjqvbxbkak95O6FQZHO5Aww%3A1773941777935&source=hp&ei=ETS8afqIN47ZhbIP57PxsQU&iflsig=AFdpzrgAAAAAabxCIYvPyOUiEhx2jstWcX_sE-hZfcaQ&oq=&gs_lp=Egdnd3Mtd2l6IgAqAggAMgcQIxgnGOoCMgcQIxgnGOoCMgcQIxgnGOoCMgcQIxgnGOoCMgcQIxgnGOoCMg0QLhjRAxjHARgnGOoCMgcQIxgnGOoCMgcQIxgnGOoCMgcQIxgnGOoCMg0QLhjRAxjHARgnGOoCSM8GUABYAHABeACQAQCYAQCgAQCqAQC4AQHIAQCYAgGgAg6oAgqYAw7xBQWN2uqC8G0LkgcBMaAHALIHALgHAMIHAzMtMcgHDIAIAA&sclient=gws-wiz#mpd=~14235929138976845091/customers/reviews"
-    target="_blank"
-    rel="noopener"
-    class="review-link"
-    data-i18n="reviews.google.readReview">
-    Ler feedback
-  </a>
-</div>
+        <div class="google-reviews-list">
+          <div class="google-review-preview">
+            <div class="review-stars">★★★★★</div>
+            <blockquote class="google-review-quote" data-i18n="reviews.google.review-quote-1">
+              I took a trail with César on the island of Faial and it was an absolutely unforgettable experience.
+            </blockquote>
+            <p class="review-author">
+              <strong>Nadine Brum</strong>
+              <span data-i18n="reviews.google.source">Google review</span>
+            </p>
+          </div>
 
-        <!----/*Review 2*/----->
-   
-        
-       <! /*Botão Ver No Google*/>
+          <div class="google-review-preview">
+            <div class="review-stars">★★★★★</div>
+            <blockquote class="google-review-quote" data-i18n="reviews.google.review-quote-2">
+              Visiting from England, the trail became one of the highlights of our trip.
+            </blockquote>
+            <p class="review-author">
+              <strong>Lucky Lufro</strong>
+              <span data-i18n="reviews.google.source">Google review</span>
+            </p>
+          </div>
+
+          <div class="google-review-preview">
+            <div class="review-stars">★★★★★</div>
+            <blockquote class="google-review-quote" data-i18n="reviews.google.review-quote-3">
+              Both days were a wonderful experience, very informative and enjoyable. César is a fantastic, friendly guide!
+            </blockquote>
+            <p class="review-author">
+              <strong>Michael Krill</strong>
+              <span data-i18n="reviews.google.source">Google review</span>
+            </p>
+          </div>
+
+          <div class="google-review-preview">
+            <div class="review-stars">★★★★★</div>
+            <blockquote class="google-review-quote" data-i18n="reviews.google.review-quote-4">
+              He's knowledgeable, helpful, and kind. We went on two excursions with him.
+            </blockquote>
+            <p class="review-author">
+              <strong>Luca Roberto</strong>
+              <span data-i18n="reviews.google.source">Google review</span>
+            </p>
+          </div>
+        </div>
+
+        <p class="review-count" data-i18n="reviews.google.review-count">4 reviews on Google</p>
+
+        <!-- Botão Ver no Google -->
         <a class="btn btn-ghost review-btn google-btn"
            target="_blank"
            rel="noopener noreferrer"
@@ -6370,7 +6430,8 @@ footer .wrap{
 "reviews.title": "Reviews & Feedback",
 "reviews.lead": "Este projeto está apenas a começar. As primeiras reviews dos clientes irão aparecer aqui em breve.",
 "reviews.comingsoon": "Brevemente",
-"reviews.google.title": "Google Reviews",
+"reviews.google.title": "Avaliações Google",
+"reviews.google.platform": "Perfil Google Business",
 "reviews.direct.title": "Feedback dos Clientes",
 "reviews.direct.platform": "Reviews partilhadas diretamente no site",
 "reviews.direct.button": "Comente a sua experiência",
@@ -6407,7 +6468,12 @@ footer .wrap{
 "guestReview3.text": "visitei a Horta com a minha família e tivemos uma experiência inesquecível. A ilha é maravilhosa, mas o que realmente tornou tudo ainda mais especial foi o nosso guia turístico César. Sempre muito simpático, profissional e cheio de conhecimento sobre a história e os lugares da ilha. Fez-nos sentir bem-vindos desde o primeiro momento e mostrou-nos cantinhos que provavelmente nunca teríamos descoberto sozinhos. Foi, sem dúvida, uma parte essencial para que esta viagem ficasse para sempre nas nossas memórias. Recomendo muito!",
 "guestReview3.button": "Ler feedback",
 "contact.whatsapp.cta": "Falar no WhatsApp",
-"reviews.google.review-quote-1": "Fiz um trilho com o César na ilha do Faial e foi uma experiência absolutamente inesquecível. Desde o primeiro momento...",
+"reviews.google.source": "Avaliação Google",
+"reviews.google.review-count": "4 avaliações no Google",
+"reviews.google.review-quote-1": "Fiz um trilho com o César na ilha do Faial e foi uma experiência absolutamente inesquecível.",
+"reviews.google.review-quote-2": "Visitando o Faial a partir de Inglaterra, o trilho tornou-se um dos pontos altos da viagem.",
+"reviews.google.review-quote-3": "Os dois dias foram uma experiência maravilhosa, muito informativa e agradável. O César é um guia fantástico e simpático!",
+"reviews.google.review-quote-4": "É conhecedor, prestável e gentil. Fizemos duas excursões com ele.",
 "reviews.google.readReview": "Ler feedback", 
 "footer.business.title": "Serviços para parceiros e empresas",       
 "footer.business.text1": "Além dos trilhos e walking tours, também presto serviços privados de guia local no Faial para agências, operadores turísticos, hóspedes individuais e pequenos grupos.",        
@@ -6684,7 +6750,12 @@ footer .wrap{
 "guestReview3.text": "I visited Horta with my family and we had an unforgettable experience. The island is wonderful, but what truly made everything even more special was our guide, César. He was always very friendly, professional, and full of knowledge about the island’s history and its hidden spots. He made us feel welcome from the very first moment and showed us places we would probably never have discovered on our own. Without a doubt, he played a key role in making this trip something we will remember forever. Highly recommended!",
 "guestReview3.button": "Read review",
 "contact.whatsapp.cta": "Message on WhatsApp",
-"reviews.google.review-quote-1": "I took a trail with César on the island of Faial and it was an absolutely unforgettable experience. From the first...",
+"reviews.google.source": "Google review",
+"reviews.google.review-count": "4 reviews on Google",
+"reviews.google.review-quote-1": "I took a trail with César on the island of Faial and it was an absolutely unforgettable experience.",
+"reviews.google.review-quote-2": "Visiting from England, the trail became one of the highlights of our trip.",
+"reviews.google.review-quote-3": "Both days were a wonderful experience, very informative and enjoyable. César is a fantastic, friendly guide!",
+"reviews.google.review-quote-4": "He's knowledgeable, helpful, and kind. We went on two excursions with him.",
 "reviews.google.readReview": "View full Feedback", 
 "footer.business.title": "Services for partners and companies",
 "footer.business.text1": "In addition to hiking trails and walking tours, I also provide private local guiding services on Faial for agencies, tour operators, individual guests and small groups.",
