@@ -2595,7 +2595,7 @@ header{
 
 .reviews-head{
   text-align:center;
-  max-width:700px;
+  max-width:780px;
   margin:auto;
   margin-bottom:40px;
 }
@@ -2608,6 +2608,8 @@ header{
 .reviews-lead{
   color:var(--muted);
   line-height:1.6;
+  max-width:70ch;
+  margin:0 auto;
 }
 
 .reviews-grid{
@@ -2633,6 +2635,7 @@ header{
   text-align:center;
   align-items:center;
   justify-content:flex-start;
+  min-height:520px;
 }
 
 .review-highlight{
@@ -2693,6 +2696,9 @@ header{
 @media (max-width:900px){
   .reviews-grid{
     grid-template-columns:1fr;
+  }
+  .review-card{
+    min-height:auto;
   }
 }
 .stars{
@@ -3376,17 +3382,24 @@ body.guest-review-open{
   position: relative;
   overflow: hidden;
   margin: 10px 0 18px;
-  min-height: 215px;
+  min-height: 230px;
+  width:100%;
 }
 
 .review-track{
   display: flex;
+  align-items:center;
   transition: transform .6s ease;
 }
 
 .review-item{
   min-width: 100%;
   box-sizing: border-box;
+  min-height:230px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 34px;
 }
 
 .guest-review-preview{
@@ -4319,6 +4332,9 @@ footer .wrap{
   position:relative;
   display:flex;
   align-items:center;
+  width:100%;
+  min-height:230px;
+  margin:10px 0 18px;
 }
 
 /* slider */
@@ -4330,11 +4346,14 @@ footer .wrap{
 /* cada review */
 .review-item-tripadvisor{
   display:none;
-  margin-top:16px;
+  min-height:230px;
+  align-items:center;
+  justify-content:center;
+  padding:0 34px;
 }
 
 .review-item-tripadvisor.active{
-  display:block;
+  display:flex;
 }
 
 /* card preview */
@@ -4345,7 +4364,7 @@ footer .wrap{
   padding:16px 18px;
   transition:all .25s ease;
   margin:0 auto;
-  max-width:520px;
+  max-width:34ch;
   position:relative;
 }
 
@@ -4379,7 +4398,7 @@ footer .wrap{
 
 /* meta */
 .guest-review-preview-tripadvisor__meta{
- isplay:flex;
+  display:flex;
   flex-direction:column;
   align-items:center;   /* CENTRAR */
   gap:2px;
@@ -4400,49 +4419,51 @@ footer .wrap{
   position:absolute;
   top:50%;
   transform:translateY(-50%);
-  background:#00aa6c;
-  color:#fff;
+  background:rgba(255,255,255,.85);
+  color:#64748b;
   border:none;
-  width:36px;
-  height:36px;
+  width:34px;
+  height:34px;
   border-radius:50%;
-  font-size:18px;
+  font-size:22px;
   cursor:pointer;
   display:flex;
   align-items:center;
   justify-content:center;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
   z-index:2;
 }
 
 .tripadvisor-review-nav.prev{
-  left:-18px;
+  left:-6px;
 }
 
 .tripadvisor-review-nav.next{
-  right:-18px;
+  right:-6px;
 }
 /* base (quase invisível) */
 .tripadvisor-review-nav{
-  background:rgba(0,0,0,0.05);
-  color:transparent;
+  background:rgba(255,255,255,.85);
+  color:#64748b;
   border:none;
-  width:36px;
-  height:36px;
+  width:34px;
+  height:34px;
   border-radius:50%;
-  font-size:18px;
+  font-size:22px;
   cursor:pointer;
   display:flex;
   align-items:center;
   justify-content:center;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
   transition:all .25s ease;
   opacity:0.2;
 }
 
 /* quando o user passa no card */
 .review-card-tripadvisor:hover .tripadvisor-review-nav{
-  background:rgba(0,170,108,0.1);
+  background:rgba(255,255,255,.92);
   color:#00aa6c;
-  opacity:1;
+  opacity:.85;
 }
 
 /* hover direto na seta */
@@ -5200,7 +5221,7 @@ footer .wrap{
     <div class="reviews-head">
       <h2 data-i18n="reviews.title">Reviews & Feedback</h2>
       <p class="reviews-lead" data-i18n="reviews.lead">
-        This project is just beginning. The first guest reviews will appear here soon.
+        Real guest reviews from people who have walked Faial with me, from Google, Tripadvisor and direct feedback.
       </p>
     </div>
 <div id="review-thanks" class="review-thanks-overlay" hidden>
@@ -6447,7 +6468,7 @@ footer .wrap{
 "hero.cta.book.whatsapp": "A planear o que fazer no Faial? Fala comigo",        
 "about.subtitle": "Guia local certificado do Faial • Experiências autênticas nos Açores",
 "reviews.title": "Reviews & Feedback",
-"reviews.lead": "Este projeto está apenas a começar. As primeiras reviews dos clientes irão aparecer aqui em breve.",
+"reviews.lead": "Avaliações reais de clientes que já caminharam comigo no Faial, no Google, Tripadvisor e feedback partilhado diretamente.",
 "reviews.comingsoon": "Brevemente",
 "reviews.google.title": "Avaliações Google",
 "reviews.google.platform": "Perfil Google Business",
@@ -6727,7 +6748,7 @@ footer .wrap{
 "hero.cta.book.whatsapp": "Planning what to do in Faial? Talk to me",        
 "about.subtitle": "Certified local guide from Faial • Authentic Azores experiences",
 "reviews.title": "Reviews & Feedback",
-"reviews.lead": "This project is just beginning. The first guest reviews will appear here soon.",
+"reviews.lead": "Real guest reviews from people who have walked Faial with me, from Google, Tripadvisor and direct feedback.",
 "reviews.comingsoon": "Coming soon",
 
 "reviews.google.title": "Google Reviews",
