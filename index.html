@@ -3974,30 +3974,18 @@ body.guest-review-open{
     font-size:11px;
   }
 }
-.google-review-preview{
-  text-align:left;
-  border-top:1px solid rgba(148,163,184,.28);
-  padding-top:12px;
-}
-
-.google-review-preview:first-child{
-  border-top:0;
-  padding-top:0;
-}
-
-.google-reviews-list{
+.google-review-slider{
   width:100%;
-  display:grid;
-  gap:12px;
-  margin:8px 0 18px;
+  min-height:230px;
+  margin:10px 0 10px;
 }
 
 .google-review-preview .review-stars{
-  justify-content:flex-start;
+  justify-content:center;
   color:#fbbf24;
-  font-size:15px;
+  font-size:18px;
   letter-spacing:1px;
-  margin:0 0 6px;
+  margin:0 0 12px;
 }
 
 .review-quote{
@@ -4008,12 +3996,14 @@ body.guest-review-open{
 }
 
 .google-review-quote{
-  margin:0 0 8px;
-  line-height:1.55;
+  max-width:30ch;
+  margin:0 auto 16px;
+  line-height:1.65;
   font-style:italic;
   color:#334155;
+  text-align:center;
   display:-webkit-box;
-  -webkit-line-clamp:2;
+  -webkit-line-clamp:3;
   -webkit-box-orient:vertical;
   overflow:hidden;
 }
@@ -4030,10 +4020,26 @@ body.guest-review-open{
 
 .google-review-preview .review-author{
   display:flex;
-  justify-content:space-between;
-  gap:10px;
+  justify-content:center;
+  gap:8px;
   align-items:center;
   flex-wrap:wrap;
+  text-align:center;
+}
+
+.google-review-slider .review-item{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 34px;
+}
+
+.google-review-slider .review-arrow{
+  opacity:.2;
+}
+
+.google-review-slider:hover .review-arrow{
+  opacity:.85;
 }
 
 .review-link{
@@ -5341,50 +5347,63 @@ footer .wrap{
         
         <!-- Google reviews preview -->
         
-        <div class="google-reviews-list">
-          <div class="google-review-preview">
-            <div class="review-stars">★★★★★</div>
-            <blockquote class="google-review-quote" data-i18n="reviews.google.review-quote-1">
-              I took a trail with César on the island of Faial and it was an absolutely unforgettable experience.
-            </blockquote>
-            <p class="review-author">
-              <strong>Nadine Brum</strong>
-              <span data-i18n="reviews.google.source">Google review</span>
-            </p>
+        <div class="review-slider google-review-slider" id="googleReviewSlider">
+          <div class="review-track">
+            <div class="review-item">
+              <div class="google-review-preview">
+                <div class="review-stars">★★★★★</div>
+                <blockquote class="google-review-quote" data-i18n="reviews.google.review-quote-1">
+                  I took a trail with César on the island of Faial and it was an absolutely unforgettable experience.
+                </blockquote>
+                <p class="review-author">
+                  <strong>Nadine Brum</strong>
+                  <span data-i18n="reviews.google.source">Google review</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="review-item">
+              <div class="google-review-preview">
+                <div class="review-stars">★★★★★</div>
+                <blockquote class="google-review-quote" data-i18n="reviews.google.review-quote-2">
+                  Visiting from England, the trail became one of the highlights of our trip.
+                </blockquote>
+                <p class="review-author">
+                  <strong>Lucky Lufro</strong>
+                  <span data-i18n="reviews.google.source">Google review</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="review-item">
+              <div class="google-review-preview">
+                <div class="review-stars">★★★★★</div>
+                <blockquote class="google-review-quote" data-i18n="reviews.google.review-quote-3">
+                  Both days were a wonderful experience, very informative and enjoyable. César is a fantastic, friendly guide!
+                </blockquote>
+                <p class="review-author">
+                  <strong>Michael Krill</strong>
+                  <span data-i18n="reviews.google.source">Google review</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="review-item">
+              <div class="google-review-preview">
+                <div class="review-stars">★★★★★</div>
+                <blockquote class="google-review-quote" data-i18n="reviews.google.review-quote-4">
+                  He's knowledgeable, helpful, and kind. We went on two excursions with him.
+                </blockquote>
+                <p class="review-author">
+                  <strong>Luca Roberto</strong>
+                  <span data-i18n="reviews.google.source">Google review</span>
+                </p>
+              </div>
+            </div>
           </div>
 
-          <div class="google-review-preview">
-            <div class="review-stars">★★★★★</div>
-            <blockquote class="google-review-quote" data-i18n="reviews.google.review-quote-2">
-              Visiting from England, the trail became one of the highlights of our trip.
-            </blockquote>
-            <p class="review-author">
-              <strong>Lucky Lufro</strong>
-              <span data-i18n="reviews.google.source">Google review</span>
-            </p>
-          </div>
-
-          <div class="google-review-preview">
-            <div class="review-stars">★★★★★</div>
-            <blockquote class="google-review-quote" data-i18n="reviews.google.review-quote-3">
-              Both days were a wonderful experience, very informative and enjoyable. César is a fantastic, friendly guide!
-            </blockquote>
-            <p class="review-author">
-              <strong>Michael Krill</strong>
-              <span data-i18n="reviews.google.source">Google review</span>
-            </p>
-          </div>
-
-          <div class="google-review-preview">
-            <div class="review-stars">★★★★★</div>
-            <blockquote class="google-review-quote" data-i18n="reviews.google.review-quote-4">
-              He's knowledgeable, helpful, and kind. We went on two excursions with him.
-            </blockquote>
-            <p class="review-author">
-              <strong>Luca Roberto</strong>
-              <span data-i18n="reviews.google.source">Google review</span>
-            </p>
-          </div>
+          <button type="button" class="review-arrow review-arrow-prev" aria-label="Previous Google review">‹</button>
+          <button type="button" class="review-arrow review-arrow-next" aria-label="Next Google review">›</button>
         </div>
 
         <p class="review-count" data-i18n="reviews.google.review-count">4 reviews on Google</p>
@@ -8946,6 +8965,61 @@ function startLoop() {
     <div class="guest-review-modal__photos" id="guestReviewPhotos" hidden></div>
   </div>
 </div>
+<script>
+(function(){
+  const slider = document.getElementById('googleReviewSlider');
+  if (!slider) return;
+
+  const track = slider.querySelector('.review-track');
+  const slides = slider.querySelectorAll('.review-item');
+  const prevBtn = slider.querySelector('.review-arrow-prev');
+  const nextBtn = slider.querySelector('.review-arrow-next');
+  let index = 0;
+  let interval;
+
+  function updateSlider() {
+    track.style.transform = `translateX(-${index * 100}%)`;
+  }
+
+  function go(delta) {
+    index = (index + delta + slides.length) % slides.length;
+    updateSlider();
+  }
+
+  function start() {
+    if (slides.length <= 1) return;
+    stop();
+    interval = setInterval(() => go(1), 8000);
+  }
+
+  function stop() {
+    clearInterval(interval);
+  }
+
+  function restart() {
+    stop();
+    start();
+  }
+
+  prevBtn?.addEventListener('click', () => {
+    go(-1);
+    restart();
+  });
+
+  nextBtn?.addEventListener('click', () => {
+    go(1);
+    restart();
+  });
+
+  slider.addEventListener('mouseenter', stop);
+  slider.addEventListener('mouseleave', start);
+  slider.addEventListener('touchstart', stop, { passive: true });
+  slider.addEventListener('touchend', start, { passive: true });
+
+  updateSlider();
+  start();
+})();
+</script>
 <script>
 (function(){
   const slider = document.getElementById('guestReviewSlider');
