@@ -7043,6 +7043,8 @@ if (lang === 'en') {
 
 const msg = encodeURIComponent(message);
 waBtn.href = `https://wa.me/351964616199?text=${msg}`;
+waBtn.dataset.tourName = trail;
+waBtn.dataset.contactType = 'tour';
     modal.classList.add('open');
     document.body.classList.add('modal-open');
    
@@ -9237,16 +9239,33 @@ function trackLead(trailName = '') {
   }
 }
 
-function trackWhatsapp(label = '') {
+function isWhatsAppHref(href = '') {
+  return /^whatsapp:/i.test(href) || /(^|\/\/)(wa\.me|api\.whatsapp\.com|web\.whatsapp\.com)(\/|$)/i.test(href);
+}
+
+function getWhatsappTrackingParams(link) {
+  const card = link.closest('.trail-card');
+  const tourName = link.dataset.tourName || card?.dataset?.trail || '';
+  const contactType = link.dataset.contactType || (tourName ? 'tour' : 'general_info');
+  const params = {
+    contact_type: contactType,
+    page_location: window.location.href
+  };
+
+  if (tourName) {
+    params.tour_name = tourName;
+  }
+
+  return params;
+}
+
+function trackWhatsapp(link) {
   if (window.fbq) {
     fbq('track', 'Contact');
   }
 
-  if (typeof gtag !== 'undefined') {
-    gtag('event', 'whatsapp_click', {
-      event_category: 'contact',
-      event_label: label || 'whatsapp'
-    });
+  if (typeof gtag === 'function') {
+    gtag('event', 'whatsapp_click', getWhatsappTrackingParams(link));
   }
 }
 
@@ -9266,23 +9285,11 @@ document.querySelectorAll('.js-open-booking').forEach(btn => {
 });
 
 // WHATSAPP
-document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
-  link.addEventListener('click', () => {
-    let label = 'whatsapp';
+document.addEventListener('click', (e) => {
+  const link = e.target?.closest ? e.target.closest('a') : null;
+  if (!link || !isWhatsAppHref(link.href || link.getAttribute('href') || '')) return;
 
-    const card = link.closest('.trail-card');
-    if (card?.dataset?.trail) {
-      label = `whatsapp_${card.dataset.trail}`;
-    } else if (link.closest('.hero-mini')) {
-      label = 'whatsapp_hero';
-    } else if (link.closest('.floating-actions')) {
-      label = 'whatsapp_floating';
-    } else if (link.closest('#contact')) {
-      label = 'whatsapp_contact';
-    }
-
-    trackWhatsapp(label);
-  });
+  trackWhatsapp(link);
 });
 
 // CONDIÇÕES
