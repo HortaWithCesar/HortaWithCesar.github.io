@@ -47,6 +47,19 @@ Status: resolved.
 - `npm test` runs P0, P1, P2, and P3 using Node native tooling only.
 - GitHub Actions runs `npm test` before GitHub Pages deployment, so deploy fails if any audit test fails.
 
+## P4
+
+Status: partially resolved.
+
+- Technical SEO updates applied: robots directive, encoded social image URLs, social image alt, Twitter Card metadata, `robots.txt`, and `sitemap.xml`.
+- New meta description is pending approval and has not been changed.
+- Accessibility updates applied: corrected the notes label association, added accessible names to thumbnail controls, improved the photo modal dialog semantics and keyboard close support, and added safe `rel` attributes to the footer external link.
+- Operational README added.
+- Production smoke test added as `tests/production-smoke-p4-tests.mjs` and exposed through `npm run smoke:production`.
+- GitHub Actions production smoke workflow added separately from the deploy workflow, so production network failures do not block deploys.
+- Performance/assets remain report-only in `docs/p4-assets-audit.md`; no image or video files were removed, compressed, substituted, or renamed.
+- Repository hygiene remains report-only; no cleanup was applied.
+
 ## Scope Guard
 
 These audit updates do not intentionally change UI, prices, WhatsApp links, tracking, calendar business rules, hidden tours, or commercial copy.

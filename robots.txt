@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hortawithcesar.com/sitemap.xml
