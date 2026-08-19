@@ -5999,7 +5999,7 @@ footer .wrap{
     <div class="contact-slider__main">
       <img
         id="contactSliderMain"
-        src="img/contact-slider/contact-1.jpg"
+        src="img/contact-slider/contact-1.jpg?v=20260819b"
         alt="Horta with César no Faial"
       >
 
@@ -6022,66 +6022,67 @@ footer .wrap{
     <div class="contact-slider__thumbs">
       <button class="contact-slider__thumb is-active"
               type="button"
-              data-src="img/contact-slider/contact-1.jpg"
+              data-src="img/contact-slider/contact-1.jpg?v=20260819b"
               data-caption="Trilhos, paisagens e momentos autênticos no Faial"
               data-alt="Horta with César no Faial">
-        <img src="img/contact-slider/contact-1.jpg" alt="">
+        <img src="img/contact-slider/contact-1.jpg?v=20260819b" alt="">
       </button>
 
       <button class="contact-slider__thumb"
               type="button"
-              data-src="img/contact-slider/contact-2.jpg"
+              data-src="img/contact-slider/contact-2.jpg?v=20260819b"
               data-caption="Trilhos, paisagens e momentos autênticos no Faial"
               data-alt="Trilhos, paisagens e momentos autênticos no Faial">
-        <img src="img/contact-slider/contact-2.jpg" alt="">
+        <img src="img/contact-slider/contact-2.jpg?v=20260819b" alt="">
       </button>
 
       <button class="contact-slider__thumb"
               type="button"
-              data-src="img/contact-slider/contact-3.jpg"
+              data-src="img/contact-slider/contact-3.jpg?v=20260819b"
               data-caption="Trilhos, paisagens e momentos autênticos no Faial"
               data-alt="Trilhos, paisagens e momentos autênticos no Faial">
-        <img src="img/contact-slider/contact-3.jpg" alt="">
+        <img src="img/contact-slider/contact-3.jpg?v=20260819b" alt="">
       </button>
 
       <button class="contact-slider__thumb"
               type="button"
-              data-src="img/contact-slider/contact-4.jpg"
+              data-src="img/contact-slider/contact-4.jpg?v=20260819b"
               data-caption="Trilhos, paisagens e momentos autênticos no Faial"
               data-alt="Trilhos, paisagens e momentos autênticos no Faial">
-        <img src="img/contact-slider/contact-4.jpg" alt="">
+        <img src="img/contact-slider/contact-4.jpg?v=20260819b" alt="">
       </button>
       
       <button class="contact-slider__thumb"
               type="button"
-              data-src="img/contact-slider/contact-5.jpg"
+              data-src="img/contact-slider/contact-5.jpg?v=20260819b"
               data-caption="Trilhos, paisagens e momentos autênticos no Faial"
               data-alt="Trilhos, paisagens e momentos autênticos no Faial">
-        <img src="img/contact-slider/contact-5.jpg" alt="">
+        <img src="img/contact-slider/contact-5.jpg?v=20260819b" alt="">
       </button>
 
       <button class="contact-slider__thumb"
               type="button"
-              data-src="img/contact-slider/contact-6.jpg"
+              data-src="img/contact-slider/contact-6.jpg?v=20260819b"
               data-caption="Trilhos, paisagens e momentos autênticos no Faial"
               data-alt="Trilhos, paisagens e momentos autênticos no Faial">
-        <img src="img/contact-slider/contact-6.jpg" alt="">
+        <img src="img/contact-slider/contact-6.jpg?v=20260819b" alt="">
       </button>
 
       <button class="contact-slider__thumb"
               type="button"
-              data-src="img/contact-slider/contact-7.jpg"
+              data-src="img/contact-slider/contact-7.jpg?v=20260819b"
               data-caption="Trilhos, paisagens e momentos autênticos no Faial"
-              data-alt="Trilhos, paisagens e momentos autênticos no Faial">
-        <img src="img/contact-slider/contact-7.jpg" alt="">
+              data-alt="Trilhos, paisagens e momentos autênticos no Faial"
+              data-position="left center">
+        <img src="img/contact-slider/contact-7.jpg?v=20260819b" alt="" style="object-position:left center">
       </button>
 
       <button class="contact-slider__thumb"
               type="button"
-              data-src="img/contact-slider/contact-8.jpg"
+              data-src="img/contact-slider/contact-8.jpg?v=20260819b"
               data-caption="Trilhos, paisagens e momentos autênticos no Faial"
               data-alt="Trilhos, paisagens e momentos autênticos no Faial">
-        <img src="img/contact-slider/contact-8.jpg" alt="">
+        <img src="img/contact-slider/contact-8.jpg?v=20260819b" alt="">
       </button>
     </div>
   </section>
@@ -9321,6 +9322,7 @@ document.querySelectorAll('.btn-conditions').forEach(btn => {
 
     mainImg.src = btn.dataset.src;
     mainImg.alt = btn.dataset.alt || 'Foto Horta with César';
+    mainImg.style.objectPosition = btn.dataset.position || 'center center';
     caption.textContent = btn.dataset.caption || '';
 
     thumbs.forEach(t => t.classList.remove('is-active'));
