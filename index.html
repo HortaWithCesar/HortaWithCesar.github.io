@@ -5101,7 +5101,7 @@ footer .wrap{
       <!-- CAMINHADA VULCÃO DOS CAPELINHOS -->
   <article id="capelo-capelinhos" class="trail-card reveal"
   data-trail="Caminhada Vulcão dos Capelinhos"
-  data-price-from="100"
+  data-price-from="90"
   data-brief="Percurso circular: Porto do Comprido → zona balnear → Farol dos Capelinhos → miradouro → encosta vulcânica → estrada → entrada do Centro de Interpretação → regresso ao Porto do Comprido. Duração aproximada: 2h45–3h15, sem a subida opcional ao farol. O percurso inclui subidas e descidas inclinadas, terreno vulcânico irregular e pequenos troços em estrada. Está prevista uma paragem de cerca de 20 min junto à entrada do Centro de Interpretação, com WC e bar; a visita ao interior não está incluída. A subida ao Farol dos Capelinhos é facultativa e o bilhete é pago pelo cliente. Levar água, protetor solar, chapéu e calçado adequado para caminhada."
   data-brief-en="Circular route: Porto do Comprido → bathing area → Capelinhos Lighthouse → viewpoint → volcanic slope → road → entrance of the Capelinhos Volcano Interpretation Centre → return to Porto do Comprido. Approximate duration: 2h45–3h15, excluding the optional lighthouse climb. The route includes steep ascents and descents, uneven volcanic terrain and short road sections. A stop of about 20 minutes is planned by the Interpretation Centre entrance, with toilets and bar; admission to the interior is not included. Climbing the Capelinhos Lighthouse is optional and the ticket is paid by the guest. Bring water, sunscreen, a hat and suitable walking shoes.">
   <div class="trail-media">
@@ -5157,7 +5157,7 @@ footer .wrap{
   </div>
 </article>
       <!-- MIRADOURO DA BRAÇA -->
-<article class="trail-card reveal"
+<article class="trail-card reveal" hidden aria-hidden="true"
   data-trail="Miradouro da Braça"
   data-price-from="90"
   data-brief="Acesso sujeito a condições meteorológicas. Preço ajusta com logística e grupo. Ponto de encontro a combinar"
@@ -5655,7 +5655,7 @@ footer .wrap{
   <option value="Farol da Ribeirinha" hidden>Farol da Ribeirinha</option>
   <option value="Levadas ao Cabeço dos Trinta" hidden>Levadas ao Cabeço dos Trinta</option>
   <option value="Caminhada Vulcão dos Capelinhos">Caminhada Vulcão dos Capelinhos</option>
-  <option value="Miradouro da Braça">Miradouro da Braça</option>
+  <option value="Miradouro da Braça" hidden disabled>Miradouro da Braça</option>
 </select>
         <input type="hidden" id="trailInput" name="Trilho" value="">
 </div>
@@ -7101,7 +7101,7 @@ const PRICE_TABLE = {
   "Rocha da Fajã":                      { type: "perPerson", tiers: [ { max:4, price:90 }, { max:99, price:75 } ] },
   "Farol da Ribeirinha":                { type: "perPerson", tiers: [ { max:4, price:90 }, { max:99, price:85 } ] },
   "Levadas ao Cabeço dos Trinta":       { type: "perPerson", tiers: [ { max:4, price:150 }, { max:99, price:120 } ] },
-  "Caminhada Vulcão dos Capelinhos":      { type: "perPerson", tiers: [ { max:4, price:100 }, { max:99, price:90 } ] },
+  "Caminhada Vulcão dos Capelinhos":      { type: "perPerson", tiers: [ { max:4, price:90 }, { max:99, price:90 } ] },
   "Miradouro do Neptuno":               { type: "perPerson", tiers: [ { max:4, price:35 }, { max:99, price:35 } ] },
   "Miradouro da Braça":                 { type: "perPerson", tiers: [ { max:4, price:90 }, { max:99, price:75 } ] }
 };
