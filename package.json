@@ -1,0 +1,14 @@
+{
+  "name": "horta-with-cesar-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "npm run test:p0 && npm run test:p1 && npm run test:p2 && npm run test:p3",
+    "test:p0": "node tests/calendar-p0-tests.mjs",
+    "test:p1": "node tests/calendar-p1-tests.mjs",
+    "test:p2": "node tests/booking-p2-tests.mjs",
+    "test:p3": "npm run test:p3:assets && npm run test:p3:js",
+    "test:p3:assets": "node tests/assets-p3-tests.mjs",
+    "test:p3:js": "node tests/inline-js-syntax-p3-tests.mjs"
+  }
+}
