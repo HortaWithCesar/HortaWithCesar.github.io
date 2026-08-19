@@ -6468,6 +6468,10 @@ footer .wrap{
 "booking.avail.morning": "Disponível: manhã",
 "booking.avail.afternoon": "Disponível: tarde",
 "booking.avail.error": "Não foi possível verificar",
+"booking.avail.minAdvance": "Reservas disponíveis apenas com 48h de antecedência.",
+"booking.recheck.error": "Não foi possível confirmar a disponibilidade agora. Tenta novamente antes de reservar.",
+"booking.recheck.busy": "Esse período já não está disponível. Escolhe outra data ou período.",
+"booking.recheck.pending": "A disponibilidade ainda está a ser confirmada. Tenta novamente dentro de instantes.",
 "booking.ph.trail": "Seleciona um trilho",
 "booking.ph.name": "O teu nome completo",
 "booking.ph.email": "nome@exemplo.com",
@@ -6748,6 +6752,10 @@ footer .wrap{
 "booking.avail.morning": "Available: morning",
 "booking.avail.afternoon": "Available: afternoon",
 "booking.avail.error": "Could not check availability",
+"booking.avail.minAdvance": "Bookings require at least 48h notice.",
+"booking.recheck.error": "Could not confirm availability right now. Please try again before booking.",
+"booking.recheck.busy": "That time period is no longer available. Please choose another date or time.",
+"booking.recheck.pending": "Availability is still being confirmed. Please try again in a moment.",
 "booking.ph.trail": "Select a trail",
 "booking.ph.name": "Your full name",
 "booking.ph.email": "name@example.com",
@@ -7139,171 +7147,171 @@ function eur(v){ return v == null ? "—" : v.toLocaleString('pt-PT',{style:'cur
 </script>
 
 <script>
-/* ===== Disponibilidade por blocos (manhã/tarde) via Google Calendar ===== */
+/* ===== Google Calendar configuration ===== */
 
 const GCAL_ID  = 'hortawithcesar@gmail.com';
 const GCAL_KEY = 'AIzaSyBJ79Q2R7X7tpzr8XnY3VCBcu6i45Cujc8';
 
-const MORNING   = { hStart: 8,  hEnd: 12 };
-const AFTERNOON = { hStart: 14, hEnd: 18 };
+window.HWC_BOOKING_RULES = (function(){
+  const BUSINESS_TIME_ZONE = 'Atlantic/Azores';
+  const MIN_ADVANCE_HOURS = 48;
+  const SLOT_STARTS = { morning: 8, afternoon: 14 };
+  const MS_PER_HOUR = 60 * 60 * 1000;
 
-function toISOAt(d, h=0, m=0, s=0){
-  const x = new Date(d.getFullYear(), d.getMonth(), d.getDate(), h, m, s);
-  return x.toISOString();
-}
-
-function overlaps(aStart, aEnd, bStart, bEnd){
-  return aStart < bEnd && bStart < aEnd;
-}
-
-async function fetchDayEvents(yyyy_mm_dd){
-  const [Y,M,D] = yyyy_mm_dd.split('-').map(Number);
-  const day = new Date(Y, M-1, D);
-  const timeMin = toISOAt(day, 0, 0, 0);
-  const endDay = new Date(Y, M-1, D+1);
-  const timeMax = endDay.toISOString();
-
-  const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(GCAL_ID)}/events`
-    + `?key=${encodeURIComponent(GCAL_KEY)}`
-    + `&timeMin=${encodeURIComponent(timeMin)}`
-    + `&timeMax=${encodeURIComponent(timeMax)}`
-    + `&singleEvents=true&orderBy=startTime`;
-
-  const res = await fetch(url);
-  if(!res.ok){ console.error('Calendar API', await res.text()); throw new Error(`Calendar API ${res.status}`); }
-  const data = await res.json();
-  return data.items || [];
-}
-
-// devolve { morningFree, afternoonFree, allDayBusy }
-async function checkDaySlots(yyyy_mm_dd){
-  const events = await fetchDayEvents(yyyy_mm_dd);
-
-  const [Y,M,D] = yyyy_mm_dd.split('-').map(Number);
-  const morningStart   = new Date(Y, M-1, D, MORNING.hStart,   0, 0);
-  const morningEnd     = new Date(Y, M-1, D, MORNING.hEnd,     0, 0);
-  const afternoonStart = new Date(Y, M-1, D, AFTERNOON.hStart, 0, 0);
-  const afternoonEnd   = new Date(Y, M-1, D, AFTERNOON.hEnd,   0, 0);
-
-  let morningBusy = false;
-  let afternoonBusy = false;
-  let allDayBusy = false;
-
-  for (const ev of events){
-    const sISO = ev.start?.dateTime || ev.start?.date;
-    const eISO = ev.end?.dateTime   || ev.end?.date;
-    if(!sISO || !eISO) continue;
-
-    const isAllDay = (ev.start?.date && ev.end?.date);
-    if(isAllDay){ allDayBusy = true; break; }
-
-    const s = new Date(sISO);
-    const e = new Date(eISO);
-
-    if (overlaps(s, e, morningStart,   morningEnd))   morningBusy   = true;
-    if (overlaps(s, e, afternoonStart, afternoonEnd)) afternoonBusy = true;
-
-    if (morningBusy && afternoonBusy) break;
+  function getTimeZoneOffsetMs(date, timeZone) {
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      hour12: false,
+      hourCycle: 'h23',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+    const parts = Object.fromEntries(
+      formatter.formatToParts(date)
+        .filter(part => part.type !== 'literal')
+        .map(part => [part.type, part.value])
+    );
+    const hour = Number(parts.hour) === 24 ? 0 : Number(parts.hour);
+    const asUTC = Date.UTC(
+      Number(parts.year),
+      Number(parts.month) - 1,
+      Number(parts.day),
+      hour,
+      Number(parts.minute),
+      Number(parts.second)
+    );
+    return asUTC - date.getTime();
   }
 
-  return {
-    morningFree:   !morningBusy   && !allDayBusy,
-    afternoonFree: !afternoonBusy && !allDayBusy,
-    allDayBusy
-  };
-}
-
-// === Atualiza badge de disponibilidade ===
-async function checkAvailability() {
-  const $date =
-    document.getElementById('bk-date') ||
-    document.getElementById('date_from') ||
-    document.getElementById('date');
-
-  const $avail = document.getElementById('rv-availability');
-
-  const $pay =
-    document.getElementById('bk-pay') ||
-    document.getElementById('pay') ||
-    document.querySelector('[data-pay-btn]');
-
-  if (!$date || !$avail) return;
-
-  const lang = localStorage.getItem('hwc_lang') || 'pt';
-  const root = window.I18N || {};
-  const dict = (root[lang] || root.pt || {});
-
-  const val = $date.value;
-
-  if (!val) {
-    $avail.textContent = dict["booking.availability.unknown"] || 'Selecione uma data';
-    $avail.dataset.state = 'pending';
-    $avail.setAttribute('data-i18n', 'booking.availability.unknown');
-    $pay && ($pay.disabled = true);
-    if (typeof window.validateBooking === 'function') window.validateBooking();
-    return;
+  function zonedDateTimeToDate(yyyy_mm_dd, h=0, m=0, s=0, timeZone=BUSINESS_TIME_ZONE) {
+    const [Y, M, D] = yyyy_mm_dd.split('-').map(Number);
+    const utcGuess = new Date(Date.UTC(Y, M - 1, D, h, m, s));
+    let offset = getTimeZoneOffsetMs(utcGuess, timeZone);
+    let result = new Date(utcGuess.getTime() - offset);
+    const correctedOffset = getTimeZoneOffsetMs(result, timeZone);
+    if (correctedOffset !== offset) {
+      result = new Date(utcGuess.getTime() - correctedOffset);
+    }
+    return result;
   }
 
-  $avail.textContent = dict["booking.avail.loading"] || "A verificar...";
-  $avail.dataset.state = "pending";
-  $avail.setAttribute("data-i18n", "booking.avail.loading");
-  if (typeof window.validateBooking === 'function') window.validateBooking();
-
-  try {
-    const slots = await checkDaySlots(val);
-
-    if (slots.allDayBusy) {
-      $avail.textContent = dict["booking.avail.unavailable"] || 'Indisponível';
-      $avail.dataset.state = 'busy';
-      $avail.setAttribute('data-i18n', 'booking.avail.unavailable');
-      $pay && ($pay.disabled = true);
-      if (typeof window.validateBooking === 'function') window.validateBooking();
-      return;
-    }
-
-    if (slots.morningFree && slots.afternoonFree) {
-      $avail.textContent = dict["booking.avail.both"] || 'Disponível: manhã e tarde';
-      $avail.dataset.state = 'both';
-      $avail.setAttribute('data-i18n', 'booking.avail.both');
-      $pay && ($pay.disabled = false);
-      if (typeof window.validateBooking === 'function') window.validateBooking();
-      return;
-    }
-
-    if (slots.morningFree) {
-      $avail.textContent = dict["booking.avail.morning"] || 'Disponível: manhã';
-      $avail.dataset.state = 'morning';
-      $avail.setAttribute('data-i18n', 'booking.avail.morning');
-      $pay && ($pay.disabled = false);
-      if (typeof window.validateBooking === 'function') window.validateBooking();
-      return;
-    }
-
-    if (slots.afternoonFree) {
-      $avail.textContent = dict["booking.avail.afternoon"] || 'Disponível: tarde';
-      $avail.dataset.state = 'afternoon';
-      $avail.setAttribute('data-i18n', 'booking.avail.afternoon');
-      $pay && ($pay.disabled = false);
-      if (typeof window.validateBooking === 'function') window.validateBooking();
-      return;
-    }
-
-    $avail.textContent = dict["booking.availability.unknown"] || 'Select a day';
-    $avail.dataset.state = 'pending';
-    $pay && ($pay.disabled = true);
-    if (typeof window.validateBooking === 'function') window.validateBooking();
-
-  } catch (err) {
-    console.error('[checkAvailability] erro:', err);
-    $avail.textContent = dict["booking.avail.error"] || 'Erro ao verificar';
-    $avail.dataset.state = 'error';
-    $avail.setAttribute('data-i18n', 'booking.avail.error');
-    $pay && ($pay.disabled = true);
-    if (typeof window.validateBooking === 'function') window.validateBooking();
+  function addDaysToDateString(yyyy_mm_dd, days) {
+    const [Y, M, D] = yyyy_mm_dd.split('-').map(Number);
+    return new Date(Date.UTC(Y, M - 1, D + days)).toISOString().slice(0, 10);
   }
-}
 
-// Disponibilidade fica centralizada no bloco seguro de Google Calendar.
+  function dateStringInTimeZone(date, timeZone=BUSINESS_TIME_ZONE) {
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+    const parts = Object.fromEntries(
+      formatter.formatToParts(date)
+        .filter(part => part.type !== 'literal')
+        .map(part => [part.type, part.value])
+    );
+    return `${parts.year}-${parts.month}-${parts.day}`;
+  }
+
+  function getMinimumBookingDateTime(now=new Date()) {
+    return new Date(now.getTime() + MIN_ADVANCE_HOURS * MS_PER_HOUR);
+  }
+
+  function normalizePeriod(periodVal) {
+    const p = String(periodVal || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/\p{Diacritic}/gu, '');
+    if (/manh|morn/.test(p)) return 'morning';
+    if (/tard|after/.test(p)) return 'afternoon';
+    return '';
+  }
+
+  function getSlotStartDate(yyyy_mm_dd, periodVal) {
+    const period = normalizePeriod(periodVal);
+    if (!yyyy_mm_dd || !period || !SLOT_STARTS[period]) return null;
+    return zonedDateTimeToDate(yyyy_mm_dd, SLOT_STARTS[period], 0, 0);
+  }
+
+  function isSlotBookableWithMinimumAdvance(yyyy_mm_dd, periodVal, now=new Date()) {
+    const slotStart = getSlotStartDate(yyyy_mm_dd, periodVal);
+    if (!slotStart) return false;
+    return slotStart.getTime() >= getMinimumBookingDateTime(now).getTime();
+  }
+
+  function getEarliestBookableDateString(now=new Date()) {
+    const cutoff = getMinimumBookingDateTime(now);
+    let date = dateStringInTimeZone(cutoff);
+    if (!isSlotBookableWithMinimumAdvance(date, 'afternoon', now)) {
+      date = addDaysToDateString(date, 1);
+    }
+    return date;
+  }
+
+  function getMinimumAdvanceStatus(yyyy_mm_dd, periodVal, now=new Date()) {
+    const earliestDate = getEarliestBookableDateString(now);
+    if (!yyyy_mm_dd) {
+      return { ok: false, reason: 'date-missing', earliestDate };
+    }
+    if (yyyy_mm_dd < earliestDate) {
+      return { ok: false, reason: 'minimum-advance', earliestDate };
+    }
+    const period = normalizePeriod(periodVal);
+    if (!period) {
+      return { ok: false, reason: 'period-missing', earliestDate };
+    }
+    const ok = isSlotBookableWithMinimumAdvance(yyyy_mm_dd, period, now);
+    return { ok, reason: ok ? 'ok' : 'minimum-advance', earliestDate };
+  }
+
+  function enforceDateMinimums(doc=document, now=new Date()) {
+    const minDate = getEarliestBookableDateString(now);
+    const dateFrom = doc.querySelector?.('#date_from');
+    const dateTo = doc.querySelector?.('#date_to');
+
+    if (dateFrom) {
+      dateFrom.setAttribute('min', minDate);
+      if (dateFrom.value && dateFrom.value < minDate) {
+        dateFrom.value = '';
+      }
+    }
+
+    if (dateTo) {
+      const dateToMin = dateFrom?.value || minDate;
+      dateTo.setAttribute('min', dateToMin);
+      if (dateTo.value && dateTo.value < dateToMin) {
+        dateTo.value = dateToMin;
+      }
+    }
+
+    return minDate;
+  }
+
+  return Object.freeze({
+    BUSINESS_TIME_ZONE,
+    MIN_ADVANCE_HOURS,
+    SLOT_STARTS,
+    addDaysToDateString,
+    dateStringInTimeZone,
+    enforceDateMinimums,
+    getEarliestBookableDateString,
+    getMinimumAdvanceStatus,
+    getMinimumBookingDateTime,
+    getSlotStartDate,
+    getTimeZoneOffsetMs,
+    isSlotBookableWithMinimumAdvance,
+    normalizePeriod,
+    zonedDateTimeToDate
+  });
+})();
+
+window.HWC_BOOKING_RULES.enforceDateMinimums();
 </script>
 <script>
 (() => {
@@ -7518,6 +7526,14 @@ function isTrailDisabledByName(name) {
 function isAvailabilityOK(periodVal) {
   const badge = $('#rv-availability');
   if (!badge) return false;
+
+  const dateVal = $('#date_from')?.value || '';
+  if (
+    window.HWC_BOOKING_RULES &&
+    !window.HWC_BOOKING_RULES.getMinimumAdvanceStatus(dateVal, periodVal).ok
+  ) {
+    return false;
+  }
 
   const state = badge.dataset.state || '';
   const p = norm(periodVal || ''); // "Manhã" / "Tarde" / "Morning" / "Afternoon"
@@ -7734,6 +7750,19 @@ function isBookingRequestAvailabilityOK() {
 
 function availabilityBlockMessage() {
   const lang = localStorage.getItem('hwc_lang') || 'pt';
+  const root = window.I18N || {};
+  const dict = root[lang] || root.pt || {};
+  const dateVal = $('#date_from')?.value || '';
+  const periodVal = $('#period')?.value || '';
+  const advanceStatus = window.HWC_BOOKING_RULES?.getMinimumAdvanceStatus?.(dateVal, periodVal);
+
+  if (advanceStatus && !advanceStatus.ok && advanceStatus.reason === 'minimum-advance') {
+    return dict["booking.avail.minAdvance"] ||
+      (lang === 'en'
+        ? 'Bookings require at least 48h notice.'
+        : 'Reservas disponíveis apenas com 48h de antecedência.');
+  }
+
   if (lang === 'en') {
     return 'Please choose a date and time of day with confirmed availability before sending the request.';
   }
@@ -7751,25 +7780,60 @@ function updateSendButton() {
   bookingForm?.addEventListener(evt, updateSendButton);
 });
 
-bookingForm?.addEventListener('submit', (e) => {
+let bookingSubmitRecheckApproved = false;
+
+bookingForm?.addEventListener('submit', async (e) => {
+  if (bookingSubmitRecheckApproved) {
+    bookingSubmitRecheckApproved = false;
+    return;
+  }
+
   const hp = document.getElementById('hp_field')?.value ?? "";
   if (hp.trim() !== "") {
     console.warn("BOT DETECTADO — submissão bloqueada.");
     e.preventDefault();
+    e.stopImmediatePropagation();
     return;
   }
 
   if (!bookingForm.checkValidity()) {
     e.preventDefault();
+    e.stopImmediatePropagation();
     bookingForm.reportValidity();
     return;
   }
 
   if (!isBookingRequestAvailabilityOK()) {
     e.preventDefault();
+    e.stopImmediatePropagation();
     updateSendButton();
     alert(availabilityBlockMessage());
     return;
+  }
+
+  const finalRecheck = window.HWC_BOOKING_RECHECK?.confirmSelectedBookingAvailability;
+  if (typeof finalRecheck !== 'function') {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    alert(availabilityBlockMessage());
+    return;
+  }
+
+  e.preventDefault();
+  e.stopImmediatePropagation();
+
+  const result = await finalRecheck();
+  if (!result.ok) {
+    updateSendButton();
+    alert(result.message || availabilityBlockMessage());
+    return;
+  }
+
+  bookingSubmitRecheckApproved = true;
+  if (typeof bookingForm.requestSubmit === 'function') {
+    bookingForm.requestSubmit(sendBtn || undefined);
+  } else {
+    HTMLFormElement.prototype.submit.call(bookingForm);
   }
 });
 updateSendButton();
@@ -7790,6 +7854,13 @@ validateBooking();
     const period = document.querySelector('#period')?.value || '';
 
     return { trail, people, date, period };
+  }
+
+  function getBookingMessage(key, fallbackPt, fallbackEn) {
+    const lang = localStorage.getItem('hwc_lang') || 'pt';
+    const root = window.I18N || {};
+    const dict = root[lang] || root.pt || {};
+    return dict[key] || (lang === 'en' ? fallbackEn : fallbackPt);
   }
 
   // ENVIAR PEDIDO
@@ -7818,12 +7889,43 @@ validateBooking();
   });
 
   // CONFIRMAR RESERVA / SUMUP
-  rvPayBtn?.addEventListener('click', (e) => {
+  rvPayBtn?.addEventListener('click', async (e) => {
     const isDisabled =
       rvPayBtn.getAttribute('aria-disabled') === 'true' || !rvPayBtn.href;
 
     if (isDisabled) {
       e.preventDefault();
+      return;
+    }
+
+    const paymentUrl = rvPayBtn.href;
+    const finalRecheck = window.HWC_BOOKING_RECHECK?.confirmSelectedBookingAvailability;
+
+    if (typeof finalRecheck !== 'function') {
+      e.preventDefault();
+      alert(getBookingMessage(
+        'booking.recheck.error',
+        'Não foi possível confirmar a disponibilidade agora. Tenta novamente antes de reservar.',
+        'Could not confirm availability right now. Please try again before booking.'
+      ));
+      return;
+    }
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    const paymentWindow = typeof window.open === 'function'
+      ? window.open('', rvPayBtn.target || '_blank', 'noopener')
+      : null;
+
+    const result = await finalRecheck();
+    if (!result.ok) {
+      paymentWindow?.close?.();
+      alert(result.message || getBookingMessage(
+        'booking.recheck.error',
+        'Não foi possível confirmar a disponibilidade agora. Tenta novamente antes de reservar.',
+        'Could not confirm availability right now. Please try again before booking.'
+      ));
       return;
     }
 
@@ -7845,6 +7947,13 @@ validateBooking();
         value: people || 1,
         payment_type: 'SumUp'
       });
+    }
+
+    if (paymentWindow) {
+      paymentWindow.opener = null;
+      paymentWindow.location.href = paymentUrl;
+    } else {
+      window.location.href = paymentUrl;
     }
   });
 })();
@@ -8586,11 +8695,15 @@ function startLoop() {
 <script>
 /* ===== HWC P0 calendar safety override ===== */
 (function(){
-  const BUSINESS_TIME_ZONE = 'Atlantic/Azores';
-  const SAFE_MORNING = { hStart: 8,  hEnd: 12 };
-  const SAFE_AFTERNOON = { hStart: 14, hEnd: 18 };
+  const bookingRules = window.HWC_BOOKING_RULES || null;
+  const BUSINESS_TIME_ZONE = bookingRules?.BUSINESS_TIME_ZONE || 'Atlantic/Azores';
+  const SAFE_MORNING = { hStart: bookingRules?.SLOT_STARTS?.morning || 8, hEnd: 12 };
+  const SAFE_AFTERNOON = { hStart: bookingRules?.SLOT_STARTS?.afternoon || 14, hEnd: 18 };
   let availabilityRequestId = 0;
   let availabilityTimer = null;
+  let finalRecheckInProgress = false;
+
+  bookingRules?.enforceDateMinimums?.();
 
   function getTimeZoneOffsetMs(date, timeZone) {
     const formatter = new Intl.DateTimeFormat('en-US', {
@@ -8699,6 +8812,95 @@ function startLoop() {
     };
   }
 
+  function normalizePeriodForCalendar(periodVal) {
+    if (bookingRules?.normalizePeriod) return bookingRules.normalizePeriod(periodVal);
+    const p = String(periodVal || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/\p{Diacritic}/gu, '');
+    if (/manh|morn/.test(p)) return 'morning';
+    if (/tard|after/.test(p)) return 'afternoon';
+    return '';
+  }
+
+  function applyMinimumAdvanceToSlots(yyyy_mm_dd, slots, now=new Date()) {
+    const morningMinAdvanceOK = bookingRules
+      ? bookingRules.isSlotBookableWithMinimumAdvance(yyyy_mm_dd, 'morning', now)
+      : true;
+    const afternoonMinAdvanceOK = bookingRules
+      ? bookingRules.isSlotBookableWithMinimumAdvance(yyyy_mm_dd, 'afternoon', now)
+      : true;
+
+    return {
+      ...slots,
+      morningFree: slots.morningFree && morningMinAdvanceOK,
+      afternoonFree: slots.afternoonFree && afternoonMinAdvanceOK,
+      morningMinAdvanceOK,
+      afternoonMinAdvanceOK,
+      minAdvanceBlocked: !morningMinAdvanceOK || !afternoonMinAdvanceOK
+    };
+  }
+
+  function slotsAllowPeriod(slots, periodVal) {
+    const period = normalizePeriodForCalendar(periodVal);
+    if (!slots || slots.allDayBusy || !period) return false;
+    if (period === 'morning') return !!slots.morningFree;
+    if (period === 'afternoon') return !!slots.afternoonFree;
+    return false;
+  }
+
+  function getBookingMessage(key, fallbackPt, fallbackEn) {
+    const lang = localStorage.getItem('hwc_lang') || 'pt';
+    const root = window.I18N || {};
+    const dict = root[lang] || root.pt || {};
+    return dict[key] || (lang === 'en' ? fallbackEn : fallbackPt);
+  }
+
+  function getNoAvailabilityMessage(slots, dict, lang) {
+    const allSlotsBlockedByMinimumAdvance =
+      !slots.allDayBusy &&
+      slots.minAdvanceBlocked &&
+      !slots.morningMinAdvanceOK &&
+      !slots.afternoonMinAdvanceOK;
+
+    if (allSlotsBlockedByMinimumAdvance) {
+      return {
+        key: 'booking.avail.minAdvance',
+        text: dict["booking.avail.minAdvance"] ||
+          (lang === 'en'
+            ? 'Bookings require at least 48h notice.'
+            : 'Reservas disponíveis apenas com 48h de antecedência.')
+      };
+    }
+
+    return {
+      key: 'booking.avail.unavailable',
+      text: dict["booking.avail.unavailable"] || (lang === 'en' ? 'Unavailable' : 'Indisponível')
+    };
+  }
+
+  function renderAvailabilitySlots($avail, $pay, slots, dict, lang) {
+    if (slots.allDayBusy || (!slots.morningFree && !slots.afternoonFree)) {
+      const message = getNoAvailabilityMessage(slots, dict, lang);
+      setAvailabilityState($avail, $pay, 'busy', message.text, message.key);
+      return;
+    }
+
+    if (slots.morningFree && slots.afternoonFree) {
+      setAvailabilityState($avail, $pay, 'both', dict["booking.avail.both"] || 'Disponível: manhã e tarde', 'booking.avail.both');
+      return;
+    }
+
+    if (slots.morningFree) {
+      setAvailabilityState($avail, $pay, 'morning', dict["booking.avail.morning"] || 'Disponível: manhã', 'booking.avail.morning');
+      return;
+    }
+
+    if (slots.afternoonFree) {
+      setAvailabilityState($avail, $pay, 'afternoon', dict["booking.avail.afternoon"] || 'Disponível: tarde', 'booking.avail.afternoon');
+    }
+  }
+
   window.fetchDayEvents = async function safeFetchDayEvents(yyyy_mm_dd) {
     const timeMin = zonedDateTimeToDate(yyyy_mm_dd, 0, 0, 0).toISOString();
     const timeMax = zonedDateTimeToDate(addDaysToDateString(yyyy_mm_dd, 1), 0, 0, 0).toISOString();
@@ -8723,9 +8925,9 @@ function startLoop() {
     return data.items;
   };
 
-  window.checkDaySlots = async function safeCheckDaySlots(yyyy_mm_dd) {
+  window.checkDaySlots = async function safeCheckDaySlots(yyyy_mm_dd, options={}) {
     const events = await window.fetchDayEvents(yyyy_mm_dd);
-    return computeDaySlots(yyyy_mm_dd, events);
+    return applyMinimumAdvanceToSlots(yyyy_mm_dd, computeDaySlots(yyyy_mm_dd, events), options.now || new Date());
   };
 
   function setAvailabilityState($avail, $pay, state, text, i18nKey) {
@@ -8752,6 +8954,7 @@ function startLoop() {
     const lang = localStorage.getItem('hwc_lang') || 'pt';
     const root = window.I18N || {};
     const dict = root[lang] || root.pt || {};
+    bookingRules?.enforceDateMinimums?.();
     const val = $date.value;
 
     if (!val) {
@@ -8766,29 +8969,117 @@ function startLoop() {
       const slots = await window.checkDaySlots(val);
       if (requestId !== availabilityRequestId || $date.value !== val) return;
 
-      if (slots.allDayBusy || (!slots.morningFree && !slots.afternoonFree)) {
-        setAvailabilityState($avail, $pay, 'busy', dict["booking.avail.unavailable"] || 'Indisponível', 'booking.avail.unavailable');
-        return;
-      }
-
-      if (slots.morningFree && slots.afternoonFree) {
-        setAvailabilityState($avail, $pay, 'both', dict["booking.avail.both"] || 'Disponível: manhã e tarde', 'booking.avail.both');
-        return;
-      }
-
-      if (slots.morningFree) {
-        setAvailabilityState($avail, $pay, 'morning', dict["booking.avail.morning"] || 'Disponível: manhã', 'booking.avail.morning');
-        return;
-      }
-
-      if (slots.afternoonFree) {
-        setAvailabilityState($avail, $pay, 'afternoon', dict["booking.avail.afternoon"] || 'Disponível: tarde', 'booking.avail.afternoon');
-      }
+      renderAvailabilitySlots($avail, $pay, slots, dict, lang);
     } catch (err) {
       if (requestId !== availabilityRequestId || $date.value !== val) return;
       console.error('[checkAvailability] erro:', err);
       setAvailabilityState($avail, $pay, 'error', dict["booking.avail.error"] || 'Erro ao verificar', 'booking.avail.error');
     }
+  };
+
+  async function confirmSelectedBookingAvailability(options={}) {
+    if (finalRecheckInProgress) {
+      return {
+        ok: false,
+        reason: 'recheck-pending',
+        message: getBookingMessage(
+          'booking.recheck.pending',
+          'A disponibilidade ainda está a ser confirmada. Tenta novamente dentro de instantes.',
+          'Availability is still being confirmed. Please try again in a moment.'
+        )
+      };
+    }
+
+    const now = options.now || new Date();
+    const $date = document.getElementById('date_from');
+    const $period = document.getElementById('period');
+    const $avail = document.getElementById('rv-availability');
+    const $pay =
+      document.getElementById('bk-pay') ||
+      document.getElementById('pay') ||
+      document.querySelector('[data-pay-btn]');
+    const dateVal = $date?.value || '';
+    const periodVal = $period?.value || '';
+
+    const advanceStatus = bookingRules?.getMinimumAdvanceStatus
+      ? bookingRules.getMinimumAdvanceStatus(dateVal, periodVal, now)
+      : { ok: true };
+
+    if (!advanceStatus.ok) {
+      bookingRules?.enforceDateMinimums?.(document, now);
+      if ($avail) {
+        setAvailabilityState(
+          $avail,
+          $pay,
+          'busy',
+          getBookingMessage(
+            'booking.avail.minAdvance',
+            'Reservas disponíveis apenas com 48h de antecedência.',
+            'Bookings require at least 48h notice.'
+          ),
+          'booking.avail.minAdvance'
+        );
+      }
+      return {
+        ok: false,
+        reason: advanceStatus.reason || 'minimum-advance',
+        message: getBookingMessage(
+          'booking.avail.minAdvance',
+          'Reservas disponíveis apenas com 48h de antecedência.',
+          'Bookings require at least 48h notice.'
+        )
+      };
+    }
+
+    finalRecheckInProgress = true;
+    try {
+      const slots = await window.checkDaySlots(dateVal, { now });
+      const lang = localStorage.getItem('hwc_lang') || 'pt';
+      const root = window.I18N || {};
+      const dict = root[lang] || root.pt || {};
+
+      if ($avail) {
+        renderAvailabilitySlots($avail, $pay, slots, dict, lang);
+      }
+
+      if (!slotsAllowPeriod(slots, periodVal)) {
+        return {
+          ok: false,
+          reason: 'busy',
+          message: getBookingMessage(
+            'booking.recheck.busy',
+            'Esse período já não está disponível. Escolhe outra data ou período.',
+            'That time period is no longer available. Please choose another date or time.'
+          )
+        };
+      }
+
+      return { ok: true, reason: 'ok', slots };
+    } catch (err) {
+      console.error('[confirmSelectedBookingAvailability] erro:', err);
+      if ($avail) {
+        const lang = localStorage.getItem('hwc_lang') || 'pt';
+        const root = window.I18N || {};
+        const dict = root[lang] || root.pt || {};
+        setAvailabilityState($avail, $pay, 'error', dict["booking.avail.error"] || 'Erro ao verificar', 'booking.avail.error');
+      }
+      return {
+        ok: false,
+        reason: 'api-error',
+        message: getBookingMessage(
+          'booking.recheck.error',
+          'Não foi possível confirmar a disponibilidade agora. Tenta novamente antes de reservar.',
+          'Could not confirm availability right now. Please try again before booking.'
+        )
+      };
+    } finally {
+      finalRecheckInProgress = false;
+    }
+  }
+
+  window.HWC_BOOKING_RECHECK = {
+    confirmSelectedBookingAvailability,
+    slotsAllowPeriod
   };
 
   try {
@@ -8798,6 +9089,7 @@ function startLoop() {
   } catch (_) {}
 
   function scheduleAvailabilityCheck() {
+    bookingRules?.enforceDateMinimums?.();
     clearTimeout(availabilityTimer);
     availabilityTimer = setTimeout(() => window.checkAvailability(), 80);
   }
@@ -8815,9 +9107,11 @@ function startLoop() {
   window.HWC_CALENDAR_TEST_HOOKS = {
     BUSINESS_TIME_ZONE,
     addDaysToDateString,
+    applyMinimumAdvanceToSlots,
     zonedDateTimeToDate,
     parseCalendarDateTime,
-    computeDaySlots
+    computeDaySlots,
+    slotsAllowPeriod
   };
 
   setTimeout(() => window.checkAvailability(), 0);
