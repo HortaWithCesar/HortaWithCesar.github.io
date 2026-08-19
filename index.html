@@ -1760,18 +1760,6 @@ a[aria-disabled="true"] {
   box-shadow: inset 0 0 0 2px rgba(12,130,200,.08);
 }
 
-/* estados (se já usas outros, mantém) */
-.availability-badge[data-state="ok"]{
-  background:#eafff1;
-  color:#0b5330;
-  box-shadow: inset 0 0 0 2px rgba(20,160,80,.14);
-}
-.availability-badge[data-state="busy"]{
-  background:#fff3f2;
-  color:#8c1f1f;
-  box-shadow: inset 0 0 0 2px rgba(220,70,70,.14);
-}
-
 /* Ajusta o tamanho da badge */
 .availability-badge {
   display: inline-flex;
@@ -1783,6 +1771,28 @@ a[aria-disabled="true"] {
   border-radius: 20px;
   font-weight: 600;
   color: #0b3d91;
+}
+.availability-badge[data-state="pending"] {
+  background: #eef7ff;
+  color: #0b3d91;
+  box-shadow: inset 0 0 0 2px rgba(12,130,200,.08);
+}
+.availability-badge[data-state="both"],
+.availability-badge[data-state="morning"],
+.availability-badge[data-state="afternoon"] {
+  background: #eafff1;
+  color: #0b5330;
+  box-shadow: inset 0 0 0 2px rgba(20,160,80,.14);
+}
+.availability-badge[data-state="busy"] {
+  background: #fff3f2;
+  color: #8c1f1f;
+  box-shadow: inset 0 0 0 2px rgba(220,70,70,.14);
+}
+.availability-badge[data-state="error"] {
+  background: #fff8e6;
+  color: #7a3f00;
+  box-shadow: inset 0 0 0 2px rgba(220,150,35,.18);
 }
 .reserve-field .availability-inline {
   margin-left: 0;
@@ -6954,24 +6964,9 @@ alert(dict["trail.disabled.msg"] || "Este trilho está temporariamente indispon�
     });
   });
 
-  // Ajusta a data mínima para hoje
+  // Ajusta uma data mínima de segurança até as regras de reserva carregarem
   const today = new Date().toISOString().split('T')[0];
   document.querySelector('#date_from')?.setAttribute('min', today);
-  document.querySelector('#date_to')?.setAttribute('min', today);
-
-  // Validar que fim >= início (se preenchido)
-  const dateFrom = document.querySelector('#date_from');
-  const dateTo = document.querySelector('#date_to');
-
-  function syncDateLimits(){
-    if (!dateFrom || !dateTo) return;
-    dateTo.min = dateFrom.value || today;
-    if (dateTo.value && dateTo.value < dateTo.min) {
-      dateTo.value = dateTo.min;
-    }
-  }
-  dateFrom?.addEventListener('change', syncDateLimits);
-  syncDateLimits();
 </script>
 
 <script>
@@ -7273,20 +7268,11 @@ window.HWC_BOOKING_RULES = (function(){
   function enforceDateMinimums(doc=document, now=new Date()) {
     const minDate = getEarliestBookableDateString(now);
     const dateFrom = doc.querySelector?.('#date_from');
-    const dateTo = doc.querySelector?.('#date_to');
 
     if (dateFrom) {
       dateFrom.setAttribute('min', minDate);
       if (dateFrom.value && dateFrom.value < minDate) {
         dateFrom.value = '';
-      }
-    }
-
-    if (dateTo) {
-      const dateToMin = dateFrom?.value || minDate;
-      dateTo.setAttribute('min', dateToMin);
-      if (dateTo.value && dateTo.value < dateToMin) {
-        dateTo.value = dateToMin;
       }
     }
 
@@ -7509,25 +7495,67 @@ window.HWC_BOOKING_RULES.enforceDateMinimums();
 
   return { trail, people, date, period, availability, totalStr, depositStr };
 }
-// Lista de trilhos temporariamente desativados (vindo dos cards com data-disabled="true")
-const DISABLED_TRAILS = new Set(
-  Array.from(document.querySelectorAll('.trail-card[data-disabled="true"]'))
-    .map(card => (card.dataset.trail || '').toLowerCase().trim())
-);
-
-// Helper para verificar se um nome de trilho está desativado
-function isTrailDisabledByName(name) {
-  if (!name) return false;
-  const n = name.toLowerCase().trim();
-  return DISABLED_TRAILS.has(n);
+function normalizeTrailName(name) {
+  return norm(name).trim();
 }
 
-  // Disponibilidade ok se for compatível com o período escolhido
-function isAvailabilityOK(periodVal) {
+function optionIsUnavailable(option) {
+  return !!(
+    option &&
+    (option.disabled || option.hidden ||
+      option.hasAttribute?.('disabled') ||
+      option.hasAttribute?.('hidden'))
+  );
+}
+
+function cardIsUnavailable(card) {
+  return !!(
+    card &&
+    (card.dataset?.disabled === 'true' ||
+      card.hidden ||
+      card.hasAttribute?.('hidden') ||
+      card.getAttribute?.('aria-hidden') === 'true')
+  );
+}
+
+const UNAVAILABLE_TRAILS = Array.from(new Set([
+  ...Array.from(document.querySelectorAll('.trail-card'))
+    .filter(cardIsUnavailable)
+    .map(card => normalizeTrailName(card.dataset.trail || '')),
+  ...Array.from(document.querySelectorAll('#trail option'))
+    .filter(optionIsUnavailable)
+    .map(option => normalizeTrailName(option.value || option.textContent || ''))
+].filter(Boolean)));
+
+function getSelectedTrailOption() {
+  const trailEl = $('#trail');
+  return trailEl?.options?.[trailEl.selectedIndex] || null;
+}
+
+function isTrailUnavailableByName(name) {
+  const n = normalizeTrailName(name);
+  if (!n) return false;
+  return UNAVAILABLE_TRAILS.some(unavailable =>
+    n === unavailable ||
+    n.includes(unavailable) ||
+    unavailable.includes(n)
+  );
+}
+
+function normalizePeriodValue(periodVal) {
+  if (window.HWC_BOOKING_RULES?.normalizePeriod) {
+    return window.HWC_BOOKING_RULES.normalizePeriod(periodVal);
+  }
+  const p = norm(periodVal || '');
+  if (/manh|morn/.test(p)) return 'morning';
+  if (/tard|after/.test(p)) return 'afternoon';
+  return '';
+}
+
+function isAvailabilityOK(periodVal, dateVal = $('#date_from')?.value || '') {
   const badge = $('#rv-availability');
   if (!badge) return false;
 
-  const dateVal = $('#date_from')?.value || '';
   if (
     window.HWC_BOOKING_RULES &&
     !window.HWC_BOOKING_RULES.getMinimumAdvanceStatus(dateVal, periodVal).ok
@@ -7535,24 +7563,66 @@ function isAvailabilityOK(periodVal) {
     return false;
   }
 
-  const state = badge.dataset.state || '';
-  const p = norm(periodVal || ''); // "Manhã" / "Tarde" / "Morning" / "Afternoon"
+  const state = String(badge.dataset.state || '').trim();
+  const period = normalizePeriodValue(periodVal);
+  const allowedStates = {
+    both: ['morning', 'afternoon'],
+    morning: ['morning'],
+    afternoon: ['afternoon']
+  };
 
-  // nada escolhido ou erro/pending → não deixa
-  if (!state || state === 'pending') return false;
-  if (state === 'busy') return false;
+  if (!period || !Object.prototype.hasOwnProperty.call(allowedStates, state)) {
+    return false;
+  }
 
-  // se dia todo livre → qualquer período serve
-  if (state === 'both' || state === 'ok') return true;
+  return allowedStates[state].includes(period);
+}
 
-  // normalizar período
-  const isMorning   = /manh|morn/.test(p);
-  const isAfternoon = /tard|after/.test(p);
+function getBookingValidation(mode = 'direct') {
+  const trailEl   = $('#trail');
+  const peopleEl  = $('#people');
+  const dateEl    = $('#date_from');
+  const periodEl  = $('#period');
+  const trailVal  = trailEl?.value || '';
+  const peopleVal = peopleEl?.value || '';
+  const dateVal   = dateEl?.value || '';
+  const periodVal = periodEl?.value || '';
+  const selectedOption = getSelectedTrailOption();
 
-  if (state === 'morning')   return isMorning;
-  if (state === 'afternoon') return isAfternoon;
+  const peopleNum = Number(peopleVal) || 0;
+  const requestMaxPax = Number(peopleEl?.max || '20') || 20;
+  const trailUnavailable = optionIsUnavailable(selectedOption) || isTrailUnavailableByName(trailVal);
 
-  return false;
+  const hasTrail = trailVal.trim() !== '' && !trailUnavailable;
+  const hasDate = dateVal.trim() !== '';
+  const hasPeriod = periodVal.trim() !== '';
+  const hasAvail = isAvailabilityOK(periodVal, dateVal);
+  const hasName = fieldNotEmpty('#name');
+  const hasEmail = fieldNotEmpty('#email');
+  const hasCountry = fieldNotEmpty('#country');
+  const hasRequestPeople = peopleNum >= MIN_PAX && peopleNum <= requestMaxPax;
+  const hasDirectPeople = peopleNum >= MIN_PAX && peopleNum <= MAX_PAX;
+  const hasPeople = mode === 'request' ? hasRequestPeople : hasDirectPeople;
+  const ok = hasTrail && hasPeople && hasDate &&
+             hasPeriod && hasAvail &&
+             hasName && hasEmail && hasCountry;
+
+  return {
+    ok,
+    mode,
+    hasTrail,
+    hasPeople,
+    hasRequestPeople,
+    hasDirectPeople,
+    hasDate,
+    hasPeriod,
+    hasAvail,
+    hasName,
+    hasEmail,
+    hasCountry,
+    peopleNum,
+    trailUnavailable
+  };
 }
 
   // Helper para campos obrigatórios
@@ -7563,46 +7633,30 @@ function isAvailabilityOK(periodVal) {
 
 // Valida campos para desbloquear o botão "Efetuar reserva"
 function validateBooking() {
-  // ler directamente do formulário principal
-  const trailVal  = $('#trail')?.value || '';
-  const peopleVal = $('#people')?.value || '';
-  const dateVal   = $('#date_from')?.value || '';
-  const periodVal = $('#period')?.value || '';
-
-  const peopleNum     = Number(peopleVal) || 0;
-  const trailDisabled = isTrailDisabledByName(trailVal);
-
-  const hasTrail  = trailVal.trim() !== '' && !trailDisabled;
-  const hasDate   = dateVal.trim()   !== '';
-  const hasPeriod = periodVal.trim() !== '';
-  const hasPeople = peopleNum >= MIN_PAX && peopleNum <= 7; // >7 só “Enviar pedido”
-  const hasAvail  = isAvailabilityOK(periodVal);
-
-  // novos obrigatórios
-  const hasName    = fieldNotEmpty('#name');
-  const hasEmail   = fieldNotEmpty('#email');
-  const hasCountry = fieldNotEmpty('#country');
-
-  // FINAL: todos obrigatórios excepto observações
-  const ok = hasTrail && hasPeople && hasDate &&
-             hasPeriod && hasAvail &&
-             hasName && hasEmail && hasCountry;
+  const validation = getBookingValidation('direct');
 
   // botão "Efetuar reserva"
   const openBtn = $('#btn-open-reserve');
   if (openBtn) {
-    openBtn.disabled = !ok;
+    openBtn.disabled = !validation.ok;
 
     // classes visuais
-    openBtn.classList.toggle('btn-primary',  ok);
-    openBtn.classList.toggle('btn-disabled', !ok);
-    openBtn.classList.toggle('btn-ghost',    !ok);
+    openBtn.classList.toggle('btn-primary',  validation.ok);
+    openBtn.classList.toggle('btn-disabled', !validation.ok);
+    openBtn.classList.toggle('btn-ghost',    !validation.ok);
   }
 
   // usado pelo openReserveModal()
-  return { ok, hasTrail, hasPeople, hasDate, hasPeriod, hasAvail };
+  return validation;
 }
 window.validateBooking = validateBooking;
+window.HWC_BOOKING_VALIDATION = {
+  getBookingValidation,
+  isAvailabilityOK,
+  isTrailUnavailableByName,
+  normalizePeriodValue,
+  optionIsUnavailable
+};
   
   // Atualiza o resumo da reserva + botão de pagamento
   function syncReserveSummary() {
@@ -7744,8 +7798,7 @@ const bookingForm = $('#booking-form');
 const sendBtn = $('#btn-send');
 
 function isBookingRequestAvailabilityOK() {
-  const periodVal = $('#period')?.value || '';
-  return typeof isAvailabilityOK === 'function' && isAvailabilityOK(periodVal);
+  return getBookingValidation('request').ok;
 }
 
 function availabilityBlockMessage() {

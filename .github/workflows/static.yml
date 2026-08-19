@@ -35,8 +35,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Run calendar safety tests
-        run: node tests/calendar-p1-tests.mjs
+      - name: Run booking safety tests
+        run: |
+          node tests/calendar-p1-tests.mjs
+          node tests/booking-p2-tests.mjs
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
