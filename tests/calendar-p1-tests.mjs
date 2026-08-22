@@ -207,8 +207,14 @@ async function testFinalRecheckBlocksOccupiedSlot() {
 
 function testStaticGuards() {
   assert.match(html, /MIN_ADVANCE_HOURS\s*=\s*48/, '48h minimum advance is configured');
-  assert.match(html, /bookingSubmitRecheckApproved/, 'form submit has final recheck gate');
+  assert.match(html, /bookingSubmitInFlight/, 'form submit has a guarded async submit flow');
   assert.match(html, /confirmSelectedBookingAvailability/, 'shared final recheck function exists');
+  const recheckIndex = html.indexOf('finalRecheck().catch');
+  const workerSubmitIndex = html.indexOf('fetch(BOOKING_SUBMIT_URL');
+  assert.ok(
+    recheckIndex > -1 && workerSubmitIndex > -1 && recheckIndex < workerSubmitIndex,
+    'form submit runs final availability recheck before Worker submit'
+  );
   assert.match(html, /rvPayBtn\?\.addEventListener\('click', async/, 'payment click waits for async recheck');
 
   for (const name of ['fetchDayEvents', 'checkDaySlots', 'checkAvailability']) {

@@ -5652,20 +5652,14 @@ footer .wrap{
   </header>
 
     <form id="booking-form"
-    action="https://formsubmit.co/bbffe6da37eb86996e4af484b8e084f4"
+    action="https://booking.hortawithcesar.com/api/booking"
     method="POST"
     class="reserve-form"
     autocomplete="on">
     
-
-    <!-- ⚙️ FormSubmit opções -->
-    <input type="hidden" name="_subject" value="Nova reserva - Horta with César">
-    <input type="hidden" name="_template" value="box">
-    <input type="hidden" name="_captcha" value="false">
-    <input type="hidden" name="_next" value="https://hortawithcesar.github.io/#booking">
-
-    <!-- Anti-spam -->
-    <input type="text" name="_honey" style="display:none">
+    <input type="hidden" name="booking_started_at" id="booking_started_at" value="">
+    <input type="hidden" name="booking_nonce" id="booking_nonce" value="">
+    <input type="hidden" name="booking_signature" id="booking_signature" value="">
 
   <!-- Layout novo do formulário -->
     <div class="booking-grid">
@@ -7824,6 +7818,66 @@ $('#rv-modal')?.addEventListener('click', ev => {
 
 const bookingForm = $('#booking-form');
 const sendBtn = $('#btn-send');
+const BOOKING_WORKER_BASE = 'https://booking.hortawithcesar.com';
+const BOOKING_TOKEN_URL = `${BOOKING_WORKER_BASE}/api/booking-token`;
+const BOOKING_SUBMIT_URL = `${BOOKING_WORKER_BASE}/api/booking`;
+const bookingTokenFields = {
+  startedAt: $('#booking_started_at'),
+  nonce: $('#booking_nonce'),
+  signature: $('#booking_signature')
+};
+let bookingTokenPromise = null;
+let bookingSubmitInFlight = false;
+let bookingSubmissionSucceeded = false;
+
+function setBookingToken(token) {
+  if (bookingTokenFields.startedAt) bookingTokenFields.startedAt.value = token.booking_started_at || '';
+  if (bookingTokenFields.nonce) bookingTokenFields.nonce.value = token.booking_nonce || '';
+  if (bookingTokenFields.signature) bookingTokenFields.signature.value = token.booking_signature || '';
+}
+
+function clearBookingToken() {
+  setBookingToken({});
+}
+
+function hasBookingToken() {
+  return !!(
+    bookingTokenFields.startedAt?.value &&
+    bookingTokenFields.nonce?.value &&
+    bookingTokenFields.signature?.value
+  );
+}
+
+async function refreshBookingToken(force = false) {
+  if (!force && hasBookingToken()) return true;
+  if (bookingTokenPromise) return bookingTokenPromise;
+
+  bookingTokenPromise = fetch(BOOKING_TOKEN_URL, {
+    method: 'GET',
+    headers: { Accept: 'application/json' }
+  })
+    .then(async (response) => {
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) {
+        throw new Error(data.message || data.code || `booking token ${response.status}`);
+      }
+      setBookingToken(data);
+      return true;
+    })
+    .finally(() => {
+      bookingTokenPromise = null;
+    });
+
+  return bookingTokenPromise;
+}
+
+function bookingResponseMessage(status, payload = {}) {
+  if (payload.message) return payload.message;
+  if (status === 400) return 'Revê os campos assinalados e tenta novamente.';
+  if (status === 403) return 'Não foi possível validar o pedido. Reabre o formulário e tenta novamente.';
+  if (status === 429) return 'Demasiadas tentativas. Tenta novamente dentro de instantes.';
+  return 'Não foi possível enviar o pedido agora. Tenta novamente dentro de instantes.';
+}
 
 function isBookingRequestAvailabilityOK() {
   return getBookingValidation('request').ok;
@@ -7852,41 +7906,40 @@ function availabilityBlockMessage() {
 
 function updateSendButton() {
   if (!bookingForm || !sendBtn) return;
-  const valid = bookingForm.checkValidity() && isBookingRequestAvailabilityOK();
+  const valid =
+    bookingForm.checkValidity() &&
+    isBookingRequestAvailabilityOK() &&
+    !bookingSubmitInFlight &&
+    !bookingSubmissionSucceeded;
   sendBtn.disabled = !valid;
   sendBtn.setAttribute('aria-disabled', String(!valid));
 }
 
 ['input', 'change'].forEach(evt => {
-  bookingForm?.addEventListener(evt, updateSendButton);
+  bookingForm?.addEventListener(evt, () => {
+    bookingSubmissionSucceeded = false;
+    updateSendButton();
+  });
 });
 
-let bookingSubmitRecheckApproved = false;
-
 bookingForm?.addEventListener('submit', async (e) => {
-  if (bookingSubmitRecheckApproved) {
-    bookingSubmitRecheckApproved = false;
-    return;
-  }
+  e.preventDefault();
+  e.stopImmediatePropagation();
+
+  if (bookingSubmitInFlight || bookingSubmissionSucceeded) return;
 
   const hp = document.getElementById('hp_field')?.value ?? "";
   if (hp.trim() !== "") {
     console.warn("BOT DETECTADO — submissão bloqueada.");
-    e.preventDefault();
-    e.stopImmediatePropagation();
     return;
   }
 
   if (!bookingForm.checkValidity()) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
     bookingForm.reportValidity();
     return;
   }
 
   if (!isBookingRequestAvailabilityOK()) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
     updateSendButton();
     alert(availabilityBlockMessage());
     return;
@@ -7894,29 +7947,58 @@ bookingForm?.addEventListener('submit', async (e) => {
 
   const finalRecheck = window.HWC_BOOKING_RECHECK?.confirmSelectedBookingAvailability;
   if (typeof finalRecheck !== 'function') {
-    e.preventDefault();
-    e.stopImmediatePropagation();
     alert(availabilityBlockMessage());
     return;
   }
 
-  e.preventDefault();
-  e.stopImmediatePropagation();
+  bookingSubmitInFlight = true;
+  updateSendButton();
 
-  const result = await finalRecheck();
+  const result = await finalRecheck().catch(() => ({
+    ok: false,
+    message: availabilityBlockMessage()
+  }));
   if (!result.ok) {
+    bookingSubmitInFlight = false;
     updateSendButton();
     alert(result.message || availabilityBlockMessage());
     return;
   }
 
-  bookingSubmitRecheckApproved = true;
-  if (typeof bookingForm.requestSubmit === 'function') {
-    bookingForm.requestSubmit(sendBtn || undefined);
-  } else {
-    HTMLFormElement.prototype.submit.call(bookingForm);
+  try {
+    await refreshBookingToken(false);
+
+    const response = await fetch(BOOKING_SUBMIT_URL, {
+      method: 'POST',
+      headers: { Accept: 'application/json' },
+      body: new FormData(bookingForm)
+    });
+    const payload = await response.json().catch(() => ({}));
+
+    if (response.ok && payload.code === 'booking_request_sent') {
+      bookingSubmissionSucceeded = true;
+      window.HWC_TRACK_BOOKING_REQUEST?.();
+      alert(payload.message || 'Pedido enviado. Vou responder por e-mail assim que possível.');
+      return;
+    }
+
+    if (response.status === 403) {
+      clearBookingToken();
+      refreshBookingToken(true).catch(() => {});
+    }
+
+    alert(bookingResponseMessage(response.status, payload));
+  } catch (err) {
+    alert('Não foi possível enviar o pedido agora. Tenta novamente dentro de instantes.');
+  } finally {
+    bookingSubmitInFlight = false;
+    updateSendButton();
   }
 });
+
+window.HWC_BOOKING_WORKER = {
+  refreshToken: () => refreshBookingToken(true)
+};
 updateSendButton();
 validateBooking();
 
@@ -7944,8 +8026,7 @@ validateBooking();
     return dict[key] || (lang === 'en' ? fallbackEn : fallbackPt);
   }
 
-  // ENVIAR PEDIDO
-  bookingForm?.addEventListener('submit', () => {
+  function trackBookingRequest() {
     const hp = document.getElementById('hp_field')?.value ?? '';
     if (hp.trim() !== '') return;
     if (!bookingForm.checkValidity()) return;
@@ -7967,7 +8048,12 @@ validateBooking();
         value: people || 1
       });
     }
-  });
+  }
+
+  window.HWC_TRACK_BOOKING_REQUEST = trackBookingRequest;
+
+  // ENVIAR PEDIDO
+  bookingForm?.addEventListener('submit', trackBookingRequest);
 
   // CONFIRMAR RESERVA / SUMUP
   rvPayBtn?.addEventListener('click', async (e) => {
@@ -8612,6 +8698,8 @@ document.querySelectorAll('.pill').forEach(p => {
     // abrir modal
     bookingModal.style.display = "flex";
     document.body.classList.add("modal-open");
+
+    window.HWC_BOOKING_WORKER?.refreshToken?.().catch(() => {});
   }
 
   function closeBooking() {

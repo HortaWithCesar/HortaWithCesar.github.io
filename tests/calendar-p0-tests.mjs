@@ -191,7 +191,7 @@ function testStaticGuards() {
   assert.doesNotMatch(html, /res\.ok[\s\S]{0,160}return\s+\[\]/, 'calendar HTTP errors must not return []');
   assert.match(html, /function isBookingRequestAvailabilityOK\(\)/, 'booking send guard exists');
   assert.ok(
-    html.includes('const valid = bookingForm.checkValidity() && isBookingRequestAvailabilityOK();'),
+    /const valid =[\s\S]{0,180}bookingForm\.checkValidity\(\) &&[\s\S]{0,80}isBookingRequestAvailabilityOK\(\)/.test(html),
     'send button requires confirmed availability'
   );
   assert.ok(
