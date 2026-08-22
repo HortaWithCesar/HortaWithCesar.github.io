@@ -1,0 +1,21 @@
+name = "horta-booking-worker"
+main = "src/index.mjs"
+compatibility_date = "2026-08-22"
+workers_dev = true
+
+[vars]
+ALLOWED_ORIGIN = "https://hortawithcesar.com,https://www.hortawithcesar.com"
+BOOKING_TO_EMAIL = "hortawithcesar@gmail.com"
+BOOKING_FROM_EMAIL = "Horta with César <reservas@hortawithcesar.com>"
+GCAL_ID = "hortawithcesar@gmail.com"
+REQUIRE_CALENDAR_RECHECK = "true"
+MIN_SUBMIT_SECONDS = "4"
+MAX_SUBMIT_SECONDS = "7200"
+
+[[ratelimits]]
+name = "BOOKING_RATE_LIMITER"
+namespace_id = "2026082201"
+
+  [ratelimits.simple]
+  limit = 20
+  period = 60

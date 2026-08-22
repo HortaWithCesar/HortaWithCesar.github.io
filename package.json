@@ -3,13 +3,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node tests/calendar-p0-tests.mjs && node tests/calendar-p1-tests.mjs && node tests/booking-p2-tests.mjs && node tests/assets-p3-tests.mjs && node tests/inline-js-syntax-p3-tests.mjs",
+    "test": "node tests/calendar-p0-tests.mjs && node tests/calendar-p1-tests.mjs && node tests/booking-p2-tests.mjs && node tests/assets-p3-tests.mjs && node tests/inline-js-syntax-p3-tests.mjs && node tests/booking-worker-antispam-tests.mjs",
     "test:p0": "node tests/calendar-p0-tests.mjs",
     "test:p1": "node tests/calendar-p1-tests.mjs",
     "test:p2": "node tests/booking-p2-tests.mjs",
     "test:p3": "node tests/assets-p3-tests.mjs && node tests/inline-js-syntax-p3-tests.mjs",
     "test:p3:assets": "node tests/assets-p3-tests.mjs",
     "test:p3:js": "node tests/inline-js-syntax-p3-tests.mjs",
+    "test:worker": "node tests/booking-worker-antispam-tests.mjs",
     "smoke:production": "node tests/production-smoke-p4-tests.mjs"
   }
 }
