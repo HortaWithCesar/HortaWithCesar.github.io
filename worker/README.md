@@ -27,6 +27,7 @@ Configuradas em `wrangler.toml`:
 - `BOOKING_TO_EMAIL`: destino dos pedidos.
 - `BOOKING_FROM_EMAIL`: remetente verificado no Resend.
 - `GCAL_ID`: calendário consultado.
+- `CALENDAR_API_REFERER`: referer usado na chamada server-side ao Google Calendar, compatível com a restrição HTTP referrer da chave.
 - `REQUIRE_CALENDAR_RECHECK`: quando `true`, falha em modo seguro se o Calendar/API não confirmar disponibilidade.
 - `MIN_SUBMIT_SECONDS` / `MAX_SUBMIT_SECONDS`: janela do token auxiliar.
 

@@ -117,7 +117,10 @@ async function fetchDayEvents(env, dateFrom) {
   url.searchParams.set('orderBy', 'startTime');
   url.searchParams.set('showDeleted', 'false');
 
-  const response = await fetch(url.toString());
+  const referer = String(env?.CALENDAR_API_REFERER || '').trim();
+  const response = await fetch(url.toString(), {
+    headers: referer ? { Referer: referer } : {}
+  });
   if (!response.ok) return { ok: false, code: 'calendar_api_failed', status: response.status };
 
   const data = await response.json().catch(() => null);
