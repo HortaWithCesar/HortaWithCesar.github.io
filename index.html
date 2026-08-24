@@ -21,9 +21,9 @@ src="https://www.facebook.com/tr?id=2751459221919574&ev=PageView&noscript=1"
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="robots" content="index, follow" />
-  <title data-i18n="head.title">Horta with César | Walking Tours in Faial Island, Azores</title>
+  <title data-i18n="head.title">Faial Private Tours and Hiking | Horta with César</title>
   <meta name="description"
-      content="Walking tours no Faial, Açores, com guia local certificado. Descubra Horta, Caldeira, Entre Montes e experiências autênticas pela ilha." data-i18n-content="head.description" />
+      content="Private tours, walking tours and hiking in Faial, Azores with a certified local guide. Half day and full day experiences with transportation for small groups." data-i18n-content="head.description" />
 <link rel="icon" type="image/png" href="logotipo1.png" />
 <link rel="canonical" href="https://hortawithcesar.com/" />
  <meta property="og:type" content="website" />
@@ -44,44 +44,84 @@ src="https://www.facebook.com/tr?id=2751459221919574&ev=PageView&noscript=1"
   
 <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "TouristGuide",
- "name": "Horta with César",
- "url": "https://hortawithcesar.com",
- "image": ["https://hortawithcesar.com/Pico%20c%20hortencias11.jpg", "https://hortawithcesar.com/foto-perfil.jpg"],
- "description": "Walking tours and hiking trails on Faial Island, Azores with a certified local guide.",
- "address": {
-   "@type": "PostalAddress",
-   "addressLocality": "Horta",
-   "addressRegion": "Faial",
-   "addressCountry": "PT"
- },
- "areaServed": {
-   "@type": "Place",
-   "name": "Faial Island, Azores"
- },
- "telephone": "+351964616199",
- "sameAs": [
-   "https://instagram.com/hortawithcesar"
- ]
-}
-</script>
-<script type="application/ld+json">
-{
- "@context": "https://schema.org",
- "@type": "TouristTrip",
- "name": "Walking Tours in Faial Island",
- "description": "Private walking tours and hiking trails in Faial Island, Azores with a local certified guide.",
- "touristType": "Nature lovers",
- "provider": {
-   "@type": "LocalBusiness",
-   "name": "Horta with César",
-   "url": "https://hortawithcesar.com"
- },
- "areaServed": {
-   "@type": "Place",
-   "name": "Faial Island, Azores"
- }
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://hortawithcesar.com/#business",
+      "name": "Horta with César",
+      "url": "https://hortawithcesar.com/",
+      "image": [
+        "https://hortawithcesar.com/Pico%20c%20hortencias11.jpg",
+        "https://hortawithcesar.com/foto-perfil.jpg"
+      ],
+      "logo": "https://hortawithcesar.com/logotipo1.png",
+      "description": "Walking tours, hiking trails and private half day or full day experiences in Faial, Azores with a certified local guide.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Horta",
+        "addressRegion": "Azores",
+        "addressCountry": "PT"
+      },
+      "areaServed": {
+        "@type": "Place",
+        "name": "Faial Island, Azores"
+      },
+      "telephone": "+351964616199",
+      "email": "hortawithcesar@gmail.com",
+      "sameAs": [
+        "https://instagram.com/hortawithcesar"
+      ],
+      "makesOffer": [
+        {
+          "@id": "https://hortawithcesar.com/#faial-walking-tours"
+        },
+        {
+          "@id": "https://hortawithcesar.com/#private-faial-experience-service"
+        }
+      ]
+    },
+    {
+      "@type": "TouristTrip",
+      "@id": "https://hortawithcesar.com/#faial-walking-tours",
+      "name": "Walking Tours and Hiking in Faial Island",
+      "description": "Walking tours and hiking experiences in Faial, Azores with a certified local guide, including Horta, Caldeira, Entre Montes, Capelinhos and other island landscapes.",
+      "touristType": "Nature lovers and cultural travelers",
+      "provider": {
+        "@id": "https://hortawithcesar.com/#business"
+      },
+      "areaServed": {
+        "@type": "Place",
+        "name": "Faial Island, Azores"
+      }
+    },
+    {
+      "@type": "Service",
+      "@id": "https://hortawithcesar.com/#private-faial-experience-service",
+      "name": "Private Faial Experience",
+      "serviceType": "Private guided tour",
+      "category": "Private half day and full day experiences",
+      "description": "Private half day and full day experiences in Faial, Azores with a local guide, flexible itinerary and transportation for small groups.",
+      "provider": {
+        "@id": "https://hortawithcesar.com/#business"
+      },
+      "areaServed": {
+        "@type": "Place",
+        "name": "Faial Island, Azores"
+      },
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "Small groups"
+      },
+      "additionalProperty": [
+        {
+          "@type": "PropertyValue",
+          "name": "Transportation",
+          "value": "Transportation for small groups can be arranged as part of the private experience."
+        }
+      ]
+    }
+  ]
 }
 </script>
 <!-- Google tag (gtag.js) -->
@@ -2730,6 +2770,18 @@ header{
   margin-top:16px;
 }
 
+.private-experience__seo{
+  max-width:78ch;
+  margin:18px auto 0;
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.65;
+}
+
+.private-experience__seo p{
+  margin:0;
+}
+
 @media (min-width: 901px){
   .private-experience__content{
     padding-left:30px;
@@ -2805,6 +2857,12 @@ header{
 
   .private-experience .hero-mini__cta{
     margin-top:14px;
+  }
+
+  .private-experience__seo{
+    margin-top:16px;
+    font-size:14px;
+    line-height:1.55;
   }
 }
 
@@ -5490,6 +5548,11 @@ footer .wrap{
         </a>
       </div>
     </div>
+    <div class="private-experience__seo">
+      <p data-i18n="privateExperienceSeoText">
+        Horta with César offers private half day and full day experiences in Faial for travelers who want to discover the island with a local guide and a flexible itinerary. These private experiences can include viewpoints, volcanic landscapes, local culture, coastal stops and optional short walks, with transportation for small groups arranged as part of the service. Planning is done directly with César, so the route can be adapted to your interests, pace and time on the island.
+      </p>
+    </div>
   </div>
 </section>
 
@@ -6607,8 +6670,8 @@ footer .wrap{
     const I18N = {
       pt: {
          // HEAD
-    "head.title": "Horta with César-Walking tours & Trilhos no Faial, Açores",
-    "head.description": "Walking tours no Faial, Açores, com guia local certificado. Descubra Horta, Caldeira, Entre Montes e experiências autênticas pela ilha.",
+    "head.title": "Faial Private Tours and Hiking | Horta with César",
+    "head.description": "Private tours, walking tours and hiking in Faial, Azores with a certified local guide. Half day and full day experiences with transportation for small groups.",
 
     // HEADER / NAV
     "header.location": "Faial • Açores",
@@ -6834,6 +6897,7 @@ footer .wrap{
 "privateExperiencePrivate": "Experiência privada",
 "privateExperienceCta": "Planeia o teu dia no Faial",
 "privateExperienceAvailability": "Disponível sob consulta e sujeito à disponibilidade de veículo.",
+"privateExperienceSeoText": "A Horta with César oferece experiências privadas de meio dia e dia inteiro no Faial para viajantes que querem descobrir a ilha com guia local e itinerário flexível. Estas experiências privadas podem incluir miradouros, paisagens vulcânicas, cultura local, paragens costeiras e pequenas caminhadas opcionais, com transporte para grupos pequenos associado ao serviço. O planeamento é feito diretamente com o César, para adaptar a rota aos teus interesses, ritmo e tempo disponível na ilha.",
 "privateExperienceWhatsappMessage": "Olá César! Estou a planear o meu dia no Faial e gostava de saber mais sobre as tuas experiências privadas de meio dia ou dia inteiro.",
 "about.subtitle": "Guia local certificado do Faial • Experiências autênticas nos Açores",
 "reviews.title": "Reviews & Feedback",
@@ -6910,8 +6974,8 @@ footer .wrap{
 
       en: {
          // HEAD
-    "head.title": "Horta with César-Walking tours & Hiking trails in Faial, Azores",
-    "head.description": "Walking tours and hikes in Faial with a local guide. Horta city tour, Entre Montes, Caldeira and more. Book now!",
+    "head.title": "Faial Private Tours and Hiking | Horta with César",
+    "head.description": "Private tours, walking tours and hiking in Faial, Azores with a certified local guide. Half day and full day experiences with transportation for small groups.",
 
     // HEADER / NAV
     "header.location": "Faial • Azores",
@@ -7136,6 +7200,7 @@ footer .wrap{
 "privateExperiencePrivate": "Private experience",
 "privateExperienceCta": "Plan your day in Faial",
 "privateExperienceAvailability": "Available on request and subject to vehicle availability.",
+"privateExperienceSeoText": "Horta with César offers private half day and full day experiences in Faial for travelers who want to discover the island with a local guide and a flexible itinerary. These private experiences can include viewpoints, volcanic landscapes, local culture, coastal stops and optional short walks, with transportation for small groups arranged as part of the service. Planning is done directly with César, so the route can be adapted to your interests, pace and time on the island.",
 "privateExperienceWhatsappMessage": "Hi César! I'm planning my day in Faial and I'd like to know more about your private half day or full day experiences.",
 "about.subtitle": "Certified local guide from Faial • Authentic Azores experiences",
 "reviews.title": "Reviews & Feedback",
@@ -7443,20 +7508,6 @@ waBtn.dataset.contactType = 'tour';
 // Disponibilidade fica centralizada no bloco seguro de Google Calendar.
 </script>
 
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "TouristInformationCenter",
-  "name": "Horta with César",
-  "areaServed": "Faial, Açores",
-  "address": { "@type": "PostalAddress", "addressLocality": "Horta", "addressRegion": "Açores", "addressCountry": "PT" },
-  "telephone": "+351964616199",
-  "email": "hortawithcesar@gmail.com",
-  "url": "https://hortawithcesar.github.io/",
-  "sameAs": []
-}
-</script>
 
 <script>
 /* ===== Tabela de Preços Trilhos 2026 =====
