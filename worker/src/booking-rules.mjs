@@ -8,17 +8,35 @@ export const ACTIVE_TOURS = Object.freeze([
   'Entre Montes (Horta)',
   'Miradouro do Neptuno',
   'Caldeira — perímetro',
-  'Rocha da Fajã',
   'Caminhada Vulcão dos Capelinhos'
 ]);
 
 export const INACTIVE_TOURS = Object.freeze([
   'Caldeira Descida • Santuário da fauna local',
   'Caldeira Descida',
+  'Rocha da Fajã',
   'Farol da Ribeirinha',
   'Levadas ao Cabeço dos Trinta',
   'Miradouro da Braça'
 ]);
+
+export const PRIVATE_TRANSPORT_PRICE = 100;
+export const PRIVATE_TRANSPORT_MAX_PEOPLE = 8;
+export const RESERVATION_FEE_PER_PERSON = 15;
+export const DIRECT_BOOKING_MAX_PEOPLE = 7;
+
+export const PRIVATE_TRANSPORT_TOURS = Object.freeze([
+  'Caldeira — perímetro',
+  'Caminhada Vulcão dos Capelinhos'
+]);
+
+export const PRICE_TABLE = Object.freeze({
+  'City Walk • Horta a pé': Object.freeze({ type: 'perPerson', tiers: Object.freeze([{ max: 4, price: 30 }]) }),
+  'Entre Montes (Horta)': Object.freeze({ type: 'perPerson', tiers: Object.freeze([{ max: 4, price: 40 }, { max: 99, price: 45 }]) }),
+  'Miradouro do Neptuno': Object.freeze({ type: 'perPerson', tiers: Object.freeze([{ max: 99, price: 35 }]) }),
+  'Caldeira — perímetro': Object.freeze({ type: 'perPerson', tiers: Object.freeze([{ max: 99, price: 75 }]) }),
+  'Caminhada Vulcão dos Capelinhos': Object.freeze({ type: 'perPerson', tiers: Object.freeze([{ max: 99, price: 90 }]) })
+});
 
 export const ALLOWED_PERIODS = Object.freeze({
   morning: 'Manhã',
@@ -57,6 +75,50 @@ export function isActiveTour(tour) {
 
   if (inactive) return false;
   return ACTIVE_TOURS.some(name => normalizeText(name) === normalized);
+}
+
+export function isPrivateTransportTour(tour) {
+  const normalized = normalizeText(tour);
+  if (!normalized) return false;
+  return PRIVATE_TRANSPORT_TOURS.some(name => normalizeText(name) === normalized);
+}
+
+export function getTourPrice(tour, people) {
+  const canonicalTour = ACTIVE_TOURS.find(active => normalizeText(active) === normalizeText(tour));
+  const data = canonicalTour ? PRICE_TABLE[canonicalTour] : null;
+  if (!data) return { onRequest: true };
+
+  const tier = data.tiers.find(item => people <= item.max) || data.tiers.at(-1);
+  const total = data.type === 'perGroup'
+    ? tier.price
+    : tier.price * people;
+
+  return {
+    onRequest: false,
+    unit: tier.price,
+    total
+  };
+}
+
+export function calculateBookingTotals(tour, people, { privateTransport = false } = {}) {
+  const base = getTourPrice(tour, people);
+  if (base.onRequest) return { onRequest: true };
+
+  const privateTransportPrice = privateTransport ? PRIVATE_TRANSPORT_PRICE : 0;
+  const estimatedTotal = base.total + privateTransportPrice;
+  const reservationFee = people >= 1 && people <= DIRECT_BOOKING_MAX_PEOPLE
+    ? people * RESERVATION_FEE_PER_PERSON
+    : 0;
+
+  return {
+    onRequest: false,
+    base_total: base.total,
+    unit: base.unit,
+    private_transport_price: privateTransportPrice,
+    estimated_total: estimatedTotal,
+    reservation_fee: reservationFee,
+    remaining_balance: Math.max(0, estimatedTotal - reservationFee)
+  };
 }
 
 export function parseDateOnlyStrict(value) {

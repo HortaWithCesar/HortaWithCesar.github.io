@@ -1645,6 +1645,35 @@ a[aria-disabled="true"] {
   max-width: 220px;  /* escolhe tu, 240–300 fica top */
 }
 
+.private-transport-option{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.private-transport-option[hidden]{
+  display:none !important;
+}
+
+.private-transport-option label{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:0;
+  font-weight:800;
+}
+
+.private-transport-option input[type="checkbox"]{
+  width:18px;
+  height:18px;
+  accent-color:var(--brand);
+  flex:0 0 auto;
+}
+
+.private-transport-option.is-disabled{
+  opacity:.65;
+}
+
     /* ===== Ajuste da Disponibilidade + Nº de pessoas (desktop) ===== */
 
 @media (min-width: 769px){
@@ -5108,7 +5137,8 @@ footer .wrap{
   data-disabled="true"
   data-price-from="130"
   data-brief="Acesso sujeito a condições meteorológicas. Preço ajusta com logística e grupo. Guia certificado pelo Parque Natural dos Açores. Ponto de encontro a combinar"
-        data-brief-en="Access subject to weather conditions. Price may change with logistics and group size. Certificated guide of Parque Natural dos Açores. Meeting point to be arranged">
+        data-brief-en="Access subject to weather conditions. Price may change with logistics and group size. Certificated guide of Parque Natural dos Açores. Meeting point to be arranged"
+  hidden aria-hidden="true">
         <div class="trail-media">
   <div class="loop-slider" id="slider-caldeira-descida">
     <div class="loop-main"></div>
@@ -5166,9 +5196,11 @@ footer .wrap{
       <!-- ROCHA DA FAJÃ -->
 <article class="trail-card reveal"
   data-trail="Rocha da Fajã"
+  data-disabled="true"
   data-price-from="90"
   data-brief="Acesso sujeito a condições meteorológicas. Preço ajusta com logística e grupo. Ponto de encontro a combinar"
-  data-brief-en="Access subject to weather conditions. Price may change with logistics and group size. Meeting point to be arranged">
+  data-brief-en="Access subject to weather conditions. Price may change with logistics and group size. Meeting point to be arranged"
+  hidden aria-hidden="true">
   <div class="trail-media">
   <div class="loop-slider" id="slider-rocha-faja">
     <div class="loop-main"></div>
@@ -5890,8 +5922,8 @@ footer .wrap{
   <option value="Entre Montes (Horta)">Entre Montes (Horta)</option>
   <option value="Miradouro do Neptuno">Miradouro do Neptuno</option>
   <option value="Caldeira — perímetro">Caldeira — perímetro</option>
-  <option value="Caldeira Descida • Santuário da fauna local"> Caldeira Descida • Santuário da fauna local</option>
-  <option value="Rocha da Fajã">Rocha da Fajã</option>
+  <option value="Caldeira Descida • Santuário da fauna local" hidden disabled> Caldeira Descida • Santuário da fauna local</option>
+  <option value="Rocha da Fajã" hidden disabled>Rocha da Fajã</option>
   <option value="Farol da Ribeirinha" hidden>Farol da Ribeirinha</option>
   <option value="Levadas ao Cabeço dos Trinta" hidden>Levadas ao Cabeço dos Trinta</option>
   <option value="Caminhada Vulcão dos Capelinhos">Caminhada Vulcão dos Capelinhos</option>
@@ -6083,6 +6115,47 @@ footer .wrap{
     Para grupos de 8 ou mais pessoas, deve contactar primeiro através do botão "Enviar pedido".
   </span>
 </p>
+
+  <div id="private-transport-field"
+       class="reserve-field reserve-field--full private-transport-option"
+       hidden>
+    <label for="private_transport_checkbox">
+      <input id="private_transport_checkbox" type="checkbox">
+      <span data-i18n="booking.privateTransport.label">
+        Adicionar transporte privado desde a Horta (+100 € por grupo)
+      </span>
+    </label>
+    <small id="private-transport-help"
+           class="muted"
+           data-i18n="booking.privateTransport.limit">
+      Disponível até 8 pessoas.
+    </small>
+    <input type="hidden"
+           id="private_transport_value"
+           name="private_transport"
+           value=""
+           disabled>
+    <input type="hidden"
+           id="private_transport_price"
+           name="private_transport_price"
+           value=""
+           disabled>
+    <input type="hidden"
+           id="estimated_total_value"
+           name="estimated_total"
+           value=""
+           disabled>
+    <input type="hidden"
+           id="reservation_fee_value"
+           name="reservation_fee"
+           value=""
+           disabled>
+    <input type="hidden"
+           id="remaining_balance_value"
+           name="remaining_balance"
+           value=""
+           disabled>
+  </div>
 
   <!-- Disponibilidade só com o “badge” -->
   <div class="reserve-field reserve-field--availability">
@@ -6423,6 +6496,12 @@ footer .wrap{
         <h4 id="cond-trail">Trilho</h4>
         <p id="cond-price" style="font-weight:700;margin:.2rem 0">Desde —</p>
         <p id="cond-brief" class="muted">…</p>
+        <p id="cond-private-transport"
+           class="muted"
+           data-i18n="cond.privateTransport"
+           hidden>
+          Transporte privado opcional desde a Horta, com regresso após o trilho: +100 € por grupo, até 8 pessoas.
+        </p>
         <p class="muted" data-i18n="cond.note.price">💬 O preço por pessoa pode mudar consoante o número de pessoas, época e logística. Para grupos e parcerias, pede orçamento.</p>
       </div>
 
@@ -6627,6 +6706,8 @@ footer .wrap{
 "booking.period.other": "Outro",
 
 "booking.groups.note": "Para grupos acima de 8 pessoas, contacte antes de efetuar a reserva.",
+"booking.privateTransport.label": "Adicionar transporte privado desde a Horta (+100 € por grupo)",
+"booking.privateTransport.limit": "Disponível até 8 pessoas.",
 
 "booking.btn.submit": "Enviar pedido",
 "contact.title": "Contactos",
@@ -6651,6 +6732,7 @@ footer .wrap{
 "cond.subtitle": "Preços, seguros e termos",
 
 "cond.note.price": "💬 O preço por pessoa pode mudar consoante o número de pessoas, época e logística. Para grupos e parcerias, pede orçamento.",
+"cond.privateTransport": "Transporte privado opcional desde a Horta, com regresso após o trilho: +100 € por grupo, até 8 pessoas.",
 
 "cond.legal.title": "Informação legal & condições",
 "cond.legal.transport.not.included": "Preços não incluem transporte até ao trilho nem regresso.",
@@ -6811,11 +6893,17 @@ footer .wrap{
         "rv.label.period": "Período",
         "rv.label.total": "Total estimado",
         "rv.note.total": "Valor calculado com base no trilho e nº de pessoas. Poderá ajustar consoante logística.",
+        "rv.label.privateTransport": "Transporte privado",
+        "rv.privateTransport.with": "Incluído: +100 € por grupo",
+        "rv.privateTransport.without": "Não incluído",
+        "rv.note.privateTransport": "Este suplemento faz parte do valor restante da experiência e não da taxa de reserva paga agora.",
         "rv.label.deposit": "Taxa de reserva",
         "rv.note.deposit.perPax": "A taxa de reserva é calculada com base no número de pessoas.",
         "rv.note.deposit.1": "Deduzido ao valor final.",
         "rv.note.deposit.cancel": "Política de Cancelamento",
         "rv.note.deposit.2": "Ao confirmar a reserva, assume que leu e concorda com as condições gerais do serviço e com a política de privacidade do site.",
+        "rv.label.remaining": "Saldo restante estimado",
+        "rv.note.remaining": "Valor estimado a pagar no dia da experiência, depois da taxa de reserva.",
         "rv.btn.confirm": "Confirmar reserva",
         "rv.btn.close": "Fechar",
       },
@@ -6919,6 +7007,8 @@ footer .wrap{
 "booking.period.other": "Other",
 
 "booking.groups.note": "For groups over 8 people, please contact us before booking.",
+"booking.privateTransport.label": "Add private transport from Horta (+100 € per group)",
+"booking.privateTransport.limit": "Available up to 8 people.",
 
 "booking.btn.submit": "Send request",
 
@@ -6944,6 +7034,7 @@ footer .wrap{
 "cond.subtitle": "Prices, insurance and terms",
 
 "cond.note.price": "💬 The price per person may change depending on group size, season and logistics. For groups and partnerships, ask for a quote.",
+"cond.privateTransport": "Optional private transport from Horta, with return after the hike: +100 € per group, up to 8 people.",
 
 "cond.legal.title": "Legal information & conditions",
 "cond.legal.transport.not.included": "Prices do not include transport to the trail or return.",
@@ -7107,11 +7198,17 @@ footer .wrap{
         "rv.label.period": "Time of day",
         "rv.label.total": "Estimated total",
         "rv.note.total": "Amount calculated based on the trail and number of people. May vary depending on logistics.",
+        "rv.label.privateTransport": "Private transport",
+        "rv.privateTransport.with": "Included: +100 € per group",
+        "rv.privateTransport.without": "Not included",
+        "rv.note.privateTransport": "This supplement is part of the remaining experience balance and not the reservation fee paid now.",
         "rv.label.deposit": "Reservation Fee",
         "rv.note.deposit.perPax": "The reservation fee is calculated based on the number of people.",
         "rv.note.deposit.1": "Deducted from the final price.",
         "rv.note.deposit.cancel": "Cancellation Policy",
         "rv.note.deposit.2": "By confirming the reservation, you agree to the general service conditions and the website's privacy policy.",
+        "rv.label.remaining": "Estimated remaining balance",
+        "rv.note.remaining": "Estimated amount to pay on the day of the experience, after the reservation fee.",
         "rv.btn.confirm": "Confirm reservation",
         "rv.btn.close": "Close",
       }
@@ -7244,6 +7341,7 @@ alert(dict["trail.disabled.msg"] || "Este trilho está temporariamente indispon�
   const trailEl = document.getElementById('cond-trail');
   const priceEl = document.getElementById('cond-price');
   const briefEl = document.getElementById('cond-brief');
+  const privateTransportEl = document.getElementById('cond-private-transport');
   const waBtn   = document.getElementById('cond-whatsapp');
 
   // abrir modal de condições
@@ -7290,6 +7388,16 @@ alert(dict["trail.disabled.msg"] || "Este trilho está temporariamente indispon�
 
     // texto de detalhe
     briefEl.textContent = brief;
+
+    if (privateTransportEl) {
+      const fallbackTransport = lang === 'en'
+        ? 'Optional private transport from Horta, with return after the hike: +100 € per group, up to 8 people.'
+        : 'Transporte privado opcional desde a Horta, com regresso após o trilho: +100 € por grupo, até 8 pessoas.';
+      const showTransport = window.HWC_PRIVATE_TRANSPORT?.isEligibleTour?.(trail) ||
+        ['Caldeira — perímetro', 'Caminhada Vulcão dos Capelinhos'].includes(trail);
+      privateTransportEl.textContent = dict["cond.privateTransport"] || fallbackTransport;
+      privateTransportEl.hidden = !showTransport;
+    }
 
 
 let message;
@@ -7358,7 +7466,7 @@ const PRICE_TABLE = {
   "City Walk • Horta a pé":             { type: "perPerson", tiers: [ { max:4, price:30 },  ] },
   "Entre Montes (Horta)":               { type: "perPerson", tiers: [ { max:4, price:40 }, { max:99, price:45 } ] },
   "Caldeira Descida • Santuário da fauna local": { type: "perGroup", tiers: [ { max:4, price:130 }, { max:99, price:90 } ] },
-  "Caldeira — perímetro":               { type: "perPerson", tiers: [ { max:4, price:90 }, { max:99, price:75 } ] },
+  "Caldeira — perímetro":               { type: "perPerson", tiers: [ { max:99, price:75 } ] },
   "Rocha da Fajã":                      { type: "perPerson", tiers: [ { max:4, price:90 }, { max:99, price:75 } ] },
   "Farol da Ribeirinha":                { type: "perPerson", tiers: [ { max:4, price:90 }, { max:99, price:85 } ] },
   "Levadas ao Cabeço dos Trinta":       { type: "perPerson", tiers: [ { max:4, price:150 }, { max:99, price:120 } ] },
@@ -7369,6 +7477,12 @@ const PRICE_TABLE = {
 
 const MIN_PAX = 1;         // mínimo de pessoas para reservar
 const MAX_PAX = 7;         // máximo de possoas para reservar
+const PRIVATE_TRANSPORT_PRICE = 100;
+const PRIVATE_TRANSPORT_MAX_PAX = 8;
+const PRIVATE_TRANSPORT_TOURS = Object.freeze([
+  "Caldeira — perímetro",
+  "Caminhada Vulcão dos Capelinhos"
+]);
   
 function getPrice(trail, people) {
   const data = PRICE_TABLE[trail];
@@ -7391,8 +7505,57 @@ function getPrice(trail, people) {
   };
 }
 
+function isPrivateTransportTour(trail) {
+  return PRIVATE_TRANSPORT_TOURS.includes(trail);
+}
+
+function getPrivateTransportAvailability(trail, people) {
+  const peopleNum = Number(people) || 0;
+  const eligible = isPrivateTransportTour(trail);
+  return {
+    eligible,
+    available: eligible &&
+      peopleNum >= MIN_PAX &&
+      peopleNum <= PRIVATE_TRANSPORT_MAX_PAX
+  };
+}
+
+function getPrivateTransportSupplement(trail, people, selected) {
+  return selected && getPrivateTransportAvailability(trail, people).available
+    ? PRIVATE_TRANSPORT_PRICE
+    : 0;
+}
+
+function getBookingTotal(trail, people, options = {}) {
+  const base = getPrice(trail, people);
+  if (base.onRequest) return base;
+
+  const privateTransportPrice = getPrivateTransportSupplement(
+    trail,
+    people,
+    options.privateTransport === true
+  );
+
+  return {
+    ...base,
+    privateTransport: privateTransportPrice > 0,
+    privateTransportPrice,
+    total: base.total + privateTransportPrice
+  };
+}
+
 
 function eur(v){ return v == null ? "—" : v.toLocaleString('pt-PT',{style:'currency',currency:'EUR'}); }
+
+window.HWC_PRIVATE_TRANSPORT = Object.freeze({
+  price: PRIVATE_TRANSPORT_PRICE,
+  maxPeople: PRIVATE_TRANSPORT_MAX_PAX,
+  tours: PRIVATE_TRANSPORT_TOURS,
+  isEligibleTour: isPrivateTransportTour,
+  getAvailability: getPrivateTransportAvailability,
+  getSupplement: getPrivateTransportSupplement,
+  getBookingTotal
+});
 
 
 </script>
@@ -7650,6 +7813,17 @@ window.HWC_BOOKING_RULES.enforceDateMinimums();
           <small class="muted" data-i18n="rv.note.total">Valor calculado com base no trilho e nº de pessoas. Poderá ajustar consoante logística.</small>
         </div>
 
+        <div class="reserve-field reserve-field--full" id="rv-private-transport-row" hidden>
+          <label data-i18n="rv.label.privateTransport">Transporte privado</label>
+          <div id="rv-private-transport-m" class="rv-read">—</div>
+          <small id="rv-private-transport-note"
+                 class="muted"
+                 data-i18n="rv.note.privateTransport"
+                 hidden>
+            Este suplemento faz parte do valor restante da experiência e não da taxa de reserva paga agora.
+          </small>
+        </div>
+
         <div class="reserve-field reserve-field--full">
           <label data-i18n="rv.label.deposit">Taxa de reserva</label>
           <div id="rv-deposit-m" class="amount amount-accent">—</div>
@@ -7662,6 +7836,14 @@ window.HWC_BOOKING_RULES.enforceDateMinimums();
             <span data-i18n="rv.note.deposit.2">
               Ao confirmar a reserva, assume que leu e concorda com as condições gerais do serviço e com a política de privacidade do site.
             </span>
+        </div>
+
+        <div class="reserve-field reserve-field--full" id="rv-remaining-row" hidden>
+          <label data-i18n="rv.label.remaining">Saldo restante estimado</label>
+          <div id="rv-remaining-m" class="amount">—</div>
+          <small class="muted" data-i18n="rv.note.remaining">
+            Valor estimado a pagar no dia da experiência, depois da taxa de reserva.
+          </small>
         </div>
       </div>
     </div>
@@ -7698,7 +7880,110 @@ window.HWC_BOOKING_RULES.enforceDateMinimums();
   const $    = (sel, ctx = document) => ctx.querySelector(sel);
   const text = el => ((el && el.textContent) || '').trim();
 
-  
+  const privateTransportField = $('#private-transport-field');
+  const privateTransportCheckbox = $('#private_transport_checkbox');
+  const privateTransportValue = $('#private_transport_value');
+  const privateTransportPrice = $('#private_transport_price');
+  const estimatedTotalValue = $('#estimated_total_value');
+  const reservationFeeValue = $('#reservation_fee_value');
+  const remainingBalanceValue = $('#remaining_balance_value');
+
+  function getCurrentLanguageDict() {
+    const lang = localStorage.getItem('hwc_lang') || 'pt';
+    const root = window.I18N || {};
+    return root[lang] || root.pt || {};
+  }
+
+  function getPrivateTransportFormState() {
+    const trail = $('#trail')?.value || '';
+    const people = parseInt($('#people')?.value || '0', 10) || 0;
+    const availability = window.HWC_PRIVATE_TRANSPORT?.getAvailability?.(trail, people) ||
+      { eligible: false, available: false };
+    const selected = !!(
+      privateTransportCheckbox?.checked &&
+      availability.available
+    );
+
+    return {
+      trail,
+      people,
+      eligible: availability.eligible === true,
+      available: availability.available === true,
+      selected,
+      price: selected ? (window.HWC_PRIVATE_TRANSPORT?.price || 100) : 0
+    };
+  }
+
+  function syncPrivateTransportOption() {
+    if (!privateTransportField || !privateTransportCheckbox) {
+      return getPrivateTransportFormState();
+    }
+
+    const state = getPrivateTransportFormState();
+    privateTransportField.hidden = !state.eligible;
+    privateTransportField.classList.toggle('is-disabled', state.eligible && !state.available);
+    privateTransportCheckbox.disabled = !state.available;
+
+    if (!state.available) {
+      privateTransportCheckbox.checked = false;
+      state.selected = false;
+      state.price = 0;
+    }
+
+    if (privateTransportValue) {
+      privateTransportValue.disabled = !state.eligible || !state.available;
+      privateTransportValue.value = state.eligible && state.available
+        ? String(privateTransportCheckbox.checked === true)
+        : '';
+    }
+
+    if (privateTransportPrice) {
+      privateTransportPrice.disabled = !state.eligible || !state.available;
+      privateTransportPrice.value = state.eligible && state.available
+        ? String(privateTransportCheckbox.checked ? (window.HWC_PRIVATE_TRANSPORT?.price || 100) : 0)
+        : '';
+    }
+
+    return getPrivateTransportFormState();
+  }
+
+  function syncNumberPayloadField(field, value) {
+    if (!field) return;
+    const hasValue = Number.isFinite(value);
+    field.disabled = !hasValue;
+    field.value = hasValue ? String(value) : '';
+  }
+
+  function syncBookingFinancialPayload() {
+    const trail = $('#trail')?.value || '';
+    const peopleNum = parseInt($('#people')?.value || '0', 10);
+    const privateTransport = syncPrivateTransportOption();
+    const payload = {
+      estimatedTotal: NaN,
+      reservationFee: NaN,
+      remainingBalance: NaN,
+      privateTransport
+    };
+
+    if (trail && !isNaN(peopleNum) && peopleNum > 0 && PRICE_TABLE[trail]) {
+      const priceInfo = getBookingTotal(trail, peopleNum, {
+        privateTransport: privateTransport.selected
+      });
+      if (!priceInfo.onRequest) {
+        payload.estimatedTotal = priceInfo.total;
+        payload.reservationFee = peopleNum >= MIN_PAX && peopleNum <= MAX_PAX
+          ? peopleNum * RES_FEE_PER_PAX
+          : 0;
+        payload.remainingBalance = Math.max(0, payload.estimatedTotal - payload.reservationFee);
+      }
+    }
+
+    syncNumberPayloadField(estimatedTotalValue, payload.estimatedTotal);
+    syncNumberPayloadField(reservationFeeValue, payload.reservationFee);
+    syncNumberPayloadField(remainingBalanceValue, payload.remainingBalance);
+
+    return payload;
+  }
 
   // normaliza texto para comparar "disponivel" sem acentos
   function norm(s) {
@@ -7738,18 +8023,26 @@ window.HWC_BOOKING_RULES.enforceDateMinimums();
   // e usa MIN_PAX como número mínimo de pessoas
   let totalStr = '—';
   let depositStr = '—';
-
-  const peopleNum = parseInt(peopleEl?.value || '0', 10);
-  if (trail && trail !== '—' && !isNaN(peopleNum) && peopleNum > 0 && PRICE_TABLE[trail]) {
-    const priceInfo = getPrice(trail, peopleNum);
-    if (!priceInfo.onRequest) {
-      totalStr = eur(priceInfo.total);
-      // aqui depositStr passa a significar "mínimo de pessoas"
-      depositStr = String(MIN_PAX);
-    }
+  const financialPayload = syncBookingFinancialPayload();
+  if (Number.isFinite(financialPayload.estimatedTotal)) {
+    totalStr = eur(financialPayload.estimatedTotal);
+    // aqui depositStr passa a significar "mínimo de pessoas"
+    depositStr = String(MIN_PAX);
   }
 
-  return { trail, people, date, period, availability, totalStr, depositStr };
+  return {
+    trail,
+    people,
+    date,
+    period,
+    availability,
+    totalStr,
+    depositStr,
+    privateTransport: financialPayload.privateTransport,
+    estimatedTotal: financialPayload.estimatedTotal,
+    reservationFee: financialPayload.reservationFee,
+    remainingBalance: financialPayload.remainingBalance
+  };
 }
 function normalizeTrailName(name) {
   return norm(name).trim();
@@ -7888,7 +8181,8 @@ function getBookingValidation(mode = 'direct') {
   }
 
 // Valida campos para desbloquear o botão "Efetuar reserva"
-function validateBooking() {
+  function validateBooking() {
+  syncPrivateTransportOption();
   const validation = getBookingValidation('direct');
 
   // botão "Efetuar reserva"
@@ -7913,6 +8207,10 @@ window.HWC_BOOKING_VALIDATION = {
   normalizePeriodValue,
   optionIsUnavailable
 };
+window.HWC_PRIVATE_TRANSPORT_FORM = {
+  sync: syncPrivateTransportOption,
+  getState: getPrivateTransportFormState
+};
   
   // Atualiza o resumo da reserva + botão de pagamento
   function syncReserveSummary() {
@@ -7923,6 +8221,10 @@ window.HWC_BOOKING_VALIDATION = {
       period,
       availability,
       totalStr
+      ,
+      privateTransport,
+      reservationFee,
+      remainingBalance
     } = readBookingForm();
 
     // Campos de texto no modal
@@ -7933,7 +8235,13 @@ window.HWC_BOOKING_VALIDATION = {
     const elAvail  = $('#rv-availability-m');
     const elTotal  = $('#rv-total-m');
     const elDep    = $('#rv-deposit-m');
+    const elTransportRow = $('#rv-private-transport-row');
+    const elTransport = $('#rv-private-transport-m');
+    const elTransportNote = $('#rv-private-transport-note');
+    const elRemainingRow = $('#rv-remaining-row');
+    const elRemaining = $('#rv-remaining-m');
     const btnPay   = $('#rv-pay-20');
+    const dict = getCurrentLanguageDict();
 
     if (elTrail)  elTrail.textContent  = trail  || '—';
     if (elPeople) elPeople.textContent = people || '—';
@@ -7941,6 +8249,18 @@ window.HWC_BOOKING_VALIDATION = {
     if (elPeriod) elPeriod.textContent = period || '—';
     if (elAvail)  elAvail.textContent  = availability || '—';
     if (elTotal)  elTotal.textContent  = totalStr;
+
+    if (elTransportRow) {
+      elTransportRow.hidden = !privateTransport.eligible;
+    }
+    if (elTransport) {
+      elTransport.textContent = privateTransport.selected
+        ? (dict["rv.privateTransport.with"] || "Incluído: +100 € por grupo")
+        : (dict["rv.privateTransport.without"] || "Não incluído");
+    }
+    if (elTransportNote) {
+      elTransportNote.hidden = !privateTransport.selected;
+    }
 
     // Cálculo da taxa de reserva
     const peopleNum = parseInt(people || '0', 10);
@@ -7952,12 +8272,13 @@ window.HWC_BOOKING_VALIDATION = {
       !isNaN(peopleNum) &&
       peopleNum >= MIN_PAX &&
       peopleNum <= MAX_PAX &&
-      totalStr !== '—'
+      totalStr !== '—' &&
+      Number.isFinite(reservationFee)
     ) {
       // nº de pessoas usado para a taxa e para o link
       const paxForDeposit = Math.min(Math.max(peopleNum, MIN_PAX), MAX_PAX);
 
-      depositValue = paxForDeposit * RES_FEE_PER_PAX;
+      depositValue = reservationFee;
       sumupUrl = SUMUP_LINKS[paxForDeposit] || '';
     }
 
@@ -7965,6 +8286,15 @@ window.HWC_BOOKING_VALIDATION = {
     if (elDep) {
       elDep.textContent = Number.isFinite(depositValue)
         ? eur(depositValue)
+        : '—';
+    }
+
+    if (elRemainingRow) {
+      elRemainingRow.hidden = !privateTransport.selected || !Number.isFinite(depositValue);
+    }
+    if (elRemaining) {
+      elRemaining.textContent = Number.isFinite(remainingBalance)
+        ? eur(remainingBalance)
         : '—';
     }
 
@@ -8022,6 +8352,12 @@ function openReserveModal(e) {
     ['change', 'input'].forEach(evt => {
       el.addEventListener(evt, validateBooking);
     });
+  });
+
+  privateTransportCheckbox?.addEventListener('change', () => {
+    syncPrivateTransportOption();
+    validateBooking();
+    updateSendButton();
   });
 
   // Disponibilidade: observar também mudanças de atributos (data-state)
@@ -8140,6 +8476,7 @@ function availabilityBlockMessage() {
 
 function updateSendButton() {
   if (!bookingForm || !sendBtn) return;
+  syncBookingFinancialPayload();
   const valid =
     bookingForm.checkValidity() &&
     isBookingRequestAvailabilityOK() &&
@@ -8172,6 +8509,8 @@ bookingForm?.addEventListener('submit', async (e) => {
     bookingForm.reportValidity();
     return;
   }
+
+  syncBookingFinancialPayload();
 
   if (!isBookingRequestAvailabilityOK()) {
     updateSendButton();
@@ -8926,6 +9265,9 @@ document.querySelectorAll('.pill').forEach(p => {
     // copiar para o campo hidden que vai no formulário
     if (trailInput && trailPicker) trailInput.value = trailPicker.value;
 
+    window.HWC_PRIVATE_TRANSPORT_FORM?.sync?.();
+    window.validateBooking?.();
+
     // atualizar subtítulo
     setSubtitle(trailName);
 
@@ -8944,6 +9286,8 @@ document.querySelectorAll('.pill').forEach(p => {
   // atualizar hidden quando o utilizador muda no select
   trailPicker?.addEventListener('change', () => {
     if (trailInput) trailInput.value = trailPicker.value;
+    window.HWC_PRIVATE_TRANSPORT_FORM?.sync?.();
+    window.validateBooking?.();
     setSubtitle(trailPicker.value || '');
   });
 

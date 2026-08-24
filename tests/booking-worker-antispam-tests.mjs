@@ -4,7 +4,8 @@ import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import worker, { handleRequest } from '../worker/src/index.mjs';
-import { ACTIVE_TOURS, normalizeText } from '../worker/src/booking-rules.mjs';
+import { ACTIVE_TOURS, calculateBookingTotals, normalizeText } from '../worker/src/booking-rules.mjs';
+import { buildBookingEmail } from '../worker/src/email.mjs';
 import { createSubmitToken } from '../worker/src/security.mjs';
 import { validateBookingForm } from '../worker/src/validation.mjs';
 
@@ -167,6 +168,11 @@ async function testInactiveAndDuplicateTours() {
   let body = await jsonBody(res);
   assert.ok(body.errors.some(item => item.code === 'tour_inactive'));
 
+  res = await postBooking({ Trilho: 'Rocha da Fajã' });
+  assert.equal(res.status, 400);
+  body = await jsonBody(res);
+  assert.ok(body.errors.some(item => item.code === 'tour_inactive'));
+
   res = await postBooking({ Trilho: ['City Walk • Horta a pé', 'Caldeira — perímetro'] });
   assert.equal(res.status, 400);
   body = await jsonBody(res);
@@ -200,6 +206,125 @@ async function testHoneypotTokenOriginAndRateLimits() {
   const form = await makeBookingForm();
   res = await handleRequest(request('/api/booking', { form }), limitedEnv);
   assert.equal(res.status, 429);
+}
+
+async function testPrivateTransportValidationTotalsAndEmail() {
+  let form = await makeBookingForm({
+    Trilho: 'Caldeira — perímetro',
+    'Nº de pessoas': '2',
+    private_transport: 'true',
+    private_transport_price: '100',
+    estimated_total: '250',
+    reservation_fee: '30',
+    remaining_balance: '220'
+  });
+  let result = validateBookingForm(form);
+  assert.equal(result.ok, true);
+  assert.equal(result.booking.private_transport_applicable, true);
+  assert.equal(result.booking.private_transport, true);
+  assert.equal(result.booking.private_transport_price, 100);
+  assert.equal(result.booking.estimated_total, 250);
+  assert.equal(result.booking.reservation_fee, 30);
+  assert.equal(result.booking.remaining_balance, 220);
+
+  let email = buildBookingEmail(result.booking, makeEnv());
+  assert.equal(email.ok, true);
+  assert.match(email.payload.text, /Transporte privado: Sim \(\+100 € por grupo\)/);
+  assert.match(email.payload.text, /Total estimado: 250 €/);
+  assert.match(email.payload.text, /Saldo restante estimado: 220 €/);
+
+  form = await makeBookingForm({
+    Trilho: 'Caldeira — perímetro',
+    'Nº de pessoas': '2',
+    private_transport: 'false',
+    private_transport_price: '0',
+    estimated_total: '150',
+    reservation_fee: '30',
+    remaining_balance: '120'
+  });
+  result = validateBookingForm(form);
+  assert.equal(result.ok, true);
+  assert.equal(result.booking.private_transport, false);
+  assert.equal(result.booking.estimated_total, 150);
+  assert.equal(result.booking.remaining_balance, 120);
+
+  form = await makeBookingForm({
+    Trilho: 'Caminhada Vulcão dos Capelinhos',
+    'Nº de pessoas': '2',
+    private_transport: 'false',
+    private_transport_price: '0',
+    estimated_total: '180',
+    reservation_fee: '30',
+    remaining_balance: '150'
+  });
+  result = validateBookingForm(form);
+  assert.equal(result.ok, true);
+  assert.equal(result.booking.estimated_total, 180);
+
+  form = await makeBookingForm({
+    Trilho: 'Caminhada Vulcão dos Capelinhos',
+    'Nº de pessoas': '2',
+    private_transport: 'true',
+    private_transport_price: '100',
+    estimated_total: '280',
+    reservation_fee: '30',
+    remaining_balance: '250'
+  });
+  result = validateBookingForm(form);
+  assert.equal(result.ok, true);
+  assert.equal(result.booking.estimated_total, 280);
+
+  let totals = calculateBookingTotals('Caldeira — perímetro', 2, { privateTransport: false });
+  assert.equal(totals.estimated_total, 150);
+  totals = calculateBookingTotals('Caldeira — perímetro', 2, { privateTransport: true });
+  assert.equal(totals.estimated_total, 250);
+  totals = calculateBookingTotals('Caminhada Vulcão dos Capelinhos', 2, { privateTransport: false });
+  assert.equal(totals.estimated_total, 180);
+  totals = calculateBookingTotals('Caminhada Vulcão dos Capelinhos', 2, { privateTransport: true });
+  assert.equal(totals.estimated_total, 280);
+
+  let res = await postBooking({
+    Trilho: 'Caldeira — perímetro',
+    'Nº de pessoas': '2',
+    private_transport: 'true',
+    private_transport_price: '100',
+    estimated_total: '250',
+    reservation_fee: '30',
+    remaining_balance: '220'
+  });
+  assert.equal(res.status, 200);
+
+  res = await postBooking({
+    Trilho: 'Caldeira — perímetro',
+    'Nº de pessoas': '2',
+    private_transport: 'true',
+    private_transport_price: '100',
+    estimated_total: '999',
+    reservation_fee: '30',
+    remaining_balance: '220'
+  });
+  assert.equal(res.status, 400);
+  let body = await jsonBody(res);
+  assert.ok(body.errors.some(item => item.code === 'amount_mismatch'));
+
+  res = await postBooking({
+    Trilho: 'City Walk • Horta a pé',
+    private_transport: 'true',
+    private_transport_price: '100'
+  });
+  assert.equal(res.status, 400);
+  body = await jsonBody(res);
+  assert.ok(body.errors.some(item => item.code === 'private_transport_tour_ineligible'));
+
+  res = await postBooking({
+    Trilho: 'Caldeira — perímetro',
+    'Nº de pessoas': '9',
+    private_transport: 'true',
+    private_transport_price: '100'
+  });
+  assert.equal(res.status, 400);
+  body = await jsonBody(res);
+  assert.ok(body.errors.some(item => item.code === 'private_transport_people_limit'));
 }
 
 async function testCalendarRecheckFailClosed() {
@@ -291,6 +416,7 @@ await testInvalidDatesAndMinimumAdvance();
 await testStrictFieldAndValueValidation();
 await testInactiveAndDuplicateTours();
 await testHoneypotTokenOriginAndRateLimits();
+await testPrivateTransportValidationTotalsAndEmail();
 await testCalendarRecheckFailClosed();
 testActiveTourWhitelistMatchesFrontend();
 testNoPersonalDataLoggingAndNoSecrets();

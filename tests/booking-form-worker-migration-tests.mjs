@@ -37,7 +37,7 @@ function testBookingFormUsesWorkerOnly() {
     assert.doesNotMatch(bookingForm, new RegExp(`name=["']${field}["']`), `${field} removed from booking form`);
   }
 
-  for (const field of ['booking_started_at', 'booking_nonce', 'booking_signature', 'hp_field']) {
+  for (const field of ['booking_started_at', 'booking_nonce', 'booking_signature', 'hp_field', 'private_transport', 'private_transport_price', 'estimated_total', 'reservation_fee', 'remaining_balance']) {
     assert.match(bookingForm, new RegExp(`name=["']${field}["']`), `${field} remains present for Worker flow`);
   }
 }
@@ -51,6 +51,10 @@ function testReviewFormStillUsesFormSubmit() {
 
   for (const field of ['_subject', '_template', '_captcha', '_next', '_honey']) {
     assert.match(reviewForm, new RegExp(`name=["']${field}["']`), `${field} remains on review form`);
+  }
+
+  for (const field of ['private_transport', 'private_transport_price', 'estimated_total', 'reservation_fee', 'remaining_balance']) {
+    assert.doesNotMatch(reviewForm, new RegExp(`name=["']${field}["']`), `${field} stays out of review form`);
   }
 }
 

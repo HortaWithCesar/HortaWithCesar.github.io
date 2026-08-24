@@ -17,6 +17,30 @@ function extractScriptContaining(needle) {
   return script;
 }
 
+function attrValue(attrs, name) {
+  const match = attrs.match(new RegExp(`${name}\\s*=\\s*["']([^"']*)["']`, 'i'));
+  return match ? match[1] : null;
+}
+
+function trailCardAttrs(trail) {
+  for (const match of html.matchAll(/<article\b(?=[^>]*\btrail-card\b)([^>]*)>/gis)) {
+    const attrs = match[1] || '';
+    if (attrValue(attrs, 'data-trail') === trail) return attrs;
+  }
+  return '';
+}
+
+function trailOptionAttrs(value) {
+  const select = html.match(/<select\b[^>]*id=["']trail["'][\s\S]*?<\/select>/i)?.[0] || '';
+  for (const match of select.matchAll(/<option\b([^>]*)>([\s\S]*?)<\/option>/gi)) {
+    const attrs = match[1] || '';
+    const text = match[2].replace(/<[^>]+>/g, '').trim();
+    const optionValue = attrValue(attrs, 'value') ?? text;
+    if (optionValue === value) return attrs;
+  }
+  return '';
+}
+
 function makeClassList() {
   const values = new Set();
   return {
@@ -156,6 +180,13 @@ function createHarness() {
     MIN_PAX: 1,
     MAX_PAX: 7,
     getPrice: () => ({ total: 30, unit: 30, onRequest: false }),
+    getBookingTotal: (_trail, people) => ({
+      total: 30 * Number(people || 0),
+      unit: 30,
+      onRequest: false,
+      privateTransport: false,
+      privateTransportPrice: 0
+    }),
     eur: (value) => String(value),
     console: { ...console, warn() {} },
     HTMLFormElement: { prototype: { submit() {} } }
@@ -239,9 +270,89 @@ function testStaticP2Guards() {
   }
 }
 
+function testCommercialHiddenTrails() {
+  const hiddenTrails = [
+    {
+      card: 'Caldeira Descida',
+      option: 'Caldeira Descida • Santuário da fauna local'
+    },
+    {
+      card: 'Rocha da Fajã',
+      option: 'Rocha da Fajã'
+    }
+  ];
+
+  for (const trail of hiddenTrails) {
+    const cardAttrs = trailCardAttrs(trail.card);
+    assert.ok(cardAttrs, `${trail.card} card exists for future reactivation`);
+    assert.match(cardAttrs, /\bhidden\b/i, `${trail.card} card is hidden`);
+    assert.match(cardAttrs, /aria-hidden\s*=\s*["']true["']/i, `${trail.card} card is aria hidden`);
+    assert.match(cardAttrs, /data-disabled\s*=\s*["']true["']/i, `${trail.card} card is disabled`);
+
+    const optionAttrs = trailOptionAttrs(trail.option);
+    assert.ok(optionAttrs, `${trail.option} option exists for future reactivation`);
+    assert.match(optionAttrs, /\bhidden\b/i, `${trail.option} option is hidden`);
+    assert.match(optionAttrs, /\bdisabled\b/i, `${trail.option} option is disabled`);
+  }
+}
+
+function testPrivateTransportPricingAndLimits() {
+  const priceScript = extractScriptContaining('const PRICE_TABLE =');
+  const context = { window: {} };
+  vm.createContext(context);
+  vm.runInContext(`${priceScript}
+globalThis.__pricing = {
+  getBookingTotal,
+  getPrivateTransportAvailability,
+  getPrivateTransportSupplement
+};`, context, { filename: 'pricing-script.js' });
+
+  const pricing = context.__pricing;
+  assert.equal(
+    pricing.getBookingTotal('Caldeira — perímetro', 2, { privateTransport: false }).total,
+    150,
+    'Caldeira without transport is 75 euros per person'
+  );
+  assert.equal(
+    pricing.getBookingTotal('Caldeira — perímetro', 2, { privateTransport: true }).total,
+    250,
+    'Caldeira with private transport adds 100 euros once'
+  );
+  assert.equal(
+    pricing.getBookingTotal('Caminhada Vulcão dos Capelinhos', 2, { privateTransport: false }).total,
+    180,
+    'Capelinhos without transport is 90 euros per person'
+  );
+  assert.equal(
+    pricing.getBookingTotal('Caminhada Vulcão dos Capelinhos', 2, { privateTransport: true }).total,
+    280,
+    'Capelinhos with private transport adds 100 euros once'
+  );
+
+  assert.equal(pricing.getPrivateTransportAvailability('Caldeira — perímetro', 8).available, true);
+  assert.equal(pricing.getPrivateTransportAvailability('Caldeira — perímetro', 9).available, false);
+  assert.equal(pricing.getPrivateTransportAvailability('Caldeira — perímetro', 8).available, true);
+  assert.equal(pricing.getPrivateTransportAvailability('Caminhada Vulcão dos Capelinhos', 8).available, true);
+  assert.equal(pricing.getPrivateTransportAvailability('City Walk • Horta a pé', 2).eligible, false);
+  assert.equal(pricing.getPrivateTransportSupplement('City Walk • Horta a pé', 2, true), 0);
+
+  assert.match(html, /id=["']private-transport-field["']/, 'private transport checkbox field exists');
+  assert.match(html, /name=["']private_transport["']/, 'private transport structured field exists');
+  assert.match(html, /name=["']private_transport_price["']/, 'private transport price structured field exists');
+  assert.match(html, /name=["']estimated_total["']/, 'estimated total structured field exists');
+  assert.match(html, /name=["']reservation_fee["']/, 'reservation fee structured field exists');
+  assert.match(html, /name=["']remaining_balance["']/, 'remaining balance structured field exists');
+  assert.match(html, /id=["']rv-private-transport-row["']/, 'reservation summary shows private transport state');
+  assert.match(html, /id=["']rv-remaining-row["']/, 'reservation summary includes remaining balance');
+  assert.match(html, /getBookingTotal\(trail, peopleNum/, 'booking total uses transport aware pricing');
+  assert.match(html, /syncBookingFinancialPayload\(\)/, 'booking payload syncs financial fields');
+}
+
 testRequestAllowsEightPlusButDirectDoesNot();
 testHiddenAndDisabledTrailsFailClosed();
 testUnknownAvailabilityStatesFailClosed();
 testStaticP2Guards();
+testCommercialHiddenTrails();
+testPrivateTransportPricingAndLimits();
 
 console.log('booking P2 tests passed');

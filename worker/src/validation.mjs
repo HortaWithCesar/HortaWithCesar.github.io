@@ -1,8 +1,12 @@
 import {
   ACTIVE_TOURS,
   ALLOWED_PERIODS,
+  PRIVATE_TRANSPORT_MAX_PEOPLE,
+  PRIVATE_TRANSPORT_PRICE,
+  calculateBookingTotals,
   getMinimumAdvanceStatus,
   isActiveTour,
+  isPrivateTransportTour,
   normalizePeriod,
   normalizeText,
   parseDateOnlyStrict
@@ -18,6 +22,11 @@ export const FIELD_NAMES = Object.freeze({
   period: 'period',
   people: 'Nº de pessoas',
   notes: 'notes',
+  privateTransport: 'private_transport',
+  privateTransportPrice: 'private_transport_price',
+  estimatedTotal: 'estimated_total',
+  reservationFee: 'reservation_fee',
+  remainingBalance: 'remaining_balance',
   honey: '_honey',
   hp: 'hp_field',
   startedAt: 'booking_started_at',
@@ -136,6 +145,93 @@ function validatePeople(value, errors) {
   return people;
 }
 
+function validatePrivateTransport(formData, tour, people, errors) {
+  const hasTransportField = formData.has(FIELD_NAMES.privateTransport);
+  const hasPriceField = formData.has(FIELD_NAMES.privateTransportPrice);
+  if (!hasTransportField && !hasPriceField) {
+    return { applicable: false, selected: false, price: 0 };
+  }
+
+  const raw = sanitizeText(singleValue(formData, FIELD_NAMES.privateTransport, errors, { required: false }), {
+    maxLength: 5
+  }).toLowerCase();
+  const rawPrice = sanitizeText(singleValue(formData, FIELD_NAMES.privateTransportPrice, errors, { required: false }), {
+    maxLength: 4
+  });
+  const eligibleTour = isPrivateTransportTour(tour);
+
+  if (!eligibleTour) {
+    errors.push(error(
+      FIELD_NAMES.privateTransport,
+      'private_transport_tour_ineligible',
+      'O transporte privado não está disponível para este trilho.'
+    ));
+  }
+
+  if (people > PRIVATE_TRANSPORT_MAX_PEOPLE) {
+    errors.push(error(
+      FIELD_NAMES.privateTransport,
+      'private_transport_people_limit',
+      'O transporte privado está disponível apenas até 8 pessoas.'
+    ));
+  }
+
+  if (raw !== 'true' && raw !== 'false') {
+    errors.push(error(
+      FIELD_NAMES.privateTransport,
+      'private_transport_invalid',
+      'Indica se pretende transporte privado.'
+    ));
+  }
+
+  const selected = raw === 'true';
+  const expectedPrice = selected ? PRIVATE_TRANSPORT_PRICE : 0;
+
+  if (rawPrice !== '' && !/^\d+$/.test(rawPrice)) {
+    errors.push(error(
+      FIELD_NAMES.privateTransportPrice,
+      'private_transport_price_invalid',
+      'O valor do transporte privado é inválido.'
+    ));
+  } else if (rawPrice !== '' && Number(rawPrice) !== expectedPrice) {
+    errors.push(error(
+      FIELD_NAMES.privateTransportPrice,
+      'private_transport_price_invalid',
+      'O valor do transporte privado é inválido.'
+    ));
+  } else if (selected && rawPrice === '') {
+    errors.push(error(
+      FIELD_NAMES.privateTransportPrice,
+      'private_transport_price_required',
+      'O valor do transporte privado é obrigatório.'
+    ));
+  }
+
+  return {
+    applicable: eligibleTour && people <= PRIVATE_TRANSPORT_MAX_PEOPLE,
+    selected,
+    price: selected ? PRIVATE_TRANSPORT_PRICE : 0
+  };
+}
+
+function validateClientAmount(formData, field, expected, errors) {
+  if (!formData.has(field)) return;
+
+  const raw = sanitizeText(singleValue(formData, field, errors, { required: false }), {
+    maxLength: 6
+  });
+  if (!/^\d+$/.test(raw) || Number(raw) !== expected) {
+    errors.push(error(field, 'amount_mismatch', 'O valor enviado não corresponde ao cálculo da reserva.'));
+  }
+}
+
+function validateClientTotals(formData, totals, errors) {
+  if (totals.onRequest) return;
+  validateClientAmount(formData, FIELD_NAMES.estimatedTotal, totals.estimated_total, errors);
+  validateClientAmount(formData, FIELD_NAMES.reservationFee, totals.reservation_fee, errors);
+  validateClientAmount(formData, FIELD_NAMES.remainingBalance, totals.remaining_balance, errors);
+}
+
 export function hasHoneypotContent(formData) {
   return getStringValues(formData, FIELD_NAMES.honey).some(value => value.trim()) ||
     getStringValues(formData, FIELD_NAMES.hp).some(value => value.trim());
@@ -156,6 +252,7 @@ export function validateBookingForm(formData, { now = new Date() } = {}) {
     maxLength: 1000,
     multiline: true
   });
+  const privateTransport = validatePrivateTransport(formData, tour, people, errors);
 
   if (!name || name.length < 2 || hasHeaderInjection(name)) {
     errors.push(error(FIELD_NAMES.name, 'name_invalid', 'Indica um nome válido.'));
@@ -198,6 +295,15 @@ export function validateBookingForm(formData, { now = new Date() } = {}) {
     return { ok: false, errors };
   }
 
+  const totals = calculateBookingTotals(tour, people, {
+    privateTransport: privateTransport.selected
+  });
+  validateClientTotals(formData, totals, errors);
+
+  if (errors.length) {
+    return { ok: false, errors };
+  }
+
   return {
     ok: true,
     booking: {
@@ -211,7 +317,13 @@ export function validateBookingForm(formData, { now = new Date() } = {}) {
       period_key: period,
       people,
       notes,
-      group_type: people >= 8 ? 'manual_request' : 'standard_request'
+      group_type: people >= 8 ? 'manual_request' : 'standard_request',
+      private_transport_applicable: privateTransport.applicable,
+      private_transport: privateTransport.selected,
+      private_transport_price: privateTransport.price,
+      estimated_total: totals.onRequest ? null : totals.estimated_total,
+      reservation_fee: totals.onRequest ? null : totals.reservation_fee,
+      remaining_balance: totals.onRequest ? null : totals.remaining_balance
     }
   };
 }

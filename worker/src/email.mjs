@@ -4,8 +4,21 @@ function envValue(env, name) {
   return String(env?.[name] || '').trim();
 }
 
+function formatEuro(value) {
+  return Number.isFinite(value)
+    ? `${value.toLocaleString('pt-PT')} €`
+    : '';
+}
+
+function privateTransportLabel(booking) {
+  if (!booking.private_transport_applicable && !booking.private_transport) return '';
+  return booking.private_transport
+    ? `Sim (+${formatEuro(booking.private_transport_price)} por grupo)`
+    : 'Não';
+}
+
 function buildEmailText(booking) {
-  return [
+  const lines = [
     'Novo pedido de reserva - Horta with César',
     '',
     `Trilho: ${booking.tour}`,
@@ -16,10 +29,27 @@ function buildEmailText(booking) {
     `Período: ${booking.period}`,
     `Nº de pessoas: ${booking.people}`,
     `Tipo de pedido: ${booking.group_type}`,
-    '',
-    'Mensagem:',
-    booking.notes || '(sem mensagem)'
-  ].join('\n');
+  ];
+
+  const transport = privateTransportLabel(booking);
+  if (transport) {
+    lines.push(`Transporte privado: ${transport}`);
+  }
+
+  if (Number.isFinite(booking.estimated_total)) {
+    lines.push(`Total estimado: ${formatEuro(booking.estimated_total)}`);
+  }
+
+  if (Number.isFinite(booking.reservation_fee)) {
+    lines.push(`Taxa de reserva atual: ${formatEuro(booking.reservation_fee)}`);
+  }
+
+  if (Number.isFinite(booking.remaining_balance)) {
+    lines.push(`Saldo restante estimado: ${formatEuro(booking.remaining_balance)}`);
+  }
+
+  lines.push('', 'Mensagem:', booking.notes || '(sem mensagem)');
+  return lines.join('\n');
 }
 
 function buildEmailHtml(booking) {
@@ -33,6 +63,12 @@ function buildEmailHtml(booking) {
     ['Nº de pessoas', String(booking.people)],
     ['Tipo de pedido', booking.group_type]
   ];
+  const transport = privateTransportLabel(booking);
+  if (transport) rows.push(['Transporte privado', transport]);
+  if (Number.isFinite(booking.estimated_total)) rows.push(['Total estimado', formatEuro(booking.estimated_total)]);
+  if (Number.isFinite(booking.reservation_fee)) rows.push(['Taxa de reserva atual', formatEuro(booking.reservation_fee)]);
+  if (Number.isFinite(booking.remaining_balance)) rows.push(['Saldo restante estimado', formatEuro(booking.remaining_balance)]);
+
   const rowHtml = rows.map(([label, value]) =>
     `<tr><th align="left" style="padding:8px;background:#f1f1f1">${escapeHtml(label)}</th><td style="padding:8px">${escapeHtml(value)}</td></tr>`
   ).join('');
