@@ -2601,6 +2601,178 @@ header{
   .about{ overflow-x: hidden; }
 }
 
+/* PRIVATE EXPERIENCE SECTION */
+.private-experience{
+  padding:56px 0;
+  background:#fff;
+}
+
+.private-experience__banner{
+  position:relative;
+  min-height:clamp(420px, 39vw, 520px);
+  border-radius:18px;
+  overflow:hidden;
+  isolation:isolate;
+  background:#0b211d;
+}
+
+.private-experience__image,
+.private-experience__overlay{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+
+.private-experience__image{
+  object-fit:cover;
+  object-position:52% 55%;
+  display:block;
+}
+
+.private-experience__overlay{
+  z-index:1;
+  background:linear-gradient(90deg, rgba(5,18,15,.80) 0%, rgba(5,18,15,.58) 42%, rgba(5,18,15,.16) 74%, rgba(5,18,15,.08) 100%);
+}
+
+.private-experience__content{
+  position:relative;
+  z-index:2;
+  box-sizing:border-box;
+  min-height:inherit;
+  max-width:620px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+  padding:clamp(30px, 5vw, 56px);
+  color:#fff;
+}
+
+.private-experience__content h2{
+  margin:0;
+  font-size:clamp(30px, 4.4vw, 48px);
+  line-height:1.05;
+  color:#fff;
+}
+
+.private-experience__subtitle{
+  margin:12px 0 0;
+  font-size:clamp(18px, 2.2vw, 24px);
+  font-weight:800;
+  color:rgba(255,255,255,.94);
+}
+
+.private-experience__description{
+  margin:16px 0 0;
+  max-width:58ch;
+  color:rgba(255,255,255,.88);
+  font-size:16px;
+  line-height:1.6;
+}
+
+.private-experience__highlights{
+  list-style:none;
+  padding:0;
+  margin:16px 0 0;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.private-experience__highlights li{
+  padding:8px 12px;
+  border-radius:999px;
+  background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.26);
+  color:#fff;
+  font-weight:800;
+  font-size:14px;
+}
+
+.private-experience__availability{
+  margin:14px 0 0;
+  color:rgba(255,255,255,.78);
+  font-size:14px;
+  line-height:1.5;
+}
+
+.private-experience .hero-mini__cta{
+  margin-top:16px;
+}
+
+@media (max-width: 900px){
+  .private-experience{
+    padding:48px 0;
+  }
+
+  .private-experience__banner{
+    min-height:clamp(380px, 58vw, 460px);
+  }
+
+  .private-experience__content{
+    max-width:560px;
+    padding:32px;
+  }
+}
+
+@media (max-width: 640px){
+  .private-experience{
+    padding:42px 0;
+  }
+
+  .private-experience__banner{
+    min-height:clamp(360px, 112vw, 440px);
+    border-radius:14px;
+  }
+
+  .private-experience__image{
+    object-position:58% 55%;
+  }
+
+  .private-experience__overlay{
+    background:linear-gradient(180deg, rgba(5,18,15,.76) 0%, rgba(5,18,15,.62) 48%, rgba(5,18,15,.74) 100%);
+  }
+
+  .private-experience__content{
+    padding:20px;
+  }
+
+  .private-experience__content h2{
+    font-size:clamp(24px, 7.3vw, 30px);
+  }
+
+  .private-experience__subtitle{
+    margin-top:10px;
+    font-size:16px;
+  }
+
+  .private-experience__description{
+    margin-top:12px;
+    font-size:14px;
+    line-height:1.45;
+  }
+
+  .private-experience__highlights{
+    margin-top:12px;
+    gap:6px;
+  }
+
+  .private-experience__highlights li{
+    padding:6px 8px;
+    font-size:12px;
+  }
+
+  .private-experience__availability{
+    margin-top:12px;
+    font-size:13px;
+  }
+
+  .private-experience .hero-mini__cta{
+    margin-top:14px;
+  }
+}
+
 /* REVIEWS SECTION */
 .reviews{
   padding:70px 0;
@@ -5245,6 +5417,44 @@ footer .wrap{
   </div>
 </section>
 
+<section id="private-faial-experience" class="private-experience" aria-labelledby="privateExperienceTitle">
+  <div class="wrap">
+    <div class="private-experience__banner">
+      <img
+        class="private-experience__image"
+        src="img/private-faial-experience.jpg"
+        alt=""
+        loading="lazy"
+        decoding="async"
+        aria-hidden="true">
+      <div class="private-experience__overlay" aria-hidden="true"></div>
+
+      <div class="private-experience__content">
+        <h2 id="privateExperienceTitle" data-i18n="privateExperienceTitle">Private Faial Experience</h2>
+        <p class="private-experience__subtitle" data-i18n="privateExperienceSubtitle">Discover the island at your own pace.</p>
+        <p class="private-experience__description" data-i18n="privateExperienceDescription">A private half day or full day experience designed around you, with viewpoints, local culture, volcanic landscapes and optional short walks.</p>
+
+        <ul class="private-experience__highlights">
+          <li data-i18n="privateExperienceSmallGroups">Small groups</li>
+          <li data-i18n="privateExperienceFlexibleItinerary">Flexible itinerary</li>
+          <li data-i18n="privateExperiencePrivate">Private experience</li>
+        </ul>
+
+        <p class="private-experience__availability" data-i18n="privateExperienceAvailability">Available on request and subject to vehicle availability.</p>
+
+        <a class="hero-mini__cta hero-mini__cta--book private-experience__cta"
+           target="_blank"
+           rel="noopener noreferrer"
+           href="https://wa.me/351964616199?text=Hi%20C%C3%A9sar!%20I%27m%20planning%20my%20day%20in%20Faial%20and%20I%27d%20like%20to%20know%20more%20about%20your%20private%20half%20day%20or%20full%20day%20experiences."
+           data-contact-type="private_faial_experience"
+           data-i18n="privateExperienceCta">
+          Plan your day in Faial
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="reviews" class="reviews">
   <div class="wrap">
 
@@ -6527,7 +6737,16 @@ footer .wrap{
 "hero.price.person": "por pessoa",
 "hero.trust": "Cancelamento Grátis até 48h",        
 "hero.cta": "Explorar trilhos ↓",
-"hero.cta.book.whatsapp": "A planear o que fazer no Faial? Fala comigo",        
+"hero.cta.book.whatsapp": "A planear o que fazer no Faial? Fala comigo",
+"privateExperienceTitle": "Experiência Privada no Faial",
+"privateExperienceSubtitle": "Descobre a ilha ao teu ritmo.",
+"privateExperienceDescription": "Uma experiência privada de meio dia ou dia inteiro pensada à tua medida, com miradouros, cultura local, paisagens vulcânicas e pequenas caminhadas opcionais.",
+"privateExperienceSmallGroups": "Grupos pequenos",
+"privateExperienceFlexibleItinerary": "Itinerário flexível",
+"privateExperiencePrivate": "Experiência privada",
+"privateExperienceCta": "Planeia o teu dia no Faial",
+"privateExperienceAvailability": "Disponível sob consulta e sujeito à disponibilidade de veículo.",
+"privateExperienceWhatsappMessage": "Olá César! Estou a planear o meu dia no Faial e gostava de saber mais sobre as tuas experiências privadas de meio dia ou dia inteiro.",
 "about.subtitle": "Guia local certificado do Faial • Experiências autênticas nos Açores",
 "reviews.title": "Reviews & Feedback",
 "reviews.lead": "Avaliações reais de clientes que já caminharam comigo no Faial, no Google, Tripadvisor e feedback partilhado diretamente.",
@@ -6811,7 +7030,16 @@ footer .wrap{
 "hero.price.person": "per person",
 "hero.trust": "Free cancellation up to 48h",
 "hero.cta": "Explore trails ↓",
-"hero.cta.book.whatsapp": "Planning what to do in Faial? Talk to me",        
+"hero.cta.book.whatsapp": "Planning what to do in Faial? Talk to me",
+"privateExperienceTitle": "Private Faial Experience",
+"privateExperienceSubtitle": "Discover the island at your own pace.",
+"privateExperienceDescription": "A private half day or full day experience designed around you, with viewpoints, local culture, volcanic landscapes and optional short walks.",
+"privateExperienceSmallGroups": "Small groups",
+"privateExperienceFlexibleItinerary": "Flexible itinerary",
+"privateExperiencePrivate": "Private experience",
+"privateExperienceCta": "Plan your day in Faial",
+"privateExperienceAvailability": "Available on request and subject to vehicle availability.",
+"privateExperienceWhatsappMessage": "Hi César! I'm planning my day in Faial and I'd like to know more about your private half day or full day experiences.",
 "about.subtitle": "Certified local guide from Faial • Authentic Azores experiences",
 "reviews.title": "Reviews & Feedback",
 "reviews.lead": "Real guest reviews from people who have walked Faial with me, from Google, Tripadvisor and direct feedback.",
@@ -9364,6 +9592,13 @@ function startLoop() {
       : `Olá César! Quero saber as condições/preço para: ${trail}.`;
   }
 
+  function msgPrivateExperience(){
+    const root = window.I18N || {};
+    const dict = root[lang()] || root.pt || {};
+    return dict.privateExperienceWhatsappMessage ||
+      "Hi César! I'm planning my day in Faial and I'd like to know more about your private half day or full day experiences.";
+  }
+
   function setHref(el, message){
     if(!el) return;
     el.href = `https://wa.me/${PHONE}?text=${encodeURIComponent(message)}`;
@@ -9375,6 +9610,9 @@ function startLoop() {
 
     // link de contactos (se existir)
     setHref(document.querySelector('.wa-link'), msgGeneral());
+
+    // experiência privada no Faial
+    setHref(document.querySelector('.private-experience__cta'), msgPrivateExperience());
 
     // botões WhatsApp dentro dos cards (se tiveres)
     document.querySelectorAll('.trail-card').forEach(card=>{
