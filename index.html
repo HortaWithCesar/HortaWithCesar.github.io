@@ -2771,8 +2771,8 @@ header{
 }
 
 .private-experience__seo{
-  max-width:78ch;
-  margin:18px auto 0;
+  max-width:min(980px, calc(100% - 60px));
+  margin:18px 0 0 30px;
   color:var(--muted);
   font-size:15px;
   line-height:1.65;
@@ -2780,6 +2780,16 @@ header{
 
 .private-experience__seo p{
   margin:0;
+}
+
+.private-experience__seo p + p{
+  margin-top:8px;
+}
+
+.private-experience__seo-lead{
+  color:var(--ink);
+  font-size:16px;
+  font-weight:800;
 }
 
 @media (min-width: 901px){
@@ -2861,6 +2871,8 @@ header{
 
   .private-experience__seo{
     margin-top:16px;
+    margin-left:20px;
+    max-width:calc(100% - 40px);
     font-size:14px;
     line-height:1.55;
   }
@@ -5549,8 +5561,11 @@ footer .wrap{
       </div>
     </div>
     <div class="private-experience__seo">
+      <p class="private-experience__seo-lead" data-i18n="privateExperienceSeoLead">
+        Want to discover Faial without being tied to a fixed itinerary?
+      </p>
       <p data-i18n="privateExperienceSeoText">
-        Horta with César offers private half day and full day experiences in Faial for travelers who want to discover the island with a local guide and a flexible itinerary. These private experiences can include viewpoints, volcanic landscapes, local culture, coastal stops and optional short walks, with transportation for small groups arranged as part of the service. Planning is done directly with César, so the route can be adapted to your interests, pace and time on the island.
+        Spend half a day or a full day exploring the island at your own pace. Viewpoints, volcanoes, short walks, local culture or simply the places that are really worth seeing. Transportation is included and we plan the route together, based on what you would like to see and do.
       </p>
     </div>
   </div>
@@ -6897,7 +6912,8 @@ footer .wrap{
 "privateExperiencePrivate": "Experiência privada",
 "privateExperienceCta": "Planeia o teu dia no Faial",
 "privateExperienceAvailability": "Disponível sob consulta e sujeito à disponibilidade de veículo.",
-"privateExperienceSeoText": "A Horta with César oferece experiências privadas de meio dia e dia inteiro no Faial para viajantes que querem descobrir a ilha com guia local e itinerário flexível. Estas experiências privadas podem incluir miradouros, paisagens vulcânicas, cultura local, paragens costeiras e pequenas caminhadas opcionais, com transporte para grupos pequenos associado ao serviço. O planeamento é feito diretamente com o César, para adaptar a rota aos teus interesses, ritmo e tempo disponível na ilha.",
+"privateExperienceSeoLead": "Queres conhecer o Faial sem estar preso a um roteiro?",
+"privateExperienceSeoText": "Podemos passar meio dia ou um dia inteiro a descobrir a ilha ao teu ritmo. Miradouros, vulcões, pequenas caminhadas, cultura local ou simplesmente aqueles lugares que valem mesmo a pena conhecer. O transporte está incluído e o percurso é combinado contigo, de acordo com aquilo que gostarias de ver e fazer.",
 "privateExperienceWhatsappMessage": "Olá César! Estou a planear o meu dia no Faial e gostava de saber mais sobre as tuas experiências privadas de meio dia ou dia inteiro.",
 "about.subtitle": "Guia local certificado do Faial • Experiências autênticas nos Açores",
 "reviews.title": "Reviews & Feedback",
@@ -7200,7 +7216,8 @@ footer .wrap{
 "privateExperiencePrivate": "Private experience",
 "privateExperienceCta": "Plan your day in Faial",
 "privateExperienceAvailability": "Available on request and subject to vehicle availability.",
-"privateExperienceSeoText": "Horta with César offers private half day and full day experiences in Faial for travelers who want to discover the island with a local guide and a flexible itinerary. These private experiences can include viewpoints, volcanic landscapes, local culture, coastal stops and optional short walks, with transportation for small groups arranged as part of the service. Planning is done directly with César, so the route can be adapted to your interests, pace and time on the island.",
+"privateExperienceSeoLead": "Want to discover Faial without being tied to a fixed itinerary?",
+"privateExperienceSeoText": "Spend half a day or a full day exploring the island at your own pace. Viewpoints, volcanoes, short walks, local culture or simply the places that are really worth seeing. Transportation is included and we plan the route together, based on what you would like to see and do.",
 "privateExperienceWhatsappMessage": "Hi César! I'm planning my day in Faial and I'd like to know more about your private half day or full day experiences.",
 "about.subtitle": "Certified local guide from Faial • Authentic Azores experiences",
 "reviews.title": "Reviews & Feedback",
