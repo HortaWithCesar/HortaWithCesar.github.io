@@ -946,7 +946,60 @@ select {
 .modal .actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin-top:14px}
 .modal .btn-ghost{background:#fff;border:1px solid var(--line);color:var(--fg)}
 .modal .close-x{appearance:none;border:0;background:#fff;border:1px solid var(--line);width:36px;height:36px;border-radius:10px;cursor:pointer}
+.cond-tour-details{
+  display:grid;
+  gap:16px;
+}
+.cond-section{
+  display:grid;
+  gap:6px;
+}
+.cond-section h5{
+  margin:0;
+  color:var(--fg);
+  font-size:15px;
+  font-weight:800;
+  line-height:1.3;
+}
+.cond-section p,
+.cond-section ul,
+.cond-section dl{
+  margin:0;
+}
+.cond-section p,
+.cond-section ul{
+  color:var(--muted);
+  line-height:1.55;
+}
+.cond-section ul{
+  padding-left:18px;
+}
+.cond-details-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px 16px;
+}
+.cond-details-grid div{
+  min-width:0;
+}
+.cond-details-grid dt{
+  color:var(--fg);
+  font-size:13px;
+  font-weight:800;
+  line-height:1.35;
+}
+.cond-details-grid dd{
+  margin:2px 0 0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.45;
+}
 @media (max-width:820px){ .modal{max-width:92vw} }
+@media (max-width:640px){
+  .cond-details-grid{
+    grid-template-columns:1fr;
+  }
+}
 
 /* impedir scroll do body quando o modal está aberto */
 body.modal-open{ overflow:hidden; }
@@ -4897,9 +4950,7 @@ footer .wrap{
     <!-- CITY WALK HORTA -->
 <article class="trail-card trail-card-featured reveal"
   data-trail="City Walk • Horta a pé"
-  data-price-from="30"
-  data-brief="Ideal para conhecer a cidade da Horta. Preço base para 1 pessoa. Ponto de encontro Pousada de Santa Cruz."
-  data-brief-en="Ideal for discovering the city of Horta. Base price for 1 person. Meeting point: Pousada de Santa Cruz.">
+  data-price-from="30">
         <div class="trail-media">
   <div class="city-slider" data-active="0">
     <div class="city-main">
@@ -6812,6 +6863,51 @@ footer .wrap{
 "cond.note.price": "💬 O preço por pessoa pode mudar consoante o número de pessoas, época e logística. Para grupos e parcerias, pede orçamento.",
 "cond.privateTransport": "Transporte privado opcional desde a Horta, com regresso após o trilho: +100 € por grupo, até 8 pessoas.",
 
+"cond.city.about.title": "Sobre esta experiência",
+"cond.city.about.p1": "Descobre a Horta a pé com um guia local, através das ruas, edifícios e histórias que ajudaram a construir a cidade. O passeio combina história, vida local, arquitetura e alguns dos lugares que ainda hoje fazem parte da identidade da Horta.",
+"cond.city.about.p2": "Do centro histórico à Marina, percorremos a cidade com calma, com tempo para histórias, perguntas e fotografias.",
+"cond.city.highlights.title": "Destaques",
+"cond.city.highlight.1": "Peter Café Sport",
+"cond.city.highlight.2": "Forte de Santa Cruz",
+"cond.city.highlight.3": "Casa da Trindade e a história das comunicações nos Açores",
+"cond.city.highlight.4": "Ruas tradicionais e bairros antigos",
+"cond.city.highlight.5": "Câmara Municipal e a história da autonomia açoriana",
+"cond.city.highlight.6": "Igreja Matriz",
+"cond.city.highlight.7": "Mercado Municipal, com tempo para um café ou bebida e compras no comércio local",
+"cond.city.highlight.8": "Caminhada pela Marina da Horta",
+"cond.city.details.title": "Detalhes",
+"cond.city.detail.duration.label": "Duração",
+"cond.city.detail.duration.value": "Aproximadamente 2h30",
+"cond.city.detail.distance.label": "Distância",
+"cond.city.detail.distance.value": "Aproximadamente 3 km",
+"cond.city.detail.difficulty.label": "Dificuldade",
+"cond.city.detail.difficulty.value": "Fácil",
+"cond.city.detail.type.label": "Tipo",
+"cond.city.detail.type.value": "Passeio a pé",
+"cond.city.detail.group.label": "Grupo",
+"cond.city.detail.group.value": "Grupos pequenos",
+"cond.city.detail.languages.label": "Idiomas",
+"cond.city.detail.languages.value": "Português ou inglês",
+"cond.city.meeting.title": "Ponto de encontro",
+"cond.city.meeting.text": "Peter Café Sport, Horta",
+"cond.city.price.title": "Preço",
+"cond.city.price.1": "2 ou mais pessoas: 30 € por pessoa",
+"cond.city.price.2": "Viajante individual: 40 €",
+"cond.city.included.title": "Incluído",
+"cond.city.included.1": "Guia local",
+"cond.city.included.2": "Passeio guiado",
+"cond.city.included.3": "Interpretação histórica e cultural",
+"cond.city.included.4": "Recomendações locais durante o passeio",
+"cond.city.included.5": "Seguro de acidentes pessoais e responsabilidade civil",
+"cond.city.useful.title": "Informações úteis",
+"cond.city.useful.1": "A experiência decorre principalmente no exterior e o percurso pode ser ligeiramente adaptado conforme o estado do tempo, a atividade na cidade ou os interesses do grupo.",
+"cond.city.useful.2": "Recomenda se calçado confortável.",
+"cond.city.useful.3": "Está prevista uma paragem no Mercado Municipal, com tempo para um café ou bebida, utilização das casas de banho e oportunidade para conhecer e comprar no comércio local. Depois do Mercado, o passeio continua com uma caminhada pela Marina da Horta.",
+"cond.city.useful.4": "Entradas em museus ou monumentos não estão incluídas, salvo acordo prévio.",
+"cond.city.cancel.title": "Cancelamento",
+"cond.city.cancel.text": "Cancelamento gratuito até 48 horas antes da experiência.",
+
+
 "cond.legal.title": "Informação legal & condições",
 "cond.legal.transport.not.included": "Preços não incluem transporte até ao trilho nem regresso.",
 "cond.legal.transport": "Se precisares de transporte, posso tratar disso, mas o custo é diferente. Devem contactar previamente para confirmação de disponibilidade. Utilize o WhatsApp ou o formulário de reserva.",
@@ -7115,6 +7211,51 @@ footer .wrap{
 
 "cond.note.price": "💬 The price per person may change depending on group size, season and logistics. For groups and partnerships, ask for a quote.",
 "cond.privateTransport": "Optional private transport from Horta, with return after the hike: +100 € per group, up to 8 people.",
+
+"cond.city.about.title": "About this experience",
+"cond.city.about.p1": "Discover Horta on foot with a local guide, through the streets, buildings and stories that shaped the city. The walk combines history, local life, architecture and some of the places that still define Horta today.",
+"cond.city.about.p2": "From the historic centre to the Marina, we explore the city at a relaxed pace, with time for stories, questions and photo stops.",
+"cond.city.highlights.title": "Highlights",
+"cond.city.highlight.1": "Peter Café Sport",
+"cond.city.highlight.2": "Fort of Santa Cruz",
+"cond.city.highlight.3": "Casa da Trindade and the history of communications in the Azores",
+"cond.city.highlight.4": "Traditional streets and old neighbourhoods",
+"cond.city.highlight.5": "Horta City Hall and the story of Azorean autonomy",
+"cond.city.highlight.6": "Matriz Church",
+"cond.city.highlight.7": "Municipal Market, with time for a coffee or drink and shopping at local businesses",
+"cond.city.highlight.8": "Walk through Horta Marina",
+"cond.city.details.title": "Details",
+"cond.city.detail.duration.label": "Duration",
+"cond.city.detail.duration.value": "Approximately 2h30",
+"cond.city.detail.distance.label": "Distance",
+"cond.city.detail.distance.value": "Approximately 3 km",
+"cond.city.detail.difficulty.label": "Difficulty",
+"cond.city.detail.difficulty.value": "Easy",
+"cond.city.detail.type.label": "Type",
+"cond.city.detail.type.value": "Walking tour",
+"cond.city.detail.group.label": "Group size",
+"cond.city.detail.group.value": "Small groups",
+"cond.city.detail.languages.label": "Language",
+"cond.city.detail.languages.value": "Portuguese or English",
+"cond.city.meeting.title": "Meeting point",
+"cond.city.meeting.text": "Peter Café Sport, Horta",
+"cond.city.price.title": "Price",
+"cond.city.price.1": "2 or more guests: €30 per person",
+"cond.city.price.2": "Solo traveler: €40",
+"cond.city.included.title": "Included",
+"cond.city.included.1": "Local guide",
+"cond.city.included.2": "Guided walking experience",
+"cond.city.included.3": "Historical and cultural interpretation",
+"cond.city.included.4": "Local recommendations during the tour",
+"cond.city.included.5": "Personal accident and liability insurance",
+"cond.city.useful.title": "Useful information",
+"cond.city.useful.1": "The experience takes place mainly outdoors and may be adapted slightly depending on weather conditions, city activity or the interests of the group.",
+"cond.city.useful.2": "Comfortable shoes are recommended.",
+"cond.city.useful.3": "A stop is planned at the Municipal Market, with time for a coffee or drink, toilets and the opportunity to browse and shop at local businesses. After the Market, the tour continues with a walk through Horta Marina.",
+"cond.city.useful.4": "Museum or monument entrance fees are not included unless specifically agreed in advance.",
+"cond.city.cancel.title": "Cancellation",
+"cond.city.cancel.text": "Free cancellation up to 48 hours before the experience.",
+
 
 "cond.legal.title": "Legal information & conditions",
 "cond.legal.transport.not.included": "Prices do not include transport to the trail or return.",
@@ -7420,11 +7561,115 @@ alert(dict["trail.disabled.msg"] || "Este trilho está temporariamente indispon�
   const close2  = document.getElementById('cond-close-2');
   const title   = document.getElementById('cond-title');
   const sub     = document.getElementById('cond-sub');
-  const trailEl = document.getElementById('cond-trail');
-  const priceEl = document.getElementById('cond-price');
-  const briefEl = document.getElementById('cond-brief');
-  const privateTransportEl = document.getElementById('cond-private-transport');
+  const dynamicEl = document.getElementById('cond-dynamic');
   const waBtn   = document.getElementById('cond-whatsapp');
+  const CITY_WALK_TRAIL = 'City Walk • Horta a pé';
+
+  const escapeHTML = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  })[char]);
+
+  const getText = (dict, key, fallback) => escapeHTML(dict[key] || fallback);
+
+  const renderList = (dict, keys) => keys
+    .map((key) => `<li>${getText(dict, key, '')}</li>`)
+    .join('');
+
+  const renderDetails = (dict, details) => details
+    .map(([labelKey, labelFallback, valueKey, valueFallback]) => `
+      <div>
+        <dt>${getText(dict, labelKey, labelFallback)}</dt>
+        <dd>${getText(dict, valueKey, valueFallback)}</dd>
+      </div>
+    `)
+    .join('');
+
+  const renderGenericConditions = (dict) => `
+    <h4 id="cond-trail">Trilho</h4>
+    <p id="cond-price" style="font-weight:700;margin:.2rem 0">Desde —</p>
+    <p id="cond-brief" class="muted">…</p>
+    <p id="cond-private-transport"
+       class="muted"
+       hidden>
+      ${getText(dict, 'cond.privateTransport', 'Transporte privado opcional desde a Horta, com regresso após o trilho: +100 € por grupo, até 8 pessoas.')}
+    </p>
+    <p class="muted">${getText(dict, 'cond.note.price', '💬 O preço por pessoa pode mudar consoante o número de pessoas, época e logística. Para grupos e parcerias, pede orçamento.')}</p>
+  `;
+
+  const renderCityWalkConditions = (dict, trail) => `
+    <h4 id="cond-trail">${escapeHTML(trail)}</h4>
+    <div class="cond-tour-details">
+      <section class="cond-section">
+        <h5>${getText(dict, 'cond.city.about.title', 'Sobre esta experiência')}</h5>
+        <p>${getText(dict, 'cond.city.about.p1', 'Descobre a Horta a pé com um guia local, através das ruas, edifícios e histórias que ajudaram a construir a cidade. O passeio combina história, vida local, arquitetura e alguns dos lugares que ainda hoje fazem parte da identidade da Horta.')}</p>
+        <p>${getText(dict, 'cond.city.about.p2', 'Do centro histórico à Marina, percorremos a cidade com calma, com tempo para histórias, perguntas e fotografias.')}</p>
+      </section>
+
+      <section class="cond-section">
+        <h5>${getText(dict, 'cond.city.highlights.title', 'Destaques')}</h5>
+        <ul>${renderList(dict, [
+          'cond.city.highlight.1',
+          'cond.city.highlight.2',
+          'cond.city.highlight.3',
+          'cond.city.highlight.4',
+          'cond.city.highlight.5',
+          'cond.city.highlight.6',
+          'cond.city.highlight.7',
+          'cond.city.highlight.8'
+        ])}</ul>
+      </section>
+
+      <section class="cond-section">
+        <h5>${getText(dict, 'cond.city.details.title', 'Detalhes')}</h5>
+        <dl class="cond-details-grid">${renderDetails(dict, [
+          ['cond.city.detail.duration.label', 'Duração', 'cond.city.detail.duration.value', 'Aproximadamente 2h30'],
+          ['cond.city.detail.distance.label', 'Distância', 'cond.city.detail.distance.value', 'Aproximadamente 3 km'],
+          ['cond.city.detail.difficulty.label', 'Dificuldade', 'cond.city.detail.difficulty.value', 'Fácil'],
+          ['cond.city.detail.type.label', 'Tipo', 'cond.city.detail.type.value', 'Passeio a pé'],
+          ['cond.city.detail.group.label', 'Grupo', 'cond.city.detail.group.value', 'Grupos pequenos'],
+          ['cond.city.detail.languages.label', 'Idiomas', 'cond.city.detail.languages.value', 'Português ou inglês']
+        ])}</dl>
+      </section>
+
+      <section class="cond-section">
+        <h5>${getText(dict, 'cond.city.meeting.title', 'Ponto de encontro')}</h5>
+        <p>${getText(dict, 'cond.city.meeting.text', 'Peter Café Sport, Horta')}</p>
+      </section>
+
+      <section class="cond-section">
+        <h5>${getText(dict, 'cond.city.price.title', 'Preço')}</h5>
+        <ul>${renderList(dict, ['cond.city.price.1', 'cond.city.price.2'])}</ul>
+      </section>
+
+      <section class="cond-section">
+        <h5>${getText(dict, 'cond.city.included.title', 'Incluído')}</h5>
+        <ul>${renderList(dict, [
+          'cond.city.included.1',
+          'cond.city.included.2',
+          'cond.city.included.3',
+          'cond.city.included.4',
+          'cond.city.included.5'
+        ])}</ul>
+      </section>
+
+      <section class="cond-section">
+        <h5>${getText(dict, 'cond.city.useful.title', 'Informações úteis')}</h5>
+        <p>${getText(dict, 'cond.city.useful.1', 'A experiência decorre principalmente no exterior e o percurso pode ser ligeiramente adaptado conforme o estado do tempo, a atividade na cidade ou os interesses do grupo.')}</p>
+        <p>${getText(dict, 'cond.city.useful.2', 'Recomenda se calçado confortável.')}</p>
+        <p>${getText(dict, 'cond.city.useful.3', 'Está prevista uma paragem no Mercado Municipal, com tempo para um café ou bebida, utilização das casas de banho e oportunidade para conhecer e comprar no comércio local. Depois do Mercado, o passeio continua com uma caminhada pela Marina da Horta.')}</p>
+        <p>${getText(dict, 'cond.city.useful.4', 'Entradas em museus ou monumentos não estão incluídas, salvo acordo prévio.')}</p>
+      </section>
+
+      <section class="cond-section">
+        <h5>${getText(dict, 'cond.city.cancel.title', 'Cancelamento')}</h5>
+        <p>${getText(dict, 'cond.city.cancel.text', 'Cancelamento gratuito até 48 horas antes da experiência.')}</p>
+      </section>
+    </div>
+  `;
 
   // abrir modal de condições
   document.addEventListener('click', (e)=>{
@@ -7461,24 +7706,34 @@ alert(dict["trail.disabled.msg"] || "Este trilho está temporariamente indispon�
     // subtítulo
     sub.textContent = dict["cond.sub"] || "Preços, seguros e termos";
 
-    // nome do trilho (sem tradução)
-    trailEl.textContent = trail;
+    if (trail === CITY_WALK_TRAIL) {
+      dynamicEl.innerHTML = renderCityWalkConditions(dict, trail);
+    } else {
+      dynamicEl.innerHTML = renderGenericConditions(dict);
+      const trailEl = dynamicEl.querySelector('#cond-trail');
+      const priceEl = dynamicEl.querySelector('#cond-price');
+      const briefEl = dynamicEl.querySelector('#cond-brief');
+      const privateTransportEl = dynamicEl.querySelector('#cond-private-transport');
 
-    // "Desde / From"
-    const priceFromLabel = dict["cond.price.from"] || "Desde";
-    priceEl.textContent = `${priceFromLabel} ${priceFrom}`;
+      // nome do trilho (sem tradução)
+      trailEl.textContent = trail;
 
-    // texto de detalhe
-    briefEl.textContent = brief;
+      // "Desde / From"
+      const priceFromLabel = dict["cond.price.from"] || "Desde";
+      priceEl.textContent = `${priceFromLabel} ${priceFrom}`;
 
-    if (privateTransportEl) {
-      const fallbackTransport = lang === 'en'
-        ? 'Optional private transport from Horta, with return after the hike: +100 € per group, up to 8 people.'
-        : 'Transporte privado opcional desde a Horta, com regresso após o trilho: +100 € por grupo, até 8 pessoas.';
-      const showTransport = window.HWC_PRIVATE_TRANSPORT?.isEligibleTour?.(trail) ||
-        ['Caldeira — perímetro', 'Caminhada Vulcão dos Capelinhos'].includes(trail);
-      privateTransportEl.textContent = dict["cond.privateTransport"] || fallbackTransport;
-      privateTransportEl.hidden = !showTransport;
+      // texto de detalhe
+      briefEl.textContent = brief;
+
+      if (privateTransportEl) {
+        const fallbackTransport = lang === 'en'
+          ? 'Optional private transport from Horta, with return after the hike: +100 € per group, up to 8 people.'
+          : 'Transporte privado opcional desde a Horta, com regresso após o trilho: +100 € por grupo, até 8 pessoas.';
+        const showTransport = window.HWC_PRIVATE_TRANSPORT?.isEligibleTour?.(trail) ||
+          ['Caldeira — perímetro', 'Caminhada Vulcão dos Capelinhos'].includes(trail);
+        privateTransportEl.textContent = dict["cond.privateTransport"] || fallbackTransport;
+        privateTransportEl.hidden = !showTransport;
+      }
     }
 
 
