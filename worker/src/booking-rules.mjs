@@ -31,11 +31,11 @@ export const PRIVATE_TRANSPORT_TOURS = Object.freeze([
 ]);
 
 export const PRICE_TABLE = Object.freeze({
-  'City Walk • Horta a pé': Object.freeze({ type: 'perPerson', tiers: Object.freeze([{ max: 4, price: 30 }]) }),
-  'Entre Montes (Horta)': Object.freeze({ type: 'perPerson', tiers: Object.freeze([{ max: 4, price: 40 }, { max: 99, price: 45 }]) }),
-  'Miradouro do Neptuno': Object.freeze({ type: 'perPerson', tiers: Object.freeze([{ max: 99, price: 35 }]) }),
-  'Caldeira — perímetro': Object.freeze({ type: 'perPerson', tiers: Object.freeze([{ max: 99, price: 75 }]) }),
-  'Caminhada Vulcão dos Capelinhos': Object.freeze({ type: 'perPerson', tiers: Object.freeze([{ max: 99, price: 90 }]) })
+  'City Walk • Horta a pé': Object.freeze({ type: 'perPerson', tiers: Object.freeze([{ max: 1, price: 40 }, { max: 99, price: 30 }]) }),
+  'Entre Montes (Horta)': Object.freeze({ type: 'perPerson', tiers: Object.freeze([{ max: 1, price: 50 }, { max: 99, price: 40 }]) }),
+  'Miradouro do Neptuno': Object.freeze({ type: 'perPerson', tiers: Object.freeze([{ max: 1, price: 45 }, { max: 99, price: 35 }]) }),
+  'Caldeira — perímetro': Object.freeze({ type: 'perPerson', tiers: Object.freeze([{ max: 1, price: 100 }, { max: 99, price: 75 }]) }),
+  'Caminhada Vulcão dos Capelinhos': Object.freeze({ type: 'perPerson', tiers: Object.freeze([{ max: 1, price: 120 }, { max: 99, price: 90 }]) })
 });
 
 export const ALLOWED_PERIODS = Object.freeze({

@@ -261,6 +261,9 @@ function testStaticP2Guards() {
   assert.match(html, /getBookingValidation\('request'\)/, 'request flow uses shared validation');
   assert.match(html, /getBookingValidation\('direct'\)/, 'direct flow uses shared validation');
   assert.doesNotMatch(html, /state === ['"]ok['"]|data-state=['"]ok['"]/, 'legacy ok availability state is not accepted');
+  assert.match(html, /const CAPELINHOS_TRAIL = ['"]Caminhada Vulcão dos Capelinhos['"]/, 'Capelinhos canonical trail constant exists');
+  assert.match(html, /\[CAPELINHOS_TRAIL\]:\s*{\s*prefix:\s*['"]cond\.capelinhos['"]/, 'Capelinhos conditions use shared TRAIL_CONDITIONS renderer');
+  assert.match(html, /renderTourConditions\(tourConditions, dict, trail\)/, 'professional conditions use shared renderer');
 
   for (const state of ['pending', 'both', 'morning', 'afternoon', 'busy', 'error']) {
     assert.ok(
@@ -308,26 +311,31 @@ globalThis.__pricing = {
 };`, context, { filename: 'pricing-script.js' });
 
   const pricing = context.__pricing;
-  assert.equal(
-    pricing.getBookingTotal('Caldeira — perímetro', 2, { privateTransport: false }).total,
-    150,
-    'Caldeira without transport is 75 euros per person'
-  );
-  assert.equal(
-    pricing.getBookingTotal('Caldeira — perímetro', 2, { privateTransport: true }).total,
-    250,
-    'Caldeira with private transport adds 100 euros once'
-  );
-  assert.equal(
-    pricing.getBookingTotal('Caminhada Vulcão dos Capelinhos', 2, { privateTransport: false }).total,
-    180,
-    'Capelinhos without transport is 90 euros per person'
-  );
-  assert.equal(
-    pricing.getBookingTotal('Caminhada Vulcão dos Capelinhos', 2, { privateTransport: true }).total,
-    280,
-    'Capelinhos with private transport adds 100 euros once'
-  );
+  const frontendPriceCases = [
+    ['City Walk • Horta a pé', 1, false, 40],
+    ['City Walk • Horta a pé', 2, false, 60],
+    ['Entre Montes (Horta)', 1, false, 50],
+    ['Entre Montes (Horta)', 2, false, 80],
+    ['Entre Montes (Horta)', 5, false, 200],
+    ['Miradouro do Neptuno', 1, false, 45],
+    ['Miradouro do Neptuno', 2, false, 70],
+    ['Caldeira — perímetro', 1, false, 100],
+    ['Caldeira — perímetro', 1, true, 200],
+    ['Caldeira — perímetro', 2, false, 150],
+    ['Caldeira — perímetro', 2, true, 250],
+    ['Caminhada Vulcão dos Capelinhos', 1, false, 120],
+    ['Caminhada Vulcão dos Capelinhos', 1, true, 220],
+    ['Caminhada Vulcão dos Capelinhos', 2, false, 180],
+    ['Caminhada Vulcão dos Capelinhos', 2, true, 280]
+  ];
+
+  for (const [trail, people, privateTransport, expectedTotal] of frontendPriceCases) {
+    assert.equal(
+      pricing.getBookingTotal(trail, people, { privateTransport }).total,
+      expectedTotal,
+      `${trail} ${people} pax${privateTransport ? ' with transport' : ''} total`
+    );
+  }
 
   assert.equal(pricing.getPrivateTransportAvailability('Caldeira — perímetro', 8).available, true);
   assert.equal(pricing.getPrivateTransportAvailability('Caldeira — perímetro', 9).available, false);
